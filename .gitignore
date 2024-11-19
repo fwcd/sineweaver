@@ -1,0 +1,15 @@
+.DS_Store
+.build
+.swiftpm
+.venv
+.vscode
+__pycache__
+*.egg-info
+*.pyc
+*~
+Packages
+xcuserdata/
+build/
+node_modules
+local
+Archives
