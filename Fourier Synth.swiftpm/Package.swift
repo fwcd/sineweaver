@@ -10,7 +10,7 @@ import AppleProductTypes
 let package = Package(
     name: "Fourier Synth",
     platforms: [
-        .iOS("16.0")
+        .iOS("18.0")
     ],
     products: [
         .iOSApplication(
