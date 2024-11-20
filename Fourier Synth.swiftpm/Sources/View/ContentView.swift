@@ -6,6 +6,12 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            HStack {
+                Slider(value: Binding(synthesizer.frequency), in: 10...20_000)
+                Text("\(synthesizer.frequency.lock().wrappedValue) Hz")
+            }
+            .frame(width: 300)
+            
             TimelineView(.animation) { _ in
                 let frame: Int = synthesizer.frame.lock().wrappedValue
                 let frequency: Float = synthesizer.frequency.lock().wrappedValue
