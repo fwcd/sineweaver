@@ -1,9 +1,12 @@
 import SwiftUI
 import Charts
+import Combine
 
 struct ContentView: View {
     @State private var frequency: Float = 0
     @EnvironmentObject private var synthesizer: Synthesizer
+    
+    private let frequencyUpdateSubject = PassthroughSubject<Void, Never>()
     
     var body: some View {
         VStack {
@@ -16,7 +19,7 @@ struct ContentView: View {
             TimelineView(.animation) { _ in
                 let frame: Int = synthesizer.frame.lock().wrappedValue
                 let sampleRate: Float = synthesizer.sampleRate
-                let frequency = frequency
+                let frequency: Float = synthesizer.frequency.lock().wrappedValue
                 Chart {
                     LinePlot(x: "x", y: "y") { (x: Double) -> Double in
                         Double(Synthesizer.amplitude(
@@ -36,6 +39,9 @@ struct ContentView: View {
             frequency = synthesizer.frequency.lock().wrappedValue
         }
         .onChange(of: frequency) {
+            frequencyUpdateSubject.send()
+        }
+        .onReceive(frequencyUpdateSubject.debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)) {
             synthesizer.frequency.lock().wrappedValue = frequency
         }
     }
