@@ -5,14 +5,14 @@
 //  Created on 20.11.24
 //
 
-import AVFoundation
+@preconcurrency import AVFoundation
 import CoreAudio
 import Combine
 import Foundation
 
-class Synthesizer: ObservableObject {
+final class Synthesizer: ObservableObject, Sendable {
     private let engine: AVAudioEngine
-    private var phase: Float = 0
+    let phase: Mutex<Float> = .init(wrappedValue: 0)
     
     init() throws {
         engine = AVAudioEngine()
@@ -30,10 +30,11 @@ class Synthesizer: ObservableObject {
             interleaved: outputFormat.isInterleaved
         )
         
-        let srcNode = AVAudioSourceNode { [self] _, _, frameCount, buffers in
+        let srcNode = AVAudioSourceNode { _, _, frameCount, buffers in
             let buffers = UnsafeMutableAudioBufferListPointer(buffers)
             let frequency: Float = 440
             let phaseIncrement = (2 * .pi / sampleRate) * frequency
+            var phase = self.phase.lock().wrappedValue
             for frame in 0..<Int(frameCount) {
                 for buffer in buffers {
                     let buffer = UnsafeMutableBufferPointer<Float>(buffer)
@@ -41,6 +42,7 @@ class Synthesizer: ObservableObject {
                 }
                 phase += phaseIncrement
             }
+            self.phase.lock().wrappedValue = phase
             return noErr
         }
         

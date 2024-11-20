@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var synthesizer: Synthesizer
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            TimelineView(.animation) { _ in
+                Text(String(synthesizer.phase.lock().wrappedValue))
+            }
         }
     }
 }
