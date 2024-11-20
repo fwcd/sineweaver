@@ -11,8 +11,12 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HStack {
-                Slider(value: $frequency, in: 10...20_000)
-                Text("\(frequency) Hz")
+                Slider(value: Binding {
+                    log2(frequency)
+                } set: {
+                    frequency = exp2($0)
+                }, in: log2(10)...log2(20_000))
+                Text(String(format: "%.2f Hz", frequency))
             }
             .frame(width: 300)
             
