@@ -8,10 +8,12 @@
 /// A processing node.
 enum SynthesizerNode: SynthesizerNodeProtocol {
     case sine(SineNode)
+    case mixer(MixerNode)
     
     func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         switch self {
         case let .sine(node): node.render(inputs: inputs, output: &output, context: context)
+        case let .mixer(node): node.render(inputs: inputs, output: &output, context: context)
         }
     }
 }
