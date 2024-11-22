@@ -5,6 +5,7 @@
 //  Created on 22.11.24
 //
 
+/// A processing node.
 enum SynthesizerNode: SynthesizerNodeProtocol {
     case sine(SineNode)
     

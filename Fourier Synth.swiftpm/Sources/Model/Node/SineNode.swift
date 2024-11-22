@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// A sine wave generator.
 struct SineNode: SynthesizerNodeProtocol {
     var frequency: Double = 440
     
