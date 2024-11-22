@@ -1,5 +1,5 @@
 //
-//  SynthesizerNode+Icon.swift
+//  SynthesizerNodeType+Icon.swift
 //  Fourier Synth
 //
 //  Created on 23.11.24
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension SynthesizerNode {
+extension SynthesizerNodeType {
     var iconName: String {
         switch self {
         case .sine: "water.waves"

@@ -13,7 +13,7 @@ struct SynthesizerNodeView: View {
     
     var body: some View {
         SynthesizerCard {
-            SynthesizerCardIcon(image: node.icon)
+            SynthesizerCardIcon(image: node.type.icon)
             Text(node.name)
         }
     }
