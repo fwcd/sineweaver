@@ -50,11 +50,9 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     }
     
     func render(using buffers: inout Buffers, context: SynthesizerContext) {
-        guard let outputNodeId else {
-            fatalError("Cannot render without an output node id")
+        if let outputNodeId {
+            render(nodeId: outputNodeId, to: nil, using: &buffers, context: context)
         }
-        
-        render(nodeId: outputNodeId, to: nil, using: &buffers, context: context)
     }
     
     private func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, context: SynthesizerContext) {
