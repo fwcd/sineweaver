@@ -11,12 +11,16 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case mixer(MixerNode)
     case silence(SilenceNode)
     
-    var name: String {
+    var type: SynthesizerNodeType {
         switch self {
-        case .sine: "Sine"
-        case .mixer: "Mixer"
-        case .silence: "Silence"
+        case .sine: .sine
+        case .mixer: .mixer
+        case .silence: .silence
         }
+    }
+    
+    var name: String {
+        type.name
     }
     
     func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
