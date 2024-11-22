@@ -10,7 +10,9 @@ import Dispatch
 final class Mutex<Value>: @unchecked Sendable {
     private let semaphore = DispatchSemaphore(value: 1)
     private var wrappedValue: Value
-    private let onChange: (@Sendable () -> Void)?
+    
+    @MainActor
+    var onChange: (@Sendable () -> Void)?
 
     init(wrappedValue: Value, onChange: (@Sendable () -> Void)? = nil) {
         self.wrappedValue = wrappedValue
@@ -28,7 +30,10 @@ final class Mutex<Value>: @unchecked Sendable {
             get { parent.wrappedValue }
             set {
                 parent.wrappedValue = newValue
-                parent.onChange?()
+                let parent = parent
+                Task { @MainActor in
+                    parent.onChange?()
+                }
             }
         }
         

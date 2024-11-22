@@ -13,21 +13,21 @@ import Foundation
 final class Synthesizer: ObservableObject, Sendable {
     private let engine: AVAudioEngine
     
-    nonisolated(unsafe) var model: Mutex<Dirtyable<SynthesizerModel>>!
+    let model = Mutex(
+        wrappedValue: Dirtyable(
+            wrappedValue: SynthesizerModel(),
+            isDirty: true
+        )
+    )
 
     init() throws {
         engine = AVAudioEngine()
-        model = Mutex(
-            wrappedValue: Dirtyable(
-                wrappedValue: SynthesizerModel(),
-                isDirty: true
-            ),
-            onChange: { [unowned self] in
-                Task { @MainActor in
-                    objectWillChange.send()
-                }
+        
+        Task { @MainActor in
+            model.onChange = { [unowned self] in
+                objectWillChange.send()
             }
-        )
+        }
         
         let mainMixer = engine.mainMixerNode
         let outputNode = engine.outputNode
