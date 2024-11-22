@@ -11,6 +11,7 @@ struct ContentView: View {
                 HStack(spacing: 50) {
                     do {
                         // TODO: Render the nodes properly as a graph with arrows
+                        // TODO: Make nodes draggable
                         // TODO: Better order (chronologically?)
                         let model = synthesizer.model.lock().wrappedValue.wrappedValue
                         ForEach(model.nodes.sorted { $0.key < $1.key }, id: \.key) { (_, node) in
