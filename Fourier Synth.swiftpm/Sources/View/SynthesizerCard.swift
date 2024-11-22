@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct SynthesizerCard<Content>: View where Content: View {
+    var spacing: CGFloat = 10
     @ViewBuilder var content: () -> Content
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: spacing) {
             content()
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(.background)
-                .shadow(color: .gray.opacity(0.5), radius: 5)
+                .fill(.primary.opacity(0.05))
         )
     }
 }
