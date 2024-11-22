@@ -11,7 +11,7 @@ protocol Wrapper<Value> {
 }
 
 extension Wrapper {
-    mutating func useValue(_ action: (inout Value) throws -> Void) rethrows {
+    mutating func useValue<T>(_ action: (inout Value) throws -> T) rethrows -> T {
         try action(&wrappedValue)
     }
 }
