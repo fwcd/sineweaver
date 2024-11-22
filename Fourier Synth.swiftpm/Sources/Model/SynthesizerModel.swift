@@ -9,10 +9,29 @@ import Foundation
 
 /// A synthesizer modeled as a graph of processing nodes.
 struct SynthesizerModel: Hashable, Codable, Sendable {
-    var nodes: [UUID: SynthesizerNode] = [:]
-    var inputEdges: [UUID: [UUID]] = [:]
+    private(set) var nodes: [UUID: SynthesizerNode] = [:]
+    private(set) var inputEdges: [UUID: [UUID]] = [:]
     var outputNodeId: UUID? = nil
-    var context: SynthesizerContext = .init()
+    
+    mutating func add(node: SynthesizerNode) -> UUID {
+        let nodeId = UUID()
+        nodes[nodeId] = node
+        inputEdges[nodeId] = []
+        return nodeId
+    }
+    
+    mutating func connect(_ inputId: UUID, to outputId: UUID) {
+        guard nodes.keys.contains(inputId) else {
+            fatalError("Cannot connect invalid input id: \(inputId)")
+        }
+        guard nodes.keys.contains(outputId) else {
+            fatalError("Cannot connect invalid output id: \(outputId)")
+        }
+        if !inputEdges.keys.contains(outputId) {
+            inputEdges[outputId] = []
+        }
+        inputEdges[outputId]!.append(inputId)
+    }
     
     struct Buffers: Sendable {
         var inputs: [UUID: [[Double]]]
@@ -30,7 +49,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         )
     }
     
-    func render(using buffers: inout Buffers) {
+    func render(using buffers: inout Buffers, context: SynthesizerContext) {
         guard let outputNodeId else {
             fatalError("Cannot render without an output node id")
         }
