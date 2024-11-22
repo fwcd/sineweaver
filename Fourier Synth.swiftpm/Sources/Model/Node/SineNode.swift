@@ -11,9 +11,9 @@ import Foundation
 struct SineNode: SynthesizerNodeProtocol {
     var frequency: Double = 440
     
-    func render(buffer: UnsafeMutableBufferPointer<Float>, context: SynthesizerContext) {
-        for i in 0..<buffer.count {
-            buffer[i] = Float(sin(2 * .pi * context.frame / context.sampleRate * frequency))
+    func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+        for i in 0..<output.count {
+            output[i] = sin(2 * .pi * context.frame / context.sampleRate * frequency)
         }
     }
 }

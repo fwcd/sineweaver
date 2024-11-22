@@ -9,9 +9,9 @@
 enum SynthesizerNode: SynthesizerNodeProtocol {
     case sine(SineNode)
     
-    func render(buffer: UnsafeMutableBufferPointer<Float>, context: SynthesizerContext) {
+    func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         switch self {
-        case let .sine(node): node.render(buffer: buffer, context: context)
+        case let .sine(node): node.render(inputs: inputs, output: &output, context: context)
         }
     }
 }
