@@ -13,7 +13,12 @@ import Foundation
 final class Synthesizer: ObservableObject, Sendable {
     private let engine: AVAudioEngine
     
-    let model: Mutex<SynthesizerModel> = .init(wrappedValue: .init())
+    let model = Mutex(
+        wrappedValue: Dirtyable(
+            wrappedValue: SynthesizerModel(),
+            isDirty: true
+        )
+    )
 
     init() throws {
         engine = AVAudioEngine()
@@ -31,29 +36,23 @@ final class Synthesizer: ObservableObject, Sendable {
             interleaved: outputFormat.isInterleaved
         )
         
-        // TODO: Remove this example setup and integrate it into the UI instead
-        do {
-            let model = model.lock()
-            
-            let sineId = model.wrappedValue.add(node: .sine(.init()))
-            model.wrappedValue.outputNodeId = sineId
-        }
-        
         // Only used on the audio thread
-        var buffers: SynthesizerModel.Buffers? = nil
+        var buffers: SynthesizerModel.Buffers!
         var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
 
         let srcNode = AVAudioSourceNode { _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
-            let model = self.model.lock().wrappedValue
+            var model = self.model.lock().wrappedValue
             
-            // TODO: Handle changes in the graph
-            if buffers == nil {
-                buffers = model.makeBuffers(frameCount: frameCount)
+            // Reallocate buffers when model changes
+            if model.isDirty {
+                print("(Re)allocating synthesizer buffers...")
+                buffers = model.wrappedValue.makeBuffers(frameCount: frameCount)
+                model.isDirty = false
             }
             
-            model.render(using: &buffers!, context: context)
-            
+            model.wrappedValue.render(using: &buffers!, context: context)
+
             let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
             for i in 0..<frameCount {
                 for audioBuffer in audioBuffers {
@@ -63,7 +62,8 @@ final class Synthesizer: ObservableObject, Sendable {
             }
             
             context.frame += frameCount
-            
+            self.model.lock().wrappedValue = model
+
             return noErr
         }
         
