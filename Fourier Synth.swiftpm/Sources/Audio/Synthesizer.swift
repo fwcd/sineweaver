@@ -13,7 +13,6 @@ import Foundation
 final class Synthesizer: ObservableObject, Sendable {
     private let engine: AVAudioEngine
     
-    let context: Mutex<SynthesizerContext> = .init(wrappedValue: .init())
     let model: Mutex<SynthesizerModel> = .init(wrappedValue: .init())
 
     init() throws {
@@ -24,7 +23,6 @@ final class Synthesizer: ObservableObject, Sendable {
         
         let outputFormat = outputNode.inputFormat(forBus: 0)
         let sampleRate = outputFormat.sampleRate
-        context.lock().wrappedValue.sampleRate = sampleRate
         
         let inputFormat = AVAudioFormat(
             commonFormat: outputFormat.commonFormat,
@@ -43,11 +41,11 @@ final class Synthesizer: ObservableObject, Sendable {
         
         // Only used on the audio thread
         var buffers: SynthesizerModel.Buffers? = nil
+        var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
 
         let srcNode = AVAudioSourceNode { _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
             let model = self.model.lock().wrappedValue
-            var context = self.context.lock().wrappedValue
             
             // TODO: Handle changes in the graph
             if buffers == nil {
@@ -63,8 +61,9 @@ final class Synthesizer: ObservableObject, Sendable {
                     audioBuffer[i] = Float(buffers!.output[i])
                 }
             }
+            
             context.frame += frameCount
-            self.context.lock().wrappedValue = context
+            
             return noErr
         }
         
