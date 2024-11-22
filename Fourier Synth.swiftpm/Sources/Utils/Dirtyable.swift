@@ -6,7 +6,7 @@
 //
 
 @propertyWrapper
-struct Dirtyable<Value> {
+struct Dirtyable<Value>: Wrapper {
     var wrappedValue: Value {
         didSet {
             isDirty = true

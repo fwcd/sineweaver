@@ -19,7 +19,7 @@ final class Mutex<Value>: @unchecked Sendable {
         Guard(parent: self)
     }
     
-    class Guard {
+    class Guard: Wrapper {
         private let parent: Mutex<Value>
         
         var wrappedValue: Value {
