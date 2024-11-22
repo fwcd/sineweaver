@@ -15,22 +15,62 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     var context: SynthesizerContext = .init()
     
     struct Buffers: Sendable {
-        var buffers: [UUID: [[Double]]]
+        var inputs: [UUID: [[Double]]]
+        var output: [Double]
     }
     
     func makeBuffers(frameCount: Int) -> Buffers {
         Buffers(
-            buffers: Dictionary(uniqueKeysWithValues: nodes.map { (key, _) in
+            inputs: Dictionary(uniqueKeysWithValues: nodes.map { (key, _) in
                 (key, (inputEdges[key] ?? []).map { _ -> [Double] in
                     [Double](repeating: 0, count: frameCount)
                 })
-            })
+            }),
+            output: [Double](repeating: 0, count: frameCount)
         )
     }
     
-    // TODO: Detect cycles and prevent duplicate rendering in non-tree DAGs by tracking visits etc.
-    func render(nodeId: UUID, using buffers: inout Buffers) {
+    func render(using buffers: inout Buffers) {
+        guard let outputNodeId else {
+            fatalError("Cannot render without an output node id")
+        }
+        
+        render(nodeId: outputNodeId, to: nil, using: &buffers, context: context)
+    }
+    
+    private func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, context: SynthesizerContext) {
         let inputIds = inputEdges[nodeId] ?? []
-        // TODO
+        
+        for (i, inputId) in inputIds.enumerated() {
+            // TODO: Detect cycles and prevent duplicate rendering in non-tree DAGs by tracking visits etc.
+            render(
+                nodeId: inputId,
+                to: (id: nodeId, i: i),
+                using: &buffers,
+                context: context
+            )
+        }
+        
+        guard let node = nodes[nodeId] else {
+            fatalError("Unknown node id: \(nodeId)")
+        }
+        
+        guard let inputBuffers = buffers.inputs[nodeId] else {
+            fatalError("No input buffers for node id: \(nodeId)")
+        }
+        
+        if let output {
+            node.render(
+                inputs: inputBuffers,
+                output: &buffers.inputs[output.id]![output.i],
+                context: context
+            )
+        } else {
+            node.render(
+                inputs: inputBuffers,
+                output: &buffers.output,
+                context: context
+            )
+        }
     }
 }
