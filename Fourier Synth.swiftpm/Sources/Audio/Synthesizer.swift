@@ -37,7 +37,7 @@ final class Synthesizer: ObservableObject, Sendable {
         do {
             let model = model.lock()
             
-            let sineId = model.wrappedValue.add(node: .sine(SineNode()))
+            let sineId = model.wrappedValue.add(node: .sine(.init()))
             model.wrappedValue.outputNodeId = sineId
         }
         
@@ -57,13 +57,13 @@ final class Synthesizer: ObservableObject, Sendable {
             model.render(using: &buffers!, context: context)
             
             let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
-            for i in 0..<Int(frameCount) {
+            for i in 0..<frameCount {
                 for audioBuffer in audioBuffers {
                     let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
                     audioBuffer[i] = Float(buffers!.output[i])
                 }
-                context.frame += 1
             }
+            context.frame += frameCount
             self.context.lock().wrappedValue = context
             return noErr
         }

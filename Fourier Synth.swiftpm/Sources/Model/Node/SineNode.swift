@@ -13,7 +13,7 @@ struct SineNode: SynthesizerNodeProtocol {
     
     func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         for i in 0..<output.count {
-            output[i] = sin(2 * .pi * context.frame / context.sampleRate * frequency)
+            output[i] = sin(2 * .pi * Double(context.frame + i) / context.sampleRate * frequency)
         }
     }
 }
