@@ -8,14 +8,15 @@ struct ContentView: View {
     var body: some View {
         HStack(spacing: 50) {
             do {
-                // TODO: Render the nodes properly
-                // TODO: Better order
+                // TODO: Render the nodes properly as a graph with arrows
+                // TODO: Better order (chronologically?)
                 let model = synthesizer.model.lock().wrappedValue.wrappedValue
                 ForEach(model.nodes.sorted { $0.key < $1.key }, id: \.key) { (_, node) in
                     SynthesizerNodeView(node: node)
                 }
             }
             
+            // TODO: Factor out add button
             SynthesizerCard {
                 SynthesizerCardIcon(systemName: "plus")
                 Text("Add Node")
@@ -33,6 +34,7 @@ struct ContentView: View {
                 }
             }
 
+            // TODO: Factor out speaker output, maybe remove the background?
             SynthesizerCard {
                 SynthesizerCardIcon(systemName: "hifispeaker")
                 Text("Speaker Output")
