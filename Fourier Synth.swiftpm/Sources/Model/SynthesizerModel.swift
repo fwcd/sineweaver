@@ -13,6 +13,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     private(set) var inputEdges: [UUID: [UUID]] = [:]
     var outputNodeId: UUID? = nil
     
+    @discardableResult
     mutating func add(node: SynthesizerNode) -> UUID {
         let nodeId = UUID()
         nodes[nodeId] = node
