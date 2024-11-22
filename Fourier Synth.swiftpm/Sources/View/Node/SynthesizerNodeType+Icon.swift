@@ -8,6 +8,8 @@
 import SwiftUI
 
 extension SynthesizerNodeType {
+    // TODO: Use better icons?
+    
     var iconName: String {
         switch self {
         case .sine: "water.waves"
