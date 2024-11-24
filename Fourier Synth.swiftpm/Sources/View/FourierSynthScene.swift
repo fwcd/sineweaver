@@ -15,6 +15,8 @@ final class FourierSynthScene: SKScene {
         // TODO: Figure out sizing
         super.init(size: CGSize(width: 640, height: 480))
         
+        scaleMode = .aspectFill
+        
         let label = SKLabelNode(text: "Hello world")
         label.position.x = size.width / 2
         label.position.y = size.height / 2
