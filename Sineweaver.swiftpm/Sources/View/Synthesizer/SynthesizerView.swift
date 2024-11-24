@@ -30,6 +30,7 @@ final class SynthesizerView: SKNode {
         
         for (nodeId, node) in model.nodes {
             let view = SynthesizerNodeView(node: node)
+            view.position = CGPoint(x: Double.random(in: 0...0.05), y: Double.random(in: 0...0.05))
             
             let physicsBody = SKPhysicsBody()
             physicsBody.mass = 1
@@ -38,9 +39,6 @@ final class SynthesizerView: SKNode {
             
             views[nodeId] = view
             addChild(view)
-            
-            // FIXME: Remove this
-            physicsBody.applyImpulse(CGVector(dx: .random(in: 0...100), dy: .random(in: 0...100)))
         }
         
         // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
@@ -49,10 +47,29 @@ final class SynthesizerView: SKNode {
 
         for (destId, srcIds) in model.inputEdges {
             for srcId in srcIds {
-                let joint = SKPhysicsJointSpring()
-                joint.bodyA = views[srcId]!.physicsBody!
-                joint.bodyB = views[destId]!.physicsBody!
+                let srcBody = views[srcId]!.physicsBody!
+                let destBody = views[destId]!.physicsBody!
+                
+                let joint = SKPhysicsJointLimit.joint(
+                    withBodyA: srcBody,
+                    bodyB: destBody,
+                    anchorA: CGPoint(),
+                    anchorB: CGPoint()
+                )
+                joint.maxLength = 50
                 physicsWorld.add(joint)
+            }
+        }
+    }
+    
+    func update() {
+        // TODO: Track nodes properly
+        
+        for (i, node1) in children.enumerated() {
+            for node2 in children.dropFirst(i + 1) {
+                let force = (node1.position - node2.position).map { 1000 / $0 }
+                node1.physicsBody!.applyForce(force)
+                node2.physicsBody!.applyForce(-force)
             }
         }
     }

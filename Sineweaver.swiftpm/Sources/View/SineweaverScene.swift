@@ -49,4 +49,14 @@ final class SineweaverScene: SKScene {
     private func sync() {
         synthesizerView.sync(parentScene: self)
     }
+    
+    override func update(_ currentTime: TimeInterval) {
+        synthesizerView.update()
+    }
+    
+    // FIXME: Remove this
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        synthesizerView.children[0].position = touch.location(in: self)
+    }
 }
