@@ -14,7 +14,7 @@ extension SynthesizerNodeType {
         switch self {
         case .sine: "water.waves"
         case .silence: "speaker.slash"
-        case .mixer: "arrow.trianglehead.merge"
+        case .mixer: "plus.circle"
         }
     }
 }
