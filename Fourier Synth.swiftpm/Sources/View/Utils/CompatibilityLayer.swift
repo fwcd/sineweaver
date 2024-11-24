@@ -4,41 +4,6 @@ import SpriteKit
 
 private let log = Logger(subsystem: "Fourier Synth", category: "CompatibilityLayer")
 
-enum KeyboardKey: Hashable {
-    case char(Character)
-    case backspace
-    case delete
-}
-
-@MainActor
-protocol SceneInputHandler {
-    func inputDown(at point: CGPoint)
-    
-    func inputDragged(to point: CGPoint)
-    
-    func inputUp(at point: CGPoint)
-    
-    func inputScrolled(deltaX: CGFloat, deltaY: CGFloat, deltaZ: CGFloat)
-    
-    func inputKeyDown(with keys: [KeyboardKey])
-    
-    func inputKeyUp(with keys: [KeyboardKey])
-}
-
-extension SceneInputHandler {
-    func inputDown(at point: CGPoint) {}
-    
-    func inputDragged(to point: CGPoint) {}
-    
-    func inputUp(at point: CGPoint) {}
-    
-    func inputScrolled(deltaX: CGFloat, deltaY: CGFloat, deltaZ: CGFloat) {}
-    
-    func inputKeyDown(with keys: [KeyboardKey]) {}
-    
-    func inputKeyUp(with keys: [KeyboardKey]) {}
-}
-
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
 
 import AppKit
