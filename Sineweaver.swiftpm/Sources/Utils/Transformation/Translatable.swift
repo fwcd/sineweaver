@@ -22,13 +22,5 @@ extension CGFloat: Translatable {
 }
 
 extension CGPoint: Translatable {
-    typealias Offset = CGPoint
-    
-    static func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
-        CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-    }
-    
-    static func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
-        CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
-    }
+    typealias Offset = CGVector
 }

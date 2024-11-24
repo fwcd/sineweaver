@@ -23,12 +23,4 @@ extension CGFloat: Scalable {
 
 extension CGPoint: Scalable {
     typealias Factor = CGFloat
-    
-    static func *(lhs: CGPoint, rhs: CGFloat) -> CGPoint {
-        CGPoint(x: lhs.x * rhs, y: lhs.y * rhs)
-    }
-    
-    static func /(lhs: CGPoint, rhs: CGFloat) -> CGPoint {
-        CGPoint(x: lhs.x / rhs, y: lhs.y / rhs)
-    }
 }
