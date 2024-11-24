@@ -10,13 +10,10 @@ import Dispatch
 final class Mutex<Value>: @unchecked Sendable {
     private let semaphore = DispatchSemaphore(value: 1)
     private var wrappedValue: Value
-    
-    @MainActor
-    var onChange: (@Sendable () -> Void)?
+    private var changeListeners: [@Sendable () -> Void] = []
 
-    init(wrappedValue: Value, onChange: (@Sendable () -> Void)? = nil) {
+    init(wrappedValue: Value) {
         self.wrappedValue = wrappedValue
-        self.onChange = onChange
     }
     
     func lock() -> Guard {
@@ -30,9 +27,8 @@ final class Mutex<Value>: @unchecked Sendable {
             get { parent.wrappedValue }
             set {
                 parent.wrappedValue = newValue
-                let parent = parent
-                Task { @MainActor in
-                    parent.onChange?()
+                for listener in parent.changeListeners {
+                    listener()
                 }
             }
         }
@@ -44,6 +40,10 @@ final class Mutex<Value>: @unchecked Sendable {
         
         deinit {
             parent.semaphore.signal()
+        }
+        
+        func onChange(_ action: @Sendable @escaping () -> Void) {
+            parent.changeListeners.append(action)
         }
         
         func useValue<T>(_ action: (inout Value) throws -> T) rethrows -> T {

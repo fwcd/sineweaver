@@ -19,9 +19,9 @@ final class Synthesizer: ObservableObject, Sendable {
     init() throws {
         engine = AVAudioEngine()
         
-        Task { @MainActor in
-            model.onChange = { [unowned self] in
-                isDirty.lock().wrappedValue = true
+        model.lock().onChange { [unowned self] in
+            isDirty.lock().wrappedValue = true
+            Task { @MainActor in
                 objectWillChange.send()
             }
         }
