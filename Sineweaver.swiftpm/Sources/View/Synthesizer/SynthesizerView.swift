@@ -70,7 +70,7 @@ final class SynthesizerView: SKNode {
                 let destView = views[destId]!
                 let srcBody = srcView.physicsBody!
                 let destBody = destView.physicsBody!
-                let length: CGFloat = 100
+                let length: CGFloat = 150
                 physicsWorld.add(joint(from: srcBody, to: destBody, maxLength: length))
                 
                 let edgeView = SynthesizerEdgeView(srcView: srcView, destView: destView)
