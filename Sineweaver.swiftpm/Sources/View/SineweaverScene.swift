@@ -8,7 +8,7 @@
 import Combine
 import SpriteKit
 
-final class SineweaverScene: SKScene {
+final class SineweaverScene: SKScene, SceneInputHandler {
     private let synthesizer: Synthesizer
     
     private let synthesizerView: SynthesizerView
@@ -57,8 +57,7 @@ final class SineweaverScene: SKScene {
     }
     
     // FIXME: Remove this
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        synthesizerView.children[0].children[0].position = touch.location(in: self)
+    func inputDragged(to point: CGPoint) {
+        synthesizerView.children[0].children[0].position = point
     }
 }
