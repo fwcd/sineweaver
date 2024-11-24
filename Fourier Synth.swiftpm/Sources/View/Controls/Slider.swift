@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 /// A simple UI control that lets the user select a numeric value from a range.
-final class Slider<Value>: SKNode, SKInputHandler
+final class Slider<Value>: SKNode, SceneInputHandler
     where Value: Translatable & Scalable & Comparable & Isomorphic,
           Value == Value.Offset,
           Value == Value.Factor,

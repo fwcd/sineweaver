@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 /// A simple UI control that displays a label and performs an action when clicked.
-final class Button: SKSpriteNode, SKInputHandler {
+final class Button: SKSpriteNode, SceneInputHandler {
     private var controllerSubscription: Subscription!
     
     let label: SKNode

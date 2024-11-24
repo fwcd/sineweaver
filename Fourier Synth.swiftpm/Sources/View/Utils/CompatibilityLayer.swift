@@ -11,7 +11,7 @@ enum KeyboardKey: Hashable {
 }
 
 @MainActor
-protocol SKInputHandler {
+protocol SceneInputHandler {
     func inputDown(at point: CGPoint)
     
     func inputDragged(to point: CGPoint)
@@ -25,7 +25,7 @@ protocol SKInputHandler {
     func inputKeyUp(with keys: [KeyboardKey])
 }
 
-extension SKInputHandler {
+extension SceneInputHandler {
     func inputDown(at point: CGPoint) {}
     
     func inputDragged(to point: CGPoint) {}
@@ -69,27 +69,27 @@ private func keyboardKeys(from event: NSEvent) -> [KeyboardKey] {
 extension SKNode {
     public dynamic override func mouseDown(with event: NSEvent) {
         log.debug("Mouse down on \(self)")
-        (self as? SKInputHandler)?.inputDown(at: event.location(in: self))
+        (self as? SceneInputHandler)?.inputDown(at: event.location(in: self))
     }
     
     public dynamic override func mouseDragged(with event: NSEvent) {
         log.debug("Mouse dragged on \(self)")
-        (self as? SKInputHandler)?.inputDragged(to: event.location(in: self))
+        (self as? SceneInputHandler)?.inputDragged(to: event.location(in: self))
     }
     
     public dynamic override func mouseUp(with event: NSEvent) {
         log.debug("Mouse up on \(self)")
-        (self as? SKInputHandler)?.inputUp(at: event.location(in: self))
+        (self as? SceneInputHandler)?.inputUp(at: event.location(in: self))
     }
     
     public dynamic override func keyDown(with event: NSEvent) {
         log.debug("Key down on \(self)")
-        (self as? SKInputHandler)?.inputKeyDown(with: keyboardKeys(from: event))
+        (self as? SceneInputHandler)?.inputKeyDown(with: keyboardKeys(from: event))
     }
     
     public dynamic override func keyUp(with event: NSEvent) {
         log.debug("Key up on \(self)")
-        (self as? SKInputHandler)?.inputKeyUp(with: keyboardKeys(from: event))
+        (self as? SceneInputHandler)?.inputKeyUp(with: keyboardKeys(from: event))
     }
     
     public func runFilePicker(_ completion: @escaping ([URL]) -> Void) {
@@ -117,7 +117,7 @@ extension SKNode {
 extension SKView {
     public override func scrollWheel(with event: NSEvent) {
         log.debug("Scrolled")
-        (scene as? SKInputHandler)?.inputScrolled(deltaX: event.deltaX, deltaY: event.deltaY, deltaZ: event.deltaZ)
+        (scene as? SceneInputHandler)?.inputScrolled(deltaX: event.deltaX, deltaY: event.deltaY, deltaZ: event.deltaZ)
     }
 }
 
@@ -162,19 +162,19 @@ extension SKNode {
     public dynamic override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         log.debug("Touch began on \(self)")
         guard let touch = touches.first else { return }
-        (self as? SKInputHandler)?.inputDown(at: touch.location(in: self))
+        (self as? SceneInputHandler)?.inputDown(at: touch.location(in: self))
     }
     
     public dynamic override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         log.debug("Touch moved on \(self)")
         guard let touch = touches.first else { return }
-        (self as? SKInputHandler)?.inputDragged(to: touch.location(in: self))
+        (self as? SceneInputHandler)?.inputDragged(to: touch.location(in: self))
     }
     
     public dynamic override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         log.debug("Touch ended on \(self)")
         guard let touch = touches.first else { return }
-        (self as? SKInputHandler)?.inputUp(at: touch.location(in: self))
+        (self as? SceneInputHandler)?.inputUp(at: touch.location(in: self))
     }
     
     public func runFilePicker(_ completion: @escaping ([URL]) -> Void) {

@@ -12,7 +12,7 @@ final class GenericDragController {
         self.parent = parent
     }
     
-    func register<N>(node: N) -> Subscription where N: SKNode & SKInputHandler {
+    func register<N>(node: N) -> Subscription where N: SKNode & SceneInputHandler {
         let id = UUID()
         nodes[id] = node
         return Subscription(id: id) { [weak self] in
@@ -32,7 +32,7 @@ final class GenericDragController {
     @discardableResult
     func handleInputDown(at point: CGPoint) -> Bool {
         for node in nodes.values {
-            if self.node(node, contains: point), let handler = node as? SKInputHandler {
+            if self.node(node, contains: point), let handler = node as? SceneInputHandler {
                 handler.inputDown(at: self.point(point, in: node))
                 active = node
                 return true
@@ -43,7 +43,7 @@ final class GenericDragController {
     
     @discardableResult
     func handleInputDragged(to point: CGPoint) -> Bool {
-        if let handler = active as? SKInputHandler {
+        if let handler = active as? SceneInputHandler {
             handler.inputDragged(to: self.point(point, in: active!))
             return true
         }
@@ -52,7 +52,7 @@ final class GenericDragController {
     
     @discardableResult
     func handleInputUp(at point: CGPoint) -> Bool {
-        if let handler = active as? SKInputHandler {
+        if let handler = active as? SceneInputHandler {
             handler.inputUp(at: self.point(point, in: active!))
             active = nil
             return true
