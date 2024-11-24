@@ -29,7 +29,7 @@ final class FourierSynthScene: SKScene {
         addChild(synthesizerView)
         
         synthesizerSubscription = synthesizer.objectWillChange.sink { [unowned self] in
-            synthesizerView.sync()
+            sync()
         }
         
         // TODO: Make this user-editable instead of setting up demo graph
@@ -47,6 +47,6 @@ final class FourierSynthScene: SKScene {
     }
     
     private func sync() {
-        synthesizerView.sync()
+        synthesizerView.sync(parentScene: self)
     }
 }
