@@ -12,12 +12,11 @@ final class SineweaverScene: SKScene {
     private let synthesizer: Synthesizer
     
     private let synthesizerView: SynthesizerView
-    private var synthesizerSubscription: AnyCancellable?
     
-    override init() {
+    init(synthesizer: Synthesizer) {
         print("(Re)creating scene")
         
-        synthesizer = try! .init()
+        self.synthesizer = synthesizer
         synthesizerView = .init(synthesizer: synthesizer)
         
         // TODO: Figure out sizing
@@ -28,8 +27,10 @@ final class SineweaverScene: SKScene {
         
         addChild(synthesizerView)
         
-        synthesizerSubscription = synthesizer.objectWillChange.sink { [unowned self] in
-            sync()
+        synthesizer.model.lock().onChange { [unowned self] in
+            Task { @MainActor in
+                sync()
+            }
         }
         
         // TODO: Make this user-editable instead of setting up demo graph

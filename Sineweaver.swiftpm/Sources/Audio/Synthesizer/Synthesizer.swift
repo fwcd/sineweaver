@@ -21,9 +21,6 @@ final class Synthesizer: ObservableObject, Sendable {
         
         model.lock().onChange { [unowned self] in
             isDirty.lock().wrappedValue = true
-            Task { @MainActor in
-                objectWillChange.send()
-            }
         }
         
         let mainMixer = engine.mainMixerNode

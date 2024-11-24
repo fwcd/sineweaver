@@ -4,8 +4,10 @@ import Charts
 import Combine
 
 struct SineweaverView: View {
+    @EnvironmentObject private var synthesizer: Synthesizer
+    
     var body: some View {
-        SpriteView(scene: SineweaverScene())
+        SpriteView(scene: SineweaverScene(synthesizer: synthesizer))
             .overlay(alignment: .bottom) {
                 HStack {
                     Button {
