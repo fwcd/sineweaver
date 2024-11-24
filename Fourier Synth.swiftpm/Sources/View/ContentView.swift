@@ -8,9 +8,10 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView([.horizontal, .vertical]) {
+                // TODO: Factor out SynthesizerView
                 HStack(spacing: 50) {
                     do {
-                        // TODO: Render the nodes properly as a graph with arrows
+                        // TODO: Render the nodes properly as a graph with arrows (using force-based layouter)
                         // TODO: Make nodes draggable
                         // TODO: Better order (chronologically?)
                         let model = synthesizer.model.lock().wrappedValue.wrappedValue
