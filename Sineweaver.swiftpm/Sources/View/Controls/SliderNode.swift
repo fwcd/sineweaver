@@ -13,8 +13,8 @@ final class SliderNode<Value>: SKNode, SceneInputHandler
     private let width: CGFloat
     private var knob: SKShapeNode!
     
-    private let knobInactiveBgColor: Color
-    private let knobActiveBgColor: Color
+    private let knobInactiveBgColor: UIColor
+    private let knobActiveBgColor: UIColor
     private let action: ((Value) -> Void)?
     
     private var toViewX: AnyBijection<Value, CGFloat>!
@@ -25,10 +25,10 @@ final class SliderNode<Value>: SKNode, SceneInputHandler
         range: Range<Value>,
         width: CGFloat,
         trackThickness: CGFloat = ViewDefaults.sliderTrackThickness,
-        trackBgColor: Color = ViewDefaults.inactiveBgColor,
+        trackBgColor: UIColor = ViewDefaults.inactiveBgColor,
         knobRadius: CGFloat = ViewDefaults.sliderKnobRadius,
-        knobInactiveBgColor: Color = ViewDefaults.knobInactiveBgColor,
-        knobActiveBgColor: Color = ViewDefaults.knobActiveBgColor,
+        knobInactiveBgColor: UIColor = ViewDefaults.knobInactiveBgColor,
+        knobActiveBgColor: UIColor = ViewDefaults.knobActiveBgColor,
         sliderKnobRadius
         action: ((Value) -> Void)? = nil
     ) {

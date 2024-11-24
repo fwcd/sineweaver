@@ -6,8 +6,8 @@ final class ButtonNode: SKSpriteNode, SceneInputHandler {
     private var controllerSubscription: Subscription!
     
     let label: SKNode
-    private let inactiveBgColor: Color
-    private let activeBgColor: Color
+    private let inactiveBgColor: UIColor
+    private let activeBgColor: UIColor
     private let padding: CGFloat
     private let action: ((ButtonNode) -> Void)?
     
@@ -23,8 +23,8 @@ final class ButtonNode: SKSpriteNode, SceneInputHandler {
         label: SKNode,
         size: CGSize,
         padding: CGFloat = ViewDefaults.padding,
-        inactiveBgColor: Color = ViewDefaults.inactiveBgColor,
-        activeBgColor: Color = ViewDefaults.activeBgColor,
+        inactiveBgColor: UIColor = ViewDefaults.inactiveBgColor,
+        activeBgColor: UIColor = ViewDefaults.activeBgColor,
         action: ((ButtonNode) -> Void)? = nil
     ) {
         self.label = label
