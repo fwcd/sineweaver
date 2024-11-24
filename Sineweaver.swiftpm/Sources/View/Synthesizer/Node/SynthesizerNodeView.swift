@@ -8,7 +8,11 @@
 import SpriteKit
 
 final class SynthesizerNodeView: SKNode {
+    private let node: SynthesizerNode
+    
     init(node: SynthesizerNode) {
+        self.node = node
+        
         super.init()
         
         addChild(Stack(.vertical, childs: [
