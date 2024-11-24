@@ -28,17 +28,17 @@ final class FourierSynthScene: SKScene {
         
         addChild(synthesizerView)
         
+        synthesizerSubscription = synthesizer.objectWillChange.sink { [unowned self] in
+            synthesizerView.sync()
+        }
+        
         // TODO: Make this user-editable instead of setting up demo graph
         do {
-            synthesizer.model.lock().wrappedValue.useValue { model in
+            synthesizer.model.lock().useValue { model in
                 let sineId = model.add(node: .sine(.init()))
                 let mixerId = model.add(node: .mixer(.init()))
                 model.connect(sineId, to: mixerId)
             }
-        }
-        
-        synthesizerSubscription = synthesizer.objectWillChange.sink { [unowned self] in
-            synthesizerView.sync()
         }
     }
     

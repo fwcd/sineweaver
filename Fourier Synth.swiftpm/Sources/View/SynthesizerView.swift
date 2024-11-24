@@ -23,9 +23,10 @@ final class SynthesizerView: SKNode {
     // TODO: Delta sync
 
     func sync() {
+        print("Syncing synthesizer view...")
         removeAllChildren()
         
-        let model = synthesizer.model.lock().wrappedValue.wrappedValue
+        let model = synthesizer.model.lock().wrappedValue
         
         for (nodeId, node) in model.nodes {
             addChild(SynthesizerNodeView(node: node))

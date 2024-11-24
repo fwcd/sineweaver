@@ -23,7 +23,7 @@ final class Mutex<Value>: @unchecked Sendable {
         Guard(parent: self)
     }
     
-    class Guard: Wrapper {
+    class Guard {
         private let parent: Mutex<Value>
         
         var wrappedValue: Value {
@@ -44,6 +44,10 @@ final class Mutex<Value>: @unchecked Sendable {
         
         deinit {
             parent.semaphore.signal()
+        }
+        
+        func useValue<T>(_ action: (inout Value) throws -> T) rethrows -> T {
+            try action(&wrappedValue)
         }
     }
 }

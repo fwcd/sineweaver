@@ -13,18 +13,15 @@ import Foundation
 final class Synthesizer: ObservableObject, Sendable {
     private let engine: AVAudioEngine
     
-    let model = Mutex(
-        wrappedValue: Dirtyable(
-            wrappedValue: SynthesizerModel(),
-            isDirty: true
-        )
-    )
+    let model = Mutex(wrappedValue: SynthesizerModel())
+    let isDirty = Mutex(wrappedValue: true)
 
     init() throws {
         engine = AVAudioEngine()
         
         Task { @MainActor in
             model.onChange = { [unowned self] in
+                isDirty.lock().wrappedValue = true
                 objectWillChange.send()
             }
         }
@@ -46,18 +43,18 @@ final class Synthesizer: ObservableObject, Sendable {
         var buffers: SynthesizerModel.Buffers!
         var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
 
-        let srcNode = AVAudioSourceNode { _, _, frameCount, audioBuffers in
+        let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
-            var model = self.model.lock().wrappedValue
+            let model = self.model.lock().wrappedValue
             
             // Reallocate buffers when model changes
-            if model.isDirty {
+            if isDirty.lock().wrappedValue {
                 print("(Re)allocating synthesizer buffers...")
-                buffers = model.wrappedValue.makeBuffers(frameCount: frameCount)
-                model.isDirty = false
+                buffers = model.makeBuffers(frameCount: frameCount)
+                isDirty.lock().wrappedValue = false
             }
             
-            model.wrappedValue.render(using: &buffers!, context: context)
+            model.render(using: &buffers!, context: context)
 
             let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
             for i in 0..<frameCount {
@@ -68,7 +65,6 @@ final class Synthesizer: ObservableObject, Sendable {
             }
             
             context.frame += frameCount
-            self.model.lock().wrappedValue = model
 
             return noErr
         }
