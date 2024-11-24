@@ -17,7 +17,9 @@ final class SynthesizerEdgeView: SKNode {
         
         super.init()
         
-        addChild(SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "arrow.right")!)))
+        let arrow = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "arrow.up")!))
+        arrow.constraints = [.orient(to: destView, offset: .init(constantValue: -.pi / 2))]
+        addChild(arrow)
     }
     
     required init?(coder aDecoder: NSCoder) {
