@@ -16,8 +16,6 @@ struct SineweaverView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .padding()
-                .clipShape(RoundedRectangle(cornerRadius: ViewDefaults.cornerRadius))
-                .padding()
             }
     }
 }
