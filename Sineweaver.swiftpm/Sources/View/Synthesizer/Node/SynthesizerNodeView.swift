@@ -15,9 +15,9 @@ final class SynthesizerNodeView: SKNode {
         
         super.init()
         
-        addChild(Stack(.vertical, childs: [
-            Icon(systemName: node.type.iconName),
-            Label(node.name),
+        addChild(StackNode(.vertical, childs: [
+            IconNode(systemName: node.type.iconName),
+            LabelNode(node.name),
         ]))
     }
     

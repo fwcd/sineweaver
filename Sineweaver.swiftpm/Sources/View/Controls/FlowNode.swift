@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 /// A simple layout container that 'flows' nodes in a fixed box.
-final class Flow: SKNode {
+final class FlowNode: SKNode {
     private var padding: CGFloat!
     private var size: CGSize!
     

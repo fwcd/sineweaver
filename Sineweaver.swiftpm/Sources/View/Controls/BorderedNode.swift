@@ -2,9 +2,9 @@ import Foundation
 import SpriteKit
 
 /// A simple layout container that aligns elements at leading, centered and trailing positions.
-final class Bordered: SKNode {
+final class BorderedNode: SKNode {
     init(
-        _ axis: Stack.Direction,
+        _ axis: StackNode.Direction,
         length: CGFloat,
         padding: CGFloat = ViewDefaults.padding,
         leading: [SKNode] = [],
@@ -13,9 +13,9 @@ final class Bordered: SKNode {
     ) {
         super.init()
         
-        let leadingStack = Stack(axis, childs: leading)
-        let centeredStack = Stack(axis, childs: centered)
-        let trailingStack = Stack(axis, childs: trailing)
+        let leadingStack = StackNode(axis, childs: leading)
+        let centeredStack = StackNode(axis, childs: centered)
+        let trailingStack = StackNode(axis, childs: trailing)
         
         switch axis {
         case .horizontal:

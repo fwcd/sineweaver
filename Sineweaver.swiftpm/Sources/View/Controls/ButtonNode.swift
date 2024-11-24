@@ -2,14 +2,14 @@ import Foundation
 import SpriteKit
 
 /// A simple UI control that displays a label and performs an action when clicked.
-final class Button: SKSpriteNode, SceneInputHandler {
+final class ButtonNode: SKSpriteNode, SceneInputHandler {
     private var controllerSubscription: Subscription!
     
     let label: SKNode
     private let inactiveBgColor: Color
     private let activeBgColor: Color
     private let padding: CGFloat
-    private let action: ((Button) -> Void)?
+    private let action: ((ButtonNode) -> Void)?
     
     /// A toggle state that overrides the usual input handling.
     var isToggled: Bool? {
@@ -25,7 +25,7 @@ final class Button: SKSpriteNode, SceneInputHandler {
         padding: CGFloat = ViewDefaults.padding,
         inactiveBgColor: Color = ViewDefaults.inactiveBgColor,
         activeBgColor: Color = ViewDefaults.activeBgColor,
-        action: ((Button) -> Void)? = nil
+        action: ((ButtonNode) -> Void)? = nil
     ) {
         self.label = label
         self.inactiveBgColor = inactiveBgColor
@@ -47,9 +47,9 @@ final class Button: SKSpriteNode, SceneInputHandler {
         height: CGFloat? = nil,
         fontSize: CGFloat = ViewDefaults.fontSize,
         fontName: String = ViewDefaults.fontName,
-        action: ((Button) -> Void)? = nil
+        action: ((ButtonNode) -> Void)? = nil
     ) {
-        let label = Label(text, fontSize: fontSize, fontName: fontName)
+        let label = LabelNode(text, fontSize: fontSize, fontName: fontName)
         let frameSize = label.frame.size
         let size = CGSize(width: width ?? frameSize.width, height: height ?? frameSize.height)
         self.init(controller: controller, label: label, size: size, action: action)
@@ -60,7 +60,7 @@ final class Button: SKSpriteNode, SceneInputHandler {
         controller: GenericDragController,
         iconTexture: SKTexture,
         size: CGFloat = ViewDefaults.fontSize,
-        action: ((Button) -> Void)? = nil
+        action: ((ButtonNode) -> Void)? = nil
     ) {
         let size = CGSize(width: size, height: size)
         let label = SKSpriteNode(texture: iconTexture, size: size)

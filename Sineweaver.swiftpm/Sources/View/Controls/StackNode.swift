@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 /// A simple UI element that lays out elements horizontally or vertically.
-final class Stack: SKNode {
+final class StackNode: SKNode {
     private var direction: Direction!
     private var padding: CGFloat!
     private var useFixedPositions: Bool!
@@ -36,12 +36,12 @@ final class Stack: SKNode {
         nil
     }
     
-    static func horizontal(useFixedPositions: Bool = false, anchored: Bool = false, _ childs: [SKNode] = []) -> Stack {
-        Stack(.horizontal, useFixedPositions: useFixedPositions, anchored: anchored, childs: childs)
+    static func horizontal(useFixedPositions: Bool = false, anchored: Bool = false, _ childs: [SKNode] = []) -> StackNode {
+        StackNode(.horizontal, useFixedPositions: useFixedPositions, anchored: anchored, childs: childs)
     }
     
-    static func vertical(useFixedPositions: Bool = false, anchored: Bool = false, _ childs: [SKNode] = []) -> Stack {
-        Stack(.vertical, useFixedPositions: useFixedPositions, anchored: anchored, childs: childs)
+    static func vertical(useFixedPositions: Bool = false, anchored: Bool = false, _ childs: [SKNode] = []) -> StackNode {
+        StackNode(.vertical, useFixedPositions: useFixedPositions, anchored: anchored, childs: childs)
     }
     
     override func addChild(_ node: SKNode) {

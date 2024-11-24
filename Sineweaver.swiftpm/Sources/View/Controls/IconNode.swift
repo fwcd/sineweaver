@@ -1,5 +1,5 @@
 //
-//  Icon.swift
+//  IconNode.swift
 //  Sineweaver
 //
 //  Created on 24.11.24
@@ -8,7 +8,7 @@
 import SpriteKit
 import UIKit
 
-final class Icon: SKSpriteNode {
+final class IconNode: SKSpriteNode {
     convenience init(
         systemName: String,
         pointSize: CGFloat = ViewDefaults.symbolSize,

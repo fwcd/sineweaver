@@ -3,7 +3,7 @@ import SpriteKit
 
 /// A textual UI element. Wraps SKLabelNode by positioning it in a way
 /// that interacts better with Button.
-final class Label: SKLabelNode {
+final class LabelNode: SKLabelNode {
     convenience init(
         _ text: String,
         fontSize: CGFloat = ViewDefaults.fontSize,
