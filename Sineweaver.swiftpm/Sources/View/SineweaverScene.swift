@@ -21,7 +21,7 @@ final class SineweaverScene: SKScene {
         synthesizerView = .init(synthesizer: synthesizer)
         
         // TODO: Figure out sizing
-        super.init(size: CGSize(width: 640, height: 480))
+        super.init(size: CGSize(width: 1000, height: 800))
         
         scaleMode = .aspectFill
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
