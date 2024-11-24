@@ -13,6 +13,8 @@ final class SynthesizerNodeView: SKNode {
         
         let texture = SKTexture(image: UIImage(node.type))
         addChild(SKSpriteNode(texture: texture))
+        
+        addChild(SKLabelNode(text: node.name))
     }
     
     required init?(coder aDecoder: NSCoder) {
