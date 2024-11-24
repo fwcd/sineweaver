@@ -13,14 +13,26 @@ final class SineweaverScene: SKScene, SceneInputHandler {
     
     private let synthesizerView: SynthesizerView
     
+    private var genericDrags: GenericDragController!
+    private var dragState: DragState = .inactive
+    
+    private enum DragState {
+        case generic
+        case synthesizer
+        case inactive
+    }
+    
     init(synthesizer: Synthesizer) {
         print("(Re)creating scene")
         
         self.synthesizer = synthesizer
+        
         synthesizerView = .init(synthesizer: synthesizer)
         
         // TODO: Figure out sizing
         super.init(size: CGSize(width: 1000, height: 800))
+        
+        genericDrags = GenericDragController(parent: self)
         
         scaleMode = .aspectFill
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -56,8 +68,35 @@ final class SineweaverScene: SKScene, SceneInputHandler {
         synthesizerView.update()
     }
     
-    // FIXME: Remove this
+    func inputDown(at point: CGPoint) {
+        if genericDrags.handleInputDown(at: point) {
+            dragState = .generic
+        } else {
+            synthesizerView.inputDown(at: convert(point, to: synthesizerView))
+            dragState = .synthesizer
+        }
+        print("Drag state: \(dragState)")
+    }
+    
     func inputDragged(to point: CGPoint) {
-        synthesizerView.children[0].children[0].position = point
+        switch dragState {
+        case .generic:
+            genericDrags.handleInputDragged(to: point)
+        case .synthesizer:
+            synthesizerView.inputDragged(to: convert(point, to: synthesizerView))
+        case .inactive:
+            break
+        }
+    }
+    
+    func inputUp(at point: CGPoint) {
+        switch dragState {
+        case .generic:
+            genericDrags.handleInputUp(at: point)
+        case .synthesizer:
+            synthesizerView.inputUp(at: convert(point, to: synthesizerView))
+        case .inactive:
+            break
+        }
     }
 }

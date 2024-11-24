@@ -7,11 +7,13 @@
 
 import SpriteKit
 
-final class SynthesizerView: SKNode {
+final class SynthesizerView: SKNode, SceneInputHandler {
     private let synthesizer: Synthesizer
     
     private let nodesParent = SKNode()
     private let edgesParent = SKNode()
+    
+    private var outputNodeView: SynthesizerNodeView?
 
     init(synthesizer: Synthesizer) {
         self.synthesizer = synthesizer
@@ -30,6 +32,8 @@ final class SynthesizerView: SKNode {
 
     func sync(parentScene: SKScene) {
         print("Syncing synthesizer view...")
+        
+        outputNodeView = nil
         nodesParent.removeAllChildren()
         edgesParent.removeAllChildren()
 
@@ -37,7 +41,8 @@ final class SynthesizerView: SKNode {
         var views: [UUID: SynthesizerNodeView] = [:]
         
         for (nodeId, node) in model.nodes {
-            let view = SynthesizerNodeView(node: node, isFixed: nodeId == model.outputNodeId)
+            let isOutput = nodeId == model.outputNodeId
+            let view = SynthesizerNodeView(node: node, isFixed: isOutput)
             view.position = CGPoint(x: Double.random(in: 0...0.05), y: Double.random(in: 0...0.05))
             
             // TODO: Use a proper size?
@@ -49,6 +54,9 @@ final class SynthesizerView: SKNode {
             
             views[nodeId] = view
             nodesParent.addChild(view)
+            if isOutput {
+                outputNodeView = view
+            }
         }
         
         // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
@@ -95,5 +103,9 @@ final class SynthesizerView: SKNode {
         for edge in edgesParent.children {
             (edge as? SynthesizerEdgeView)?.update()
         }
+    }
+    
+    func inputDragged(to point: CGPoint) {
+        outputNodeView?.position = point
     }
 }
