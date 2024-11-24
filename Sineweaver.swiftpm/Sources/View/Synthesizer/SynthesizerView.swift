@@ -50,6 +50,8 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             physicsBody.mass = view.isFixed ? 100 : 1
             physicsBody.affectedByGravity = false
             physicsBody.allowsRotation = false
+            physicsBody.linearDamping = 0.5
+            physicsBody.angularDamping = 0.25
             view.physicsBody = physicsBody
             
             views[nodeId] = view
@@ -94,7 +96,8 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         
         for (i, node1) in nodesParent.children.enumerated() {
             for node2 in nodesParent.children.dropFirst(i + 1) {
-                let force = (node1.position - node2.position).map { 1000 / $0 }
+                let factor: CGFloat = 200
+                let force = (node1.position - node2.position).map { factor / $0 }
                 node1.physicsBody!.applyForce(force)
                 node2.physicsBody!.applyForce(-force)
             }
