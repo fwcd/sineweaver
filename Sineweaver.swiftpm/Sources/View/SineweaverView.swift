@@ -6,15 +6,16 @@ import Combine
 struct SineweaverView: View {
     var body: some View {
         SpriteView(scene: SineweaverScene())
-            .overlay(alignment: .bottomTrailing) {
+            .overlay(alignment: .bottom) {
                 HStack {
-                    Button("Test") {
-                        print("Test")
+                    Button {
+                        // TODO
+                    } label: {
+                        Label("Add Node", systemImage: "plus")
                     }
                 }
                 .buttonStyle(.borderedProminent)
                 .padding()
-                .background(Color(ViewDefaults.quaternary))
                 .clipShape(RoundedRectangle(cornerRadius: ViewDefaults.cornerRadius))
                 .padding()
             }
