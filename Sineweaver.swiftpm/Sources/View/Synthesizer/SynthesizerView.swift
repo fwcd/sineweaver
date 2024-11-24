@@ -37,12 +37,14 @@ final class SynthesizerView: SKNode {
         var views: [UUID: SynthesizerNodeView] = [:]
         
         for (nodeId, node) in model.nodes {
-            let view = SynthesizerNodeView(node: node)
+            let view = SynthesizerNodeView(node: node, isFixed: nodeId == model.outputNodeId)
             view.position = CGPoint(x: Double.random(in: 0...0.05), y: Double.random(in: 0...0.05))
             
-            let physicsBody = SKPhysicsBody()
-            physicsBody.mass = 1
+            // TODO: Use a proper size?
+            let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
+            physicsBody.mass = view.isFixed ? 100 : 1
             physicsBody.affectedByGravity = false
+            physicsBody.allowsRotation = false
             view.physicsBody = physicsBody
             
             views[nodeId] = view

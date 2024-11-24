@@ -9,9 +9,11 @@ import SpriteKit
 
 final class SynthesizerNodeView: SKNode {
     private let node: SynthesizerNode
+    let isFixed: Bool
     
-    init(node: SynthesizerNode) {
+    init(node: SynthesizerNode, isFixed: Bool = false) {
         self.node = node
+        self.isFixed = isFixed
         
         super.init()
         
