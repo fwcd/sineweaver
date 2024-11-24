@@ -58,6 +58,6 @@ final class SineweaverScene: SKScene {
     // FIXME: Remove this
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
-        synthesizerView.children[0].position = touch.location(in: self)
+        synthesizerView.children[0].children[0].position = touch.location(in: self)
     }
 }

@@ -10,9 +10,16 @@ import SpriteKit
 final class SynthesizerView: SKNode {
     private let synthesizer: Synthesizer
     
+    private let nodesParent = SKNode()
+    private let edgesParent = SKNode()
+
     init(synthesizer: Synthesizer) {
         self.synthesizer = synthesizer
+        
         super.init()
+        
+        addChild(nodesParent)
+        addChild(edgesParent)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -23,8 +30,9 @@ final class SynthesizerView: SKNode {
 
     func sync(parentScene: SKScene) {
         print("Syncing synthesizer view...")
-        removeAllChildren()
-        
+        nodesParent.removeAllChildren()
+        edgesParent.removeAllChildren()
+
         let model = synthesizer.model.lock().wrappedValue
         var views: [UUID: SynthesizerNodeView] = [:]
         
@@ -38,26 +46,35 @@ final class SynthesizerView: SKNode {
             view.physicsBody = physicsBody
             
             views[nodeId] = view
-            addChild(view)
+            nodesParent.addChild(view)
         }
         
         // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
         let physicsWorld = parentScene.physicsWorld
         physicsWorld.removeAllJoints()
 
+        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat) -> SKPhysicsJointLimit {
+            let joint = SKPhysicsJointLimit.joint(
+                withBodyA: srcBody,
+                bodyB: destBody,
+                anchorA: CGPoint(),
+                anchorB: CGPoint()
+            )
+            joint.maxLength = 100
+            return joint
+        }
+        
         for (destId, srcIds) in model.inputEdges {
             for srcId in srcIds {
-                let srcBody = views[srcId]!.physicsBody!
-                let destBody = views[destId]!.physicsBody!
+                let srcView = views[srcId]!
+                let destView = views[destId]!
+                let srcBody = srcView.physicsBody!
+                let destBody = destView.physicsBody!
+                let length: CGFloat = 100
+                physicsWorld.add(joint(from: srcBody, to: destBody, maxLength: length))
                 
-                let joint = SKPhysicsJointLimit.joint(
-                    withBodyA: srcBody,
-                    bodyB: destBody,
-                    anchorA: CGPoint(),
-                    anchorB: CGPoint()
-                )
-                joint.maxLength = 100
-                physicsWorld.add(joint)
+                let edgeView = SynthesizerEdgeView(srcView: srcView, destView: destView)
+                edgesParent.addChild(edgeView)
             }
         }
     }
@@ -65,12 +82,16 @@ final class SynthesizerView: SKNode {
     func update() {
         // TODO: Track nodes properly
         
-        for (i, node1) in children.enumerated() {
-            for node2 in children.dropFirst(i + 1) {
+        for (i, node1) in nodesParent.children.enumerated() {
+            for node2 in nodesParent.children.dropFirst(i + 1) {
                 let force = (node1.position - node2.position).map { 1000 / $0 }
                 node1.physicsBody!.applyForce(force)
                 node2.physicsBody!.applyForce(-force)
             }
+        }
+        
+        for edge in edgesParent.children {
+            (edge as? SynthesizerEdgeView)?.update()
         }
     }
 }
