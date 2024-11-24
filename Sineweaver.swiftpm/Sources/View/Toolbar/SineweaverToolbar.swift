@@ -12,15 +12,17 @@ struct SineweaverToolbar: View {
     
     var body: some View {
         HStack {
-            Button {
-                synthesizer.model.lock().useValue { model in
-                    let nodeId = model.add(node: .sine(.init()))
-                    if let outputId = model.outputNodeId {
-                        model.connect(nodeId, to: outputId)
+            ForEach(SynthesizerNodeType.allCases, id: \.self) { nodeType in
+                Button {
+                    synthesizer.model.lock().useValue { model in
+                        let nodeId = model.add(node: .init(type: nodeType))
+                        if let outputId = model.outputNodeId {
+                            model.connect(nodeId, to: outputId)
+                        }
                     }
+                } label: {
+                    Label("Add \(nodeType.name)", systemImage: nodeType.iconName)
                 }
-            } label: {
-                Label("Add Node", systemImage: "plus")
             }
         }
         .buttonStyle(.borderedProminent)

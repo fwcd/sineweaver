@@ -23,6 +23,14 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         type.name
     }
     
+    init(type: SynthesizerNodeType) {
+        switch type {
+        case .sine: self = .sine(.init())
+        case .mixer: self = .mixer(.init())
+        case .silence: self = .silence(.init())
+        }
+    }
+    
     func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         switch self {
         case let .sine(node): node.render(inputs: inputs, output: &output, context: context)
