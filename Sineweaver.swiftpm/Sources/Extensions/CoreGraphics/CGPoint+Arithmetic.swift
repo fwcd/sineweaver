@@ -8,6 +8,14 @@
 import CoreGraphics
 
 extension CGPoint {
+    static prefix func -(operand: Self) -> Self {
+        Self(x: -operand.x, y: -operand.y)
+    }
+    
+    mutating func negate() {
+        self = -self
+    }
+
     static func +(lhs: Self, rhs: Self) -> Self {
         Self(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }

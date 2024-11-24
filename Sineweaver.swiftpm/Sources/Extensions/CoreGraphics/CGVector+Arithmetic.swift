@@ -8,6 +8,14 @@
 import CoreGraphics
 
 extension CGVector {
+    static prefix func -(vector: Self) -> Self {
+        Self(dx: -vector.dx, dy: -vector.dy)
+    }
+    
+    mutating func negate() {
+        self = -self
+    }
+    
     static func +(lhs: Self, rhs: Self) -> Self {
         Self(dx: lhs.dx + rhs.dx, dy: lhs.dy + rhs.dy)
     }

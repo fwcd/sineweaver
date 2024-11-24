@@ -8,6 +8,14 @@
 import CoreGraphics
 
 extension CGSize {
+    static prefix func -(size: Self) -> Self {
+        Self(width: -size.width, height: -size.height)
+    }
+    
+    mutating func negate() {
+        self = -self
+    }
+    
     static func +(lhs: Self, rhs: Self) -> Self {
         Self(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
     }
