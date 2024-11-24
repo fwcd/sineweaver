@@ -5,16 +5,17 @@
 //  Created on 23.11.24
 //
 
-import SwiftUI
+import SpriteKit
 
-struct SynthesizerNodeView: View {
-    // TODO: Make this a binding
-    let node: SynthesizerNode
+final class SynthesizerNodeView: SKNode {
+    init(node: SynthesizerNode) {
+        super.init()
+        
+        let texture = SKTexture(image: UIImage(node.type))
+        addChild(SKSpriteNode(texture: texture))
+    }
     
-    var body: some View {
-        SynthesizerCard {
-            SynthesizerCardIcon(image: node.type.icon)
-            Text(node.name)
-        }
+    required init?(coder aDecoder: NSCoder) {
+        nil
     }
 }

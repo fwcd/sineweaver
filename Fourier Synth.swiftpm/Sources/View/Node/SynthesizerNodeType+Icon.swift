@@ -5,7 +5,7 @@
 //  Created on 23.11.24
 //
 
-import SwiftUI
+import UIKit
 
 extension SynthesizerNodeType {
     // TODO: Use better icons?
@@ -17,8 +17,10 @@ extension SynthesizerNodeType {
         case .mixer: "arrow.trianglehead.merge"
         }
     }
-    
-    var icon: Image {
-        Image(systemName: iconName)
+}
+
+extension UIImage {
+    convenience init(_ nodeType: SynthesizerNodeType) {
+        self.init(systemName: nodeType.iconName)!
     }
 }

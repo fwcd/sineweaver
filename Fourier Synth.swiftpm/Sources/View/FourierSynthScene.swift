@@ -21,6 +21,8 @@ final class FourierSynthScene: SKScene {
         label.position.x = size.width / 2
         label.position.y = size.height / 2
         addChild(label)
+        
+        addChild(SynthesizerNodeView(node: .sine(.init())))
     }
     
     required init?(coder aDecoder: NSCoder) {
