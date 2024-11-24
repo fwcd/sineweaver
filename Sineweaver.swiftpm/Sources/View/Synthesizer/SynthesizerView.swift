@@ -56,7 +56,7 @@ final class SynthesizerView: SKNode {
                     anchorA: CGPoint(),
                     anchorB: CGPoint()
                 )
-                joint.maxLength = 50
+                joint.maxLength = 100
                 physicsWorld.add(joint)
             }
         }
