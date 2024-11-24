@@ -13,8 +13,14 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     private let nodesParent = SKNode()
     private let edgesParent = SKNode()
     
-    private var outputNodeView: SynthesizerNodeView?
-
+    private var dragState: DragState?
+    
+    private struct DragState {
+        let node: SKNode
+        let dragOffset: CGVector
+        let savedMass: CGFloat
+    }
+    
     init(synthesizer: Synthesizer) {
         self.synthesizer = synthesizer
         
@@ -33,7 +39,6 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     func sync(parentScene: SKScene) {
         print("Syncing synthesizer view...")
         
-        outputNodeView = nil
         nodesParent.removeAllChildren()
         edgesParent.removeAllChildren()
 
@@ -56,9 +61,6 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             
             views[nodeId] = view
             nodesParent.addChild(view)
-            if isOutput {
-                outputNodeView = view
-            }
         }
         
         // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
@@ -108,7 +110,29 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         }
     }
     
+    func inputDown(at point: CGPoint) {
+        // NOTE: nodesParent has the same coordinate system, so we omit the conversion out of convenience
+        if let child = nodesParent.nodes(at: point).last {
+            dragState = .init(
+                node: child,
+                dragOffset: child.position - point,
+                savedMass: child.physicsBody!.mass
+            )
+            // Very high number, so the user can drag smoothly, but not infinity to avoid numeric issues
+            child.physicsBody!.mass = 1e16
+        }
+    }
+    
     func inputDragged(to point: CGPoint) {
-        outputNodeView?.position = point
+        if let dragState {
+            dragState.node.position = point + dragState.dragOffset
+        }
+    }
+    
+    func inputUp(at point: CGPoint) {
+        if let dragState {
+            dragState.node.physicsBody!.mass = dragState.savedMass
+        }
+        dragState = nil
     }
 }
