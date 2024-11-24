@@ -16,10 +16,9 @@ final class FourierSynthScene: SKScene {
         super.init(size: CGSize(width: 640, height: 480))
         
         scaleMode = .aspectFill
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         let label = SKLabelNode(text: "Hello world")
-        label.position.x = size.width / 2
-        label.position.y = size.height / 2
         addChild(label)
         
         addChild(SynthesizerNodeView(node: .sine(.init())))
