@@ -40,7 +40,7 @@ final class Synthesizer: ObservableObject, Sendable {
         )
         
         // Only used on the audio thread
-        var buffers: SynthesizerModel.Buffers!
+        var buffers: SynthesizerModel.Buffers?
         var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
 
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
@@ -48,7 +48,7 @@ final class Synthesizer: ObservableObject, Sendable {
             let model = self.model.lock().wrappedValue
             
             // Reallocate buffers when model changes
-            if isDirty.lock().wrappedValue {
+            if (buffers?.output.count ?? -1) < frameCount || isDirty.lock().wrappedValue {
                 print("(Re)allocating synthesizer buffers...")
                 buffers = model.makeBuffers(frameCount: frameCount)
                 isDirty.lock().wrappedValue = false
