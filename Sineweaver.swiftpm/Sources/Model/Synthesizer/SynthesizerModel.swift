@@ -13,6 +13,12 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     private(set) var inputEdges: [UUID: [UUID]] = [:]
     var outputNodeId: UUID? = nil
     
+    static func withMixerOutput() -> Self {
+        var model = Self()
+        model.outputNodeId = model.add(node: .mixer(.init()))
+        return model
+    }
+    
     @discardableResult
     mutating func add(node: SynthesizerNode) -> UUID {
         let nodeId = UUID()

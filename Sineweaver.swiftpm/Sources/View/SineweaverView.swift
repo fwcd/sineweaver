@@ -9,15 +9,8 @@ struct SineweaverView: View {
     var body: some View {
         SpriteView(scene: SineweaverScene(synthesizer: synthesizer))
             .overlay(alignment: .bottom) {
-                HStack {
-                    Button {
-                        // TODO
-                    } label: {
-                        Label("Add Node", systemImage: "plus")
-                    }
-                }
-                .buttonStyle(.borderedProminent)
-                .padding()
+                SineweaverToolbar()
+                    .padding()
             }
     }
 }
