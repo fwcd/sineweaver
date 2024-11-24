@@ -14,11 +14,10 @@ final class FourierSynthScene: SKScene {
     private let synthesizerView: SynthesizerView
     private var synthesizerSubscription: AnyCancellable?
     
-    init(synthesizer: Synthesizer) {
+    override init() {
         print("(Re)creating scene")
         
-        self.synthesizer = synthesizer
-        
+        synthesizer = try! .init()
         synthesizerView = .init(synthesizer: synthesizer)
         
         // TODO: Figure out sizing
