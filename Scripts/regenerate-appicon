@@ -3,4 +3,4 @@
 set -e
 cd "$(dirname $0)/.."
 
-appicongen --ios -o "Fourier Synth.swiftpm/Resources/Assets.xcassets/AppIcon.appiconset" Icons/AppIcon.svg
+appicongen --ios -o "Sineweaver.swiftpm/Resources/Assets.xcassets/AppIcon.appiconset" Icons/AppIcon.svg
