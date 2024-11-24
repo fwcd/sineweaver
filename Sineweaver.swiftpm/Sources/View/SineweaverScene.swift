@@ -38,6 +38,7 @@ final class SineweaverScene: SKScene {
                 let sineId = model.add(node: .sine(.init()))
                 let mixerId = model.add(node: .mixer(.init()))
                 model.connect(sineId, to: mixerId)
+                model.outputNodeId = mixerId
             }
         }
     }
