@@ -6,7 +6,7 @@ struct FourierSynthApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FourierSynthView()
                 .environmentObject(synthesizer)
         }
     }
