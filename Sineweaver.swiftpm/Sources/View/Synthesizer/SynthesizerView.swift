@@ -45,19 +45,21 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         let model = synthesizer.model.lock().wrappedValue
         var views: [UUID: SynthesizerNodeView] = [:]
         
-        for (nodeId, node) in model.nodes {
-            let isOutput = nodeId == model.outputNodeId
-            let view = SynthesizerNodeView(node: node, isFixed: isOutput)
-            view.position = CGPoint(x: Double.random(in: 0...0.05), y: Double.random(in: 0...0.05))
-            
-            // TODO: Use a proper size?
+        func nodePhysicsBody(isFixed: Bool) -> SKPhysicsBody {
             let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
-            physicsBody.mass = view.isFixed ? 100 : 1
+            physicsBody.mass = isFixed ? 100 : 1
             physicsBody.affectedByGravity = false
             physicsBody.allowsRotation = false
             physicsBody.linearDamping = 0.5
             physicsBody.angularDamping = 0.25
-            view.physicsBody = physicsBody
+            return physicsBody
+        }
+        
+        for (nodeId, node) in model.nodes {
+            let isOutput = nodeId == model.outputNodeId
+            let view = SynthesizerNodeView(node: node)
+            view.position = CGPoint(x: Double.random(in: 0...0.05), y: Double.random(in: 0...0.05))
+            view.physicsBody = nodePhysicsBody(isFixed: isOutput)
             
             views[nodeId] = view
             nodesParent.addChild(view)
@@ -67,7 +69,7 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         let physicsWorld = parentScene.physicsWorld
         physicsWorld.removeAllJoints()
 
-        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat) -> SKPhysicsJointLimit {
+        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat = 150) -> SKPhysicsJointLimit {
             let joint = SKPhysicsJointLimit.joint(
                 withBodyA: srcBody,
                 bodyB: destBody,
@@ -80,16 +82,23 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         
         for (destId, srcIds) in model.inputEdges {
             for srcId in srcIds {
-                let srcView = views[srcId]!
-                let destView = views[destId]!
-                let srcBody = srcView.physicsBody!
-                let destBody = destView.physicsBody!
-                let length: CGFloat = 150
-                physicsWorld.add(joint(from: srcBody, to: destBody, maxLength: length))
-                
-                let edgeView = SynthesizerEdgeView(srcView: srcView, destView: destView)
-                edgesParent.addChild(edgeView)
+                if let srcView = views[srcId],
+                   let destView = views[destId] {
+                    physicsWorld.add(joint(from: srcView.physicsBody!, to: destView.physicsBody!))
+                    
+                    let edgeView = SynthesizerEdgeView(srcView: srcView, destView: destView)
+                    edgesParent.addChild(edgeView)
+                }
             }
+        }
+        
+        let speakerView = SynthesizerOutputView()
+        speakerView.physicsBody = nodePhysicsBody(isFixed: false)
+        nodesParent.addChild(speakerView)
+
+        if let outputId = model.outputNodeId, let outputView = views[outputId] {
+            physicsWorld.add(joint(from: outputView.physicsBody!, to: speakerView.physicsBody!))
+            edgesParent.addChild(SynthesizerEdgeView(srcView: outputView, destView: speakerView))
         }
     }
     

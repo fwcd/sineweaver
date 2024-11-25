@@ -8,10 +8,10 @@
 import SpriteKit
 
 final class SynthesizerEdgeView: SKNode {
-    private let srcView: SynthesizerNodeView
-    private let destView: SynthesizerNodeView
+    private let srcView: SKNode
+    private let destView: SKNode
     
-    init(srcView: SynthesizerNodeView, destView: SynthesizerNodeView) {
+    init(srcView: SKNode, destView: SKNode) {
         self.srcView = srcView
         self.destView = destView
         
