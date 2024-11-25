@@ -45,31 +45,36 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         let model = synthesizer.model.lock().wrappedValue
         var views: [UUID: SynthesizerNodeView] = [:]
         
-        func nodePhysicsBody(isFixed: Bool) -> SKPhysicsBody {
+        func nodePhysicsBody(mass: CGFloat = 1) -> SKPhysicsBody {
             let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
-            physicsBody.mass = isFixed ? 100 : 1
+            physicsBody.mass = mass
             physicsBody.affectedByGravity = false
             physicsBody.allowsRotation = false
-            physicsBody.linearDamping = 0.5
-            physicsBody.angularDamping = 0.25
+            physicsBody.linearDamping = 0.4
+            physicsBody.angularDamping = 0.15
             return physicsBody
         }
         
         for (nodeId, node) in model.nodes {
             let isOutput = nodeId == model.outputNodeId
             let view = SynthesizerNodeView(node: node)
-            view.position = CGPoint(x: Double.random(in: 0...0.05), y: Double.random(in: 0...0.05))
-            view.physicsBody = nodePhysicsBody(isFixed: isOutput)
+            view.physicsBody = nodePhysicsBody(mass: isOutput ? 1000 : 1)
             
             views[nodeId] = view
             nodesParent.addChild(view)
+            
+            let angle = Double.random(in: 0...(2 * .pi))
+            view.physicsBody!.applyImpulse(.init(dx: sin(angle), dy: sin(angle)))
+
         }
         
         // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
         let physicsWorld = parentScene.physicsWorld
         physicsWorld.removeAllJoints()
+        
+        let maxLength: CGFloat = 150
 
-        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat = 150) -> SKPhysicsJointLimit {
+        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat = maxLength) -> SKPhysicsJointLimit {
             let joint = SKPhysicsJointLimit.joint(
                 withBodyA: srcBody,
                 bodyB: destBody,
@@ -93,13 +98,15 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         }
         
         let speakerView = SynthesizerOutputView()
-        speakerView.physicsBody = nodePhysicsBody(isFixed: false)
+        speakerView.physicsBody = nodePhysicsBody(mass: 200)
         nodesParent.addChild(speakerView)
 
         if let outputId = model.outputNodeId, let outputView = views[outputId] {
             physicsWorld.add(joint(from: outputView.physicsBody!, to: speakerView.physicsBody!))
             edgesParent.addChild(SynthesizerEdgeView(srcView: outputView, destView: speakerView))
         }
+        
+        speakerView.physicsBody!.applyImpulse(.init(dx: 0, dy: 0))
     }
     
     func update() {
@@ -107,7 +114,7 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         
         for (i, node1) in nodesParent.children.enumerated() {
             for node2 in nodesParent.children.dropFirst(i + 1) {
-                let factor: CGFloat = 200
+                let factor: CGFloat = 800
                 let force = (node1.position - node2.position).map { factor / $0 }
                 node1.physicsBody!.applyForce(force)
                 node2.physicsBody!.applyForce(-force)
