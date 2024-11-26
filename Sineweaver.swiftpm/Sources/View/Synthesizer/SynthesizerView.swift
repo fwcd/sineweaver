@@ -13,6 +13,9 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     private let nodesParent = SKNode()
     private let edgesParent = SKNode()
     
+    private var nodeViewsById: [UUID: SynthesizerNodeView] = [:]
+    private var edgeViewsById: [SynthesizerModel.Edge: SynthesizerEdgeView] = [:]
+
     private var dragState: DragState?
     
     private struct DragState {
@@ -34,16 +37,10 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         nil
     }
     
-    // TODO: Delta sync
-
     func sync(parentScene: SKScene) {
         print("Syncing synthesizer view...")
         
-        nodesParent.removeAllChildren()
-        edgesParent.removeAllChildren()
-
         let model = synthesizer.model.lock().wrappedValue
-        var views: [UUID: SynthesizerNodeView] = [:]
         
         func nodePhysicsBody(mass: CGFloat = 1) -> SKPhysicsBody {
             let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
@@ -55,22 +52,20 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return physicsBody
         }
         
-        for (nodeId, node) in model.nodes {
+        nodesParent.diffUpdate(nodes: &nodeViewsById, with: model.nodes) { nodeId, node in
             let isOutput = nodeId == model.outputNodeId
             let view = SynthesizerNodeView(node: node)
             view.physicsBody = nodePhysicsBody(mass: isOutput ? 1000 : 1)
             
-            views[nodeId] = view
-            nodesParent.addChild(view)
-            
             let angle = Double.random(in: 0...(2 * .pi))
             view.physicsBody!.applyImpulse(.init(dx: sin(angle), dy: sin(angle)))
 
+            return view
         }
         
         // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
         let physicsWorld = parentScene.physicsWorld
-        physicsWorld.removeAllJoints()
+//        physicsWorld.removeAllJoints()
         
         let maxLength: CGFloat = 150
 
@@ -85,28 +80,24 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return joint
         }
         
-        for (destId, srcIds) in model.inputEdges {
-            for srcId in srcIds {
-                if let srcView = views[srcId],
-                   let destView = views[destId] {
-                    physicsWorld.add(joint(from: srcView.physicsBody!, to: destView.physicsBody!))
-                    
-                    let edgeView = SynthesizerEdgeView(srcView: srcView, destView: destView)
-                    edgesParent.addChild(edgeView)
-                }
-            }
+        edgesParent.diffUpdate(nodes: &edgeViewsById, with: model.edges, id: \.self) { _, edge in
+            let srcView = nodeViewsById[edge.srcId]!
+            let destView = nodeViewsById[edge.destId]!
+            physicsWorld.add(joint(from: srcView.physicsBody!, to: destView.physicsBody!))
+            
+            return SynthesizerEdgeView(srcView: srcView, destView: destView)
         }
         
-        let speakerView = SynthesizerOutputView()
-        speakerView.physicsBody = nodePhysicsBody(mass: 200)
-        nodesParent.addChild(speakerView)
-
-        if let outputId = model.outputNodeId, let outputView = views[outputId] {
-            physicsWorld.add(joint(from: outputView.physicsBody!, to: speakerView.physicsBody!))
-            edgesParent.addChild(SynthesizerEdgeView(srcView: outputView, destView: speakerView))
-        }
-        
-        speakerView.physicsBody!.applyImpulse(.init(dx: 0, dy: 0))
+//        let speakerView = SynthesizerOutputView()
+//        speakerView.physicsBody = nodePhysicsBody(mass: 200)
+//        nodesParent.addChild(speakerView)
+//
+//        if let outputId = model.outputNodeId, let outputView = views[outputId] {
+//            physicsWorld.add(joint(from: outputView.physicsBody!, to: speakerView.physicsBody!))
+//            edgesParent.addChild(SynthesizerEdgeView(srcView: outputView, destView: speakerView))
+//        }
+//        
+//        speakerView.physicsBody!.applyImpulse(.init(dx: 0, dy: 0))
     }
     
     func update() {

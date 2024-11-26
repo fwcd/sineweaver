@@ -3,10 +3,10 @@ import SpriteKit
 extension SKNode {
     /// Performs an efficient update of the given nodes that only adds/removes
     /// what has changed between the nodes and the model items.
-    func diffUpdate<N, I>(nodes: inout [I.ID: N], with items: [I], using factory: (I) -> N) where N: SKNode, I: Identifiable {
-        let itemDict = Dictionary(uniqueKeysWithValues: items.map { ($0.id, $0) })
+    func diffUpdate<N, I, ID>(nodes: inout [ID: N], with items: [ID: I], using factory: (ID, I) -> N)
+    where N: SKNode, ID: Hashable {
         let nodeIds = Set(nodes.keys)
-        let itemIds = Set(itemDict.keys)
+        let itemIds = Set(items.keys)
         let removedIds = nodeIds.subtracting(itemIds)
         let addedIds = itemIds.subtracting(nodeIds)
         
@@ -16,9 +16,29 @@ extension SKNode {
         }
         
         for id in addedIds {
-            let node = factory(itemDict[id]!)
+            let node = factory(id, items[id]!)
             nodes[id] = node
             addChild(node)
+        }
+    }
+    
+    /// Performs an efficient update of the given nodes that only adds/removes
+    /// what has changed between the nodes and the model items.
+    func diffUpdate<N, I, ID>(nodes: inout [ID: N], with items: [I], id: (I) -> ID, using factory: (ID, I) -> N)
+    where N: SKNode, ID: Hashable {
+        diffUpdate(
+            nodes: &nodes,
+            with: Dictionary(uniqueKeysWithValues: items.map { (id($0), $0) }),
+            using: factory
+        )
+    }
+    
+    /// Performs an efficient update of the given nodes that only adds/removes
+    /// what has changed between the nodes and the model items.
+    func diffUpdate<N, I>(nodes: inout [I.ID: N], with items: [I], using factory: (I) -> N)
+    where N: SKNode, I: Identifiable {
+        diffUpdate(nodes: &nodes, with: items, id: \.id) { _, item in
+            factory(item)
         }
     }
     
