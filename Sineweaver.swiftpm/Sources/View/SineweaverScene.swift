@@ -75,7 +75,6 @@ final class SineweaverScene: SKScene, SceneInputHandler {
             synthesizerView.inputDown(at: convert(point, to: synthesizerView))
             dragState = .synthesizer
         }
-        print("Drag state: \(dragState)")
     }
     
     func inputDragged(to point: CGPoint) {
