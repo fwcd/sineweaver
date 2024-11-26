@@ -53,17 +53,21 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return physicsBody
         }
         
-        nodesParent.diffUpdate(nodes: &nodeViewsById, with: model.nodes) { nodeId, node in
+        // Sync the node views
+        let nodesUpdate = nodesParent.diffUpdate(nodes: &nodeViewsById, with: model.nodes) { nodeId, node in
             let isOutput = nodeId == model.outputNodeId
             let view = SynthesizerNodeView(node: node)
             view.physicsBody = nodePhysicsBody(mass: isOutput ? 1000 : 1)
-            
-            let angle = Double.random(in: 0...(2 * .pi))
-            view.physicsBody!.applyImpulse(.init(dx: sin(angle), dy: sin(angle)))
-
             return view
         }
         
+        // Break equilibrium to force node views to relayout
+        for nodeId in nodesUpdate.addedIds {
+            let angle = Double.random(in: 0...(2 * .pi))
+            nodeViewsById[nodeId]?.physicsBody?.applyImpulse(.init(dx: sin(angle), dy: sin(angle)))
+        }
+        
+        // Sync the edge views
         edgesParent.diffUpdate(nodes: &edgeViewsById, with: model.edges, id: \.self) { _, edge in
             let srcView = nodeViewsById[edge.srcId]!
             let destView = nodeViewsById[edge.destId]!
@@ -81,6 +85,7 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return joint
         }
         
+        // Sync the edge joints
         parentScene.physicsWorld.diffUpdate(nodes: &edgeJointsById, with: model.edges, id: \.self) { _, edge in
             let srcView = nodeViewsById[edge.srcId]!
             let destView = nodeViewsById[edge.destId]!
