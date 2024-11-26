@@ -75,12 +75,12 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return SynthesizerEdgeView(srcView: srcView, destView: destView)
         }
         
-        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat = 150) -> SKPhysicsJointLimit {
+        func joint(from src: SKNode, to dest: SKNode, maxLength: CGFloat = 150) -> SKPhysicsJointLimit {
             let joint = SKPhysicsJointLimit.joint(
-                withBodyA: srcBody,
-                bodyB: destBody,
-                anchorA: CGPoint(),
-                anchorB: CGPoint()
+                withBodyA: src.physicsBody!,
+                bodyB: dest.physicsBody!,
+                anchorA: src.position,
+                anchorB: dest.position
             )
             joint.maxLength = maxLength
             return joint
@@ -90,7 +90,7 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         parentScene.physicsWorld.diffUpdate(nodes: &edgeJointsById, with: model.edges, id: \.self) { _, edge in
             let srcView = nodeViewsById[edge.srcId]!
             let destView = nodeViewsById[edge.destId]!
-            return joint(from: srcView.physicsBody!, to: destView.physicsBody!)
+            return joint(from: srcView, to: destView)
         }
         
 //        let speakerView = SynthesizerOutputView()
@@ -98,7 +98,7 @@ final class SynthesizerView: SKNode, SceneInputHandler {
 //        nodesParent.addChild(speakerView)
 //
 //        if let outputId = model.outputNodeId, let outputView = views[outputId] {
-//            physicsWorld.add(joint(from: outputView.physicsBody!, to: speakerView.physicsBody!))
+//            physicsWorld.add(joint(from: outputView, to: speakerView))
 //            edgesParent.addChild(SynthesizerEdgeView(srcView: outputView, destView: speakerView))
 //        }
 //        
