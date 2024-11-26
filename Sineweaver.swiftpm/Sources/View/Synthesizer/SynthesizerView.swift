@@ -13,9 +13,9 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     private let nodesParent = SKNode()
     private let edgesParent = SKNode()
     
-    private var nodeViewsById: [UUID: SKNode] = [:]
-    private var edgeViewsById: [SynthesizerModel.Edge: SKNode] = [:]
-    private var edgeJointsById: [SynthesizerModel.Edge: SKPhysicsJoint] = [:]
+    private var nodeViews: [UUID: SKNode] = [:]
+    private var edgeViews: [SynthesizerModel.Edge: SKNode] = [:]
+    private var edgeJoints: [SynthesizerModel.Edge: SKPhysicsJoint] = [:]
 
     private var dragState: DragState?
     
@@ -38,23 +38,23 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         nil
     }
     
+    private func nodePhysicsBody(mass: CGFloat = 1) -> SKPhysicsBody {
+        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
+        physicsBody.mass = mass
+        physicsBody.affectedByGravity = false
+        physicsBody.allowsRotation = false
+        physicsBody.linearDamping = 0.4
+        physicsBody.angularDamping = 0.15
+        return physicsBody
+    }
+    
     func sync(parentScene: SKScene) {
         print("Syncing synthesizer view...")
         
         let model = synthesizer.model.lock().wrappedValue
         
-        func nodePhysicsBody(mass: CGFloat = 1) -> SKPhysicsBody {
-            let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
-            physicsBody.mass = mass
-            physicsBody.affectedByGravity = false
-            physicsBody.allowsRotation = false
-            physicsBody.linearDamping = 0.4
-            physicsBody.angularDamping = 0.15
-            return physicsBody
-        }
-        
         // Sync the node views
-        let nodesUpdate = nodesParent.diffUpdate(nodes: &nodeViewsById, with: model.nodes) { nodeId, node in
+        let nodesUpdate = nodesParent.diffUpdate(nodes: &nodeViews, with: model.nodes) { nodeId, node in
             let isOutput = nodeId == model.outputNodeId
             let view = SynthesizerNodeView(node: node)
             view.physicsBody = nodePhysicsBody(mass: isOutput ? 1000 : 1)
@@ -65,13 +65,13 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         for nodeId in nodesUpdate.addedIds {
             let angle = CGFloat.random(in: 0...(2 * .pi))
             let factor: CGFloat = 10
-            nodeViewsById[nodeId]?.physicsBody?.applyImpulse(.init(dx: factor * cos(angle), dy: factor * sin(angle)))
+            nodeViews[nodeId]?.physicsBody?.applyImpulse(.init(dx: factor * cos(angle), dy: factor * sin(angle)))
         }
         
         // Sync the edge views
-        edgesParent.diffUpdate(nodes: &edgeViewsById, with: model.edges, id: \.self) { _, edge in
-            let srcView = nodeViewsById[edge.srcId]!
-            let destView = nodeViewsById[edge.destId]!
+        edgesParent.diffUpdate(nodes: &edgeViews, with: model.edges, id: \.self) { _, edge in
+            let srcView = nodeViews[edge.srcId]!
+            let destView = nodeViews[edge.destId]!
             return SynthesizerEdgeView(srcView: srcView, destView: destView)
         }
         
@@ -85,24 +85,13 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             joint.maxLength = maxLength
             return joint
         }
-        
+
         // Sync the edge joints
-        parentScene.physicsWorld.diffUpdate(nodes: &edgeJointsById, with: model.edges, id: \.self) { _, edge in
-            let srcView = nodeViewsById[edge.srcId]!
-            let destView = nodeViewsById[edge.destId]!
+        parentScene.physicsWorld.diffUpdate(nodes: &edgeJoints, with: model.edges, id: \.self) { _, edge in
+            let srcView = nodeViews[edge.srcId]!
+            let destView = nodeViews[edge.destId]!
             return joint(from: srcView, to: destView)
         }
-        
-//        let speakerView = SynthesizerOutputView()
-//        speakerView.physicsBody = nodePhysicsBody(mass: 200)
-//        nodesParent.addChild(speakerView)
-//
-//        if let outputId = model.outputNodeId, let outputView = views[outputId] {
-//            physicsWorld.add(joint(from: outputView, to: speakerView))
-//            edgesParent.addChild(SynthesizerEdgeView(srcView: outputView, destView: speakerView))
-//        }
-//        
-//        speakerView.physicsBody!.applyImpulse(.init(dx: 0, dy: 0))
     }
     
     func update() {
@@ -116,11 +105,11 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         }
         
         // Uncomment to enable attractive forces between edges as an alternative to joints:
-        for (edge, edgeView) in edgeViewsById {
+        for (edge, edgeView) in edgeViews {
             (edgeView as? SynthesizerEdgeView)?.update()
             // Uncomment to enable attractive forces between edges as an alternative to joints:
-            // if let srcView = nodeViewsById[edge.srcId],
-            //   let destView = nodeViewsById[edge.destId] {
+            // if let srcView = nodeViews[edge.srcId],
+            //   let destView = nodeViews[edge.destId] {
             //    let factor: CGFloat = 0.5
             //    let force = (destView.position - srcView.position).map { factor * $0 }
             //    srcView.physicsBody!.applyForce(force)
