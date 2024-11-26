@@ -15,6 +15,7 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     
     private var nodeViewsById: [UUID: SKNode] = [:]
     private var edgeViewsById: [SynthesizerModel.Edge: SKNode] = [:]
+    private var edgeJointsById: [SynthesizerModel.Edge: SKPhysicsJoint] = [:]
 
     private var dragState: DragState?
     
@@ -63,13 +64,13 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return view
         }
         
-        // TODO: Cleanup old joints by tracking them instead of wiping everything which may affect other stuff
-        let physicsWorld = parentScene.physicsWorld
-//        physicsWorld.removeAllJoints()
+        edgesParent.diffUpdate(nodes: &edgeViewsById, with: model.edges, id: \.self) { _, edge in
+            let srcView = nodeViewsById[edge.srcId]!
+            let destView = nodeViewsById[edge.destId]!
+            return SynthesizerEdgeView(srcView: srcView, destView: destView)
+        }
         
-        let maxLength: CGFloat = 150
-
-        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat = maxLength) -> SKPhysicsJointLimit {
+        func joint(from srcBody: SKPhysicsBody, to destBody: SKPhysicsBody, maxLength: CGFloat = 150) -> SKPhysicsJointLimit {
             let joint = SKPhysicsJointLimit.joint(
                 withBodyA: srcBody,
                 bodyB: destBody,
@@ -80,12 +81,10 @@ final class SynthesizerView: SKNode, SceneInputHandler {
             return joint
         }
         
-        edgesParent.diffUpdate(nodes: &edgeViewsById, with: model.edges, id: \.self) { _, edge in
+        parentScene.physicsWorld.diffUpdate(nodes: &edgeJointsById, with: model.edges, id: \.self) { _, edge in
             let srcView = nodeViewsById[edge.srcId]!
             let destView = nodeViewsById[edge.destId]!
-            physicsWorld.add(joint(from: srcView.physicsBody!, to: destView.physicsBody!))
-            
-            return SynthesizerEdgeView(srcView: srcView, destView: destView)
+            return joint(from: srcView.physicsBody!, to: destView.physicsBody!)
         }
         
 //        let speakerView = SynthesizerOutputView()
