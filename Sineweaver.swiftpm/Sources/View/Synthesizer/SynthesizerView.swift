@@ -108,15 +108,23 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     func update() {
         for (i, node1) in nodesParent.children.enumerated() {
             for node2 in nodesParent.children.dropFirst(i + 1) {
-                let factor: CGFloat = 800
+                let factor: CGFloat = 2000
                 let force = (node1.position - node2.position).map { factor / $0 }
                 node1.physicsBody!.applyForce(force)
                 node2.physicsBody!.applyForce(-force)
             }
         }
         
-        for edge in edgesParent.children {
-            (edge as? SynthesizerEdgeView)?.update()
+        // Uncomment to enable attractive forces between edges as an alternative to joints:
+        for (edge, edgeView) in edgeViewsById {
+            (edgeView as? SynthesizerEdgeView)?.update()
+            // Uncomment to enable attractive forces between edges as an alternative to joints:
+            // if let srcView = nodeViewsById[edge.srcId],
+            //   let destView = nodeViewsById[edge.destId] {
+            //    let factor: CGFloat = 0.5
+            //    let force = (destView.position - srcView.position).map { factor * $0 }
+            //    srcView.physicsBody!.applyForce(force)
+            //    destView.physicsBody!.applyForce(-force)
         }
     }
     
