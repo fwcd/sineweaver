@@ -63,8 +63,9 @@ final class SynthesizerView: SKNode, SceneInputHandler {
         
         // Break equilibrium to force node views to relayout
         for nodeId in nodesUpdate.addedIds {
-            let angle = Double.random(in: 0...(2 * .pi))
-            nodeViewsById[nodeId]?.physicsBody?.applyImpulse(.init(dx: sin(angle), dy: sin(angle)))
+            let angle = CGFloat.random(in: 0...(2 * .pi))
+            let factor: CGFloat = 10
+            nodeViewsById[nodeId]?.physicsBody?.applyImpulse(.init(dx: factor * cos(angle), dy: factor * sin(angle)))
         }
         
         // Sync the edge views
