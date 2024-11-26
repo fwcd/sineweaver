@@ -110,8 +110,6 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     }
     
     func update() {
-        // TODO: Track nodes properly
-        
         for (i, node1) in nodesParent.children.enumerated() {
             for node2 in nodesParent.children.dropFirst(i + 1) {
                 let factor: CGFloat = 800
