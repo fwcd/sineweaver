@@ -13,8 +13,8 @@ final class SynthesizerView: SKNode, SceneInputHandler {
     private let nodesParent = SKNode()
     private let edgesParent = SKNode()
     
-    private var nodeViewsById: [UUID: SynthesizerNodeView] = [:]
-    private var edgeViewsById: [SynthesizerModel.Edge: SynthesizerEdgeView] = [:]
+    private var nodeViewsById: [UUID: SKNode] = [:]
+    private var edgeViewsById: [SynthesizerModel.Edge: SKNode] = [:]
 
     private var dragState: DragState?
     
