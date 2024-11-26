@@ -17,7 +17,8 @@ protocol DiffUpdatable {
 extension DiffUpdatable {
     /// Performs an efficient update of the given children that only adds/removes
     /// what has changed between the children and the model items.
-    func diffUpdate<I, ID>(nodes: inout [ID: Child], with items: [ID: I], using factory: (ID, I) -> Child)
+    @discardableResult
+    func diffUpdate<I, ID>(nodes: inout [ID: Child], with items: [ID: I], using factory: (ID, I) -> Child) -> DiffUpdate<ID>
     where ID: Hashable {
         let nodeIds = Set(nodes.keys)
         let itemIds = Set(items.keys)
@@ -34,11 +35,14 @@ extension DiffUpdatable {
             nodes[id] = node
             addChildForDiffUpdate(node)
         }
+        
+        return DiffUpdate(addedIds: addedIds, removedIds: removedIds)
     }
     
     /// Performs an efficient update of the given children that only adds/removes
     /// what has changed between the children and the model items.
-    func diffUpdate<I, ID>(nodes: inout [ID: Child], with items: [I], id: (I) -> ID, using factory: (ID, I) -> Child)
+    @discardableResult
+    func diffUpdate<I, ID>(nodes: inout [ID: Child], with items: [I], id: (I) -> ID, using factory: (ID, I) -> Child) -> DiffUpdate<ID>
     where ID: Hashable {
         diffUpdate(
             nodes: &nodes,
@@ -49,7 +53,8 @@ extension DiffUpdatable {
     
     /// Performs an efficient update of the given children that only adds/removes
     /// what has changed between the children and the model items.
-    func diffUpdate<I>(nodes: inout [I.ID: Child], with items: [I], using factory: (I) -> Child)
+    @discardableResult
+    func diffUpdate<I>(nodes: inout [I.ID: Child], with items: [I], using factory: (I) -> Child) -> DiffUpdate<I.ID>
     where I: Identifiable {
         diffUpdate(nodes: &nodes, with: items, id: \.id) { _, item in
             factory(item)
