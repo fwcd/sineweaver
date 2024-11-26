@@ -13,9 +13,9 @@ final class BorderedNode: SKNode {
     ) {
         super.init()
         
-        let leadingStack = StackNode(axis, childs: leading)
-        let centeredStack = StackNode(axis, childs: centered)
-        let trailingStack = StackNode(axis, childs: trailing)
+        let leadingStack = StackNode(axis, children: leading)
+        let centeredStack = StackNode(axis, children: centered)
+        let trailingStack = StackNode(axis, children: trailing)
         
         switch axis {
         case .horizontal:

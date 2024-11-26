@@ -11,7 +11,7 @@ final class SynthesizerOutputView: SKNode {
     override init() {
         super.init()
         
-        addChild(StackNode(.vertical, childs: [
+        addChild(StackNode(.vertical, children: [
             IconNode(systemName: "hifispeaker"),
             LabelNode("Output"),
         ]))

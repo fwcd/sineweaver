@@ -18,7 +18,7 @@ final class StackNode: SKNode {
         padding: CGFloat = ViewDefaults.padding,
         useFixedPositions: Bool = false,
         anchored: Bool = false,
-        childs: [SKNode]
+        children: [SKNode]
     ) {
         super.init()
         
@@ -27,7 +27,7 @@ final class StackNode: SKNode {
         self.useFixedPositions = useFixedPositions
         self.anchored = anchored
         
-        for child in childs {
+        for child in children {
             addChild(child)
         }
     }
@@ -36,12 +36,12 @@ final class StackNode: SKNode {
         nil
     }
     
-    static func horizontal(useFixedPositions: Bool = false, anchored: Bool = false, _ childs: [SKNode] = []) -> StackNode {
-        StackNode(.horizontal, useFixedPositions: useFixedPositions, anchored: anchored, childs: childs)
+    static func horizontal(useFixedPositions: Bool = false, anchored: Bool = false, _ children: [SKNode] = []) -> StackNode {
+        StackNode(.horizontal, useFixedPositions: useFixedPositions, anchored: anchored, children: children)
     }
     
-    static func vertical(useFixedPositions: Bool = false, anchored: Bool = false, _ childs: [SKNode] = []) -> StackNode {
-        StackNode(.vertical, useFixedPositions: useFixedPositions, anchored: anchored, childs: childs)
+    static func vertical(useFixedPositions: Bool = false, anchored: Bool = false, _ children: [SKNode] = []) -> StackNode {
+        StackNode(.vertical, useFixedPositions: useFixedPositions, anchored: anchored, children: children)
     }
     
     override func addChild(_ node: SKNode) {

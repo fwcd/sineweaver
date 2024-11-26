@@ -6,12 +6,12 @@ final class FlowNode: SKNode {
     private var padding: CGFloat!
     private var size: CGSize!
     
-    init(padding: CGFloat = ViewDefaults.padding, size: CGSize, childs: [SKNode] = []) {
+    init(padding: CGFloat = ViewDefaults.padding, size: CGSize, children: [SKNode] = []) {
         super.init()
         self.padding = padding
         self.size = size
         
-        for child in childs {
+        for child in children {
             addChild(child)
         }
     }

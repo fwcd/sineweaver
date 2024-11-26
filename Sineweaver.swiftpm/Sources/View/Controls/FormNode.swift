@@ -3,7 +3,7 @@ import SpriteKit
 
 /// A layout container that presents 'keyed' child nodes.
 final class FormNode: SKNode {
-    init(size: CGSize, padding: CGFloat = ViewDefaults.padding, childs: [(String, (CGFloat) -> SKNode)]) {
+    init(size: CGSize, padding: CGFloat = ViewDefaults.padding, children: [(String, (CGFloat) -> SKNode)]) {
         super.init()
         
         let labelWidth = 0.25 * size.width
@@ -11,7 +11,7 @@ final class FormNode: SKNode {
         
         var y: CGFloat = 0
         
-        for (label, factory) in childs {
+        for (label, factory) in children {
             let label = LabelNode("\(label):", fontSize: ViewDefaults.textFieldFontSize, fontColor: ViewDefaults.formLabelFontColor)
             label.topRightPosition = CGPoint(x: labelWidth, y: y)
             addChild(label)
