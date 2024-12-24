@@ -5,7 +5,23 @@
 //  Created on 25.12.24
 //
 
-enum TutorialStage: Hashable {
-    case welcome
+enum TutorialStage: Int, Hashable, CaseIterable {
+    case welcome = 0
     case basicSine
+    
+    var previous: Self {
+        Self.allCases[(rawValue - 1 + Self.allCases.count) % Self.allCases.count]
+    }
+    
+    var next: Self {
+        Self.allCases[(rawValue + 1) % Self.allCases.count]
+    }
+    
+    mutating func back() {
+        self = previous
+    }
+    
+    mutating func forward() {
+        self = next
+    }
 }

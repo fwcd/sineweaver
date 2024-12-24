@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @Environment(TutorialViewModel.self) private var viewModel
+    
     var body: some View {
         VStack(spacing: 40) {
             Image("AppIconEmbed")
@@ -22,6 +24,10 @@ struct WelcomeView: View {
                 Text("An interactive introduction to synthesizers")
                     .font(.title3)
             }
+            Button("Get Started") {
+                viewModel.stage.forward()
+            }
+            .buttonStyle(BorderedProminentButtonStyle())
         }
     }
 }
