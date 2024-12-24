@@ -1,5 +1,5 @@
 //
-//  SynthesizerView.swift
+//  SynthesizerGraphView.swift
 //  Sineweaver
 //
 //  Created on 24.11.24
@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-final class SynthesizerView: SKNode, SceneInputHandler {
+final class SynthesizerGraphView: SKNode, SceneInputHandler {
     private let synthesizer: Synthesizer
     
     private let nodesParent = SKNode()
