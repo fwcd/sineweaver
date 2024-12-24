@@ -1,13 +1,18 @@
 import SwiftUI
 
-private let synthesizer = try! Synthesizer()
+@MainActor
+private let synthesizerViewModel = SynthesizerViewModel()
+
+@MainActor
+private let tutorialViewModel = TutorialViewModel()
 
 @main
 struct SineweaverApp: App {
     var body: some Scene {
         WindowGroup {
             SineweaverView()
-                .environmentObject(synthesizer)
+                .environment(synthesizerViewModel)
+                .environment(tutorialViewModel)
         }
     }
 }

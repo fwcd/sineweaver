@@ -10,7 +10,7 @@ import CoreAudio
 import Combine
 import Foundation
 
-final class Synthesizer: ObservableObject, Sendable {
+final class Synthesizer: Sendable {
     private let engine: AVAudioEngine
     
     let model = Mutex(wrappedValue: SynthesizerModel())

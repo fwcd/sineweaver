@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SineweaverToolbar: View {
-    @EnvironmentObject private var synthesizer: Synthesizer
+    @Environment(SynthesizerViewModel.self) private var synthesizerViewModel
     
     var body: some View {
         HStack {
             ForEach(SynthesizerNodeType.allCases, id: \.self) { nodeType in
                 Button {
-                    synthesizer.model.lock().useValue { model in
+                    synthesizerViewModel.model.lock().useValue { model in
                         let nodeId = model.add(node: .init(type: nodeType))
                         if let outputId = model.outputNodeId {
                             model.connect(nodeId, to: outputId)

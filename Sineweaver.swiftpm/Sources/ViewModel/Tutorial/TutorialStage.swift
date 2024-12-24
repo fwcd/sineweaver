@@ -7,4 +7,5 @@
 
 enum TutorialStage: Hashable {
     case welcome
+    case basicSine
 }
