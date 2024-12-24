@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct TutorialView: View {
+    @State private var stage: TutorialStage = .welcome
+    
     var body: some View {
-        WelcomeView()
+        switch stage {
+        case .welcome:
+            WelcomeView()
+        }
     }
 }
 
