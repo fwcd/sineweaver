@@ -9,6 +9,10 @@ enum TutorialStage: Int, Hashable, CaseIterable {
     case welcome = 0
     case basicSine
     
+    var isFirst: Bool {
+        rawValue == 0
+    }
+    
     var previous: Self {
         Self.allCases[(rawValue - 1 + Self.allCases.count) % Self.allCases.count]
     }

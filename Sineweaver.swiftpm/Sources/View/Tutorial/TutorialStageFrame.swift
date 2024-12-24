@@ -16,11 +16,13 @@ struct TutorialStageFrame<Content>: View where Content: View {
         VStack(spacing: 20) {
             content()
             HStack {
-                Button("Back") {
-                    viewModel.stage.back()
+                if !viewModel.stage.isFirst {
+                    Button("Back") {
+                        viewModel.stage.back()
+                    }
+                    .buttonStyle(BorderedButtonStyle())
                 }
-                .buttonStyle(BorderedButtonStyle())
-                Button("Next") {
+                Button(viewModel.stage.isFirst ? "Get Started" : "Next") {
                     viewModel.stage.forward()
                 }
                 .buttonStyle(BorderedProminentButtonStyle())
