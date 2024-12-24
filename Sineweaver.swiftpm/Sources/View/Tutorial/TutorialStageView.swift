@@ -11,11 +11,13 @@ struct TutorialStageView: View {
     @Environment(TutorialViewModel.self) private var viewModel
     
     var body: some View {
-        switch viewModel.stage {
-        case .welcome:
-            WelcomeView()
-        case .basicSine:
-            BasicSineStageView()
+        TutorialStageFrame {
+            switch viewModel.stage {
+            case .welcome:
+                WelcomeView()
+            case .basicSine:
+                BasicSineStageView()
+            }
         }
     }
 }

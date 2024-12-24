@@ -9,8 +9,6 @@ import SwiftUI
 
 struct BasicSineStageView: View {
     var body: some View {
-        TutorialStageFrame {
-            Text("Test")
-        }
+        Text("Test")
     }
 }

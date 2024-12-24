@@ -27,6 +27,7 @@ struct TutorialStageFrame<Content>: View where Content: View {
                 }
                 .buttonStyle(BorderedProminentButtonStyle())
             }
+            .animation(.default, value: viewModel.stage)
         }
     }
 }
