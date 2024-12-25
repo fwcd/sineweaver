@@ -23,9 +23,11 @@ struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDeta
             if let details = content.details {
                 Text(details)
                     .font(.title3)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 800)
             }
             content
-                .frame(maxHeight: 500)
+                .frame(maxWidth: 800, maxHeight: 300)
             HStack {
                 if !viewModel.stage.isFirst {
                     Button("Back") {

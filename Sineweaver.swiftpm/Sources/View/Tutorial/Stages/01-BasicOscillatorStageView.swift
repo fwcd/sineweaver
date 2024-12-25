@@ -40,10 +40,11 @@ struct BasicOscillatorStageView: View, TutorialStageDetails {
             )
         }
         ViewThatFits {
-            HStack {
+            let spacing: CGFloat = 20
+            HStack(spacing: spacing) {
                 group
             }
-            VStack {
+            VStack(spacing: spacing) {
                 group
             }
         }
