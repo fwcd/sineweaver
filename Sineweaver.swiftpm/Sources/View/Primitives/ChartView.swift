@@ -45,7 +45,7 @@ struct ChartView: View {
                 for (x, y) in zip(xs, ys) {
                     path.addLine(to: toViewPoint(x: x, y: y))
                 }
-            }, with: .foreground)
+            }, with: .foreground, lineWidth: 5)
         }
     }
 }
