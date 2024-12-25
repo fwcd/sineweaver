@@ -54,8 +54,8 @@ where Value: BinaryFloatingPoint,
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        x = xOptions.range.denormalize(Value(value.location.x / width))
-                        y = yOptions.range.denormalize(Value(1 - value.location.y / height))
+                        x = xOptions.range.clamp(xOptions.range.denormalize(Value(value.location.x / width)))
+                        y = yOptions.range.clamp(yOptions.range.denormalize(Value(1 - value.location.y / height)))
                     }
             )
     }

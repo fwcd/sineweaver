@@ -17,6 +17,10 @@ extension RangeProtocol where Bound: BinaryFloatingPoint {
         upperBound - lowerBound
     }
     
+    func clamp(_ value: Bound) -> Bound {
+        min(max(value, lowerBound), upperBound)
+    }
+    
     func normalize(_ value: Bound) -> Bound {
         (value - lowerBound) / length
     }
