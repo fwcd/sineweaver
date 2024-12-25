@@ -1,5 +1,5 @@
 //
-//  SynthesizerOutputView.swift
+//  SynthesizerOutputSKNode.swift
 //  Sineweaver
 //
 //  Created on 25.11.24
@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-final class SynthesizerOutputView: SKNode {
+final class SynthesizerOutputSKNode: SKNode {
     override init() {
         super.init()
         

@@ -1,5 +1,5 @@
 //
-//  SynthesizerNodeView.swift
+//  SynthesizerNodeSKNode.swift
 //  Sineweaver
 //
 //  Created on 23.11.24
@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-final class SynthesizerNodeView: SKNode {
+final class SynthesizerNodeSKNode: SKNode {
     private let node: SynthesizerNode
     
     init(node: SynthesizerNode) {

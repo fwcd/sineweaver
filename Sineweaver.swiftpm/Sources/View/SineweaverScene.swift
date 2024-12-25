@@ -11,7 +11,7 @@ import SpriteKit
 final class SineweaverScene: SKScene, SceneInputHandler {
     private let synthesizer: Synthesizer
     
-    private let synthesizerView: SynthesizerGraphView
+    private let synthesizerView: SynthesizerGraphSKNode
     
     private var genericDrags: GenericDragController!
     private var dragState: DragState = .inactive

@@ -1,5 +1,5 @@
 //
-//  SynthesizerGraphView.swift
+//  SynthesizerGraphSKNode.swift
 //  Sineweaver
 //
 //  Created on 24.11.24
@@ -7,14 +7,14 @@
 
 import SpriteKit
 
-final class SynthesizerGraphView: SKNode, SceneInputHandler {
+final class SynthesizerGraphSKNode: SKNode, SceneInputHandler {
     private let synthesizer: Synthesizer
     
     private let nodesParent = SKNode()
     private let edgesParent = SKNode()
     
-    private var nodeViews: [UUID: SKNode] = [:]
-    private var edgeViews: [SynthesizerModel.Edge: SKNode] = [:]
+    private var nodeSKNodes: [UUID: SKNode] = [:]
+    private var edgeSKNodes: [SynthesizerModel.Edge: SKNode] = [:]
     private var edgeJoints: [SynthesizerModel.Edge: SKPhysicsJoint] = [:]
 
     private var dragState: DragState?
@@ -54,25 +54,28 @@ final class SynthesizerGraphView: SKNode, SceneInputHandler {
         let model = synthesizer.model.lock().wrappedValue
         
         // Sync the node views
-        let nodesUpdate = nodesParent.diffUpdate(nodes: &nodeViews, with: model.nodes) { nodeId, node in
+        let nodesUpdate = nodesParent.diffUpdate(nodes: &nodeSKNodes, with: model.nodes) { nodeId, node in
             let isOutput = nodeId == model.outputNodeId
-            let view = SynthesizerNodeView(node: node)
-            view.physicsBody = nodePhysicsBody(mass: isOutput ? 1000 : 1)
-            return view
+            let skNode = SynthesizerNodeSKNode(node: node)
+            skNode.physicsBody = nodePhysicsBody(mass: isOutput ? 1000 : 1)
+            return skNode
         }
         
         // Break equilibrium to force node views to relayout
         for nodeId in nodesUpdate.addedIds {
             let angle = CGFloat.random(in: 0...(2 * .pi))
             let factor: CGFloat = 10
-            nodeViews[nodeId]?.physicsBody?.applyImpulse(.init(dx: factor * cos(angle), dy: factor * sin(angle)))
+            nodeSKNodes[nodeId]?.physicsBody?.applyImpulse(.init(dx: factor * cos(angle), dy: factor * sin(angle)))
         }
         
         // Sync the edge views
-        edgesParent.diffUpdate(nodes: &edgeViews, with: model.edges, id: \.self) { _, edge in
-            let srcView = nodeViews[edge.srcId]!
-            let destView = nodeViews[edge.destId]!
-            return SynthesizerEdgeView(srcView: srcView, destView: destView)
+        edgesParent.diffUpdate(nodes: &edgeSKNodes, with: model.edges, id: \.self) { _, edge in
+            let srcSKNode = nodeSKNodes[edge.srcId]!
+            let destSKNode = nodeSKNodes[edge.destId]!
+            return SynthesizerEdgeSKNode(
+                srcSKNode: srcSKNode,
+                destSKNode: destSKNode
+            )
         }
         
         func joint(from src: SKNode, to dest: SKNode, maxLength: CGFloat = 150) -> SKPhysicsJointLimit {
@@ -88,9 +91,9 @@ final class SynthesizerGraphView: SKNode, SceneInputHandler {
 
         // Sync the edge joints
         parentScene.physicsWorld.diffUpdate(nodes: &edgeJoints, with: model.edges, id: \.self) { _, edge in
-            let srcView = nodeViews[edge.srcId]!
-            let destView = nodeViews[edge.destId]!
-            return joint(from: srcView, to: destView)
+            let srcNode = nodeSKNodes[edge.srcId]!
+            let destNode = nodeSKNodes[edge.destId]!
+            return joint(from: srcNode, to: destNode)
         }
     }
     
@@ -105,15 +108,15 @@ final class SynthesizerGraphView: SKNode, SceneInputHandler {
         }
         
         // Uncomment to enable attractive forces between edges as an alternative to joints:
-        for (edge, edgeView) in edgeViews {
-            (edgeView as? SynthesizerEdgeView)?.update()
+        for (edge, edgeNode) in edgeSKNodes {
+            (edgeNode as? SynthesizerEdgeSKNode)?.update()
             // Uncomment to enable attractive forces between edges as an alternative to joints:
-            // if let srcView = nodeViews[edge.srcId],
-            //   let destView = nodeViews[edge.destId] {
+            // if let srcNode = nodeNodes[edge.srcId],
+            //   let destNode = nodeNodes[edge.destId] {
             //    let factor: CGFloat = 0.5
-            //    let force = (destView.position - srcView.position).map { factor * $0 }
-            //    srcView.physicsBody!.applyForce(force)
-            //    destView.physicsBody!.applyForce(-force)
+            //    let force = (destNode.position - srcNode.position).map { factor * $0 }
+            //    srcNode.physicsBody!.applyForce(force)
+            //    destNode.physicsBody!.applyForce(-force)
         }
     }
     
