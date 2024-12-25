@@ -21,8 +21,6 @@ where Value: BinaryFloatingPoint,
         var label: String? = nil
     }
     
-    @State private var start: (x: Value, y: Value)? = nil
-
     var body: some View {
         let thumbSize: CGFloat = 20
         let width: CGFloat = 300
@@ -56,15 +54,8 @@ where Value: BinaryFloatingPoint,
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        if start == nil {
-                            start = (x: x, y: y)
-                        }
-                        guard let start else { return }
-                        x = start.x + Value(value.translation.width / width) * length(of: xOptions.range)
-                        y = start.y - Value(value.translation.height / height) * length(of: yOptions.range)
-                    }
-                    .onEnded { value in
-                        start = nil
+                        x = Value(value.location.x / width) * length(of: xOptions.range) + xOptions.range.lowerBound
+                        y = Value(1 - value.location.y / height) * length(of: yOptions.range) + yOptions.range.lowerBound
                     }
             )
     }
