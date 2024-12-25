@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
-    @Binding var x: Value
-    @Binding var y: Value
-    var xRange: ClosedRange<Value> = -1...1
-    var yRange: ClosedRange<Value> = -1...1
+    @Binding private var x: Value
+    @Binding private var y: Value
+    private let xRange: ClosedRange<Value>
+    private let yRange: ClosedRange<Value>
     
     @State private var start: (x: Value, y: Value)? = nil
 
@@ -41,6 +41,18 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
                         start = nil
                     }
             )
+    }
+    
+    init(
+        x: Binding<Value>,
+        in xRange: ClosedRange<Value> = -1...1,
+        y: Binding<Value>,
+        in yRange: ClosedRange<Value> = -1...1
+    ) {
+        self._x = x
+        self._y = y
+        self.xRange = xRange
+        self.yRange = yRange
     }
 }
 
