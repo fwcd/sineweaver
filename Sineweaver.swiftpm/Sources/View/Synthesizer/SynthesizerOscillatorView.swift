@@ -25,5 +25,10 @@ struct SynthesizerOscillatorView<Node>: View where Node: SynthesizerNodeProtocol
 }
 
 #Preview {
-    SynthesizerOscillatorView(node: OscillatorNode(frequency: 440))
+    VStack(spacing: 50) {
+        ForEach(OscillatorNode.Wave.allCases, id: \.self) { wave in
+            SynthesizerOscillatorView(node: OscillatorNode(wave: wave, frequency: 40))
+                .frame(maxHeight: 100)
+        }
+    }
 }
