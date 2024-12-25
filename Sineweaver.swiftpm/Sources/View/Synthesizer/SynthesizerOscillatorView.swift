@@ -13,9 +13,10 @@ struct SynthesizerOscillatorView<Node>: View where Node: SynthesizerNodeProtocol
     @State private var referenceDate = Date()
     
     var body: some View {
-        let displaySampleRate: Double = 2000
-        let displayInterval: TimeInterval = 0.2
-        ChartView(yRange: -1..<1, sampleCount: Int(displaySampleRate * displayInterval)) { output in
+        let displaySampleRate: Double = 44_100
+        let displayInterval: TimeInterval = 0.05
+        let displayAmplitude: Double = 1.05
+        ChartView(yRange: -displayAmplitude..<displayAmplitude, sampleCount: Int(displaySampleRate * displayInterval)) { output in
             node.render(inputs: [], output: &output, context: .init(
                 frame: 0,
                 sampleRate: Double(displaySampleRate)
