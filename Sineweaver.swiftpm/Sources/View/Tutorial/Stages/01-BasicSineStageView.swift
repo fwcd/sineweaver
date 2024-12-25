@@ -10,7 +10,7 @@ import SwiftUI
 struct BasicSineStageView: View {
     // TODO: Use an actual oscillator
     
-    @State private var frequency: Double = 440
+    @State private var frequency: Double = 50
     @State private var volume: Double = 1
 
     var body: some View {
