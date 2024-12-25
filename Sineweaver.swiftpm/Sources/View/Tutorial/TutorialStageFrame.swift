@@ -20,8 +20,8 @@ struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDeta
                     .font(.largeTitle)
                     .fontWeight(.bold)
             }
-            if let details = content.details {
-                Text(details)
+            if !content.details.isEmpty {
+                Text(content.details[viewModel.detailIndex])
                     .font(.title3)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: 800)
@@ -31,12 +31,21 @@ struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDeta
             HStack {
                 if !viewModel.stage.isFirst {
                     Button("Back") {
-                        viewModel.stage.back()
+                        if viewModel.detailIndex > 0 {
+                            viewModel.detailIndex -= 1
+                        } else {
+                            viewModel.stage.back()
+                        }
                     }
                     .buttonStyle(BorderedButtonStyle())
                 }
                 Button(viewModel.stage.isFirst ? "Get Started" : "Next") {
-                    viewModel.stage.forward()
+                    if viewModel.detailIndex < content.details.count - 1 {
+                        viewModel.detailIndex += 1
+                    } else {
+                        viewModel.stage.forward()
+                        viewModel.detailIndex = 0
+                    }
                 }
                 .buttonStyle(BorderedProminentButtonStyle())
             }

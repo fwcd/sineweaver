@@ -10,12 +10,12 @@ import SwiftUI
 @MainActor
 protocol TutorialStageDetails {
     var title: String? { get }
-    var details: String? { get }
+    var details: [String] { get }
 }
 
 extension TutorialStageDetails {
     var title: String? { nil }
-    var details: String? { nil }
+    var details: [String] { [] }
 }
 
 extension _ConditionalContent: TutorialStageDetails
@@ -28,7 +28,7 @@ where TrueContent: TutorialStageDetails,
         }
     }
     
-    var details: String? {
+    var details: [String] {
         switch storage {
         case .trueContent(let content): content.details
         case .falseContent(let content): content.details

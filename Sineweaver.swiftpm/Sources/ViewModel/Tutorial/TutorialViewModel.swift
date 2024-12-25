@@ -11,4 +11,5 @@ import Observation
 @MainActor
 final class TutorialViewModel: Sendable {
     var stage: TutorialStage = .welcome
+    var detailIndex: Int = 0
 }
