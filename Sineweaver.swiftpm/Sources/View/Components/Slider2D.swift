@@ -31,7 +31,7 @@ where Value: BinaryFloatingPoint,
             .frame(width: thumbSize, height: thumbSize)
             .position(
                 x: CGFloat(normalize(x, in: xOptions.range)) * width,
-                y: CGFloat(normalize(y, in: yOptions.range)) * height
+                y: CGFloat(1 - normalize(y, in: yOptions.range)) * height
             )
             .frame(width: width, height: height, alignment: .center)
             .background(background)
@@ -60,7 +60,7 @@ where Value: BinaryFloatingPoint,
                         }
                         guard let start else { return }
                         x = start.x + Value(value.translation.width / width) * length(of: xOptions.range)
-                        y = start.y + Value(value.translation.height / height) * length(of: yOptions.range)
+                        y = start.y - Value(value.translation.height / height) * length(of: yOptions.range)
                     }
                     .onEnded { value in
                         start = nil
