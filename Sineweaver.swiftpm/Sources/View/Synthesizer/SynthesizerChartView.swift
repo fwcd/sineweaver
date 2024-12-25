@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SynthesizerChartView: View {
     var body: some View {
-        Text("TODO")
+        // TODO: Use SpriteKit or Metal?
+        Canvas { ctx, size in
+        }
     }
 }
