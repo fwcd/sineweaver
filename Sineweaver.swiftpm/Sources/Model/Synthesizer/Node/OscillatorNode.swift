@@ -11,6 +11,7 @@ import Foundation
 struct OscillatorNode: SynthesizerNodeProtocol {
     var wave: Wave = .sine
     var frequency: Double = 440
+    var volume: Double = 1
     
     enum Wave: String, Hashable, Codable, CaseIterable {
         case sine = "Sine"
@@ -28,7 +29,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     
     func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         for i in 0..<output.count {
-            output[i] = wave.sample(Double(context.frame + i) / context.sampleRate * frequency)
+            output[i] = wave.sample(Double(context.frame + i) / context.sampleRate * frequency) * volume
         }
     }
 }
