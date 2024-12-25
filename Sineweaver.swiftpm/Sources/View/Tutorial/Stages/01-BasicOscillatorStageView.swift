@@ -1,5 +1,5 @@
 //
-//  01-BasicSineStageView.swift
+//  01-BasicOscillatorStageView.swift
 //  Sineweaver
 //
 //  Created on 25.12.24
@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct BasicSineStageView: View, TutorialStageDetails {
+struct BasicOscillatorStageView: View, TutorialStageDetails {
     // TODO: Use an actual oscillator
     
     @State private var frequency: Double = 50
     @State private var volume: Double = 1
     
     var title: String? {
-        "Basic Sine Wave"
+        "The Oscillator"
     }
-
+    
     var body: some View {
         let group = Group {
             SynthesizerOscillatorView(node: OscillatorNode(
@@ -45,5 +45,5 @@ struct BasicSineStageView: View, TutorialStageDetails {
 }
 
 #Preview {
-    BasicSineStageView()
+    BasicOscillatorStageView()
 }

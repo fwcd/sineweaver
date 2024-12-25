@@ -7,7 +7,7 @@
 
 enum TutorialStage: Int, Hashable, CaseIterable {
     case welcome = 0
-    case basicSine
+    case basicOscillator
     
     var isFirst: Bool {
         rawValue == 0

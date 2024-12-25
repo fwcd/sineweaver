@@ -15,8 +15,8 @@ struct TutorialStageView: View {
             switch viewModel.stage {
             case .welcome:
                 WelcomeView()
-            case .basicSine:
-                BasicSineStageView()
+            case .basicOscillator:
+                BasicOscillatorStageView()
             }
         }
     }
