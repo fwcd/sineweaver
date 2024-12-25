@@ -10,8 +10,7 @@ import SwiftUI
 struct BasicOscillatorStageView: View, TutorialStageDetails {
     // TODO: Use an actual oscillator
     
-    @State private var frequency: Double = 50
-    @State private var volume: Double = 1
+    @State private var node: OscillatorNode = .init(frequency: 50, volume: 1)
     
     var title: String? {
         "The Oscillator"
@@ -25,30 +24,7 @@ struct BasicOscillatorStageView: View, TutorialStageDetails {
     }
     
     var body: some View {
-        let group = Group {
-            SynthesizerOscillatorView(node: OscillatorNode(
-                frequency: frequency,
-                volume: volume
-            ))
-            .frame(minWidth: 300)
-            Slider2D(
-                x: $frequency.logarithmic,
-                in: log(20)...log(20000),
-                label: "Frequency",
-                y: $volume,
-                in: 0...2,
-                label: "Volume"
-            )
-        }
-        ViewThatFits {
-            let spacing: CGFloat = 20
-            HStack(spacing: spacing) {
-                group
-            }
-            VStack(spacing: spacing) {
-                group
-            }
-        }
+        SynthesizerOscillatorView(node: $node)
     }
 }
 
