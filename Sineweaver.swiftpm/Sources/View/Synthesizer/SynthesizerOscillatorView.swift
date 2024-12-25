@@ -15,10 +15,11 @@ struct SynthesizerOscillatorView<Node>: View where Node: SynthesizerNodeProtocol
     var body: some View {
         let displaySampleRate: Double = 2000
         let displayInterval: TimeInterval = 0.2
+        let animationSpeed: Double = 0.05 // in relation to the original speed
         TimelineView(.animation) { context in
             ChartView(sampleCount: Int(displaySampleRate * displayInterval)) { output in
                 node.render(inputs: [], output: &output, context: .init(
-                    frame: Int(context.date.timeIntervalSince(referenceDate) * displaySampleRate),
+                    frame: Int(context.date.timeIntervalSince(referenceDate) * displaySampleRate * animationSpeed),
                     sampleRate: Double(displaySampleRate)
                 ))
             }
