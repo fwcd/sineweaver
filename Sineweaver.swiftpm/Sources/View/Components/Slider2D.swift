@@ -29,8 +29,8 @@ where Value: BinaryFloatingPoint,
         Circle()
             .frame(width: thumbSize, height: thumbSize)
             .position(
-                x: CGFloat(normalize(x, in: xOptions.range)) * width,
-                y: CGFloat(1 - normalize(y, in: yOptions.range)) * height
+                x: CGFloat(xOptions.range.normalize(x)) * width,
+                y: CGFloat(1 - yOptions.range.normalize(y)) * height
             )
             .frame(width: width, height: height, alignment: .center)
             .background(background)
@@ -54,8 +54,8 @@ where Value: BinaryFloatingPoint,
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        x = Value(value.location.x / width) * length(of: xOptions.range) + xOptions.range.lowerBound
-                        y = Value(1 - value.location.y / height) * length(of: yOptions.range) + yOptions.range.lowerBound
+                        x = xOptions.range.denormalize(Value(value.location.x / width))
+                        y = yOptions.range.denormalize(Value(1 - value.location.y / height))
                     }
             )
     }
