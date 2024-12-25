@@ -12,6 +12,8 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
     @Binding private var y: Value
     private let xRange: ClosedRange<Value>
     private let yRange: ClosedRange<Value>
+    private let xLabel: String?
+    private let yLabel: String?
     
     @State private var start: (x: Value, y: Value)? = nil
 
@@ -27,6 +29,23 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
             )
             .frame(width: width, height: height, alignment: .center)
             .background(.gray)
+            .overlay(alignment: .trailing) {
+                if let yLabel {
+                    VerticalLayout {
+                        Text(yLabel)
+                    }
+                    .rotationEffect(.degrees(90))
+                    .padding()
+                }
+            }
+            .overlay(alignment: .bottom) {
+                if let xLabel {
+                    Text(xLabel)
+                        .padding()
+                }
+            }
+            .textCase(.uppercase)
+            .fontDesign(.monospaced)
             .gesture(
                 DragGesture()
                     .onChanged { value in
@@ -46,13 +65,17 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
     init(
         x: Binding<Value>,
         in xRange: ClosedRange<Value> = -1...1,
+        label xLabel: String? = nil,
         y: Binding<Value>,
-        in yRange: ClosedRange<Value> = -1...1
+        in yRange: ClosedRange<Value> = -1...1,
+        label yLabel: String? = nil
     ) {
         self._x = x
         self._y = y
         self.xRange = xRange
         self.yRange = yRange
+        self.xLabel = xLabel
+        self.yLabel = yLabel
     }
 }
 
@@ -61,11 +84,11 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
     @Previewable @State var y: Double = 0
     
     VStack {
-        Slider2D(x: $x, y: $y)
+        Slider2D(x: $x, label: "Sample X", y: $y, label: "Sample Y")
         VStack(alignment: .leading) {
             Text("x = \(x)")
             Text("y = \(y)")
         }
-        .font(.system(size: 14).monospaced())
+        .fontDesign(.monospaced)
     }
 }

@@ -23,8 +23,10 @@ struct BasicSineStageView: View {
             Slider2D(
                 x: $frequency.logarithmic,
                 in: log(20)...log(20000),
+                label: "Frequency",
                 y: $volume,
-                in: 0...2
+                in: 0...2,
+                label: "Volume"
             )
         }
         ViewThatFits {
