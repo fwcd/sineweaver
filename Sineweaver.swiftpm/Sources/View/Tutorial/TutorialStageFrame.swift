@@ -31,25 +31,28 @@ struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDeta
             HStack {
                 if !viewModel.stage.isFirst {
                     Button("Back") {
-                        if viewModel.detailIndex > 0 {
-                            viewModel.detailIndex -= 1
-                        } else {
-                            viewModel.stage.back()
+                        withAnimation {
+                            if viewModel.detailIndex > 0 {
+                                viewModel.detailIndex -= 1
+                            } else {
+                                viewModel.stage.back()
+                            }
                         }
                     }
                     .buttonStyle(BorderedButtonStyle())
                 }
                 Button(viewModel.stage.isFirst ? "Get Started" : "Next") {
-                    if viewModel.detailIndex < content.details.count - 1 {
-                        viewModel.detailIndex += 1
-                    } else {
-                        viewModel.stage.forward()
-                        viewModel.detailIndex = 0
+                    withAnimation {
+                        if viewModel.detailIndex < content.details.count - 1 {
+                            viewModel.detailIndex += 1
+                        } else {
+                            viewModel.stage.forward()
+                            viewModel.detailIndex = 0
+                        }
                     }
                 }
                 .buttonStyle(BorderedProminentButtonStyle())
             }
-            .animation(.default, value: viewModel.stage)
         }
     }
 }
