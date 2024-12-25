@@ -17,6 +17,12 @@ struct BasicOscillatorStageView: View, TutorialStageDetails {
         "The Oscillator"
     }
     
+    var details: String? {
+        """
+        At the most fundamental level, a synthesizer produces sounds by sampling a periodic function, commonly a sine wave. Such a synthesizer is called an "oscillator" and it forms the fundamental building block of almost every form of audio synthesis.
+        """
+    }
+    
     var body: some View {
         let group = Group {
             SynthesizerOscillatorView(node: OscillatorNode(
