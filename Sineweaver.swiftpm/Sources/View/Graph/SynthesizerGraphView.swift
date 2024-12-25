@@ -12,7 +12,7 @@ struct SynthesizerGraphView: View {
     @Environment(SynthesizerViewModel.self) private var viewModel
     
     var body: some View {
-        SpriteView(scene: SineweaverScene(synthesizer: viewModel.synthesizer), debugOptions: .showsPhysics)
+        SpriteView(scene: SynthesizerGraphScene(synthesizer: viewModel.synthesizer), debugOptions: .showsPhysics)
             .overlay(alignment: .bottom) {
                 SineweaverToolbar()
                     .padding()

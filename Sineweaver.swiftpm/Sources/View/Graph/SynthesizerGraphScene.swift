@@ -1,5 +1,5 @@
 //
-//  SineweaverSwiftUI.swift
+//  SynthesizerGraphScene.swift
 //  Sineweaver
 //
 //  Created on 24.11.24
@@ -8,7 +8,7 @@
 import Combine
 import SpriteKit
 
-final class SineweaverScene: SKScene, SceneInputHandler {
+final class SynthesizerGraphScene: SKScene, SceneInputHandler {
     private let synthesizer: Synthesizer
     
     private let synthesizerView: SynthesizerGraphSKNode
