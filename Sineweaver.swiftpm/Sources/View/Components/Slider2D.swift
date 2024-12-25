@@ -27,6 +27,7 @@ where Value: BinaryFloatingPoint,
         let thumbSize: CGFloat = 20
         let width: CGFloat = 300
         let height: CGFloat = 300
+        let labelPadding: CGFloat = 5
         Circle()
             .frame(width: thumbSize, height: thumbSize)
             .position(
@@ -41,13 +42,13 @@ where Value: BinaryFloatingPoint,
                         Text(label)
                     }
                     .rotationEffect(.degrees(90))
-                    .padding()
+                    .padding(labelPadding)
                 }
             }
             .overlay(alignment: .bottom) {
                 if let label = xOptions.label {
                     Text(label)
-                        .padding()
+                        .padding(labelPadding)
                 }
             }
             .textCase(.uppercase)
