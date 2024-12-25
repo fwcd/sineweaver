@@ -14,7 +14,7 @@ struct BasicSineStageView: View {
     
     var body: some View {
         VStack {
-            SynthesizerOscillatorView(node: SineNode(frequency: frequency))
+            SynthesizerOscillatorView(node: OscillatorNode(frequency: frequency))
             Slider(value: $frequency.logarithmic, in: log(20)...log(20000))
         }
     }

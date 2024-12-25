@@ -6,7 +6,7 @@
 //
 
 enum SynthesizerNodeType: String, CaseIterable, Hashable {
-    case sine = "Sine"
+    case oscillator = "Oscillator"
     case mixer = "Mixer"
     case silence = "Silence"
     

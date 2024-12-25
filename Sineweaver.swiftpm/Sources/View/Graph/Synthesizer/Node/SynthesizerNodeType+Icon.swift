@@ -10,7 +10,7 @@ import UIKit
 extension SynthesizerNodeType {
     var iconName: String {
         switch self {
-        case .sine: "waveform.path"
+        case .oscillator: "waveform.path"
         case .silence: "speaker.slash"
         case .mixer: "plus.circle"
         }

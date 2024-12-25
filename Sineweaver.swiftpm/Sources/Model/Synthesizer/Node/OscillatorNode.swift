@@ -1,5 +1,5 @@
 //
-//  SineNode.swift
+//  OscillatorNode.swift
 //  Sineweaver
 //
 //  Created on 22.11.24
@@ -8,7 +8,7 @@
 import Foundation
 
 /// A sine wave generator.
-struct SineNode: SynthesizerNodeProtocol {
+struct OscillatorNode: SynthesizerNodeProtocol {
     var frequency: Double = 440
     
     func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {

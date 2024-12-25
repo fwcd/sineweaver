@@ -48,7 +48,7 @@ final class SynthesizerGraphScene: SKScene, SceneInputHandler {
         // TODO: Make this user-editable instead of setting up demo graph
         do {
             synthesizer.model.lock().useValue { model in
-                let sineId = model.add(node: .sine(.init()))
+                let sineId = model.add(node: .oscillator(.init()))
                 let mixerId = model.add(node: .mixer(.init()))
                 model.connect(sineId, to: mixerId)
                 model.outputNodeId = mixerId

@@ -28,5 +28,5 @@ struct SynthesizerLFOView<Node>: View where Node: SynthesizerNodeProtocol {
 }
 
 #Preview {
-    SynthesizerLFOView(node: SineNode(frequency: 0.5))
+    SynthesizerLFOView(node: OscillatorNode(frequency: 0.5))
 }

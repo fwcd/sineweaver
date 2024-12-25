@@ -25,5 +25,5 @@ struct SynthesizerOscillatorView<Node>: View where Node: SynthesizerNodeProtocol
 }
 
 #Preview {
-    SynthesizerOscillatorView(node: SineNode(frequency: 440))
+    SynthesizerOscillatorView(node: OscillatorNode(frequency: 440))
 }
