@@ -7,13 +7,19 @@
 
 import SwiftUI
 
-struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
-    @Binding private var x: Value
-    @Binding private var y: Value
-    private let xRange: ClosedRange<Value>
-    private let yRange: ClosedRange<Value>
-    private let xLabel: String?
-    private let yLabel: String?
+struct Slider2D<Value, Background>: View
+where Value: BinaryFloatingPoint,
+      Background: ShapeStyle {
+    @Binding var x: Value
+    @Binding var y: Value
+    let xOptions: AxisOptions
+    let yOptions: AxisOptions
+    var background: Background
+    
+    struct AxisOptions {
+        var range: ClosedRange<Value> = -1...1
+        var label: String? = nil
+    }
     
     @State private var start: (x: Value, y: Value)? = nil
 
@@ -24,23 +30,23 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
         Circle()
             .frame(width: thumbSize, height: thumbSize)
             .position(
-                x: CGFloat(normalize(x, in: xRange)) * width,
-                y: CGFloat(normalize(y, in: yRange)) * height
+                x: CGFloat(normalize(x, in: xOptions.range)) * width,
+                y: CGFloat(normalize(y, in: yOptions.range)) * height
             )
             .frame(width: width, height: height, alignment: .center)
-            .background(.gray)
+            .background(background)
             .overlay(alignment: .trailing) {
-                if let yLabel {
+                if let label = yOptions.label {
                     VerticalLayout {
-                        Text(yLabel)
+                        Text(label)
                     }
                     .rotationEffect(.degrees(90))
                     .padding()
                 }
             }
             .overlay(alignment: .bottom) {
-                if let xLabel {
-                    Text(xLabel)
+                if let label = xOptions.label {
+                    Text(label)
                         .padding()
                 }
             }
@@ -53,29 +59,52 @@ struct Slider2D<Value>: View where Value: BinaryFloatingPoint {
                             start = (x: x, y: y)
                         }
                         guard let start else { return }
-                        x = start.x + Value(value.translation.width / width) * length(of: xRange)
-                        y = start.y + Value(value.translation.height / height) * length(of: yRange)
+                        x = start.x + Value(value.translation.width / width) * length(of: xOptions.range)
+                        y = start.y + Value(value.translation.height / height) * length(of: yOptions.range)
                     }
                     .onEnded { value in
                         start = nil
                     }
             )
     }
-    
+}
+
+extension Slider2D {
     init(
         x: Binding<Value>,
-        in xRange: ClosedRange<Value> = -1...1,
-        label xLabel: String? = nil,
+        in xRange: ClosedRange<Value> = AxisOptions().range,
+        label xLabel: String? = AxisOptions().label,
         y: Binding<Value>,
-        in yRange: ClosedRange<Value> = -1...1,
-        label yLabel: String? = nil
+        in yRange: ClosedRange<Value> = AxisOptions().range,
+        label yLabel: String? = AxisOptions().label,
+        background: Background
     ) {
-        self._x = x
-        self._y = y
-        self.xRange = xRange
-        self.yRange = yRange
-        self.xLabel = xLabel
-        self.yLabel = yLabel
+        self.init(
+            x: x,
+            y: y,
+            xOptions: .init(range: xRange, label: xLabel),
+            yOptions: .init(range: yRange, label: yLabel),
+            background: background
+        )
+    }
+}
+
+extension Slider2D where Background == HierarchicalShapeStyle {
+    init(
+        x: Binding<Value>,
+        in xRange: ClosedRange<Value> = AxisOptions().range,
+        label xLabel: String? = AxisOptions().label,
+        y: Binding<Value>,
+        in yRange: ClosedRange<Value> = AxisOptions().range,
+        label yLabel: String? = AxisOptions().label
+    ) {
+        self.init(
+            x: x,
+            y: y,
+            xOptions: .init(range: xRange, label: xLabel),
+            yOptions: .init(range: yRange, label: yLabel),
+            background: .tertiary
+        )
     }
 }
 
