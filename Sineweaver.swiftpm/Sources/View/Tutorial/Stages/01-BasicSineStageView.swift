@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct BasicSineStageView: View {
+    // TODO: Use an actual oscillator
+    
     var body: some View {
-        Text("Test")
+        SynthesizerOscillatorView(node: SineNode())
     }
+}
+
+#Preview {
+    BasicSineStageView()
 }
