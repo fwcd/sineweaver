@@ -15,8 +15,11 @@ struct BasicSineStageView: View {
 
     var body: some View {
         let group = Group {
-            SynthesizerOscillatorView(node: OscillatorNode(frequency: frequency))
-                .frame(minWidth: 300)
+            SynthesizerOscillatorView(node: OscillatorNode(
+                frequency: frequency,
+                volume: volume
+            ))
+            .frame(minWidth: 300)
             Slider2D(
                 x: $frequency.logarithmic,
                 in: log(20)...log(20000),

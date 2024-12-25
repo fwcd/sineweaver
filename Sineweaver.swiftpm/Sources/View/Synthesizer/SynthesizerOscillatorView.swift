@@ -15,7 +15,7 @@ struct SynthesizerOscillatorView<Node>: View where Node: SynthesizerNodeProtocol
     var body: some View {
         let displaySampleRate: Double = 2000
         let displayInterval: TimeInterval = 0.2
-        ChartView(sampleCount: Int(displaySampleRate * displayInterval)) { output in
+        ChartView(yRange: -1..<1, sampleCount: Int(displaySampleRate * displayInterval)) { output in
             node.render(inputs: [], output: &output, context: .init(
                 frame: 0,
                 sampleRate: Double(displaySampleRate)
