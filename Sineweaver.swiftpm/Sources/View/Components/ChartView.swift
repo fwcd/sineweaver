@@ -23,10 +23,6 @@ struct ChartView: View {
             let ys = self.ys
             let yRange = self.yRange ?? ((ys.min() ?? 0)..<(ys.max() ?? 1))
             
-            func normalize(_ value: Double, in range: Range<Double>) -> Double {
-                (value - range.lowerBound) / (range.upperBound - range.lowerBound)
-            }
-            
             ctx.stroke(Path { path in
                 for (i, y) in ys.enumerated() {
                     path.addLine(to: CGPoint(
