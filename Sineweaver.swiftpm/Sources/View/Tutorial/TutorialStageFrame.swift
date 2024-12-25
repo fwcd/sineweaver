@@ -15,6 +15,7 @@ struct TutorialStageFrame<Content>: View where Content: View {
     var body: some View {
         VStack(spacing: 20) {
             content()
+                .frame(maxHeight: 500)
             HStack {
                 if !viewModel.stage.isFirst {
                     Button("Back") {
