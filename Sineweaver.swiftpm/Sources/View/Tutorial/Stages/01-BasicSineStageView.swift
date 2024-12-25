@@ -7,11 +7,15 @@
 
 import SwiftUI
 
-struct BasicSineStageView: View {
+struct BasicSineStageView: View, TutorialStageDetails {
     // TODO: Use an actual oscillator
     
     @State private var frequency: Double = 50
     @State private var volume: Double = 1
+    
+    var title: String? {
+        "Basic Sine Wave"
+    }
 
     var body: some View {
         let group = Group {

@@ -7,14 +7,24 @@
 
 import SwiftUI
 
-struct TutorialStageFrame<Content>: View where Content: View {
+struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDetails {
     @ViewBuilder var content: () -> Content
     
     @Environment(TutorialViewModel.self) private var viewModel
 
     var body: some View {
-        VStack(spacing: 20) {
-            content()
+        VStack(spacing: 40) {
+            let content = self.content()
+            if let title = content.title {
+                Text(title)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+            }
+            if let details = content.details {
+                Text(details)
+                    .font(.title3)
+            }
+            content
                 .frame(maxHeight: 500)
             HStack {
                 if !viewModel.stage.isFirst {
