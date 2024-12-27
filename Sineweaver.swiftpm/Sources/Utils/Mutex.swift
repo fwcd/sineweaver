@@ -17,6 +17,10 @@ final class Mutex<Value>: @unchecked Sendable {
         get { lock().wrappedValue }
         set { lock().wrappedValue = newValue }
     }
+    
+    var projectedValue: Mutex<Value> {
+        self
+    }
 
     init(wrappedValue: Value) {
         wrappedValueUnsafe = wrappedValue

@@ -39,7 +39,7 @@ final class SynthesizerGraphScene: SKScene, SceneInputHandler {
         
         addChild(synthesizerView)
         
-        synthesizer.model.lock().onChange { [unowned self] in
+        synthesizer.$model.lock().onChange { [unowned self] in
             Task { @MainActor in
                 sync()
             }
@@ -47,7 +47,7 @@ final class SynthesizerGraphScene: SKScene, SceneInputHandler {
         
         // TODO: Make this user-editable instead of setting up demo graph
         do {
-            synthesizer.model.lock().useValue { model in
+            synthesizer.$model.lock().useValue { model in
                 let sineId = model.add(node: .oscillator(.init()))
                 let mixerId = model.add(node: .mixer(.init()))
                 model.connect(sineId, to: mixerId)

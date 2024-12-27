@@ -11,7 +11,8 @@ import Observation
 final class SynthesizerViewModel: Sendable {
     let synthesizer = try! Synthesizer()
     
-    var model: Mutex<SynthesizerModel> {
-        synthesizer.model
+    var model: SynthesizerModel {
+        get { synthesizer.model }
+        set { synthesizer.model = newValue }
     }
 }

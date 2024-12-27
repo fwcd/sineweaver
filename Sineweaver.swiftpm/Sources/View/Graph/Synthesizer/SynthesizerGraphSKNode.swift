@@ -51,7 +51,7 @@ final class SynthesizerGraphSKNode: SKNode, SceneInputHandler {
     func sync(parentScene: SKScene) {
         print("Syncing synthesizer view...")
         
-        let model = synthesizer.model.lock().wrappedValue
+        let model = synthesizer.$model.lock().wrappedValue
         
         // Sync the node views
         let nodesUpdate = nodesParent.diffUpdate(nodes: &nodeSKNodes, with: model.nodes) { nodeId, node in

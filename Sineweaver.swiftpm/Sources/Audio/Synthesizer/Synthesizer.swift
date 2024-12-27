@@ -10,17 +10,17 @@ import CoreAudio
 import Combine
 import Foundation
 
-final class Synthesizer: Sendable {
+final class Synthesizer: @unchecked Sendable {
     private let engine: AVAudioEngine
     
-    let model = Mutex(wrappedValue: SynthesizerModel())
-    let isDirty = Mutex(wrappedValue: true)
+    @Mutex var model = SynthesizerModel()
+    @Mutex private var isDirty = true
 
     init() throws {
         engine = AVAudioEngine()
         
-        model.lock().onChange { [unowned self] in
-            isDirty.lock().wrappedValue = true
+        $model.lock().onChange { [unowned self] in
+            isDirty = true
         }
         
         let mainMixer = engine.mainMixerNode
@@ -42,13 +42,13 @@ final class Synthesizer: Sendable {
 
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
-            let model = self.model.lock().wrappedValue
+            let model = self.model
             
             // Reallocate buffers when model changes
-            if (buffers?.output.count ?? -1) < frameCount || isDirty.lock().wrappedValue {
+            if (buffers?.output.count ?? -1) < frameCount || isDirty {
                 print("(Re)allocating synthesizer buffers...")
                 buffers = model.makeBuffers(frameCount: frameCount)
-                isDirty.lock().wrappedValue = false
+                isDirty = false
             }
             
             model.render(using: &buffers!, context: context)
