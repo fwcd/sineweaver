@@ -9,12 +9,15 @@ import SwiftUI
 
 struct SynthesizerStageView: View {
     let stage: SynthesizerStage
-    // TODO: Use an actual oscillator
     
-    @State private var node: OscillatorNode = .init(frequency: 50, volume: 1)
+    @Environment(SynthesizerViewModel.self) private var viewModel
     
     var body: some View {
-        SynthesizerOscillatorView(node: $node)
+        SynthesizerView(model: .constant(viewModel.model.lock().wrappedValue))
+            .onAppear {
+                let model = viewModel.model.lock()
+                stage.configure(synthesizer: &model.wrappedValue)
+            }
     }
 }
 
