@@ -15,4 +15,8 @@ final class SynthesizerViewModel: Sendable {
         get { synthesizer.model }
         set { synthesizer.model = newValue }
     }
+    
+    func lockModel() -> Mutex<SynthesizerModel>.Guard {
+        synthesizer.$model.lock()
+    }
 }

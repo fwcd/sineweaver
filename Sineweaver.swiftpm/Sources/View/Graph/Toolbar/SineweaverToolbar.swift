@@ -14,7 +14,7 @@ struct SineweaverToolbar: View {
         HStack {
             ForEach(SynthesizerNodeType.allCases, id: \.self) { nodeType in
                 Button {
-                    synthesizerViewModel.synthesizer.$model.lock().useValue { model in
+                    synthesizerViewModel.lockModel().useValue { model in
                         let nodeId = model.add(node: .init(type: nodeType))
                         if let outputId = model.outputNodeId {
                             model.connect(nodeId, to: outputId)
