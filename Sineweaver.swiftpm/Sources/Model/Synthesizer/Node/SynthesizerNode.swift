@@ -23,6 +23,42 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         type.name
     }
     
+    var asOscillator: OscillatorNode {
+        get {
+            switch self {
+            case .oscillator(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .oscillator(newValue)
+        }
+    }
+    
+    var asMixer: MixerNode {
+        get {
+            switch self {
+            case .mixer(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .mixer(newValue)
+        }
+    }
+    
+    var asSilence: SilenceNode {
+        get {
+            switch self {
+            case .silence(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .silence(newValue)
+        }
+    }
+    
     init(type: SynthesizerNodeType) {
         switch type {
         case .oscillator: self = .oscillator(.init())
