@@ -31,7 +31,7 @@ struct ComponentBox<Content, Label>: View where Content: View, Label: View {
 }
 
 extension ComponentBox where Label == Text {
-    init(_ label: String, @ViewBuilder content: @escaping () -> Content) {
+    init(_ label: String = "", @ViewBuilder content: @escaping () -> Content) {
         self.init(content: content) {
             Text(label)
         }
