@@ -43,7 +43,7 @@ final class Synthesizer: @unchecked Sendable {
         )
         
         // Only used on the audio thread
-        var buffers: SynthesizerModel.Buffers?
+        var buffers: SynthesizerModel.Buffers = .init()
         var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
 
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
@@ -51,21 +51,19 @@ final class Synthesizer: @unchecked Sendable {
             let model = self.audioModel
             
             // Reallocate buffers when model changes
-            if (buffers?.output.count ?? -1) < frameCount || isDirty {
+            if buffers.output.count < frameCount || isDirty {
                 print("(Re)allocating synthesizer buffers...")
-                var newBuffers = buffers ?? .init()
-                newBuffers.merge(buffers: model.makeBuffers(frameCount: frameCount))
-                buffers = newBuffers
+                model.update(buffers: &buffers, frameCount: frameCount)
                 isDirty = false
             }
             
-            model.render(using: &buffers!, context: context)
+            model.render(using: &buffers, context: context)
 
             let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
             for i in 0..<frameCount {
                 for audioBuffer in audioBuffers {
                     let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
-                    audioBuffer[i] = Float(buffers!.output[i])
+                    audioBuffer[i] = Float(buffers.output[i])
                 }
             }
             

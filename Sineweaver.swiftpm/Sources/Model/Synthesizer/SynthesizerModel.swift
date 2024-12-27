@@ -53,38 +53,37 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     
     struct Buffers: Sendable {
         var inputs: [UUID: [[Double]]] = [:]
-        var outputId: UUID? = nil
         var output: [Double] = []
         
-        mutating func merge(buffers: Self) {
-            let removedIds = Set(inputs.keys).subtracting(buffers.inputs.keys)
-            let addedIds = Set(buffers.inputs.keys).subtracting(inputs.keys)
-            
-            for id in removedIds {
-                inputs[id] = nil
-            }
-            
-            for id in addedIds {
-                inputs[id] = buffers.inputs[id]
-            }
-            
-            if outputId != buffers.outputId || output.count != buffers.output.count {
-                output = buffers.output
-                outputId = buffers.outputId
-            }
-        }
+        var frameCount: Int? = nil
+        var outputId: UUID? = nil
     }
     
-    func makeBuffers(frameCount: Int) -> Buffers {
-        Buffers(
-            inputs: Dictionary(uniqueKeysWithValues: nodes.map { (key, _) in
-                (key, (inputEdges[key] ?? []).map { _ -> [Double] in
-                    [Double](repeating: 0, count: frameCount)
-                })
-            }),
-            outputId: outputNodeId,
-            output: [Double](repeating: 0, count: frameCount)
-        )
+    func update(buffers: inout Buffers, frameCount: Int) {
+        let frameCountMatches = frameCount == buffers.frameCount
+        
+        let newNodeIds = Set(nodes.keys)
+        let oldNodeIds = Set(buffers.inputs.keys)
+        
+        let addedNodeIds = frameCountMatches ? newNodeIds.subtracting(oldNodeIds) : newNodeIds
+        let removedNodeIds = frameCountMatches ? oldNodeIds.subtracting(newNodeIds) : oldNodeIds
+        
+        for id in addedNodeIds {
+            buffers.inputs[id] = (inputEdges[id] ?? []).map { _ -> [Double] in
+                [Double](repeating: 0, count: frameCount)
+            }
+        }
+        
+        for id in removedNodeIds {
+            buffers.inputs[id] = nil
+        }
+        
+        if !frameCountMatches || outputNodeId != buffers.outputId {
+            buffers.output = [Double](repeating: 0, count: frameCount)
+        }
+        
+        buffers.frameCount = frameCount
+        buffers.outputId = outputNodeId
     }
     
     func render(using buffers: inout Buffers, context: SynthesizerContext) {
