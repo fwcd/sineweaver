@@ -10,8 +10,17 @@ import Observation
 @Observable
 @MainActor
 final class TutorialViewModel: Sendable {
-    var stageIndex: Int = 0
-    var detailIndex: Int = 0
+    private let synthesizer: SynthesizerViewModel
+    
+    var stageIndex: Int {
+        willSet {
+            if case .synthesizer(let stage) = TutorialStage.allCases[newValue] {
+                stage.configure(synthesizer: &synthesizer.model)
+            }
+        }
+    }
+    
+    var detailIndex: Int
     
     var stage: TutorialStage {
         .allCases[stageIndex]
@@ -19,6 +28,12 @@ final class TutorialViewModel: Sendable {
     
     var isFirstStage: Bool {
         stageIndex == 0
+    }
+    
+    init(synthesizer: SynthesizerViewModel, stageIndex: Int = 0, detailIndex: Int = 0) {
+        self.synthesizer = synthesizer
+        self.stageIndex = stageIndex
+        self.detailIndex = detailIndex
     }
     
     func back() {

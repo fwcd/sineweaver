@@ -13,15 +13,21 @@ import Foundation
 final class Synthesizer: @unchecked Sendable {
     private let engine: AVAudioEngine
     
-    @Mutex var model = SynthesizerModel()
+    @MainActor var model = SynthesizerModel() {
+        didSet {
+            Task {
+                audioModel = model
+                isDirty = true
+            }
+        }
+    }
+    
+    // State shared with the audio thread
+    @Mutex private var audioModel = SynthesizerModel()
     @Mutex private var isDirty = true
 
     init() throws {
         engine = AVAudioEngine()
-        
-        $model.lock().onChange { [unowned self] in
-            isDirty = true
-        }
         
         let mainMixer = engine.mainMixerNode
         let outputNode = engine.outputNode
@@ -42,7 +48,7 @@ final class Synthesizer: @unchecked Sendable {
 
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
-            let model = self.model
+            let model = self.audioModel
             
             // Reallocate buffers when model changes
             if (buffers?.output.count ?? -1) < frameCount || isDirty {

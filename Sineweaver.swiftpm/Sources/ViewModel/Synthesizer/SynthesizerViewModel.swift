@@ -11,12 +11,9 @@ import Observation
 final class SynthesizerViewModel: Sendable {
     let synthesizer = try! Synthesizer()
     
+    @MainActor
     var model: SynthesizerModel {
         get { synthesizer.model }
         set { synthesizer.model = newValue }
-    }
-    
-    func lockModel() -> Mutex<SynthesizerModel>.Guard {
-        synthesizer.$model.lock()
     }
 }

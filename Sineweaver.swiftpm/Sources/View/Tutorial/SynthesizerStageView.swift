@@ -16,10 +16,6 @@ struct SynthesizerStageView: View {
         @Bindable var viewModel = viewModel
         
         SynthesizerView(model: $viewModel.model)
-            .onAppear {
-                let model = viewModel.lockModel()
-                stage.configure(synthesizer: &model.wrappedValue)
-            }
     }
 }
 
