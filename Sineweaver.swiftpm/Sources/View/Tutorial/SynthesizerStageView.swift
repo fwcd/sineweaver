@@ -15,7 +15,9 @@ struct SynthesizerStageView: View {
     var body: some View {
         @Bindable var viewModel = viewModel
         
-        SynthesizerView(model: $viewModel.model.debounced())
+        Debouncer(wrappedValue: $viewModel.model) { $model in
+            SynthesizerView(model: $model)
+        }
     }
 }
 
