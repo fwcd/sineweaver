@@ -26,4 +26,11 @@ enum TutorialStage: Hashable, CaseIterable {
         default: []
         }
     }
+    
+    func configure(synthesizer: inout SynthesizerModel) {
+        switch self {
+        case .welcome: synthesizer = .init()
+        case .synthesizer(let stage): stage.configure(synthesizer: &synthesizer)
+        }
+    }
 }

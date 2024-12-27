@@ -14,9 +14,7 @@ final class TutorialViewModel: Sendable {
     
     var stageIndex: Int {
         willSet {
-            if case .synthesizer(let stage) = TutorialStage.allCases[newValue] {
-                stage.configure(synthesizer: &synthesizer.model)
-            }
+            TutorialStage.allCases[newValue].configure(synthesizer: &synthesizer.model)
         }
     }
     
