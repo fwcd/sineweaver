@@ -16,15 +16,18 @@ final class Synthesizer: @unchecked Sendable {
     @MainActor var model = SynthesizerModel() {
         didSet {
             Task {
-                audioModel = model
-                isDirty = true
+                let model = model
+                var audioState = audioState
+                model.update(buffers: &audioState.buffers, frameCount: frameCount)
+                audioState.model = model
+                self.audioState = audioState
             }
         }
     }
     
     // State shared with the audio thread
-    @Mutex private var audioModel = SynthesizerModel()
-    @Mutex private var isDirty = true
+    @Mutex private var audioState = (model: SynthesizerModel(), buffers: SynthesizerModel.Buffers())
+    @Mutex private var frameCount: Int = 0
 
     init() throws {
         engine = AVAudioEngine()
@@ -43,32 +46,28 @@ final class Synthesizer: @unchecked Sendable {
         )
         
         // Only used on the audio thread
-        var buffers: SynthesizerModel.Buffers = .init()
         var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
 
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
-            let model = self.audioModel
+            let audioState = $audioState.lock()
             
-            // Reallocate buffers when model changes
-            if buffers.output.count < frameCount || isDirty {
-                print("(Re)allocating synthesizer buffers...")
-                model.update(buffers: &buffers, frameCount: frameCount)
-                isDirty = false
-            }
-            
-            model.render(using: &buffers, context: context)
-
-            let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
-            for i in 0..<frameCount {
-                for audioBuffer in audioBuffers {
-                    let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
-                    audioBuffer[i] = Float(buffers.output[i])
+            if audioState.wrappedValue.buffers.output.count == frameCount {
+                audioState.wrappedValue.model.render(using: &audioState.wrappedValue.buffers, context: context)
+                
+                let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
+                for i in 0..<frameCount {
+                    for audioBuffer in audioBuffers {
+                        let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
+                        audioBuffer[i] = Float(audioState.wrappedValue.buffers.output[i])
+                    }
                 }
+                
+                context.frame += frameCount
+            } else {
+                self.frameCount = frameCount
             }
             
-            context.frame += frameCount
-
             return noErr
         }
         
