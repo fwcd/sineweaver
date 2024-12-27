@@ -22,12 +22,10 @@ where Value: BinaryFloatingPoint,
     }
     
     var body: some View {
-        let thumbSize: CGFloat = 20
         let width: CGFloat = 300
         let height: CGFloat = 300
         let labelPadding: CGFloat = 5
-        Circle()
-            .frame(width: thumbSize, height: thumbSize)
+        SliderThumb()
             .position(
                 x: CGFloat(xOptions.range.normalize(x)) * width,
                 y: CGFloat(1 - yOptions.range.normalize(y)) * height
