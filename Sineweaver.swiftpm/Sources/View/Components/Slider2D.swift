@@ -36,21 +36,16 @@ where Value: BinaryFloatingPoint,
             .background(background)
             .overlay(alignment: .trailing) {
                 if let label = yOptions.label {
-                    VerticalLayout {
-                        Text(label)
-                    }
-                    .rotationEffect(.degrees(90))
-                    .padding(labelPadding)
+                    ComponentLabel(label, orientation: .vertical)
+                        .padding(labelPadding)
                 }
             }
             .overlay(alignment: .bottom) {
                 if let label = xOptions.label {
-                    Text(label)
+                    ComponentLabel(label)
                         .padding(labelPadding)
                 }
             }
-            .textCase(.uppercase)
-            .fontDesign(.monospaced)
             .gesture(
                 DragGesture()
                     .onChanged { value in
