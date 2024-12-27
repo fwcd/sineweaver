@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WelcomeView: View, TutorialStageDetails {
+struct WelcomeView: View {
     @Environment(TutorialViewModel.self) private var viewModel
     
     var body: some View {

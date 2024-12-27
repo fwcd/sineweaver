@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDetails {
+struct TutorialStageFrame<Content>: View where Content: View {
+    var title: String? = nil
+    var details: [String] = []
     @ViewBuilder var content: () -> Content
     
     @Environment(TutorialViewModel.self) private var viewModel
@@ -15,13 +17,13 @@ struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDeta
     var body: some View {
         VStack(spacing: 40) {
             let content = self.content()
-            if let title = content.title {
+            if let title = title {
                 Text(title)
                     .font(.largeTitle)
                     .fontWeight(.bold)
             }
-            if !content.details.isEmpty {
-                Text(content.details[viewModel.detailIndex])
+            if !details.isEmpty {
+                Text(details[viewModel.detailIndex])
                     .font(.title3)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: 800)
@@ -29,26 +31,17 @@ struct TutorialStageFrame<Content>: View where Content: View & TutorialStageDeta
             content
                 .frame(maxWidth: 800, maxHeight: 300)
             HStack {
-                if !viewModel.stage.isFirst {
+                if !viewModel.isFirstStage {
                     Button("Back") {
                         withAnimation {
-                            if viewModel.detailIndex > 0 {
-                                viewModel.detailIndex -= 1
-                            } else {
-                                viewModel.stage.back()
-                            }
+                            viewModel.back()
                         }
                     }
                     .buttonStyle(BorderedButtonStyle())
                 }
-                Button(viewModel.stage.isFirst ? "Get Started" : "Next") {
+                Button(viewModel.isFirstStage ? "Get Started" : "Next") {
                     withAnimation {
-                        if viewModel.detailIndex < content.details.count - 1 {
-                            viewModel.detailIndex += 1
-                        } else {
-                            viewModel.stage.forward()
-                            viewModel.detailIndex = 0
-                        }
+                        viewModel.forward()
                     }
                 }
                 .buttonStyle(BorderedProminentButtonStyle())

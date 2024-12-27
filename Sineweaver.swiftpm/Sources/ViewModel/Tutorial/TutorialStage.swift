@@ -5,27 +5,25 @@
 //  Created on 25.12.24
 //
 
-enum TutorialStage: Int, Hashable, CaseIterable {
-    case welcome = 0
-    case basicOscillator
+enum TutorialStage: Hashable, CaseIterable {
+    case welcome
+    case synthesizer(SynthesizerStage)
     
-    var isFirst: Bool {
-        rawValue == 0
+    static var allCases: [Self] {
+        [.welcome] + SynthesizerStage.allCases.map { .synthesizer($0) }
     }
     
-    var previous: Self {
-        Self.allCases[(rawValue - 1 + Self.allCases.count) % Self.allCases.count]
+    var title: String? {
+        switch self {
+        case .synthesizer(let stage): stage.title
+        default: nil
+        }
     }
     
-    var next: Self {
-        Self.allCases[(rawValue + 1) % Self.allCases.count]
-    }
-    
-    mutating func back() {
-        self = previous
-    }
-    
-    mutating func forward() {
-        self = next
+    var details: [String] {
+        switch self {
+        case .synthesizer(let stage): stage.details
+        default: []
+        }
     }
 }
