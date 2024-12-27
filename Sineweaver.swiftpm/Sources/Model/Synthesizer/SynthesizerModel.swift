@@ -9,8 +9,8 @@ import Foundation
 
 /// A synthesizer modeled as a graph of processing nodes.
 struct SynthesizerModel: Hashable, Codable, Sendable {
-    private(set) var nodes: [UUID: SynthesizerNode] = [:]
-    private(set) var inputEdges: [UUID: [UUID]] = [:]
+    var nodes: [UUID: SynthesizerNode] = [:]
+    var inputEdges: [UUID: [UUID]] = [:]
     var outputNodeId: UUID? = nil
     
     var edges: [Edge] {
