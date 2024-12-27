@@ -52,8 +52,27 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     }
     
     struct Buffers: Sendable {
-        var inputs: [UUID: [[Double]]]
-        var output: [Double]
+        var inputs: [UUID: [[Double]]] = [:]
+        var outputId: UUID? = nil
+        var output: [Double] = []
+        
+        mutating func merge(buffers: Self) {
+            let removedIds = Set(inputs.keys).subtracting(buffers.inputs.keys)
+            let addedIds = Set(buffers.inputs.keys).subtracting(inputs.keys)
+            
+            for id in removedIds {
+                inputs[id] = nil
+            }
+            
+            for id in addedIds {
+                inputs[id] = buffers.inputs[id]
+            }
+            
+            if outputId != buffers.outputId || output.count != buffers.output.count {
+                output = buffers.output
+                outputId = buffers.outputId
+            }
+        }
     }
     
     func makeBuffers(frameCount: Int) -> Buffers {
@@ -63,6 +82,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
                     [Double](repeating: 0, count: frameCount)
                 })
             }),
+            outputId: outputNodeId,
             output: [Double](repeating: 0, count: frameCount)
         )
     }

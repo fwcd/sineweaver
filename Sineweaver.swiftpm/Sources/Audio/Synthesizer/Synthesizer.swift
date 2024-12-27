@@ -53,7 +53,9 @@ final class Synthesizer: @unchecked Sendable {
             // Reallocate buffers when model changes
             if (buffers?.output.count ?? -1) < frameCount || isDirty {
                 print("(Re)allocating synthesizer buffers...")
-                buffers = model.makeBuffers(frameCount: frameCount)
+                var newBuffers = buffers ?? .init()
+                newBuffers.merge(buffers: model.makeBuffers(frameCount: frameCount))
+                buffers = newBuffers
                 isDirty = false
             }
             
