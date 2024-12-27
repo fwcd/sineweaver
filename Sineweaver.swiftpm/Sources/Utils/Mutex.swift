@@ -7,13 +7,19 @@
 
 import Dispatch
 
+@propertyWrapper
 final class Mutex<Value>: @unchecked Sendable {
     private let semaphore = DispatchSemaphore(value: 1)
-    private var wrappedValue: Value
+    private var wrappedValueUnsafe: Value
     private var changeListeners: [@Sendable () -> Void] = []
+    
+    var wrappedValue: Value {
+        get { lock().wrappedValue }
+        set { lock().wrappedValue = newValue }
+    }
 
     init(wrappedValue: Value) {
-        self.wrappedValue = wrappedValue
+        wrappedValueUnsafe = wrappedValue
     }
     
     func lock() -> Guard {
@@ -24,9 +30,9 @@ final class Mutex<Value>: @unchecked Sendable {
         private let parent: Mutex<Value>
         
         var wrappedValue: Value {
-            get { parent.wrappedValue }
+            get { parent.wrappedValueUnsafe }
             set {
-                parent.wrappedValue = newValue
+                parent.wrappedValueUnsafe = newValue
                 for listener in parent.changeListeners {
                     listener()
                 }
