@@ -10,12 +10,14 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case oscillator(OscillatorNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
+    case wavExport(WavExportNode)
     
     var type: SynthesizerNodeType {
         switch self {
         case .oscillator: .oscillator
         case .mixer: .mixer
         case .silence: .silence
+        case .wavExport: .wavExport
         }
     }
     
@@ -59,11 +61,24 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
+    var asWavExport: WavExportNode {
+        get {
+            switch self {
+            case .wavExport(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .wavExport(newValue)
+        }
+    }
+    
     init(type: SynthesizerNodeType) {
         switch type {
         case .oscillator: self = .oscillator(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
+        case .wavExport: self = .wavExport(.init())
         }
     }
     
@@ -72,6 +87,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .oscillator: asOscillator.render(inputs: inputs, output: &output, context: context)
         case .mixer: asMixer.render(inputs: inputs, output: &output, context: context)
         case .silence: asSilence.render(inputs: inputs, output: &output, context: context)
+        case .wavExport: asWavExport.render(inputs: inputs, output: &output, context: context)
         }
     }
 }
