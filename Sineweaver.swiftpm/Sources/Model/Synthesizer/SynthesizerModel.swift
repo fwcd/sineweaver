@@ -62,20 +62,20 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     func update(buffers: inout Buffers, frameCount: Int) {
         let frameCountMatches = frameCount == buffers.frameCount
         
-        let newNodeIds = Set(nodes.keys)
         let oldNodeIds = Set(buffers.inputs.keys)
-        
-        let addedNodeIds = frameCountMatches ? newNodeIds.subtracting(oldNodeIds) : newNodeIds
+        let newNodeIds = Set(nodes.keys)
+
         let removedNodeIds = frameCountMatches ? oldNodeIds.subtracting(newNodeIds) : oldNodeIds
+        let addedNodeIds = frameCountMatches ? newNodeIds.subtracting(oldNodeIds) : newNodeIds
+        
+        for id in removedNodeIds {
+            buffers.inputs[id] = nil
+        }
         
         for id in addedNodeIds {
             buffers.inputs[id] = (inputEdges[id] ?? []).map { _ -> [Double] in
                 [Double](repeating: 0, count: frameCount)
             }
-        }
-        
-        for id in removedNodeIds {
-            buffers.inputs[id] = nil
         }
         
         if !frameCountMatches || outputNodeId != buffers.outputId {
@@ -84,6 +84,9 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         
         buffers.frameCount = frameCount
         buffers.outputId = outputNodeId
+        
+        assert(buffers.inputs.count == nodes.count)
+        assert(buffers.output.count == frameCount)
     }
     
     mutating func render(using buffers: inout Buffers, context: SynthesizerContext) {
