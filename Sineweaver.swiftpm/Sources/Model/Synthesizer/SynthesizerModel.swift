@@ -86,13 +86,13 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         buffers.outputId = outputNodeId
     }
     
-    func render(using buffers: inout Buffers, context: SynthesizerContext) {
+    mutating func render(using buffers: inout Buffers, context: SynthesizerContext) {
         if let outputNodeId {
             render(nodeId: outputNodeId, to: nil, using: &buffers, context: context)
         }
     }
     
-    private func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, context: SynthesizerContext) {
+    private mutating func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, context: SynthesizerContext) {
         let inputIds = inputEdges[nodeId] ?? []
         
         for (i, inputId) in inputIds.enumerated() {
@@ -105,7 +105,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
             )
         }
         
-        guard let node = nodes[nodeId] else {
+        guard var node = nodes[nodeId] else {
             fatalError("Unknown node id: \(nodeId)")
         }
         
@@ -126,5 +126,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
                 context: context
             )
         }
+        
+        nodes[nodeId] = node
     }
 }

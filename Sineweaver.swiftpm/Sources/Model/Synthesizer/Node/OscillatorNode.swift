@@ -27,7 +27,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
         }
     }
     
-    func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+    mutating func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         for i in 0..<output.count {
             output[i] = wave.sample(Double(context.frame + i) / context.sampleRate * frequency) * volume
         }

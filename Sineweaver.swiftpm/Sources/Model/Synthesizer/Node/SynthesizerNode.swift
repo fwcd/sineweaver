@@ -67,11 +67,11 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
-    func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+    mutating func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
         switch self {
-        case let .oscillator(node): node.render(inputs: inputs, output: &output, context: context)
-        case let .mixer(node): node.render(inputs: inputs, output: &output, context: context)
-        case let .silence(node): node.render(inputs: inputs, output: &output, context: context)
+        case .oscillator: asOscillator.render(inputs: inputs, output: &output, context: context)
+        case .mixer: asMixer.render(inputs: inputs, output: &output, context: context)
+        case .silence: asSilence.render(inputs: inputs, output: &output, context: context)
         }
     }
 }

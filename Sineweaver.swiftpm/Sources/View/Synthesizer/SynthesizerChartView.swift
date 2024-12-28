@@ -30,6 +30,7 @@ struct SynthesizerChartView<Node>: View where Node: SynthesizerNodeProtocol {
     @ViewBuilder
     private func chart(for date: Date) -> some View {
         ChartView(yRange: -displayAmplitude..<displayAmplitude, sampleCount: Int(displaySampleRate * displayInterval)) { output in
+            var node = node
             node.render(inputs: [], output: &output, context: .init(
                 frame: Int(date.timeIntervalSince(referenceDate) * displaySampleRate * animationSpeed),
                 sampleRate: Double(displaySampleRate * animationSpeed)
