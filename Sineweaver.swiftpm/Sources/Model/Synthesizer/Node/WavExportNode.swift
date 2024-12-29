@@ -16,9 +16,13 @@ struct WavExportNode: SynthesizerNodeProtocol {
         case outputURL
     }
     
-    var outputURL: URL? = nil
+    var outputURL: URL?
     
     private var samples: [Double] = []
+    
+    init(outputURL: URL? = nil) {
+        self.outputURL = outputURL
+    }
     
     // TODO: Only append to file by seeking to end, potentially see https://stackoverflow.com/questions/25245439/writing-wav-files-of-unknown-length
     
@@ -32,9 +36,16 @@ struct WavExportNode: SynthesizerNodeProtocol {
         
         do {
             guard let outputURL else { return }
+            
+            let parentDir = outputURL.deletingLastPathComponent()
+            if !FileManager.default.fileExists(atPath: parentDir.path()) {
+                try FileManager.default.createDirectory(at: parentDir, withIntermediateDirectories: true)
+            }
+            
+            log.info("Writing WAV to \(outputURL.absoluteString)")
             try encodeWav(samples: samples, sampleRate: context.sampleRate).write(to: outputURL)
         } catch {
-            log.warning("Could not encode WAV: \(error)")
+            log.warning("Could not write to WAV: \(error)")
         }
     }
     

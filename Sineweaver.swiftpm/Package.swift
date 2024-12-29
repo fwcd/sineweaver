@@ -32,6 +32,10 @@ let package = Package(
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
             ],
+            capabilities: [
+                .fileAccess(.userSelectedFiles, mode: .readWrite),
+                .fileAccess(.musicFolder, mode: .readWrite)
+            ],
             additionalInfoPlistContentFilePath: "Resources/CustomInfo.plist"
         )
     ],
