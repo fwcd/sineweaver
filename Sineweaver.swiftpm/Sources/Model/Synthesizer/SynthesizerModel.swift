@@ -89,24 +89,6 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         assert(buffers.output.count == frameCount)
     }
     
-    mutating func merge(model: SynthesizerModel) {
-        let removedNodeIds = Set(nodes.keys).subtracting(model.nodes.keys)
-        let addedNodeIds = Set(model.nodes.keys).subtracting(nodes.keys)
-        let changedNodeIds = Set(model.nodes.keys).intersection(nodes.keys)
-
-        for id in removedNodeIds {
-            nodes[id] = nil
-            inputEdges[id] = nil
-        }
-        
-        for id in addedNodeIds {
-            nodes[id] = model.nodes[id]
-            inputEdges[id] = model.inputEdges[id]
-        }
-        
-        // TODO
-    }
-    
     mutating func render(using buffers: inout Buffers, context: SynthesizerContext) {
         if let outputNodeId {
             render(nodeId: outputNodeId, to: nil, using: &buffers, context: context)
