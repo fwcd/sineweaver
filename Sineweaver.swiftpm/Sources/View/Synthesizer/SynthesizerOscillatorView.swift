@@ -21,7 +21,9 @@ struct SynthesizerOscillatorView: View {
                 y: $node.volume,
                 in: 0...1,
                 label: "Volume"
-            )
+            ) { isPressed in
+                node.isPlaying = isPressed
+            }
         }
     }
 }

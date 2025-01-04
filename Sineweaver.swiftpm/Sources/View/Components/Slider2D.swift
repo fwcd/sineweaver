@@ -15,6 +15,9 @@ where Value: BinaryFloatingPoint,
     let xOptions: AxisOptions
     let yOptions: AxisOptions
     var background: Background
+    var onPressChange: ((Bool) -> Void)? = nil
+    
+    @State private var isPressed = false
     
     struct AxisOptions {
         var range: ClosedRange<Value> = -1...1
@@ -45,12 +48,21 @@ where Value: BinaryFloatingPoint,
                 }
             }
             .gesture(
-                DragGesture()
+                DragGesture(minimumDistance: 0)
                     .onChanged { value in
+                        if !isPressed {
+                            isPressed = true
+                        }
                         x = xOptions.range.clamp(xOptions.range.denormalize(Value(value.location.x / width)))
                         y = yOptions.range.clamp(yOptions.range.denormalize(Value(1 - value.location.y / height)))
                     }
+                    .onEnded { _ in
+                        isPressed = false
+                    }
             )
+            .onChange(of: isPressed) {
+                onPressChange?(isPressed)
+            }
     }
 }
 
@@ -62,14 +74,16 @@ extension Slider2D {
         y: Binding<Value>,
         in yRange: ClosedRange<Value> = AxisOptions().range,
         label yLabel: String? = AxisOptions().label,
-        background: Background
+        background: Background,
+        onPressChange: ((Bool) -> Void)? = nil
     ) {
         self.init(
             x: x,
             y: y,
             xOptions: .init(range: xRange, label: xLabel),
             yOptions: .init(range: yRange, label: yLabel),
-            background: background
+            background: background,
+            onPressChange: onPressChange
         )
     }
 }
@@ -81,14 +95,16 @@ extension Slider2D where Background == HierarchicalShapeStyle {
         label xLabel: String? = AxisOptions().label,
         y: Binding<Value>,
         in yRange: ClosedRange<Value> = AxisOptions().range,
-        label yLabel: String? = AxisOptions().label
+        label yLabel: String? = AxisOptions().label,
+        onPressChange: ((Bool) -> Void)? = nil
     ) {
         self.init(
             x: x,
             y: y,
             xOptions: .init(range: xRange, label: xLabel),
             yOptions: .init(range: yRange, label: yLabel),
-            background: .tertiary
+            background: .tertiary,
+            onPressChange: onPressChange
         )
     }
 }
