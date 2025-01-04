@@ -17,10 +17,9 @@ struct SynthesizerOscillatorView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 15) {
             HStack(spacing: 20) {
                 SynthesizerChartView(node: playingNode)
-                    .frame(minWidth: 300)
                     .opacity(node.isPlaying ? 1 : 0.5)
                     .overlay(alignment: .bottom) {
                         Text(String(format: "%d Hz (%.2f dB)", Int(node.frequency), 10 * log10(node.volume)))
@@ -32,7 +31,7 @@ struct SynthesizerOscillatorView: View {
                             .animation(.default, value: node.isPlaying)
                     }
                 Slider2D(
-                    size: node.prefersPianoView ? 100 : 300,
+                    size: node.prefersPianoView ? 100 : 200,
                     x: $node.frequency.logarithmic,
                     in: log(20)...log(20000),
                     label: "Frequency",
@@ -53,6 +52,7 @@ struct SynthesizerOscillatorView: View {
                 }
             }
         }
+        .frame(maxWidth: 600)
     }
 }
 
