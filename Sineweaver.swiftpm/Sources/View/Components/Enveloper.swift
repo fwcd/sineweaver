@@ -23,7 +23,7 @@ where Value: BinaryFloatingPoint,
     }
     
     var body: some View {
-        let width: CGFloat = size ?? 300
+        let width: CGFloat = size ?? ComponentDefaults.padSize
         let height: CGFloat = size ?? width
         ZStack {
             ForEach(Array(thumbPositions.enumerated()), id: \.offset) { (i, pos) in

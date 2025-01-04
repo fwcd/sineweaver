@@ -26,9 +26,9 @@ where Value: BinaryFloatingPoint,
     }
     
     var body: some View {
-        let width: CGFloat = size ?? 300
+        let width: CGFloat = size ?? ComponentDefaults.padSize
         let height: CGFloat = size ?? width
-        let labelPadding: CGFloat = 5
+        let labelPadding: CGFloat = ComponentDefaults.labelPadding
         Thumb()
             .position(
                 x: CGFloat(xOptions.range.normalize(x)) * width,
@@ -108,7 +108,7 @@ extension Slider2D where Background == HierarchicalShapeStyle {
             y: y,
             xOptions: .init(range: xRange, label: xLabel),
             yOptions: .init(range: yRange, label: yLabel),
-            background: .tertiary,
+            background: ComponentDefaults.padBackground,
             onPressChange: onPressChange
         )
     }
