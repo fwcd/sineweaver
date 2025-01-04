@@ -32,7 +32,7 @@ enum SynthesizerStage: Hashable, CaseIterable {
         switch self {
         case .basicOscillator:
             synthesizer = .init(
-                nodes: [oscillatorId: .oscillator(.init())],
+                nodes: [oscillatorId: .oscillator(.init(volume: 0.5))],
                 inputEdges: [oscillatorId: []],
                 outputNodeId: oscillatorId
             )
