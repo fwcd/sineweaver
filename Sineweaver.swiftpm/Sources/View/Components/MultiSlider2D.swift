@@ -11,6 +11,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     var size: CGFloat? = nil
     @Binding var thumbPositions: [Vec2<Value>]
     var thumbOptions: [ThumbOptions] = []
+    var connectThumbs = false
     var axes: Vec2<AxisOptions>
     var background: Background
     var onPressChange: ((Int?) -> Void)? = nil
@@ -51,6 +52,16 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                 let options = thumbOptions(at: i)
                 Thumb(isEnabled: options.isEnabled)
                     .position(viewThumbPositions[i])
+            }
+            if connectThumbs {
+                Canvas { ctx, size in
+                    ctx.stroke(Path { path in
+                        for (start, end) in zip(viewThumbPositions, viewThumbPositions.dropFirst()) {
+                            path.move(to: start)
+                            path.addLine(to: end)
+                        }
+                    }, with: .foreground)
+                }
             }
         }
         .frame(width: width, height: height, alignment: .center)
@@ -106,6 +117,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         thumbOptions: [
             .init(isEnabled: false),
         ],
+        connectThumbs: true,
         axes: .init(
             x: .init(),
             y: .init()
