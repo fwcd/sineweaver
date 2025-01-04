@@ -57,11 +57,15 @@ struct SynthesizerOscillatorView: View {
                 .font(node.prefersPianoView ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
-                PianoView(notes: Note(.c, 3)..<Note(.b, 6)) { notes in
-                    if let note = notes.first {
-                        node.frequency = tuning.pitchHz(for: note)
+                ViewThatFits {
+                    ForEach(0..<2) { octaveReduction in
+                        PianoView(notes: Note(.c, 3)..<Note(.b, 6 - octaveReduction)) { notes in
+                            if let note = notes.first {
+                                node.frequency = tuning.pitchHz(for: note)
+                            }
+                            node.isPlaying = !notes.isEmpty
+                        }
                     }
-                    node.isPlaying = !notes.isEmpty
                 }
             }
         }
