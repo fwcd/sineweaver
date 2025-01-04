@@ -10,6 +10,7 @@ import SwiftUI
 struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, Background: ShapeStyle {
     var size: CGFloat? = nil
     @Binding var thumbPositions: [Vec2<Value>]
+    var thumbOptions: [ThumbOptions] = []
     var axes: Vec2<AxisOptions>
     var background: Background
     var onPressChange: ((Int?) -> Void)? = nil
@@ -37,14 +38,18 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         var label: String? = nil
     }
     
+    struct ThumbOptions {
+        var isEnabled = true
+    }
+    
     var body: some View {
         let labelPadding: CGFloat = ComponentDefaults.labelPadding
         
         ZStack {
             let viewThumbPositions = self.viewThumbPositions
             ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
-                let pos = $pos.wrappedValue
-                Thumb()
+                let options = thumbOptions(at: i)
+                Thumb(isEnabled: options.isEnabled)
                     .position(viewThumbPositions[i])
             }
         }
@@ -67,6 +72,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                 .updating($draggedThumbIndex) { value, state, _ in
                     guard let draggedThumbIndex = state ?? viewThumbPositions
                         .enumerated()
+                        .filter({ thumbOptions(at: $0.offset).isEnabled })
                         .min(by: ascendingComparator { ($0.element - value.startLocation).length })?
                         .offset else { return }
                     
@@ -81,6 +87,10 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
             onPressChange?(draggedThumbIndex)
         }
     }
+    
+    private func thumbOptions(at index: Int) -> ThumbOptions {
+        index >= 0 && index < thumbOptions.count ? thumbOptions[index] : .init()
+    }
 }
 
 #Preview {
@@ -93,6 +103,9 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     // TODO: Convenience initializer for background
     MultiSlider2D(
         thumbPositions: $thumbPositions,
+        thumbOptions: [
+            .init(isEnabled: false),
+        ],
         axes: .init(
             x: .init(),
             y: .init()
