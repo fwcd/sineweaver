@@ -13,8 +13,7 @@ where Value: BinaryFloatingPoint,
     var size: CGFloat? = nil
     @Binding var x: Value
     @Binding var y: Value
-    let xOptions: AxisOptions
-    let yOptions: AxisOptions
+    var axes: Vec2<AxisOptions>
     var background: Background
     var onPressChange: ((Bool) -> Void)? = nil
     
@@ -31,19 +30,19 @@ where Value: BinaryFloatingPoint,
         let labelPadding: CGFloat = ComponentDefaults.labelPadding
         Thumb()
             .position(
-                x: CGFloat(xOptions.range.normalize(x)) * width,
-                y: CGFloat(1 - yOptions.range.normalize(y)) * height
+                x: CGFloat(axes.x.range.normalize(x)) * width,
+                y: CGFloat(1 - axes.y.range.normalize(y)) * height
             )
             .frame(width: width, height: height, alignment: .center)
             .background(background)
             .overlay(alignment: .trailing) {
-                if let label = yOptions.label {
+                if let label = axes.y.label {
                     ComponentLabel(label, orientation: .vertical)
                         .padding(labelPadding)
                 }
             }
             .overlay(alignment: .bottom) {
-                if let label = xOptions.label {
+                if let label = axes.x.label {
                     ComponentLabel(label)
                         .padding(labelPadding)
                 }
@@ -54,8 +53,8 @@ where Value: BinaryFloatingPoint,
                         if !isPressed {
                             isPressed = true
                         }
-                        x = xOptions.range.clamp(xOptions.range.denormalize(Value(value.location.x / width)))
-                        y = yOptions.range.clamp(yOptions.range.denormalize(Value(1 - value.location.y / height)))
+                        x = axes.x.range.clamp(axes.x.range.denormalize(Value(value.location.x / width)))
+                        y = axes.y.range.clamp(axes.y.range.denormalize(Value(1 - value.location.y / height)))
                     }
                     .onEnded { _ in
                         isPressed = false
@@ -83,8 +82,10 @@ extension Slider2D {
             size: size,
             x: x,
             y: y,
-            xOptions: .init(range: xRange, label: xLabel),
-            yOptions: .init(range: yRange, label: yLabel),
+            axes: .init(
+                x: .init(range: xRange, label: xLabel),
+                y: .init(range: yRange, label: yLabel)
+            ),
             background: background,
             onPressChange: onPressChange
         )
@@ -106,8 +107,10 @@ extension Slider2D where Background == HierarchicalShapeStyle {
             size: size,
             x: x,
             y: y,
-            xOptions: .init(range: xRange, label: xLabel),
-            yOptions: .init(range: yRange, label: yLabel),
+            axes: .init(
+                x: .init(range: xRange, label: xLabel),
+                y: .init(range: yRange, label: yLabel)
+            ),
             background: ComponentDefaults.padBackground,
             onPressChange: onPressChange
         )

@@ -12,6 +12,7 @@ where Value: BinaryFloatingPoint,
       Background: ShapeStyle {
     var size: CGFloat? = nil
     @Binding var thumbPositions: [Vec2<Value>]
+    var axes: Vec2<AxisOptions>
     var background: Background
     var onPressChange: ((Bool) -> Void)? = nil
     
@@ -26,8 +27,13 @@ where Value: BinaryFloatingPoint,
         let width: CGFloat = size ?? ComponentDefaults.padSize
         let height: CGFloat = size ?? width
         ZStack {
-            ForEach(Array(thumbPositions.enumerated()), id: \.offset) { (i, pos) in
+            ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
+                let pos = $pos.wrappedValue
                 Thumb()
+                    .position(
+                        x: CGFloat(axes.x.range.normalize(pos.x)) * width,
+                        y: CGFloat(1 - axes.y.range.normalize(pos.y)) * height
+                    )
             }
         }
         .frame(width: width, height: height, alignment: .center)
@@ -43,5 +49,12 @@ where Value: BinaryFloatingPoint,
     ]
     
     // TODO: Convenience initializer for background
-    Enveloper(thumbPositions: $thumbPositions, background: .tertiary)
+    Enveloper(
+        thumbPositions: $thumbPositions,
+        axes: .init(
+            x: .init(),
+            y: .init()
+        ),
+        background: ComponentDefaults.padBackground
+    )
 }
