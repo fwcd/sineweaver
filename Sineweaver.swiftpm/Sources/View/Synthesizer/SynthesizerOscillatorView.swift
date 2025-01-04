@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SynthesizerOscillatorView: View {
     @Binding var node: OscillatorNode
-    var usesPiano = false
     
     private var playingNode: OscillatorNode {
         var node = node
@@ -31,8 +30,8 @@ struct SynthesizerOscillatorView: View {
                         .opacity(node.isPlaying ? 1 : 0)
                         .animation(.default, value: node.isPlaying)
                 }
-            if usesPiano {
-                PianoView(notes: Note(.c, 4)..<Note(.c, 5)) { notes in
+            if node.prefersPianoView {
+                PianoView(notes: Note(.c, 3)..<Note(.c, 6)) { notes in
                     if let note = notes.first {
                         node.frequency = EqualTemperament().pitchHz(for: note)
                     }
