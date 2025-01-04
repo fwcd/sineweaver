@@ -59,6 +59,11 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         var outputId: UUID? = nil
     }
     
+    struct States: Sendable {
+        var inputs: [UUID: any Sendable] = [:]
+        var output: (any Sendable)? = nil
+    }
+    
     func update(buffers: inout Buffers, frameCount: Int) {
         let frameCountMatches = frameCount == buffers.frameCount
         
@@ -89,13 +94,33 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         assert(buffers.output.count == frameCount)
     }
     
-    mutating func render(using buffers: inout Buffers, context: SynthesizerContext) {
-        if let outputNodeId {
-            render(nodeId: outputNodeId, to: nil, using: &buffers, context: context)
+    func update(states: inout States) {
+        let oldNodeIds = Set(states.inputs.keys)
+        let newNodeIds = Set(nodes.keys)
+        
+        let removedNodeIds = oldNodeIds.subtracting(newNodeIds)
+        let addedNodeIds = newNodeIds.subtracting(oldNodeIds)
+        
+        for id in removedNodeIds {
+            states.inputs[id] = nil
+        }
+        
+        for id in addedNodeIds {
+            states.inputs[id] = nodes[id]!.makeState()
+        }
+        
+        if let outputNodeId, let outputNode = nodes[outputNodeId] {
+            states.output = outputNode.makeState()
         }
     }
     
-    private mutating func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, context: SynthesizerContext) {
+    mutating func render(using buffers: inout Buffers, states: inout States, context: SynthesizerContext) {
+        if let outputNodeId {
+            render(nodeId: outputNodeId, to: nil, using: &buffers, states: &states, context: context)
+        }
+    }
+    
+    private mutating func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, states: inout States, context: SynthesizerContext) {
         let inputIds = inputEdges[nodeId] ?? []
         
         for (i, inputId) in inputIds.enumerated() {
@@ -104,11 +129,12 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
                 nodeId: inputId,
                 to: (id: nodeId, i: i),
                 using: &buffers,
+                states: &states,
                 context: context
             )
         }
         
-        guard var node = nodes[nodeId] else {
+        guard let node = nodes[nodeId] else {
             fatalError("Unknown node id: \(nodeId)")
         }
         
@@ -120,12 +146,14 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
             node.render(
                 inputs: inputBuffers,
                 output: &buffers.inputs[output.id]![output.i],
+                state: &states.inputs[nodeId]!,
                 context: context
             )
         } else {
             node.render(
                 inputs: inputBuffers,
                 output: &buffers.output,
+                state: &states.output!,
                 context: context
             )
         }

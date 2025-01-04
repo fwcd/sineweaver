@@ -7,6 +7,8 @@
 
 /// A processing node.
 enum SynthesizerNode: SynthesizerNodeProtocol {
+    typealias State = any Sendable
+    
     case oscillator(OscillatorNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
@@ -82,12 +84,33 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
-    mutating func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+    func makeState() -> State {
         switch self {
-        case .oscillator: asOscillator.render(inputs: inputs, output: &output, context: context)
-        case .mixer: asMixer.render(inputs: inputs, output: &output, context: context)
-        case .silence: asSilence.render(inputs: inputs, output: &output, context: context)
-        case .wavExport: asWavExport.render(inputs: inputs, output: &output, context: context)
+        case .oscillator(let node): node.makeState()
+        case .mixer(let node): node.makeState()
+        case .silence(let node): node.makeState()
+        case .wavExport(let node): node.makeState()
+        }
+    }
+    
+    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
+        switch self {
+        case .oscillator(let node):
+            var oscState: OscillatorNode.State = state as! OscillatorNode.State
+            node.render(inputs: inputs, output: &output, state: &oscState, context: context)
+            state = oscState
+        case .mixer(let node):
+            var mixerState: MixerNode.State = state as! MixerNode.State
+            node.render(inputs: inputs, output: &output, state: &mixerState, context: context)
+            state = mixerState
+        case .silence(let node):
+            var silenceState: SilenceNode.State = state as! SilenceNode.State
+            node.render(inputs: inputs, output: &output, state: &silenceState, context: context)
+            state = silenceState
+        case .wavExport(let node):
+            var wavState: WavExportNode.State = state as! WavExportNode.State
+            node.render(inputs: inputs, output: &output, state: &wavState, context: context)
+            state = wavState
         }
     }
 }

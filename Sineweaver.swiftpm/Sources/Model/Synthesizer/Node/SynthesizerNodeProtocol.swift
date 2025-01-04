@@ -9,5 +9,18 @@ import Foundation
 
 /// A node that generates or processes audio.
 protocol SynthesizerNodeProtocol: Hashable, Codable, Sendable {
-    mutating func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext)
+    associatedtype State = Void
+    
+    func makeState() -> State
+
+    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext)
+}
+
+extension SynthesizerNodeProtocol where State == Void {
+    func makeState() {}
+    
+    func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+        var void: Void = ()
+        render(inputs: inputs, output: &output, state: &void, context: context)
+    }
 }

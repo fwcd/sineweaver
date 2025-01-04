@@ -12,25 +12,23 @@ private let log = Logger(subsystem: "Sineweaver", category: "WavExportNode")
 
 /// A node that writes the samples to a WAV file.
 struct WavExportNode: SynthesizerNodeProtocol {
-    enum CodingKeys: String, CodingKey {
-        case outputURL
+    var outputURL: URL? = nil
+    
+    struct State {
+        var samples: [Double] = []
     }
     
-    var outputURL: URL?
-    
-    private var samples: [Double] = []
-    
-    init(outputURL: URL? = nil) {
-        self.outputURL = outputURL
+    func makeState() -> State {
+        State()
     }
     
     // TODO: Only append to file by seeking to end, potentially see https://stackoverflow.com/questions/25245439/writing-wav-files-of-unknown-length
     
-    mutating func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
         guard let input = inputs.first else { return }
         
         for (i, sample) in input.enumerated() {
-            samples.append(sample)
+            state.samples.append(sample)
             output[i] = sample
         }
         
@@ -43,7 +41,7 @@ struct WavExportNode: SynthesizerNodeProtocol {
             }
             
             log.info("Writing WAV to \(outputURL.absoluteString)")
-            try encodeWav(samples: samples, sampleRate: context.sampleRate).write(to: outputURL)
+            try encodeWav(samples: state.samples, sampleRate: context.sampleRate).write(to: outputURL)
         } catch {
             log.warning("Could not write to WAV: \(error)")
         }

@@ -21,6 +21,7 @@ final class Synthesizer: Sendable {
                 let frameCount = frameCount.withLock { $0 }
                 audioState.withLock { audioState in
                     model.update(buffers: &audioState.buffers, frameCount: frameCount)
+                    model.update(states: &audioState.states)
                     audioState.model = model
                 }
             }
@@ -30,6 +31,7 @@ final class Synthesizer: Sendable {
     private struct AudioState {
         var model: SynthesizerModel = .init()
         var buffers: SynthesizerModel.Buffers = .init()
+        var states: SynthesizerModel.States = .init()
     }
     
     // State shared with the audio thread
@@ -65,7 +67,7 @@ final class Synthesizer: Sendable {
                     return
                 }
                 
-                audioState.model.render(using: &audioState.buffers, context: context)
+                audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
                 
                 let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
                 for i in 0..<frameCount {
