@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Thumb: View {
     var isEnabled: Bool = true
-    var size: CGFloat = 20
+    var size: CGFloat = ComponentDefaults.thumbSize
     
     var body: some View {
         Circle()
