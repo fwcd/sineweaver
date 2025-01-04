@@ -19,7 +19,7 @@ struct SynthesizerOscillatorView: View {
                 in: log(20)...log(20000),
                 label: "Frequency",
                 y: $node.volume,
-                in: 0...2,
+                in: 0...1,
                 label: "Volume"
             )
         }
