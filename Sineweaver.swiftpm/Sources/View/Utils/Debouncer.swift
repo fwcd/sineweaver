@@ -31,6 +31,7 @@ struct Debouncer<Value, Content>: View where Content: View {
                 try await Task.sleep(for: timeout)
                 if !Task.isCancelled, let immediateValue {
                     wrappedValue = immediateValue
+                    self.immediateValue = nil
                 }
             } catch {}
         }
