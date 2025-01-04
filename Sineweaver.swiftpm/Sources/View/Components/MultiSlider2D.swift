@@ -1,5 +1,5 @@
 //
-//  Enveloper.swift
+//  MultiSlider2D.swift
 //  Sineweaver
 //
 //  Created on 25.12.24
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Enveloper<Value, Background>: View
+struct MultiSlider2D<Value, Background>: View
 where Value: BinaryFloatingPoint,
       Background: ShapeStyle {
     var size: CGFloat? = nil
@@ -49,7 +49,7 @@ where Value: BinaryFloatingPoint,
     ]
     
     // TODO: Convenience initializer for background
-    Enveloper(
+    MultiSlider2D(
         thumbPositions: $thumbPositions,
         axes: .init(
             x: .init(),
