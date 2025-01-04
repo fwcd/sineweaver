@@ -49,3 +49,9 @@ struct CyclicBuffer<Value>: Sequence, CustomStringConvertible {
         Iterator(buffer: self)
     }
 }
+
+extension CyclicBuffer: Equatable where Value: Equatable {}
+extension CyclicBuffer: Hashable where Value: Hashable {}
+extension CyclicBuffer: Sendable where Value: Sendable {}
+extension CyclicBuffer: Encodable where Value: Encodable {}
+extension CyclicBuffer: Decodable where Value: Decodable {}
