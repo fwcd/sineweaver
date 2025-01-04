@@ -15,4 +15,12 @@ extension CGPoint {
     init(_ size: CGSize) {
         self.init(x: size.width, y: size.height)
     }
+    
+    init(_ vec: Vec2<CGFloat>) {
+        self.init(x: vec.x, y: vec.y)
+    }
+    
+    init(_ vec: Vec2<Double>) {
+        self.init(x: CGFloat(vec.x), y: CGFloat(vec.y))
+    }
 }

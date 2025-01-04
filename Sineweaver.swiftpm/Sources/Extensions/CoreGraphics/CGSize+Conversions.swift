@@ -15,4 +15,12 @@ extension CGSize {
     init(_ vector: CGVector) {
         self.init(width: vector.dx, height: vector.dy)
     }
+    
+    init(_ vec: Vec2<CGFloat>) {
+        self.init(width: vec.x, height: vec.y)
+    }
+    
+    init(_ vec: Vec2<Double>) {
+        self.init(width: CGFloat(vec.x), height: CGFloat(vec.y))
+    }
 }
