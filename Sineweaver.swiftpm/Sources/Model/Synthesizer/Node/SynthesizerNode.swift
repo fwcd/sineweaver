@@ -13,6 +13,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case mixer(MixerNode)
     case silence(SilenceNode)
     case wavExport(WavExportNode)
+    case envelope(EnvelopeNode)
     
     var type: SynthesizerNodeType {
         switch self {
@@ -20,6 +21,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .mixer: .mixer
         case .silence: .silence
         case .wavExport: .wavExport
+        case .envelope: .envelope
         }
     }
     
@@ -75,12 +77,25 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
+    var asEnvelope: EnvelopeNode {
+        get {
+            switch self {
+            case .envelope(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .envelope(newValue)
+        }
+    }
+    
     init(type: SynthesizerNodeType) {
         switch type {
         case .oscillator: self = .oscillator(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
         case .wavExport: self = .wavExport(.init())
+        case .envelope: self = .envelope(.init())
         }
     }
     
@@ -90,6 +105,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
         case .wavExport(let node): node.makeState()
+        case .envelope(let node): node.makeState()
         }
     }
     
@@ -111,6 +127,10 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var wavState: WavExportNode.State = state as! WavExportNode.State
             node.render(inputs: inputs, output: &output, state: &wavState, context: context)
             state = wavState
+        case .envelope(let node):
+            var envState: EnvelopeNode.State = state as! EnvelopeNode.State
+            node.render(inputs: inputs, output: &output, state: &envState, context: context)
+            state = envState
         }
     }
 }

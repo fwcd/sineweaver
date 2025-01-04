@@ -10,6 +10,7 @@ enum SynthesizerNodeType: String, CaseIterable, Hashable {
     case mixer = "Mixer"
     case silence = "Silence"
     case wavExport = "WAV Export"
+    case envelope = "Envelope"
     
     var name: String {
         rawValue
