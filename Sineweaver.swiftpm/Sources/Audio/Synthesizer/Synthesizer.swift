@@ -10,6 +10,24 @@ import CoreAudio
 import Combine
 import Foundation
 import Synchronization
+import OSLog
+
+private let log = Logger(subsystem: "Sineweaver", category: "Synthesizer")
+
+private func configureAVAudioSession() {
+    let session = AVAudioSession.sharedInstance()
+    do {
+        try session.setCategory(.playback)
+    } catch {
+        log.error("Could not set audio session category: \(error)")
+    }
+    do {
+        log.info("Activating audio session...")
+        try session.setActive(true)
+    } catch {
+        log.error("Could not activate audio session: \(error)")
+    }
+}
 
 final class Synthesizer: Sendable {
     private let engine: AVAudioEngine
@@ -39,6 +57,10 @@ final class Synthesizer: Sendable {
     private let frameCount = Mutex(0)
 
     init() throws {
+        log.info("Booting synthesizer...")
+        
+        configureAVAudioSession()
+        
         engine = AVAudioEngine()
         
         let mainMixer = engine.mainMixerNode
