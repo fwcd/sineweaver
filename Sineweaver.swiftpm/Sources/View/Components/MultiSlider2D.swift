@@ -7,16 +7,30 @@
 
 import SwiftUI
 
-struct MultiSlider2D<Value, Background>: View
-where Value: BinaryFloatingPoint,
-      Background: ShapeStyle {
+struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, Background: ShapeStyle {
     var size: CGFloat? = nil
     @Binding var thumbPositions: [Vec2<Value>]
     var axes: Vec2<AxisOptions>
     var background: Background
-    var onPressChange: ((Bool) -> Void)? = nil
+    var onPressChange: ((Int?) -> Void)? = nil
     
-    @State private var isPressed = false
+    @GestureState private var draggedThumbIndex: Int?
+    
+    private var width: CGFloat {
+        size ?? ComponentDefaults.padSize
+    }
+    private var height: CGFloat {
+        size ?? width
+    }
+    
+    private var viewThumbPositions: [CGPoint] {
+        thumbPositions.map {
+            CGPoint(
+                x: CGFloat(axes.x.range.normalize($0.x)) * width,
+                y: CGFloat(1 - axes.y.range.normalize($0.y)) * height
+            )
+        }
+    }
     
     struct AxisOptions {
         var range: ClosedRange<Value> = -1...1
@@ -24,20 +38,48 @@ where Value: BinaryFloatingPoint,
     }
     
     var body: some View {
-        let width: CGFloat = size ?? ComponentDefaults.padSize
-        let height: CGFloat = size ?? width
+        let labelPadding: CGFloat = ComponentDefaults.labelPadding
+        
         ZStack {
+            let viewThumbPositions = self.viewThumbPositions
             ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
                 let pos = $pos.wrappedValue
                 Thumb()
-                    .position(
-                        x: CGFloat(axes.x.range.normalize(pos.x)) * width,
-                        y: CGFloat(1 - axes.y.range.normalize(pos.y)) * height
-                    )
+                    .position(viewThumbPositions[i])
             }
         }
         .frame(width: width, height: height, alignment: .center)
         .background(background)
+        .overlay(alignment: .trailing) {
+            if let label = axes.y.label {
+                ComponentLabel(label, orientation: .vertical)
+                    .padding(labelPadding)
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if let label = axes.x.label {
+                ComponentLabel(label)
+                    .padding(labelPadding)
+            }
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .updating($draggedThumbIndex) { value, state, _ in
+                    guard let draggedThumbIndex = state ?? viewThumbPositions
+                        .enumerated()
+                        .min(by: ascendingComparator { ($0.element - value.startLocation).length })?
+                        .offset else { return }
+                    
+                    state = draggedThumbIndex
+                    thumbPositions[draggedThumbIndex] = .init(
+                        x: axes.x.range.clamp(axes.x.range.denormalize(Value(value.location.x / width))),
+                        y: axes.y.range.clamp(axes.y.range.denormalize(Value(1 - value.location.y / height)))
+                    )
+                }
+        )
+        .onChange(of: draggedThumbIndex) {
+            onPressChange?(draggedThumbIndex)
+        }
     }
 }
 

@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct Slider2D<Value, Background>: View
-where Value: BinaryFloatingPoint,
-      Background: ShapeStyle {
+struct Slider2D<Value, Background>: View where Value: BinaryFloatingPoint, Background: ShapeStyle {
+    typealias AxisOptions = MultiSlider2D<Value, Background>.AxisOptions
+    
     var size: CGFloat? = nil
     @Binding var x: Value
     @Binding var y: Value
@@ -19,50 +19,21 @@ where Value: BinaryFloatingPoint,
     
     @State private var isPressed = false
     
-    struct AxisOptions {
-        var range: ClosedRange<Value> = -1...1
-        var label: String? = nil
-    }
-    
     var body: some View {
-        let width: CGFloat = size ?? ComponentDefaults.padSize
-        let height: CGFloat = size ?? width
-        let labelPadding: CGFloat = ComponentDefaults.labelPadding
-        Thumb()
-            .position(
-                x: CGFloat(axes.x.range.normalize(x)) * width,
-                y: CGFloat(1 - axes.y.range.normalize(y)) * height
-            )
-            .frame(width: width, height: height, alignment: .center)
-            .background(background)
-            .overlay(alignment: .trailing) {
-                if let label = axes.y.label {
-                    ComponentLabel(label, orientation: .vertical)
-                        .padding(labelPadding)
-                }
-            }
-            .overlay(alignment: .bottom) {
-                if let label = axes.x.label {
-                    ComponentLabel(label)
-                        .padding(labelPadding)
-                }
-            }
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        if !isPressed {
-                            isPressed = true
-                        }
-                        x = axes.x.range.clamp(axes.x.range.denormalize(Value(value.location.x / width)))
-                        y = axes.y.range.clamp(axes.y.range.denormalize(Value(1 - value.location.y / height)))
-                    }
-                    .onEnded { _ in
-                        isPressed = false
-                    }
-            )
-            .onChange(of: isPressed) {
-                onPressChange?(isPressed)
-            }
+        MultiSlider2D(
+            size: size,
+            thumbPositions: Binding {
+                [Vec2(x: x, y: y)]
+            } set: {
+                assert($0.count == 1)
+                x = $0[0].x
+                y = $0[0].y
+            },
+            axes: axes,
+            background: background
+        ) {
+            onPressChange?($0 != nil)
+        }
     }
 }
 

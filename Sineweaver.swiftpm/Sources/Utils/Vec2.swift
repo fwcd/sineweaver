@@ -5,6 +5,8 @@
 //  Created on 04.01.25
 //
 
+import Foundation
+
 struct Vec2<Value> {
     var x: Value
     var y: Value
@@ -83,5 +85,17 @@ extension Vec2 where Value: BinaryFloatingPoint {
     
     static func /=(lhs: inout Self, rhs: Value) {
         lhs.mapInPlace { $0 / rhs }
+    }
+}
+
+extension Vec2 where Value == Double {
+    var length: Value {
+        hypot(x, y)
+    }
+}
+
+extension Vec2 where Value == Float {
+    var length: Value {
+        hypotf(x, y)
     }
 }
