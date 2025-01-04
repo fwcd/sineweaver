@@ -11,35 +11,27 @@ import SwiftUI
 struct PianoView: View {
     private let notes: [Note]
     private let baseOctave: Int
-    private let synthesizer: Synthesizer
     
     private let whiteKeySize: CGSize
     private let blackKeySize: CGSize
     
     private let updatePlaying: (Set<Note>) -> Void
     
-    @Binding private var key: NoteClass
-    
     @GestureState private var pressedKey: Note? = nil
-    @State private var playingNotes: Set<Note> = []
     
-    private var pressedNotes: Set<Note> {
+    private var playingNotes: Set<Note> {
         pressedKey.map { [$0] } ?? Set()
     }
     
     init(
         notes: some Sequence<Note>,
-        baseOctave: Int,
-        key: Binding<NoteClass>,
-        synthesizer: Synthesizer,
+        baseOctave: Int? = nil,
         whiteKeySize: CGSize = CGSize(width: 20, height: 100),
         blackKeySize: CGSize = CGSize(width: 10, height: 80),
         updatePlaying: @escaping (Set<Note>) -> Void
     ) {
         self.notes = Array(notes)
-        self.baseOctave = baseOctave
-        self._key = key
-        self.synthesizer = synthesizer
+        self.baseOctave = baseOctave ?? self.notes.first?.octave ?? 0
         self.whiteKeySize = whiteKeySize
         self.blackKeySize = blackKeySize
         self.updatePlaying = updatePlaying
@@ -75,8 +67,8 @@ struct PianoView: View {
                     let newPressed = self.keyBounds
                         .filter { $0.1.contains(value.location) }
                         .max(by: ascendingComparator { $0.0.accidental.isUnaltered ? 0 : 1 })?.0
-                    // Only update the pressed state if we are not on a key that does not belong to the current scale
                     state = newPressed
+                    print(newPressed)
                 }
         )
         .onChange(of: playingNotes) {

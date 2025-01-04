@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SynthesizerOscillatorView: View {
     @Binding var node: OscillatorNode
+    var usesPiano = false
     
     private var playingNode: OscillatorNode {
         var node = node
@@ -30,15 +31,24 @@ struct SynthesizerOscillatorView: View {
                         .opacity(node.isPlaying ? 1 : 0)
                         .animation(.default, value: node.isPlaying)
                 }
-            Slider2D(
-                x: $node.frequency.logarithmic,
-                in: log(20)...log(20000),
-                label: "Frequency",
-                y: $node.volume,
-                in: 0...1,
-                label: "Volume"
-            ) { isPressed in
-                node.isPlaying = isPressed
+            if usesPiano {
+                PianoView(notes: Note(.c, 4)..<Note(.c, 5)) { notes in
+                    if let note = notes.first {
+                        node.frequency = EqualTemperament().pitchHz(for: note)
+                    }
+                    node.isPlaying = !notes.isEmpty
+                }
+            } else {
+                Slider2D(
+                    x: $node.frequency.logarithmic,
+                    in: log(20)...log(20000),
+                    label: "Frequency",
+                    y: $node.volume,
+                    in: 0...1,
+                    label: "Volume"
+                ) { isPressed in
+                    node.isPlaying = isPressed
+                }
             }
         }
     }

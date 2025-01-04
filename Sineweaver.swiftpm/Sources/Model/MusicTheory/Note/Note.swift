@@ -10,7 +10,7 @@ private let midiSemitoneOffset: Int = 12
 /// A note is a named pitch or, viewed differently,
 /// a note class with an octave in scientific pitch
 /// notation.
-struct Note: Codable, Hashable, Sendable, CustomStringConvertible {
+struct Note: Codable, Hashable, Sendable, CustomStringConvertible, Strideable {
     var noteClass: NoteClass
     var octave: Int
 
@@ -129,6 +129,14 @@ struct Note: Codable, Hashable, Sendable, CustomStringConvertible {
 
     static func -=(note: inout Self, interval: ChromaticInterval) {
         note += (-interval)
+    }
+    
+    func advanced(by n: Int) -> Note {
+        self + .semitones(n)
+    }
+    
+    func distance(to other: Note) -> Int {
+        other.semitone - semitone
     }
 }
 
