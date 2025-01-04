@@ -19,8 +19,17 @@ struct SynthesizerOscillatorView: View {
     var body: some View {
         HStack(spacing: 20) {
             SynthesizerChartView(node: playingNode)
-                .opacity(node.isPlaying ? 1 : 0.5)
                 .frame(minWidth: 300)
+                .opacity(node.isPlaying ? 1 : 0.5)
+                .overlay(alignment: .bottom) {
+                    Text(String(format: "%d Hz (%.2f dB)", Int(node.frequency), 10 * log10(node.volume)))
+                        .font(.system(size: 14).monospacedDigit())
+                        .padding(10)
+                        .background(.ultraThinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .opacity(node.isPlaying ? 1 : 0)
+                        .animation(.default, value: node.isPlaying)
+                }
             Slider2D(
                 x: $node.frequency.logarithmic,
                 in: log(20)...log(20000),
