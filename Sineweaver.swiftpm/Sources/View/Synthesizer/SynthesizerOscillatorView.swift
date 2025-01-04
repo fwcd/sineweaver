@@ -10,9 +10,16 @@ import SwiftUI
 struct SynthesizerOscillatorView: View {
     @Binding var node: OscillatorNode
     
+    private var playingNode: OscillatorNode {
+        var node = node
+        node.isPlaying = true
+        return node
+    }
+    
     var body: some View {
         HStack(spacing: 20) {
-            SynthesizerChartView(node: node)
+            SynthesizerChartView(node: playingNode)
+                .opacity(node.isPlaying ? 1 : 0.5)
                 .frame(minWidth: 300)
             Slider2D(
                 x: $node.frequency.logarithmic,
