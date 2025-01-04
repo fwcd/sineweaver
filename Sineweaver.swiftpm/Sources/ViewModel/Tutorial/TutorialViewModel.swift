@@ -39,6 +39,7 @@ final class TutorialViewModel: Sendable {
             detailIndex -= 1
         } else {
             stageIndex = (stageIndex - 1 + TutorialStage.allCases.count) % TutorialStage.allCases.count
+            detailIndex = stage.details.count - 1
         }
     }
     
