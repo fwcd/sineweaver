@@ -29,7 +29,7 @@ where Value: BinaryFloatingPoint,
         let width: CGFloat = size ?? 300
         let height: CGFloat = size ?? width
         let labelPadding: CGFloat = 5
-        SliderThumb()
+        Thumb()
             .position(
                 x: CGFloat(xOptions.range.normalize(x)) * width,
                 y: CGFloat(1 - yOptions.range.normalize(y)) * height

@@ -1,5 +1,5 @@
 //
-//  SliderThumb.swift
+//  Thumb.swift
 //  Sineweaver
 //
 //  Created on 27.12.24
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SliderThumb: View {
+struct Thumb: View {
     var size: CGFloat = 20
     
     var body: some View {
