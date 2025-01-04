@@ -28,8 +28,6 @@ def main():
         for i in range(len(wav_data) // bytes_per_sample)
     ]
 
-    print(samples[:10])
-
     plt.plot(samples)
     plt.show()
 
