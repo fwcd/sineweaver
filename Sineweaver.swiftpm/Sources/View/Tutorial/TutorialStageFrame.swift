@@ -39,9 +39,16 @@ struct TutorialStageFrame<Content>: View where Content: View {
                     }
                     .buttonStyle(BorderedButtonStyle())
                 }
-                Button(viewModel.isFirstStage ? "Get Started" : "Next") {
+                Button{
                     withAnimation {
                         viewModel.forward()
+                    }
+                } label: {
+                    if viewModel.isFirstStage {
+                        Text("Get Started")
+                            .frame(minWidth: 200, minHeight: 40)
+                    } else {
+                        Text("Next")
                     }
                 }
                 .buttonStyle(BorderedProminentButtonStyle())
