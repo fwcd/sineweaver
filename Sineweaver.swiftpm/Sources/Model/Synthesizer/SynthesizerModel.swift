@@ -62,6 +62,8 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     struct States: Sendable {
         var inputs: [UUID: any Sendable] = [:]
         var output: (any Sendable)? = nil
+        
+        var outputId: UUID? = nil
     }
     
     func update(buffers: inout Buffers, frameCount: Int) {
@@ -109,8 +111,9 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
             states.inputs[id] = nodes[id]!.makeState()
         }
         
-        if let outputNodeId, let outputNode = nodes[outputNodeId] {
-            states.output = outputNode.makeState()
+        if outputNodeId != states.outputId {
+            states.output = outputNodeId.flatMap { nodes[$0] }?.makeState()
+            states.outputId = outputNodeId
         }
     }
     
