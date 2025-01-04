@@ -26,8 +26,8 @@ struct PianoView: View {
     init(
         notes: some Sequence<Note>,
         baseOctave: Int? = nil,
-        whiteKeySize: CGSize = CGSize(width: 20, height: 100),
-        blackKeySize: CGSize = CGSize(width: 10, height: 80),
+        whiteKeySize: CGSize = CGSize(width: 22, height: 80),
+        blackKeySize: CGSize = CGSize(width: 12, height: 50),
         updatePlaying: @escaping (Set<Note>) -> Void
     ) {
         self.notes = Array(notes)
