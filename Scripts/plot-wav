@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+from pathlib import Path
+
+import argparse
+import struct
+import matplotlib.pyplot as plt
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input', type=Path, help='The path to the input wav')
+
+    args = parser.parse_args()
+
+    with open(args.input, 'rb') as f:
+        raw = f.read()
+    
+    wav_header = raw[:44]
+    wav_data = raw[len(wav_header):]
+
+    assert wav_header[:4] == b'RIFF', 'Only RIFF/WAVE files are currently supported'
+    assert wav_header[8:12] == b'WAVE', 'Non-WAVE RIFF files are not supported'
+    assert wav_header[20:22] == b'\x03\x00', 'Only float32 PCM is currently supported'
+
+    bytes_per_sample = 4
+    samples = [
+        struct.unpack('f', wav_data[i * bytes_per_sample:(i + 1) * bytes_per_sample])[0]
+        for i in range(len(wav_data) // bytes_per_sample)
+    ]
+
+    print(samples[:10])
+
+    plt.plot(samples)
+    plt.show()
+
+if __name__ == '__main__':
+    main()
