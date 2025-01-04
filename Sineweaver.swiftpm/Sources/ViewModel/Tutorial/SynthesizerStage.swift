@@ -32,13 +32,10 @@ enum SynthesizerStage: Hashable, CaseIterable {
         switch self {
         case .basicOscillator:
             synthesizer = .init(
-                nodes: [oscillatorId: .oscillator(.init()), exportId: .wavExport(.init(outputURL: URL(filePath: "\(NSHomeDirectory())/Music/Sineweaver/debug.wav")))],
-                inputEdges: [oscillatorId: [], exportId: [oscillatorId]],
-                outputNodeId: exportId
+                nodes: [oscillatorId: .oscillator(.init())],
+                inputEdges: [oscillatorId: []],
+                outputNodeId: oscillatorId
             )
         }
     }
 }
-
-// DEBUG/FIXME: Remove this
-private let exportId = UUID()
