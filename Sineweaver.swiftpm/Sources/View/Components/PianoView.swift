@@ -68,7 +68,6 @@ struct PianoView: View {
                         .filter { $0.1.contains(value.location) }
                         .max(by: ascendingComparator { $0.0.accidental.isUnaltered ? 0 : 1 })?.0
                     state = newPressed
-                    print(newPressed)
                 }
         )
         .onChange(of: playingNotes) {
