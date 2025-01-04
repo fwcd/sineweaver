@@ -10,7 +10,7 @@ import SwiftUI
 struct SynthesizerChartView<Node>: View where Node: SynthesizerNodeProtocol {
     let node: Node
     var animated: Bool = false
-    var displaySampleRate: Double = 44_100
+    var displaySampleRate: Double = 9_000
     var displayInterval: TimeInterval = 0.05
     var displayAmplitude: Double = 1.05
     var animationSpeed: Double = 1

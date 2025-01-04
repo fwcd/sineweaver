@@ -30,7 +30,7 @@ struct ChartView: View {
                         y: CGFloat(yRange.normalize(y)) * size.height
                     ))
                 }
-            }, with: .foreground, lineWidth: 5)
+            }, with: .foreground, style: .init(lineWidth: 5, lineJoin: .round))
         }
     }
 }
