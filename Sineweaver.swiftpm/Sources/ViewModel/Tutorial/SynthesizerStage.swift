@@ -28,7 +28,7 @@ enum SynthesizerStage: Hashable, CaseIterable {
             ]
         case .pianoOscillator:
             [
-                "Setting the pitch directly is a bit inconvenient, so let's use a piano keyboard instead. Try playing different notes and see how the oscillator changes.",
+                "Setting the pitch directly is a bit inconvenient, so let's add a piano keyboard. Try playing different notes and see how the oscillator changes.",
             ]
         }
     }

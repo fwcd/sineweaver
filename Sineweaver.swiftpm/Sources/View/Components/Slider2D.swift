@@ -10,6 +10,7 @@ import SwiftUI
 struct Slider2D<Value, Background>: View
 where Value: BinaryFloatingPoint,
       Background: ShapeStyle {
+    var size: CGFloat? = nil
     @Binding var x: Value
     @Binding var y: Value
     let xOptions: AxisOptions
@@ -25,8 +26,8 @@ where Value: BinaryFloatingPoint,
     }
     
     var body: some View {
-        let width: CGFloat = 300
-        let height: CGFloat = 300
+        let width: CGFloat = size ?? 300
+        let height: CGFloat = size ?? width
         let labelPadding: CGFloat = 5
         SliderThumb()
             .position(
@@ -68,6 +69,7 @@ where Value: BinaryFloatingPoint,
 
 extension Slider2D {
     init(
+        size: CGFloat? = nil,
         x: Binding<Value>,
         in xRange: ClosedRange<Value> = AxisOptions().range,
         label xLabel: String? = AxisOptions().label,
@@ -78,6 +80,7 @@ extension Slider2D {
         onPressChange: ((Bool) -> Void)? = nil
     ) {
         self.init(
+            size: size,
             x: x,
             y: y,
             xOptions: .init(range: xRange, label: xLabel),
@@ -90,6 +93,7 @@ extension Slider2D {
 
 extension Slider2D where Background == HierarchicalShapeStyle {
     init(
+        size: CGFloat? = nil,
         x: Binding<Value>,
         in xRange: ClosedRange<Value> = AxisOptions().range,
         label xLabel: String? = AxisOptions().label,
@@ -99,6 +103,7 @@ extension Slider2D where Background == HierarchicalShapeStyle {
         onPressChange: ((Bool) -> Void)? = nil
     ) {
         self.init(
+            size: size,
             x: x,
             y: y,
             xOptions: .init(range: xRange, label: xLabel),

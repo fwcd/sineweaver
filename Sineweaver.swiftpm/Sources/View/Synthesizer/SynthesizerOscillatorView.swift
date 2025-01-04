@@ -17,28 +17,22 @@ struct SynthesizerOscillatorView: View {
     }
     
     var body: some View {
-        HStack(spacing: 20) {
-            SynthesizerChartView(node: playingNode)
-                .frame(minWidth: 300)
-                .opacity(node.isPlaying ? 1 : 0.5)
-                .overlay(alignment: .bottom) {
-                    Text(String(format: "%d Hz (%.2f dB)", Int(node.frequency), 10 * log10(node.volume)))
-                        .font(.system(size: 14).monospacedDigit())
-                        .padding(10)
-                        .background(.ultraThinMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .opacity(node.isPlaying ? 1 : 0)
-                        .animation(.default, value: node.isPlaying)
-                }
-            if node.prefersPianoView {
-                PianoView(notes: Note(.c, 3)..<Note(.c, 6)) { notes in
-                    if let note = notes.first {
-                        node.frequency = EqualTemperament().pitchHz(for: note)
+        VStack {
+            HStack(spacing: 20) {
+                SynthesizerChartView(node: playingNode)
+                    .frame(minWidth: 300)
+                    .opacity(node.isPlaying ? 1 : 0.5)
+                    .overlay(alignment: .bottom) {
+                        Text(String(format: "%d Hz (%.2f dB)", Int(node.frequency), 10 * log10(node.volume)))
+                            .font(.system(size: 14).monospacedDigit())
+                            .padding(10)
+                            .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .opacity(node.isPlaying ? 1 : 0)
+                            .animation(.default, value: node.isPlaying)
                     }
-                    node.isPlaying = !notes.isEmpty
-                }
-            } else {
                 Slider2D(
+                    size: node.prefersPianoView ? 100 : 300,
                     x: $node.frequency.logarithmic,
                     in: log(20)...log(20000),
                     label: "Frequency",
@@ -47,6 +41,15 @@ struct SynthesizerOscillatorView: View {
                     label: "Volume"
                 ) { isPressed in
                     node.isPlaying = isPressed
+                }
+                .font(node.prefersPianoView ? .system(size: 8) : nil)
+            }
+            if node.prefersPianoView {
+                PianoView(notes: Note(.c, 3)..<Note(.c, 6)) { notes in
+                    if let note = notes.first {
+                        node.frequency = EqualTemperament().pitchHz(for: note)
+                    }
+                    node.isPlaying = !notes.isEmpty
                 }
             }
         }
