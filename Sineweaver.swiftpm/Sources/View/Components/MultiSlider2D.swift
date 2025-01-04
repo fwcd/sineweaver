@@ -40,7 +40,11 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     }
     
     struct ThumbOptions {
-        var isEnabled = true
+        var enabledAxes: Vec2<Bool> = .init(x: true, y: true)
+        
+        var isEnabled: Bool {
+            enabledAxes.x || enabledAxes.y
+        }
     }
     
     var body: some View {
@@ -90,12 +94,19 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                         .filter({ thumbOptions(at: $0.offset).isEnabled })
                         .min(by: ascendingComparator { ($0.element - value.startLocation).length })?
                         .offset else { return }
-                    
                     state = draggedThumbIndex
-                    thumbPositions[draggedThumbIndex] = .init(
-                        x: axes.x.range.clamp(axes.x.range.denormalize(Value(value.location.x / width))),
-                        y: axes.y.range.clamp(axes.y.range.denormalize(Value(1 - value.location.y / height)))
-                    )
+                    
+                    let options = thumbOptions(at: draggedThumbIndex)
+                    var pos = thumbPositions[draggedThumbIndex]
+                    
+                    if options.enabledAxes.x {
+                        pos.x = axes.x.range.clamp(axes.x.range.denormalize(Value(value.location.x / width)))
+                    }
+                    if options.enabledAxes.y {
+                        pos.y = axes.y.range.clamp(axes.y.range.denormalize(Value(1 - value.location.y / height)))
+                    }
+                    
+                    thumbPositions[draggedThumbIndex] = pos
                 }
         )
         .onChange(of: draggedThumbIndex) {
@@ -110,16 +121,19 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
 
 #Preview {
     @Previewable @State var thumbPositions: [Vec2<Double>] = [
-        Vec2(x: 0, y: 0),
-        Vec2(x: 0.1, y: 0),
-        Vec2(x: 0, y: 0.1),
+        Vec2(x: -0.6, y: 0),
+        Vec2(x: -0.3, y: 0),
+        Vec2(x: 0.3, y: 0.2),
+        Vec2(x: 0.6, y: -0.2),
     ]
     
     // TODO: Convenience initializer for background
     MultiSlider2D(
         thumbPositions: $thumbPositions,
         thumbOptions: [
-            .init(isEnabled: false),
+            .init(enabledAxes: .init(x: false, y: false)),
+            .init(enabledAxes: .init(x: false, y: true)),
+            .init(enabledAxes: .init(x: true, y: false)),
         ],
         connectThumbs: true,
         axes: .init(
