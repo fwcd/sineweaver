@@ -16,7 +16,7 @@ struct SynthesizerView<Level>: View where Level: View {
         HStack {
             let nodes = model.toposortedNodes.filter { !hiddenNodeIds.contains($0.id) }
             ForEach(nodes, id: \.id) { (id, node) in
-                ComponentBox(node.type.name) {
+                ComponentBox(node.name) {
                     SynthesizerNodeView(node: $model.nodes[id].unwrapped, isActive: model.isActive)
                         .fixedSize()
                 }

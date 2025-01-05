@@ -28,7 +28,11 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     }
     
     var name: String {
-        type.name
+        if case .oscillator(let node) = self, node.prefersLFOView {
+            "LFO"
+        } else {
+            type.name
+        }
     }
     
     var asOscillator: OscillatorNode {

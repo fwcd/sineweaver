@@ -70,7 +70,7 @@ struct SynthesizerOscillatorView: View {
                 }
             }
         }
-        .frame(maxWidth: 600)
+        .frame(maxWidth: 2 * ComponentDefaults.padSize)
     }
 }
 

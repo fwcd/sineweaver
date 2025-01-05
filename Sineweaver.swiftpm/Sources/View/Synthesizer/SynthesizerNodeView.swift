@@ -13,8 +13,12 @@ struct SynthesizerNodeView: View {
     
     var body: some View {
         switch node {
-        case .oscillator:
-            SynthesizerOscillatorView(node: $node.asOscillator)
+        case .oscillator(let oscNode):
+            if oscNode.prefersLFOView {
+                SynthesizerLFOView(node: $node.asOscillator)
+            } else {
+                SynthesizerOscillatorView(node: $node.asOscillator)
+            }
         case .envelope:
             SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
         default:
