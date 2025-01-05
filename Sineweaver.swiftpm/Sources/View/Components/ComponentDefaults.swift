@@ -14,4 +14,5 @@ enum ComponentDefaults {
     static let labelPadding: CGFloat = 5
     static let thumbSize: CGFloat = 20
     static let thumbLabelSpacing: CGFloat = 1.5 * thumbSize
+    static let knobSize: CGFloat = 40
 }
