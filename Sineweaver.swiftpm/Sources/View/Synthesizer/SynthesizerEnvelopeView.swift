@@ -24,24 +24,22 @@ struct SynthesizerEnvelopeView: View {
                 ]
             } set: {
                 assert($0.count == 5)
-                let attack = $0[1].x
-                let decay = $0[2].x - $0[1].x
-                let sustain = $0[2].y
-                let release = $0[4].x - $0[3].x
+                let attack = max(0, $0[1].x)
+                let decay = max(0, $0[2].x - $0[1].x)
+                let sustain = (0...1).clamp($0[3].y != node.sustain ? $0[3].y : $0[2].y)
+                let release = max(0, $0[4].x - $0[3].x)
                 
-                if attack >= 0 && decay >= 0 && (0...1).contains(sustain) && release >= 0 {
-                    node.attack.asMilliseconds = attack
-                    node.decay.asMilliseconds = decay
-                    node.sustain = sustain
-                    node.release.asMilliseconds = release
-                }
+                node.attack.asMilliseconds = attack
+                node.decay.asMilliseconds = decay
+                node.sustain = sustain
+                node.release.asMilliseconds = release
             },
             thumbOptions: [
+                .init(enabledAxes: .init(x: false, y: false)),
                 .init(enabledAxes: .init(x: true, y: false)),
                 .init(),
-                .init(),
-                .init(enabledAxes: .init(x: false, y: false)),
-                .init(),
+                .init(enabledAxes: .init(x: false, y: true)),
+                .init(enabledAxes: .init(x: true, y: false)),
             ],
             connectThumbs: true,
             axes: .init(
@@ -54,7 +52,7 @@ struct SynthesizerEnvelopeView: View {
 }
 
 #Preview {
-    @Previewable @State var node = EnvelopeNode(attack: .milliseconds(10), decay: .milliseconds(10))
+    @Previewable @State var node = EnvelopeNode()
 
     SynthesizerEnvelopeView(node: $node)
 }
