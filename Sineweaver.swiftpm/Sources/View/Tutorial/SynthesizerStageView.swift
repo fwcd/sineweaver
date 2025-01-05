@@ -16,7 +16,7 @@ struct SynthesizerStageView: View {
         @Bindable var viewModel = viewModel
         
         Debouncer(wrappedValue: $viewModel.model) { $model in
-            SynthesizerView(model: $model)
+            SynthesizerView(model: $model, hiddenNodeIds: stage.hiddenNodeIds)
         }
     }
 }

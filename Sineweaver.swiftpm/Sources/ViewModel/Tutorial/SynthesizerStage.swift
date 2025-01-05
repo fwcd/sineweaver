@@ -8,6 +8,7 @@
 import Foundation
 
 private let oscillatorId = UUID()
+private let activeGateId = UUID()
 private let envelopeId = UUID()
 
 enum SynthesizerStage: Hashable, CaseIterable, Comparable {
@@ -41,6 +42,10 @@ enum SynthesizerStage: Hashable, CaseIterable, Comparable {
         }
     }
     
+    var hiddenNodeIds: Set<UUID> {
+        self <= .envelope ? [activeGateId] : []
+    }
+    
     func configure(synthesizer: inout SynthesizerModel) {
         synthesizer = .init()
         
@@ -54,6 +59,9 @@ enum SynthesizerStage: Hashable, CaseIterable, Comparable {
         if self >= .envelope {
             lastNodeId = synthesizer.addNode(id: envelopeId, .envelope(.init()))
             synthesizer.connect(oscillatorId, to: envelopeId)
+        } else {
+            lastNodeId = synthesizer.addNode(id: activeGateId, .activeGate(.init()))
+            synthesizer.connect(oscillatorId, to: activeGateId)
         }
         
         synthesizer.outputNodeId = lastNodeId

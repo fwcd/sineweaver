@@ -14,6 +14,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case silence(SilenceNode)
     case wavExport(WavExportNode)
     case envelope(EnvelopeNode)
+    case activeGate(ActiveGateNode)
     
     var type: SynthesizerNodeType {
         switch self {
@@ -22,6 +23,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .silence: .silence
         case .wavExport: .wavExport
         case .envelope: .envelope
+        case .activeGate: .activeGate
         }
     }
     
@@ -89,6 +91,18 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
+    var asActiveGate: ActiveGateNode {
+        get {
+            switch self {
+            case .activeGate(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .activeGate(newValue)
+        }
+    }
+    
     init(type: SynthesizerNodeType) {
         switch type {
         case .oscillator: self = .oscillator(.init())
@@ -96,6 +110,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .silence: self = .silence(.init())
         case .wavExport: self = .wavExport(.init())
         case .envelope: self = .envelope(.init())
+        case .activeGate: self = .activeGate(.init())
         }
     }
     
@@ -106,6 +121,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .silence(let node): node.makeState()
         case .wavExport(let node): node.makeState()
         case .envelope(let node): node.makeState()
+        case .activeGate(let node): node.makeState()
         }
     }
     
@@ -131,6 +147,10 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var envState: EnvelopeNode.State = state as! EnvelopeNode.State
             defer { state = envState }
             return node.render(inputs: inputs, output: &output, state: &envState, context: context)
+        case .activeGate(let node):
+            var gateState: ActiveGateNode.State = state as! ActiveGateNode.State
+            defer { state = gateState }
+            return node.render(inputs: inputs, output: &output, state: &gateState, context: context)
         }
     }
 }
