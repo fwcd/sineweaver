@@ -120,14 +120,13 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
     }
     
-    mutating func render(using buffers: inout Buffers, states: inout States, context: SynthesizerContext) -> Bool {
+    mutating func render(using buffers: inout Buffers, states: inout States, context: SynthesizerContext) {
         if let outputNodeId {
             render(nodeId: outputNodeId, to: nil, using: &buffers, states: &states, context: context)
-        } else {
-            false
         }
     }
     
+    @discardableResult
     private mutating func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, states: inout States, context: SynthesizerContext) -> Bool {
         let inputIds = inputEdges[nodeId] ?? []
         var inputsActive = Array(repeating: false, count: inputIds.count)
