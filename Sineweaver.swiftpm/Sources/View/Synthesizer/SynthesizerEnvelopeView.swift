@@ -17,7 +17,7 @@ struct SynthesizerEnvelopeView: View {
 
     var body: some View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            SynthesizerADSRView(
+            SynthesizerADSRCurveView(
                 attackMs: $node.attackMs,
                 decayMs: $node.decayMs,
                 sustain: $node.sustain,

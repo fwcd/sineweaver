@@ -1,5 +1,5 @@
 //
-//  SynthesizerADSRView.swift
+//  SynthesizerADSRCurveView.swift
 //  Sineweaver
 //
 //  Created on 05.01.25
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SynthesizerADSRView: View {
+struct SynthesizerADSRCurveView: View {
     @Binding var attackMs: Double
     @Binding var decayMs: Double
     @Binding var sustain: Double
@@ -55,7 +55,7 @@ struct SynthesizerADSRView: View {
 #Preview {
     @Previewable @State var node = EnvelopeNode()
 
-    SynthesizerADSRView(
+    SynthesizerADSRCurveView(
         attackMs: $node.attackMs,
         decayMs: $node.decayMs,
         sustain: $node.sustain,
