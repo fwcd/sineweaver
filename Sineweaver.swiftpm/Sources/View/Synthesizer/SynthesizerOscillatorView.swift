@@ -25,6 +25,7 @@ struct SynthesizerOscillatorView: View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 SynthesizerChartView(node: playingNode)
+                    .frame(minWidth: ComponentDefaults.padSize)
                     .opacity(node.isPlaying ? 1 : 0.5)
                     .overlay(alignment: .bottom) {
                         HStack(spacing: 20) {

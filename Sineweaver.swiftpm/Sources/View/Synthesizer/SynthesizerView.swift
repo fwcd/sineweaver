@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct SynthesizerView: View {
+struct SynthesizerView<Level>: View where Level: View {
     @Binding var model: SynthesizerModel
     var hiddenNodeIds: Set<UUID> = []
+    @ViewBuilder var level: () -> Level
     
     var body: some View {
         HStack {
@@ -17,8 +18,10 @@ struct SynthesizerView: View {
             ForEach(nodes, id: \.id) { (id, node) in
                 ComponentBox(node.type.name) {
                     SynthesizerNodeView(node: $model.nodes[id].unwrapped, isActive: model.isActive)
+                        .fixedSize()
                 }
             }
+            level()
         }
     }
 }

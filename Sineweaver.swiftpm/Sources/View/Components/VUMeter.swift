@@ -13,19 +13,11 @@ struct VUMeter<Value>: View where Value: BinaryFloatingPoint {
     
     var body: some View {
         let width = ComponentDefaults.meterThickness
-        let height = ComponentDefaults.padSize
+        let height = ComponentDefaults.padSize * 0.6
         let levelHeight = height * CGFloat(range.normalize(value))
         Rectangle()
-            .fill(LinearGradient(stops: [
-                .init(color: .green, location: 0),
-                .init(color: .yellow, location: 0.9),
-                .init(color: .red, location: 1),
-            ], startPoint: .bottom, endPoint: .top))
-            .clipShape(
-                Rectangle()
-                    .size(width: width, height: levelHeight)
-                    .offset(y: height - levelHeight)
-            )
+            .fill(.foreground)
+            .frame(width: width, height: levelHeight)
             .frame(width: width, height: height, alignment: .bottom)
             .background(ComponentDefaults.padBackground.opacity(0.5))
     }
