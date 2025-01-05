@@ -9,45 +9,21 @@ import SwiftUI
 
 struct SynthesizerEnvelopeView: View {
     @Binding var node: EnvelopeNode
-    var durationMs: Double = 500
     
-    private var millisRange: ClosedRange<Double> { 0...durationMs }
-    private var volumeRange: ClosedRange<Double> { 0...1 }
+    var durationMs: Double = SynthesizerViewDefaults.durationMs
     
+    var millisRange: ClosedRange<Double> { 0...durationMs }
+    var volumeRange: ClosedRange<Double> { 0...1 }
+
     var body: some View {
-        let sustainDummyMs: Double = durationMs / 8
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            MultiSlider2D(
-                width: 300,
-                height: 120,
-                thumbPositions: Binding<[Vec2<Double>]> {
-                    [
-                        .init(x: 0, y: 0),
-                        .init(x: node.attackMs, y: 1),
-                        .init(x: node.attackMs + node.decayMs, y: node.sustain),
-                        .init(x: node.attackMs + node.decayMs + sustainDummyMs, y: node.sustain),
-                        .init(x: node.attackMs + node.decayMs + sustainDummyMs + node.releaseMs, y: 0),
-                    ]
-                } set: {
-                    assert($0.count == 5)
-                    node.attackMs = max(0, $0[1].x)
-                    node.decayMs = max(0, $0[2].x - $0[1].x)
-                    node.sustain = (0...1).clamp($0[3].y != node.sustain ? $0[3].y : $0[2].y)
-                    node.releaseMs = max(0, $0[4].x - $0[3].x)
-                },
-                thumbOptions: [
-                    .init(enabledAxes: .init(x: false, y: false)),
-                    .init(enabledAxes: .init(x: true, y: false)),
-                    .init(),
-                    .init(enabledAxes: .init(x: false, y: true)),
-                    .init(enabledAxes: .init(x: true, y: false)),
-                ],
-                thumbCurve: .init(stroke: true, fill: true),
-                axes: .init(
-                    x: .init(range: millisRange),
-                    y: .init(range: volumeRange)
-                ),
-                background: .clear
+            SynthesizerADSRView(
+                attackMs: $node.attackMs,
+                decayMs: $node.decayMs,
+                sustain: $node.sustain,
+                releaseMs: $node.releaseMs,
+                millisRange: millisRange,
+                volumeRange: volumeRange
             )
             .padding()
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
