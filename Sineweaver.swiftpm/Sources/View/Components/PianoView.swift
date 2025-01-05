@@ -49,6 +49,8 @@ struct PianoView: View {
     }
     
     var body: some View {
+        // TODO: Reimplement in terms of Canvas
+        
         ZStack(alignment: .topLeading) {
             ForEach(keyBounds, id: \.0) { (note, bounds) in
                 PianoKeyView(
