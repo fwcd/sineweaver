@@ -37,7 +37,7 @@ enum SynthesizerStage: Hashable, CaseIterable, Comparable {
             ]
         case .envelope:
             [
-                "Most sounds are a bit more complex than a sine wave, however. Hitting a drum or a piano key, for example, produce a relatively loud initial sound (the _attack_) that subsequently falls in volume (the _decay_). In the case of a piano key, the sound is also _sustained_ at a certain volume until the key is _released_. This \"shape\" of a sound is known as the **envelope** and can be customized using the four parameters: **Attack**, **decay**, **sustain** and **release**.",
+                "Most sounds are a bit more complex than a sine wave, however. Hitting a drum or a piano key, for example, produces a relatively loud initial sound (the _attack_) that subsequently falls in volume (the _decay_). In the case of a piano key, the sound is also _sustained_ at a certain volume until the key is _released_. This \"shape\" of a sound is known as the **envelope** and can be customized using the four parameters: **Attack**, **decay**, **sustain** and **release**.",
             ]
         }
     }
