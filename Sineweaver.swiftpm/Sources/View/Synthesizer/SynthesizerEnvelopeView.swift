@@ -54,6 +54,7 @@ struct SynthesizerEnvelopeView: View {
                 ),
                 background: .clear
             )
+            .padding()
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 VStack {
                     Knob(value: $node.attack.asMilliseconds, range: millisRange)
@@ -73,7 +74,6 @@ struct SynthesizerEnvelopeView: View {
                 }
             }
         }
-        .padding()
         .clipped()
     }
 }
