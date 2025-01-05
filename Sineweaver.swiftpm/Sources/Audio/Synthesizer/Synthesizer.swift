@@ -92,9 +92,9 @@ final class Synthesizer: Sendable {
                 audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
                 
                 let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
-                for i in 0..<frameCount {
-                    for audioBuffer in audioBuffers {
-                        let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
+                for audioBuffer in audioBuffers {
+                    let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
+                    for i in 0..<frameCount {
                         audioBuffer[i] = Float(audioState.buffers.output[i])
                     }
                 }
