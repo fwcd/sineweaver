@@ -11,7 +11,7 @@ struct SynthesizerLevelView: View {
     let level: Double
     
     var body: some View {
-        VStack {
+        VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             VUMeter(value: level)
                 .animation(.default, value: level)
                 .frame(width: ComponentDefaults.padSize / 3)
