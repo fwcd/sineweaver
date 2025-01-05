@@ -46,8 +46,9 @@ struct SynthesizerEnvelopeView: View {
                 x: .init(range: 0...duration.asMilliseconds),
                 y: .init(range: 0...1)
             ),
-            background: ComponentDefaults.padBackground
+            background: .clear
         )
+        .padding()
     }
 }
 
