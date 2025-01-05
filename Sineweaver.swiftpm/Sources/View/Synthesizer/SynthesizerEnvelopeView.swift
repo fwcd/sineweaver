@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SynthesizerEnvelopeView: View {
     @Binding var node: EnvelopeNode
-    var duration: Duration = .milliseconds(50)
+    var durationMs: Double = 500
     
-    private var millisRange: ClosedRange<Double> { 0...duration.asMilliseconds }
+    private var millisRange: ClosedRange<Double> { 0...durationMs }
     private var volumeRange: ClosedRange<Double> { 0...1 }
     
     var body: some View {
-        let sustainDummyMs: Double = 10
+        let sustainDummyMs: Double = durationMs / 8
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             MultiSlider2D(
                 width: 300,
