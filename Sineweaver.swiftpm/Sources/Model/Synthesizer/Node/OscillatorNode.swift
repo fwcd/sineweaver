@@ -14,7 +14,6 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     var volume: Double = 1
     var isPlaying = false
     var prefersPianoView = false
-    var prefersLFOView = false
 
     enum Wave: String, Hashable, Codable, CaseIterable {
         case sine = "Sine"

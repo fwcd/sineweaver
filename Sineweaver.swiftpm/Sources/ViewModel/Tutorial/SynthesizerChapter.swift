@@ -72,7 +72,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         }
         
         if self >= .lfo {
-            newSynth.addNode(id: lfoId, .oscillator(.init(frequency: 0.2, isPlaying: true, prefersLFOView: true)))
+            newSynth.addNode(id: lfoId, .lfo(.init(frequency: 0.2, isPlaying: true)))
             newSynth.connect(lfoId, to: envelopeId)
         }
         

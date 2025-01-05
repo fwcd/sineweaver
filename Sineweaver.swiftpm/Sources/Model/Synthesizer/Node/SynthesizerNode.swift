@@ -10,6 +10,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     typealias State = any Sendable
     
     case oscillator(OscillatorNode)
+    case lfo(OscillatorNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
     case wavExport(WavExportNode)
@@ -19,6 +20,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     var type: SynthesizerNodeType {
         switch self {
         case .oscillator: .oscillator
+        case .lfo: .lfo
         case .mixer: .mixer
         case .silence: .silence
         case .wavExport: .wavExport
@@ -28,17 +30,13 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     }
     
     var name: String {
-        if case .oscillator(let node) = self, node.prefersLFOView {
-            "LFO"
-        } else {
-            type.name
-        }
+        type.name
     }
     
     var asOscillator: OscillatorNode {
         get {
             switch self {
-            case .oscillator(let node): node
+            case .oscillator(let node), .lfo(let node): node
             default: .init()
             }
         }
@@ -117,6 +115,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     init(type: SynthesizerNodeType) {
         switch type {
         case .oscillator: self = .oscillator(.init())
+        case .lfo: self = .lfo(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
         case .wavExport: self = .wavExport(.init())
@@ -127,7 +126,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     
     func makeState() -> State {
         switch self {
-        case .oscillator(let node): node.makeState()
+        case .oscillator(let node), .lfo(let node): node.makeState()
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
         case .wavExport(let node): node.makeState()
@@ -138,7 +137,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
         switch self {
-        case .oscillator(let node):
+        case .oscillator(let node), .lfo(let node):
             var oscState: OscillatorNode.State = state as! OscillatorNode.State
             defer { state = oscState }
             return node.render(inputs: inputs, output: &output, state: &oscState, context: context)
