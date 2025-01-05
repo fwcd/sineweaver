@@ -14,6 +14,8 @@ struct SynthesizerNodeView: View {
         switch node {
         case .oscillator:
             SynthesizerOscillatorView(node: $node.asOscillator)
+        case .envelope:
+            SynthesizerEnvelopeView(node: $node.asEnvelope)
         default:
             Text("TODO")
         }

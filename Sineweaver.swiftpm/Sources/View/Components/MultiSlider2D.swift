@@ -91,6 +91,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                 .updating($draggedThumbIndex) { value, state, _ in
                     guard let draggedThumbIndex = state ?? viewThumbPositions
                         .enumerated()
+                        .reversed() // We prioritize later values to make the ADSR envelope dragging work properly
                         .filter({ thumbOptions(at: $0.offset).isEnabled })
                         .min(by: ascendingComparator { ($0.element - value.startLocation).length })?
                         .offset else { return }
