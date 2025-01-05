@@ -16,7 +16,7 @@ struct EnvelopeNode: SynthesizerNodeProtocol {
     
     struct State {
         var isActive = false
-        var phaseFrame: Int = 0
+        var phaseFrame: Int = 10_000 // Avoid an initial "release" phase
     }
     
     func makeState() -> State {
