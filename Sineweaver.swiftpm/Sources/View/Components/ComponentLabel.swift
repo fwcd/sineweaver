@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ComponentLabel<Content>: View where Content: View {
     var orientation: Orientation = .horizontal
+    var textCase: Text.Case? = .uppercase
     @ViewBuilder let content: () -> Content
 
     enum Orientation: Hashable {
@@ -28,14 +29,14 @@ struct ComponentLabel<Content>: View where Content: View {
                 .rotationEffect(.degrees(90))
             }
         }
-        .textCase(.uppercase)
+        .textCase(textCase)
         .fontDesign(.monospaced)
     }
 }
 
 extension ComponentLabel where Content == Text {
-    init(_ text: String = "", orientation: Orientation = .horizontal) {
-        self.init(orientation: orientation) {
+    init(_ text: String = "", orientation: Orientation = .horizontal, textCase: Text.Case? = .uppercase) {
+        self.init(orientation: orientation, textCase: textCase) {
             Text(text)
         }
     }

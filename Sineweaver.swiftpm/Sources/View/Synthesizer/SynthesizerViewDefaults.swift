@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum SynthesizerViewDefaults {
+    static let smallVSpacing: CGFloat = 6
     static let vSpacing: CGFloat = 15
     static let hSpacing: CGFloat = 20
     static let durationMs: Double = 300
