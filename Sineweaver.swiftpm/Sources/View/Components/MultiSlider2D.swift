@@ -13,6 +13,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     @Binding var thumbPositions: [Vec2<Value>]
     var thumbOptions: [ThumbOptions] = []
     var connectThumbs = false
+    var fillThumbCurve = false
     var axes: Vec2<AxisOptions>
     var background: Background
     var onPressChange: ((Int?) -> Void)? = nil
@@ -59,6 +60,29 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         
         ZStack {
             let viewThumbPositions = self.viewThumbPositions
+            if connectThumbs || fillThumbCurve {
+                Canvas { ctx, size in
+                    if fillThumbCurve {
+                        ctx.fill(Path { path in
+                            guard let start = viewThumbPositions.first else { return }
+                            path.move(to: start)
+                            for pos in viewThumbPositions.dropFirst() {
+                                path.addLine(to: pos)
+                            }
+                        }, with: .color(.gray.opacity(0.5)))
+                    }
+                    if connectThumbs {
+                        ctx.stroke(Path { path in
+                            for (start, end) in zip(viewThumbPositions, viewThumbPositions.dropFirst()) {
+                                let delta = end - start
+                                let normal = (delta / delta.length) * thumbRadius
+                                path.move(to: start + normal)
+                                path.addLine(to: end - normal)
+                            }
+                        }, with: .foreground, style: ComponentDefaults.lineStyle)
+                    }
+                }
+            }
             ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
                 let options = thumbOptions(at: i)
                 let viewPos = viewThumbPositions[i]
@@ -68,18 +92,6 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                     let labelOffset = (label.position == .above ? -1 : 1) * ComponentDefaults.thumbLabelSpacing
                     ComponentLabel(label.text)
                         .position(x: viewPos.x, y: viewPos.y + labelOffset)
-                }
-            }
-            if connectThumbs {
-                Canvas { ctx, size in
-                    ctx.stroke(Path { path in
-                        for (start, end) in zip(viewThumbPositions, viewThumbPositions.dropFirst()) {
-                            let delta = end - start
-                            let normal = (delta / delta.length) * thumbRadius
-                            path.move(to: start + normal)
-                            path.addLine(to: end - normal)
-                        }
-                    }, with: .foreground, style: ComponentDefaults.lineStyle)
                 }
             }
         }
