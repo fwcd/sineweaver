@@ -23,6 +23,32 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         nodes.values.contains(where: \.isActive)
     }
     
+    var toposortedNodes: [(id: UUID, node: SynthesizerNode)] {
+        var sorted: [(id: UUID, node: SynthesizerNode)] = []
+        var visited: Set<UUID> = []
+        
+        func dfs(from id: UUID) {
+            guard !visited.contains(id) else { return }
+            visited.insert(id)
+            
+            for input in (inputEdges[id] ?? []) {
+                dfs(from: input)
+            }
+            
+            if let node = nodes[id] {
+                sorted.append((id: id, node: node))
+            }
+        }
+        
+        for id in nodes.keys {
+            if !visited.contains(id) {
+                dfs(from: id)
+            }
+        }
+        
+        return sorted
+    }
+    
     struct Edge: Hashable {
         let srcId: UUID
         let destId: UUID

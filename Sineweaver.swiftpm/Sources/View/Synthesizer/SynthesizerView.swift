@@ -13,14 +13,10 @@ struct SynthesizerView: View {
     
     var body: some View {
         HStack {
-            // TODO: Sort these topologically
-            let nodes = model.nodes
-                .filter { !hiddenNodeIds.contains($0.key) }
-                .sorted { $0.key < $1.key }
-            ForEach(nodes, id: \.key) { node in
-                ComponentBox(node.value.type.name) {
-                    let key: UUID = node.key
-                    SynthesizerNodeView(node: $model.nodes[key].unwrapped, isActive: model.isActive)
+            let nodes = model.toposortedNodes.filter { !hiddenNodeIds.contains($0.id) }
+            ForEach(nodes, id: \.id) { (id, node) in
+                ComponentBox(node.type.name) {
+                    SynthesizerNodeView(node: $model.nodes[id].unwrapped, isActive: model.isActive)
                 }
             }
         }
