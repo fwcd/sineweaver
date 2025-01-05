@@ -41,6 +41,17 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     
     struct ThumbOptions {
         var enabledAxes: Vec2<Bool> = .init(x: true, y: true)
+        var label: Label? = nil
+        
+        struct Label {
+            var text: String
+            var position: Position = .below
+            
+            enum Position: Hashable {
+                case above
+                case below
+            }
+        }
         
         var isEnabled: Bool {
             enabledAxes.x || enabledAxes.y
@@ -56,8 +67,14 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
             let viewThumbPositions = self.viewThumbPositions
             ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
                 let options = thumbOptions(at: i)
+                let viewPos = viewThumbPositions[i]
                 Thumb(isEnabled: options.isEnabled, size: thumbSize)
-                    .position(viewThumbPositions[i])
+                    .position(viewPos)
+                if let label = options.label {
+                    let labelOffset = (label.position == .above ? -1 : 1) * ComponentDefaults.thumbLabelSpacing
+                    ComponentLabel(label.text)
+                        .position(x: viewPos.x, y: viewPos.y + labelOffset)
+                }
             }
             if connectThumbs {
                 Canvas { ctx, size in
@@ -132,8 +149,8 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     MultiSlider2D(
         thumbPositions: $thumbPositions,
         thumbOptions: [
-            .init(enabledAxes: .init(x: false, y: false)),
-            .init(enabledAxes: .init(x: false, y: true)),
+            .init(enabledAxes: .init(x: false, y: false), label: .init(text: "A")),
+            .init(enabledAxes: .init(x: false, y: true), label: .init(text: "B", position: .above)),
             .init(enabledAxes: .init(x: true, y: false)),
         ],
         connectThumbs: true,
