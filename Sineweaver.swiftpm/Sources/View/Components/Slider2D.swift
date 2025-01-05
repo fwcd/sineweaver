@@ -10,7 +10,7 @@ import SwiftUI
 struct Slider2D<Value, Background>: View where Value: BinaryFloatingPoint, Background: ShapeStyle {
     typealias AxisOptions = MultiSlider2D<Value, Background>.AxisOptions
     
-    var size: CGFloat? = nil
+    var size: CGFloat = ComponentDefaults.padSize
     @Binding var x: Value
     @Binding var y: Value
     var axes: Vec2<AxisOptions>
@@ -21,7 +21,8 @@ struct Slider2D<Value, Background>: View where Value: BinaryFloatingPoint, Backg
     
     var body: some View {
         MultiSlider2D(
-            size: size,
+            width: size,
+            height: size,
             thumbPositions: Binding {
                 [Vec2(x: x, y: y)]
             } set: {
@@ -39,7 +40,7 @@ struct Slider2D<Value, Background>: View where Value: BinaryFloatingPoint, Backg
 
 extension Slider2D {
     init(
-        size: CGFloat? = nil,
+        size: CGFloat = ComponentDefaults.padSize,
         x: Binding<Value>,
         in xRange: ClosedRange<Value> = AxisOptions().range,
         label xLabel: String? = AxisOptions().label,
@@ -65,7 +66,7 @@ extension Slider2D {
 
 extension Slider2D where Background == HierarchicalShapeStyle {
     init(
-        size: CGFloat? = nil,
+        size: CGFloat = ComponentDefaults.padSize,
         x: Binding<Value>,
         in xRange: ClosedRange<Value> = AxisOptions().range,
         label xLabel: String? = AxisOptions().label,

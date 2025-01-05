@@ -14,6 +14,8 @@ struct SynthesizerEnvelopeView: View {
     var body: some View {
         let sustainDummy: Duration = .milliseconds(10)
         MultiSlider2D(
+            width: 300,
+            height: 120,
             thumbPositions: Binding<[Vec2<Double>]> {
                 [
                     .init(x: 0, y: 0),

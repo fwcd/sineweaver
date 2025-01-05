@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, Background: ShapeStyle {
-    var size: CGFloat? = nil
+    var width: CGFloat = ComponentDefaults.padSize
+    var height: CGFloat = ComponentDefaults.padSize
     @Binding var thumbPositions: [Vec2<Value>]
     var thumbOptions: [ThumbOptions] = []
     var connectThumbs = false
@@ -17,13 +18,6 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     var onPressChange: ((Int?) -> Void)? = nil
     
     @GestureState private var draggedThumbIndex: Int?
-    
-    private var width: CGFloat {
-        size ?? ComponentDefaults.padSize
-    }
-    private var height: CGFloat {
-        size ?? width
-    }
     
     private var viewThumbPositions: [CGPoint] {
         thumbPositions.map {
