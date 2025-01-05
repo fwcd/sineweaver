@@ -15,7 +15,7 @@ struct SynthesizerEnvelopeView: View {
     private var volumeRange: ClosedRange<Double> { 0...1 }
     
     var body: some View {
-        let sustainDummy: Duration = .milliseconds(10)
+        let sustainDummyMs: Double = 10
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             MultiSlider2D(
                 width: 300,
@@ -23,22 +23,17 @@ struct SynthesizerEnvelopeView: View {
                 thumbPositions: Binding<[Vec2<Double>]> {
                     [
                         .init(x: 0, y: 0),
-                        .init(x: node.attack.asMilliseconds, y: 1),
-                        .init(x: (node.attack + node.decay).asMilliseconds, y: node.sustain),
-                        .init(x: (node.attack + node.decay + sustainDummy).asMilliseconds, y: node.sustain),
-                        .init(x: (node.attack + node.decay + sustainDummy + node.release).asMilliseconds, y: 0),
+                        .init(x: node.attackMs, y: 1),
+                        .init(x: node.attackMs + node.decayMs, y: node.sustain),
+                        .init(x: node.attackMs + node.decayMs + sustainDummyMs, y: node.sustain),
+                        .init(x: node.attackMs + node.decayMs + sustainDummyMs + node.releaseMs, y: 0),
                     ]
                 } set: {
                     assert($0.count == 5)
-                    let attack = max(0, $0[1].x)
-                    let decay = max(0, $0[2].x - $0[1].x)
-                    let sustain = (0...1).clamp($0[3].y != node.sustain ? $0[3].y : $0[2].y)
-                    let release = max(0, $0[4].x - $0[3].x)
-                    
-                    node.attack.asMilliseconds = attack
-                    node.decay.asMilliseconds = decay
-                    node.sustain = sustain
-                    node.release.asMilliseconds = release
+                    node.attackMs = max(0, $0[1].x)
+                    node.decayMs = max(0, $0[2].x - $0[1].x)
+                    node.sustain = (0...1).clamp($0[3].y != node.sustain ? $0[3].y : $0[2].y)
+                    node.releaseMs = max(0, $0[4].x - $0[3].x)
                 },
                 thumbOptions: [
                     .init(enabledAxes: .init(x: false, y: false)),
@@ -57,11 +52,11 @@ struct SynthesizerEnvelopeView: View {
             .padding()
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 VStack {
-                    Knob(value: $node.attack.asMilliseconds, range: millisRange)
+                    Knob(value: $node.attackMs, range: millisRange)
                     ComponentLabel("Attack")
                 }
                 VStack {
-                    Knob(value: $node.decay.asMilliseconds, range: millisRange)
+                    Knob(value: $node.decayMs, range: millisRange)
                     ComponentLabel("Decay")
                 }
                 VStack {
@@ -69,7 +64,7 @@ struct SynthesizerEnvelopeView: View {
                     ComponentLabel("Sustain")
                 }
                 VStack {
-                    Knob(value: $node.release.asMilliseconds, range: millisRange)
+                    Knob(value: $node.releaseMs, range: millisRange)
                     ComponentLabel("Release")
                 }
             }

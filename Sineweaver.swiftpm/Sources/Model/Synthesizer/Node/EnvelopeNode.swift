@@ -9,10 +9,10 @@ import Foundation
 
 /// A node that applies an ADSR envelope to a signal.
 struct EnvelopeNode: SynthesizerNodeProtocol {
-    var attack: Duration = .zero
-    var decay: Duration = .zero
+    var attackMs: Double = 0
+    var decayMs: Double = 0
     var sustain: Double = 1
-    var release: Duration = .zero
+    var releaseMs: Double = 0
     
     struct State {
         var duration: Duration = .zero
