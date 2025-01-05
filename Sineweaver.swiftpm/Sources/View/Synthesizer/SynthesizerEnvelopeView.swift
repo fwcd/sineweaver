@@ -49,6 +49,7 @@ struct SynthesizerEnvelopeView: View {
             background: .clear
         )
         .padding()
+        .clipped()
     }
 }
 
