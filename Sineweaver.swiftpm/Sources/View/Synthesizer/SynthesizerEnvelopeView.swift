@@ -42,8 +42,7 @@ struct SynthesizerEnvelopeView: View {
                     .init(enabledAxes: .init(x: false, y: true)),
                     .init(enabledAxes: .init(x: true, y: false)),
                 ],
-                connectThumbs: true,
-                fillThumbCurve: true,
+                thumbCurve: .init(stroke: true, fill: true),
                 axes: .init(
                     x: .init(range: millisRange),
                     y: .init(range: volumeRange)

@@ -12,8 +12,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     var height: CGFloat = ComponentDefaults.padSize
     @Binding var thumbPositions: [Vec2<Value>]
     var thumbOptions: [ThumbOptions] = []
-    var connectThumbs = false
-    var fillThumbCurve = false
+    var thumbCurve: ThumbCurveOptions? = nil
     var axes: Vec2<AxisOptions>
     var background: Background
     var onPressChange: ((Int?) -> Void)? = nil
@@ -53,6 +52,11 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         }
     }
     
+    struct ThumbCurveOptions {
+        var stroke = false
+        var fill = false
+    }
+    
     var body: some View {
         let labelPadding: CGFloat = ComponentDefaults.labelPadding
         let thumbSize: CGFloat = ComponentDefaults.thumbSize
@@ -60,9 +64,9 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         
         ZStack {
             let viewThumbPositions = self.viewThumbPositions
-            if connectThumbs || fillThumbCurve {
+            if let thumbCurve {
                 Canvas { ctx, size in
-                    if fillThumbCurve {
+                    if thumbCurve.fill {
                         ctx.fill(Path { path in
                             guard let start = viewThumbPositions.first else { return }
                             path.move(to: start)
@@ -71,7 +75,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                             }
                         }, with: .color(.gray.opacity(0.5)))
                     }
-                    if connectThumbs {
+                    if thumbCurve.stroke {
                         ctx.stroke(Path { path in
                             for (start, end) in zip(viewThumbPositions, viewThumbPositions.dropFirst()) {
                                 let delta = end - start
@@ -159,7 +163,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
             .init(enabledAxes: .init(x: false, y: true), label: .init(text: "B", position: .above)),
             .init(enabledAxes: .init(x: true, y: false)),
         ],
-        connectThumbs: true,
+        thumbCurve: .init(stroke: true),
         axes: .init(
             x: .init(),
             y: .init()
