@@ -34,8 +34,8 @@ struct VUMeter<Value>: View where Value: BinaryFloatingPoint {
 #Preview {
     HStack {
         let total = 10
-        ForEach(0..<total) { i in
-            VUMeter(value: Double(i) / Double(total - 1))
+        ForEach(0...total, id: \.self) { i in
+            VUMeter(value: Double(i) / Double(total))
         }
     }
 }
