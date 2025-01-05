@@ -18,19 +18,19 @@ struct SynthesizerADSRCurveView: View {
     var isActive = false
     
     private var highlightPosition: Double? {
-        guard var ms = highlightMs else { return nil }
+        guard var ms = highlightMs, ms > 0 else { return nil }
         if isActive {
-            if ms < attackMs {
+            if ms < attackMs && attackMs > 0 {
                 return ms / attackMs
             }
             ms -= attackMs
-            if ms < decayMs {
+            if ms < decayMs && decayMs > 0 {
                 return 1 + ms / decayMs
             }
             ms -= decayMs
             return 2
         } else {
-            if ms < releaseMs {
+            if ms < releaseMs && releaseMs > 0 {
                 return 3 + ms / releaseMs
             }
             return nil
