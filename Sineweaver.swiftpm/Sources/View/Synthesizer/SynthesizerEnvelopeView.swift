@@ -9,13 +9,14 @@ import SwiftUI
 
 struct SynthesizerEnvelopeView: View {
     @Binding var node: EnvelopeNode
+    var isActive = false
     
     var durationMs: Double = SynthesizerViewDefaults.durationMs
     
     var millisRange: ClosedRange<Double> { 0...durationMs }
     var volumeRange: ClosedRange<Double> { 0...1 }
     
-    @State private var start: Date = Date()
+    @State private var activeChanged: Date? = nil
 
     var body: some View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
@@ -27,7 +28,8 @@ struct SynthesizerEnvelopeView: View {
                     releaseMs: $node.releaseMs,
                     millisRange: millisRange,
                     volumeRange: volumeRange,
-                    highlightMs: context.date.timeIntervalSince(start) * 1000
+                    highlightMs: activeChanged.map { context.date.timeIntervalSince($0) * 1000 },
+                    isActive: isActive
                 )
             }
             .padding()
@@ -39,6 +41,9 @@ struct SynthesizerEnvelopeView: View {
             }
         }
         .clipped()
+        .onChange(of: isActive) {
+            activeChanged = .now
+        }
     }
     
     @ViewBuilder

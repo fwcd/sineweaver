@@ -9,13 +9,14 @@ import SwiftUI
 
 struct SynthesizerNodeView: View {
     @Binding var node: SynthesizerNode
+    var isActive: Bool = false
     
     var body: some View {
         switch node {
         case .oscillator:
             SynthesizerOscillatorView(node: $node.asOscillator)
         case .envelope:
-            SynthesizerEnvelopeView(node: $node.asEnvelope)
+            SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
         default:
             Text("TODO")
         }

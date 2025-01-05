@@ -20,7 +20,7 @@ struct SynthesizerView: View {
             ForEach(nodes, id: \.key) { node in
                 ComponentBox(node.value.type.name) {
                     let key: UUID = node.key
-                    SynthesizerNodeView(node: $model.nodes[key].unwrapped)
+                    SynthesizerNodeView(node: $model.nodes[key].unwrapped, isActive: model.isActive)
                 }
             }
         }

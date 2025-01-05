@@ -103,6 +103,13 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
+    var isActive: Bool {
+        switch self {
+        case .oscillator(let node): node.isPlaying
+        default: false
+        }
+    }
+    
     init(type: SynthesizerNodeType) {
         switch type {
         case .oscillator: self = .oscillator(.init())

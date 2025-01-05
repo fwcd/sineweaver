@@ -15,10 +15,30 @@ struct SynthesizerADSRCurveView: View {
     var millisRange: ClosedRange<Double> = 0...SynthesizerViewDefaults.durationMs
     var volumeRange: ClosedRange<Double> = 0...1
     var highlightMs: Double? = nil
+    var isActive = false
+    
+    private var highlightPosition: Double? {
+        guard var ms = highlightMs else { return nil }
+        if isActive {
+            if ms < attackMs {
+                return ms / attackMs
+            }
+            ms -= attackMs
+            if ms < decayMs {
+                return 1 + ms / decayMs
+            }
+            ms -= decayMs
+            return 2
+        } else {
+            if ms < releaseMs {
+                return 3 + ms / releaseMs
+            }
+            return nil
+        }
+    }
 
     var body: some View {
         let sustainDummyMs: Double = millisRange.length / 8
-        let _ = print(highlightMs)
         MultiSlider2D(
             width: 300,
             height: 120,
@@ -44,7 +64,7 @@ struct SynthesizerADSRCurveView: View {
                 .init(enabledAxes: .init(x: false, y: true)),
                 .init(enabledAxes: .init(x: true, y: false)),
             ],
-            thumbCurve: .init(stroke: true, fill: true, highlightPosition: highlightMs.map { $0 / 2000 }),
+            thumbCurve: .init(stroke: true, fill: true, highlightPosition: highlightPosition),
             axes: .init(
                 x: .init(range: millisRange),
                 y: .init(range: volumeRange)

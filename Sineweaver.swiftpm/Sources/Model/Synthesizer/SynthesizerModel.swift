@@ -19,6 +19,10 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
     }
     
+    var isActive: Bool {
+        nodes.values.contains(where: \.isActive)
+    }
+    
     struct Edge: Hashable {
         let srcId: UUID
         let destId: UUID
@@ -116,9 +120,11 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
     }
     
-    mutating func render(using buffers: inout Buffers, states: inout States, context: SynthesizerContext) {
+    mutating func render(using buffers: inout Buffers, states: inout States, context: SynthesizerContext) -> Bool {
         if let outputNodeId {
             render(nodeId: outputNodeId, to: nil, using: &buffers, states: &states, context: context)
+        } else {
+            false
         }
     }
     
