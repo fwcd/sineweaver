@@ -27,25 +27,21 @@ struct SynthesizerEnvelopeView: View {
             )
             .padding()
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
-                VStack {
-                    Knob(value: $node.attackMs, range: millisRange)
-                    ComponentLabel("Attack")
-                }
-                VStack {
-                    Knob(value: $node.decayMs, range: millisRange)
-                    ComponentLabel("Decay")
-                }
-                VStack {
-                    Knob(value: $node.sustain, range: volumeRange)
-                    ComponentLabel("Sustain")
-                }
-                VStack {
-                    Knob(value: $node.releaseMs, range: millisRange)
-                    ComponentLabel("Release")
-                }
+                knob(value: $node.attackMs, range: millisRange, label: "Attack")
+                knob(value: $node.decayMs, range: millisRange, label: "Decay")
+                knob(value: $node.sustain, range: volumeRange, label: "Sustain")
+                knob(value: $node.releaseMs, range: millisRange, label: "Release")
             }
         }
         .clipped()
+    }
+    
+    @ViewBuilder
+    private func knob(value: Binding<Double>, range: ClosedRange<Double>, label: String) -> some View {
+        VStack {
+            Knob(value: value, range: range)
+            ComponentLabel(label)
+        }
     }
 }
 
