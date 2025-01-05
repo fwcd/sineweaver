@@ -10,10 +10,15 @@ import SwiftUI
 struct SynthesizerLFOView: View {
     @Binding var node: OscillatorNode
 
+    @State private var referenceDate = Date()
+    
     var body: some View {
         let size = ComponentDefaults.padSize / 2
-        SynthesizerChartView(node: node, animated: true)
-            .frame(width: size, height: size)
+        TimelineView(.animation) { context in
+            let _ = print(context.date)
+            SynthesizerChartView(node: node, timeInterval: context.date.timeIntervalSince(referenceDate))
+                .frame(width: size, height: size)
+        }
     }
 }
 
