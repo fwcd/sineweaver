@@ -16,7 +16,6 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
     var size: CGFloat = ComponentDefaults.knobSize
     
     @State private var delta: Value = 0
-    @Environment(\.colorScheme) private var colorScheme
     
     private var valueWithDelta: Value {
         range.clamp(value + delta)
@@ -42,7 +41,7 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
         ZStack(alignment: .top) {
             let thickness = size / 16
             Circle()
-                .fill(colorScheme == .light ? Color.white : .gray.opacity(0.3))
+                .fill(.gray.opacity(0.3))
                 .frame(width: size, height: size)
             Arc(startAngle: .zero, endAngle: angularValue)
                 .stroke(.foreground, lineWidth: thickness)
