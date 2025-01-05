@@ -15,14 +15,10 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
     var halfCircleFraction: Double = 1 / 3
     var size: CGFloat = ComponentDefaults.knobSize
     
-    @State private var delta: Value = 0
-    
-    private var valueWithDelta: Value {
-        range.clamp(value + delta)
-    }
+    @GestureState private var initialValue: Value?
     
     private var normalizedValue: Value {
-        range.normalize(valueWithDelta)
+        range.normalize(value)
     }
     
     private var circleFraction: Double {
@@ -59,12 +55,12 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
         )
         .simultaneousGesture(
             DragGesture()
-                .onChanged { drag in
-                    delta = Value(drag.translation.width - drag.translation.height) * 0.003 * sensitivity
-                }
-                .onEnded { _ in
-                    value = valueWithDelta
-                    delta = 0
+                .updating($initialValue) { drag, state, _ in
+                    let initialValue = state ?? value
+                    state = initialValue
+                    
+                    let dist = Value(drag.translation.width - drag.translation.height) * range.length
+                    value = range.clamp(initialValue + dist * 0.003 * sensitivity)
                 }
         )
         .contextMenu {
