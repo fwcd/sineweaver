@@ -16,7 +16,22 @@ struct SynthesizerChapterView: View {
         @Bindable var viewModel = viewModel
         
         Debouncer(wrappedValue: $viewModel.model) { $model in
-            SynthesizerView(model: $model, hiddenNodeIds: chapter.hiddenNodeIds)
+            HStack {
+                SynthesizerView(
+                    model: $model,
+                    hiddenNodeIds: chapter.hiddenNodeIds
+                )
+                TimelineView(.animation(minimumInterval: 0.1)) { _ in
+                    let level = viewModel.synthesizer.level.load(ordering: .relaxed)
+                    ComponentBox("Level") {
+                        VUMeter(value: level)
+                            .padding(.horizontal, 40)
+                        Text(String(format: "%.2f dB", 10 * log10(level)))
+                            .monospaced()
+                            .font(.system(size: 12))
+                    }
+                }
+            }
         }
     }
 }

@@ -46,6 +46,8 @@ final class Synthesizer: Sendable {
         }
     }
     
+    let level: Atomic<Double> = .init(0)
+    
     private struct AudioState {
         var model: SynthesizerModel = .init()
         var buffers: SynthesizerModel.Buffers = .init()
@@ -90,6 +92,8 @@ final class Synthesizer: Sendable {
                 }
                 
                 audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
+                
+                level.store(audioState.buffers.output.map(abs).reduce(0, max), ordering: .relaxed)
                 
                 let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
                 for audioBuffer in audioBuffers {
