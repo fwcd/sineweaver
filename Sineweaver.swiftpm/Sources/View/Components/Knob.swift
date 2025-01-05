@@ -7,24 +7,23 @@
 
 import SwiftUI
 
-struct Knob: View {
-    @Binding var value: Double
-    var defaultValue: Double? = nil
-    var minValue: Double = 0
-    var maxValue: Double = 1
-    var sensitivity: Double = 1
+struct Knob<Value>: View where Value: BinaryFloatingPoint {
+    @Binding var value: Value
+    var defaultValue: Value? = nil
+    var range: ClosedRange<Value> = 0...1
+    var sensitivity: Value = 1
     var halfCircleFraction: Double = 1 / 3
     var size: CGFloat = ComponentDefaults.knobSize
     
-    @State private var delta: Double = 0
+    @State private var delta: Value = 0
     @Environment(\.colorScheme) private var colorScheme
     
-    private var valueWithDelta: Double {
-        min(max(value + delta, minValue), maxValue)
+    private var valueWithDelta: Value {
+        range.clamp(value + delta)
     }
     
-    private var normalizedValue: Double {
-        (valueWithDelta - minValue) / (maxValue - minValue)
+    private var normalizedValue: Value {
+        range.normalize(valueWithDelta)
     }
     
     private var circleFraction: Double {
@@ -32,7 +31,7 @@ struct Knob: View {
     }
     
     private var angularValue: Angle {
-        .radians(normalizedValue * circleFraction * 2 * .pi)
+        .radians(Double(normalizedValue) * circleFraction * 2 * .pi)
     }
     
     private var startAngle: Angle {
@@ -62,7 +61,7 @@ struct Knob: View {
         .simultaneousGesture(
             DragGesture()
                 .onChanged { drag in
-                    delta = Double(drag.translation.width - drag.translation.height) * 0.003 * sensitivity
+                    delta = Value(drag.translation.width - drag.translation.height) * 0.003 * sensitivity
                 }
                 .onEnded { _ in
                     value = valueWithDelta
@@ -71,14 +70,14 @@ struct Knob: View {
         )
         .contextMenu {
             Button("Set to Minimum Value") {
-                value = minValue
+                value = range.lowerBound
             }
             Button("Set to Default Value") {
                 resetToDefault()
             }
             .disabled(defaultValue == nil)
             Button("Set to Maximum Value") {
-                value = maxValue
+                value = range.upperBound
             }
         }
     }
