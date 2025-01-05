@@ -16,7 +16,7 @@ struct SynthesizerEnvelopeView: View {
     
     var body: some View {
         let sustainDummy: Duration = .milliseconds(10)
-        VStack {
+        VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             MultiSlider2D(
                 width: 300,
                 height: 120,
@@ -54,7 +54,7 @@ struct SynthesizerEnvelopeView: View {
                 ),
                 background: .clear
             )
-            HStack {
+            HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 VStack {
                     Knob(value: $node.attack.asMilliseconds, range: millisRange)
                     ComponentLabel("Attack")
