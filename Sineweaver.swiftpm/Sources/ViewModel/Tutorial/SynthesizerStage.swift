@@ -8,14 +8,17 @@
 import Foundation
 
 private let oscillatorId = UUID()
+private let envelopeId = UUID()
 
-enum SynthesizerStage: Hashable, CaseIterable {
+enum SynthesizerStage: Hashable, CaseIterable, Comparable {
     case basicOscillator
     case pianoOscillator
+    case envelope
     
     var title: String {
         switch self {
         case .basicOscillator, .pianoOscillator: "The Oscillator"
+        case .envelope: "The Envelope"
         }
     }
     
@@ -23,24 +26,35 @@ enum SynthesizerStage: Hashable, CaseIterable {
         switch self {
         case .basicOscillator:
             [
-                #"At the most fundamental level, a synthesizer produces sounds by sampling a periodic function, commonly a sine wave. The synthesizer presented here is called an "oscillator" and it forms the fundamental building block of almost every form of audio synthesis."#,
-                "This oscillator has two parameters: Frequency (or pitch) and volume. Press and drag the slider on the right-hand side to play the synth and control the parameters.",
+                // TODO: Square waves etc.?
+                #"At the most fundamental level, a synthesizer produces sounds by sampling a periodic function, commonly a sine wave. The synthesizer presented here is called an **oscillator** and it forms the fundamental building block of almost every form of audio synthesis."#,
+                "This oscillator has two parameters: **Frequency** (or **pitch**) and **volume**. Press and drag the slider on the right-hand side to play the synth and control the parameters.",
             ]
         case .pianoOscillator:
             [
                 "Setting the pitch directly is a bit inconvenient, so let's add a piano keyboard. Try playing different notes and see how the oscillator changes.",
             ]
+        case .envelope:
+            [
+                "Most sounds are a bit more complex than a sine wave, however. Hitting a drum or a piano key, for example, produce a relatively loud initial sound (the _attack_) that subsequently falls in volume (the _decay_). In the case of a piano key, the sound is also _sustained_ at a certain volume until the key is _released_. This \"shape\" of a sound is known as the **envelope** and can be customized using the four parameters: **Attack**, **decay**, **sustain** and **release**.",
+            ]
         }
     }
     
     func configure(synthesizer: inout SynthesizerModel) {
-        switch self {
-        case .basicOscillator, .pianoOscillator:
-            synthesizer = .init(
-                nodes: [oscillatorId: .oscillator(.init(volume: 0.5, prefersPianoView: self == .pianoOscillator))],
-                inputEdges: [oscillatorId: []],
-                outputNodeId: oscillatorId
-            )
+        synthesizer = .init()
+        
+        var lastNodeId: UUID
+        
+        lastNodeId = synthesizer.addNode(id: oscillatorId, .oscillator(.init(
+            volume: 0.5,
+            prefersPianoView: self >= .pianoOscillator
+        )))
+        
+        if self >= .envelope {
+            lastNodeId = synthesizer.addNode(id: envelopeId, .envelope(.init()))
         }
+        
+        synthesizer.outputNodeId = lastNodeId
     }
 }

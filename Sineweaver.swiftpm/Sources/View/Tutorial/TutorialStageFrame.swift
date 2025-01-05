@@ -23,7 +23,8 @@ struct TutorialStageFrame<Content>: View where Content: View {
                     .fontWeight(.bold)
             }
             if !details.isEmpty {
-                Text(details[viewModel.detailIndex])
+                let rawDetails = details[viewModel.detailIndex]
+                Text(AttributedString((try? NSAttributedString(markdown: rawDetails)) ?? NSAttributedString(string: rawDetails)))
                     .font(.title3)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: 800)

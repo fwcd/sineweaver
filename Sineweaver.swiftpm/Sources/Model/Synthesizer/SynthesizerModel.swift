@@ -26,16 +26,15 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     
     static func withMixerOutput() -> Self {
         var model = Self()
-        model.outputNodeId = model.add(node: .mixer(.init()))
+        model.outputNodeId = model.addNode(.mixer(.init()))
         return model
     }
     
     @discardableResult
-    mutating func add(node: SynthesizerNode) -> UUID {
-        let nodeId = UUID()
-        nodes[nodeId] = node
-        inputEdges[nodeId] = []
-        return nodeId
+    mutating func addNode(id: UUID = UUID(), _ node: SynthesizerNode) -> UUID {
+        nodes[id] = node
+        inputEdges[id] = []
+        return id
     }
     
     mutating func connect(_ inputId: UUID, to outputId: UUID) {
