@@ -53,6 +53,7 @@ enum SynthesizerStage: Hashable, CaseIterable, Comparable {
         
         if self >= .envelope {
             lastNodeId = synthesizer.addNode(id: envelopeId, .envelope(.init()))
+            synthesizer.connect(oscillatorId, to: envelopeId)
         }
         
         synthesizer.outputNodeId = lastNodeId
