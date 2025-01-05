@@ -12,6 +12,7 @@ struct SynthesizerView: View {
     
     var body: some View {
         HStack {
+            // TODO: Sort these topologically
             ForEach(model.nodes.sorted { $0.key < $1.key }, id: \.key) { node in
                 ComponentBox(node.value.type.name) {
                     let key: UUID = node.key
