@@ -47,23 +47,21 @@ enum SynthesizerStage: Hashable, CaseIterable, Comparable {
     }
     
     func configure(synthesizer: inout SynthesizerModel) {
-        synthesizer = .init()
+        var newSynth = SynthesizerModel()
         
-        var lastNodeId: UUID
-        
-        lastNodeId = synthesizer.addNode(id: oscillatorId, .oscillator(.init(
+        newSynth.outputNodeId = newSynth.addNode(id: oscillatorId, .oscillator(.init(
             volume: 0.5,
             prefersPianoView: self >= .pianoOscillator
         )))
         
         if self >= .envelope {
-            lastNodeId = synthesizer.addNode(id: envelopeId, .envelope(.init()))
-            synthesizer.connect(oscillatorId, to: envelopeId)
+            newSynth.outputNodeId = newSynth.addNode(id: envelopeId, .envelope(.init()))
+            newSynth.connect(oscillatorId, to: envelopeId)
         } else {
-            lastNodeId = synthesizer.addNode(id: activeGateId, .activeGate(.init()))
-            synthesizer.connect(oscillatorId, to: activeGateId)
+            newSynth.outputNodeId = newSynth.addNode(id: activeGateId, .activeGate(.init()))
+            newSynth.connect(oscillatorId, to: activeGateId)
         }
         
-        synthesizer.outputNodeId = lastNodeId
+        synthesizer = newSynth
     }
 }
