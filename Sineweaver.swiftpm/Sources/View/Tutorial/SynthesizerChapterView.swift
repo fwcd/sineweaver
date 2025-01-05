@@ -1,5 +1,5 @@
 //
-//  SynthesizerStageView.swift
+//  SynthesizerChapterView.swift
 //  Sineweaver
 //
 //  Created on 25.12.24
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct SynthesizerStageView: View {
-    let stage: SynthesizerStage
+struct SynthesizerChapterView: View {
+    let chapter: SynthesizerChapter
     
     @Environment(SynthesizerViewModel.self) private var viewModel
     
@@ -16,11 +16,11 @@ struct SynthesizerStageView: View {
         @Bindable var viewModel = viewModel
         
         Debouncer(wrappedValue: $viewModel.model) { $model in
-            SynthesizerView(model: $model, hiddenNodeIds: stage.hiddenNodeIds)
+            SynthesizerView(model: $model, hiddenNodeIds: chapter.hiddenNodeIds)
         }
     }
 }
 
 #Preview {
-    SynthesizerStageView(stage: .basicOscillator)
+    SynthesizerChapterView(chapter: .basicOscillator)
 }

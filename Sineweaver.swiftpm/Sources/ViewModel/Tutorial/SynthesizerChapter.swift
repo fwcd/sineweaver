@@ -1,5 +1,5 @@
 //
-//  SynthesizerStage.swift
+//  SynthesizerChapter.swift
 //  Sineweaver
 //
 //  Created on 27.12.24
@@ -11,7 +11,7 @@ private let oscillatorId = UUID()
 private let activeGateId = UUID()
 private let envelopeId = UUID()
 
-enum SynthesizerStage: Hashable, CaseIterable, Comparable {
+enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     case basicOscillator
     case pianoOscillator
     case envelope

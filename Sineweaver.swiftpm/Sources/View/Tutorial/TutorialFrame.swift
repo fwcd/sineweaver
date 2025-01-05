@@ -1,5 +1,5 @@
 //
-//  TutorialStageFrame.swift
+//  TutorialFrame.swift
 //  Sineweaver
 //
 //  Created on 25.12.24
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TutorialStageFrame<Content>: View where Content: View {
+struct TutorialFrame<Content>: View where Content: View {
     var title: String? = nil
     var details: [String] = []
     @ViewBuilder var content: () -> Content
@@ -32,7 +32,7 @@ struct TutorialStageFrame<Content>: View where Content: View {
             content
                 .frame(maxWidth: 800, maxHeight: 300)
             HStack {
-                if !viewModel.isFirstStage {
+                if !viewModel.isFirstChapter {
                     Button("Back") {
                         withAnimation {
                             viewModel.back()
@@ -45,7 +45,7 @@ struct TutorialStageFrame<Content>: View where Content: View {
                         viewModel.forward()
                     }
                 } label: {
-                    if viewModel.isFirstStage {
+                    if viewModel.isFirstChapter {
                         Text("Get Started")
                             .frame(minWidth: 200, minHeight: 40)
                     } else {

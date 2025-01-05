@@ -1,28 +1,28 @@
 //
-//  TutorialStage.swift
+//  TutorialChapter.swift
 //  Sineweaver
 //
 //  Created on 25.12.24
 //
 
-enum TutorialStage: Hashable, CaseIterable {
+enum TutorialChapter: Hashable, CaseIterable {
     case welcome
-    case synthesizer(SynthesizerStage)
+    case synthesizer(SynthesizerChapter)
     
     static var allCases: [Self] {
-        [.welcome] + SynthesizerStage.allCases.map { .synthesizer($0) }
+        [.welcome] + SynthesizerChapter.allCases.map { .synthesizer($0) }
     }
     
     var title: String? {
         switch self {
-        case .synthesizer(let stage): stage.title
+        case .synthesizer(let chapter): chapter.title
         default: nil
         }
     }
     
     var details: [String] {
         switch self {
-        case .synthesizer(let stage): stage.details
+        case .synthesizer(let chapter): chapter.details
         default: []
         }
     }
@@ -30,7 +30,7 @@ enum TutorialStage: Hashable, CaseIterable {
     func configure(synthesizer: inout SynthesizerModel) {
         switch self {
         case .welcome: synthesizer = .init()
-        case .synthesizer(let stage): stage.configure(synthesizer: &synthesizer)
+        case .synthesizer(let chapter): chapter.configure(synthesizer: &synthesizer)
         }
     }
 }

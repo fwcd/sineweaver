@@ -12,25 +12,25 @@ import Observation
 final class TutorialViewModel: Sendable {
     private let synthesizer: SynthesizerViewModel
     
-    var stageIndex: Int {
+    var chapterIndex: Int {
         willSet {
-            TutorialStage.allCases[newValue].configure(synthesizer: &synthesizer.model)
+            TutorialChapter.allCases[newValue].configure(synthesizer: &synthesizer.model)
         }
     }
     
     var detailIndex: Int
     
-    var stage: TutorialStage {
-        .allCases[stageIndex]
+    var chapter: TutorialChapter {
+        .allCases[chapterIndex]
     }
     
-    var isFirstStage: Bool {
-        stageIndex == 0
+    var isFirstChapter: Bool {
+        chapterIndex == 0
     }
     
-    init(synthesizer: SynthesizerViewModel, stageIndex: Int = 0, detailIndex: Int = 0) {
+    init(synthesizer: SynthesizerViewModel, chapterIndex: Int = 0, detailIndex: Int = 0) {
         self.synthesizer = synthesizer
-        self.stageIndex = stageIndex
+        self.chapterIndex = chapterIndex
         self.detailIndex = detailIndex
     }
     
@@ -38,16 +38,16 @@ final class TutorialViewModel: Sendable {
         if detailIndex > 0 {
             detailIndex -= 1
         } else {
-            stageIndex = (stageIndex - 1 + TutorialStage.allCases.count) % TutorialStage.allCases.count
-            detailIndex = stage.details.count - 1
+            chapterIndex = (chapterIndex - 1 + TutorialChapter.allCases.count) % TutorialChapter.allCases.count
+            detailIndex = chapter.details.count - 1
         }
     }
     
     func forward() {
-        if detailIndex < stage.details.count - 1 {
+        if detailIndex < chapter.details.count - 1 {
             detailIndex += 1
         } else {
-            stageIndex = (stageIndex + 1) % TutorialStage.allCases.count
+            chapterIndex = (chapterIndex + 1) % TutorialChapter.allCases.count
             detailIndex = 0
         }
     }
