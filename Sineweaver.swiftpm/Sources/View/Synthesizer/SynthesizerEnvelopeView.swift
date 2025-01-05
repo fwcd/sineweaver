@@ -14,17 +14,22 @@ struct SynthesizerEnvelopeView: View {
     
     var millisRange: ClosedRange<Double> { 0...durationMs }
     var volumeRange: ClosedRange<Double> { 0...1 }
+    
+    @State private var start: Date = Date()
 
     var body: some View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            SynthesizerADSRCurveView(
-                attackMs: $node.attackMs,
-                decayMs: $node.decayMs,
-                sustain: $node.sustain,
-                releaseMs: $node.releaseMs,
-                millisRange: millisRange,
-                volumeRange: volumeRange
-            )
+            TimelineView(.animation) { context in
+                SynthesizerADSRCurveView(
+                    attackMs: $node.attackMs,
+                    decayMs: $node.decayMs,
+                    sustain: $node.sustain,
+                    releaseMs: $node.releaseMs,
+                    millisRange: millisRange,
+                    volumeRange: volumeRange,
+                    highlightMs: context.date.timeIntervalSince(start) * 1000
+                )
+            }
             .padding()
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 knob(value: $node.attackMs, range: millisRange, label: "Attack", format: format(ms:))

@@ -75,6 +75,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     var body: some View {
         let labelPadding: CGFloat = ComponentDefaults.labelPadding
         let thumbSize: CGFloat = ComponentDefaults.thumbSize
+        let thumbCurveHighlightColor = ComponentDefaults.highlightColor
         let thumbRadius = thumbSize / 2
         
         ZStack {
@@ -91,18 +92,22 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                         }, with: .color(.gray.opacity(0.5)))
                     }
                     if thumbCurve.stroke {
-                        ctx.stroke(Path { path in
-                            for (start, end) in zip(viewThumbPositions, viewThumbPositions.dropFirst()) {
+                        let highlightIndex = thumbCurve.highlightPosition.map { Int($0) }
+                        for (i, (start, end)) in zip(viewThumbPositions, viewThumbPositions.dropFirst()).enumerated() {
+                            ctx.stroke(Path { path in
                                 let delta = end - start
                                 let normal = (delta / delta.length) * thumbRadius
                                 path.move(to: start + normal)
                                 path.addLine(to: end - normal)
-                            }
-                        }, with: .foreground, style: ComponentDefaults.lineStyle)
+                            }, with: highlightIndex == i ? .color(thumbCurveHighlightColor) : .foreground, style: ComponentDefaults.lineStyle)
+                        }
                     }
                     if let highlightViewPos = thumbCurveHighlightViewPosition {
                         let size = CGSize(width: thumbSize, height: thumbSize)
-                        ctx.fill(Path(ellipseIn: CGRect(origin: highlightViewPos - CGVector(size / 2), size: size)), with: .foreground)
+                        ctx.fill(
+                            Path(ellipseIn: CGRect(origin: highlightViewPos - CGVector(size / 2), size: size)),
+                            with: .color(thumbCurveHighlightColor)
+                        )
                     }
                 }
             }

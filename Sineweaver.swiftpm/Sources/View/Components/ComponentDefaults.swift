@@ -15,4 +15,5 @@ enum ComponentDefaults {
     static let thumbSize: CGFloat = 20
     static let thumbLabelSpacing: CGFloat = 1.5 * thumbSize
     static let knobSize: CGFloat = 40
+    static let highlightColor = Color.cyan
 }

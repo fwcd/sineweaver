@@ -14,9 +14,11 @@ struct SynthesizerADSRCurveView: View {
     @Binding var releaseMs: Double
     var millisRange: ClosedRange<Double> = 0...SynthesizerViewDefaults.durationMs
     var volumeRange: ClosedRange<Double> = 0...1
+    var highlightMs: Double? = nil
 
     var body: some View {
         let sustainDummyMs: Double = millisRange.length / 8
+        let _ = print(highlightMs)
         MultiSlider2D(
             width: 300,
             height: 120,
@@ -42,7 +44,7 @@ struct SynthesizerADSRCurveView: View {
                 .init(enabledAxes: .init(x: false, y: true)),
                 .init(enabledAxes: .init(x: true, y: false)),
             ],
-            thumbCurve: .init(stroke: true, fill: true),
+            thumbCurve: .init(stroke: true, fill: true, highlightPosition: highlightMs.map { $0 / 2000 }),
             axes: .init(
                 x: .init(range: millisRange),
                 y: .init(range: volumeRange)
