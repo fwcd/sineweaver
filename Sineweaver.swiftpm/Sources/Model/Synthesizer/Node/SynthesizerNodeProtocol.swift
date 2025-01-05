@@ -13,6 +13,7 @@ protocol SynthesizerNodeProtocol: Hashable, Codable, Sendable {
     
     func makeState() -> State
 
+    @discardableResult
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool
 }
 

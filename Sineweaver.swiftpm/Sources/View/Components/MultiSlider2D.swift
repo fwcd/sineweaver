@@ -28,6 +28,20 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         }
     }
     
+    private var thumbCurveHighlightViewPosition: CGPoint? {
+        guard var pos = thumbCurve?.highlightPosition else { return nil }
+        let viewThumbPositions = viewThumbPositions
+        
+        for (thumb1, thumb2) in zip(viewThumbPositions, viewThumbPositions.dropFirst()) {
+            if pos <= 1 {
+                return thumb1 * (1 - pos) + thumb2 * pos
+            }
+            pos -= 1
+        }
+        
+        return viewThumbPositions.last
+    }
+    
     struct AxisOptions {
         var range: ClosedRange<Value> = -1...1
         var label: String? = nil
@@ -55,6 +69,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
     struct ThumbCurveOptions {
         var stroke = false
         var fill = false
+        var highlightPosition: Double? = nil
     }
     
     var body: some View {
@@ -84,6 +99,10 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                                 path.addLine(to: end - normal)
                             }
                         }, with: .foreground, style: ComponentDefaults.lineStyle)
+                    }
+                    if let highlightViewPos = thumbCurveHighlightViewPosition {
+                        let size = CGSize(width: thumbSize, height: thumbSize)
+                        ctx.fill(Path(ellipseIn: CGRect(origin: highlightViewPos - CGVector(size / 2), size: size)), with: .foreground)
                     }
                 }
             }
