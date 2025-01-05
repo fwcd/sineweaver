@@ -37,10 +37,11 @@ struct OscillatorNode: SynthesizerNodeProtocol {
         State()
     }
     
-    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
         for i in 0..<output.count {
-            output[i] = isPlaying ? wave.sample(state.phase) * volume : 0
+            output[i] = wave.sample(state.phase) * volume
             state.phase += frequency / context.sampleRate
         }
+        return isPlaying
     }
 }

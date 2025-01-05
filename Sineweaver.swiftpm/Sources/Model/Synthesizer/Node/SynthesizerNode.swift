@@ -109,28 +109,28 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
-    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
         switch self {
         case .oscillator(let node):
             var oscState: OscillatorNode.State = state as! OscillatorNode.State
-            node.render(inputs: inputs, output: &output, state: &oscState, context: context)
-            state = oscState
+            defer { state = oscState }
+            return node.render(inputs: inputs, output: &output, state: &oscState, context: context)
         case .mixer(let node):
             var mixerState: MixerNode.State = state as! MixerNode.State
-            node.render(inputs: inputs, output: &output, state: &mixerState, context: context)
-            state = mixerState
+            defer { state = mixerState }
+            return node.render(inputs: inputs, output: &output, state: &mixerState, context: context)
         case .silence(let node):
             var silenceState: SilenceNode.State = state as! SilenceNode.State
-            node.render(inputs: inputs, output: &output, state: &silenceState, context: context)
-            state = silenceState
+            defer { state = silenceState }
+            return node.render(inputs: inputs, output: &output, state: &silenceState, context: context)
         case .wavExport(let node):
             var wavState: WavExportNode.State = state as! WavExportNode.State
-            node.render(inputs: inputs, output: &output, state: &wavState, context: context)
-            state = wavState
+            defer { state = wavState }
+            return node.render(inputs: inputs, output: &output, state: &wavState, context: context)
         case .envelope(let node):
             var envState: EnvelopeNode.State = state as! EnvelopeNode.State
-            node.render(inputs: inputs, output: &output, state: &envState, context: context)
-            state = envState
+            defer { state = envState }
+            return node.render(inputs: inputs, output: &output, state: &envState, context: context)
         }
     }
 }

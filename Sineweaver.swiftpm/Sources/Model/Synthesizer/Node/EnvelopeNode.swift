@@ -23,19 +23,20 @@ struct EnvelopeNode: SynthesizerNodeProtocol {
         State()
     }
     
-    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
-        guard let input = inputs.first else { return }
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
+        guard let input = inputs.first else { return false }
         
-        let isActive = input.contains(where: { $0 != 0 })
-        if isActive != state.isActive {
-            state.isActive = isActive
+        if input.isActive != state.isActive {
+            state.isActive = input.isActive
             state.phaseFrame = 0
         }
         
         for i in 0..<output.count {
-            output[i] = input[i] * amplitude(at: state.phaseFrame, isActive: state.isActive, context: context)
+            output[i] = input.buffer[i] * amplitude(at: state.phaseFrame, isActive: state.isActive, context: context)
             state.phaseFrame += 1
         }
+        
+        return true
     }
     
     func amplitude(at phaseFrame: Int, isActive: Bool, context: SynthesizerContext) -> Double {

@@ -24,16 +24,16 @@ struct WavExportNode: SynthesizerNodeProtocol {
     
     // TODO: Only append to file by seeking to end, potentially see https://stackoverflow.com/questions/25245439/writing-wav-files-of-unknown-length
     
-    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
-        guard let input = inputs.first else { return }
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
+        guard let input = inputs.first else { return false }
         
-        for (i, sample) in input.enumerated() {
+        for (i, sample) in input.buffer.enumerated() {
             state.samples.append(sample)
             output[i] = sample
         }
         
         do {
-            guard let outputURL else { return }
+            guard let outputURL else { return input.isActive }
             
             let parentDir = outputURL.deletingLastPathComponent()
             if !FileManager.default.fileExists(atPath: parentDir.path()) {
@@ -45,6 +45,8 @@ struct WavExportNode: SynthesizerNodeProtocol {
         } catch {
             log.warning("Could not write to WAV: \(error)")
         }
+        
+        return input.isActive
     }
     
     func encodeWav(samples: [Double], sampleRate: Double) -> Data {

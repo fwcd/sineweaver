@@ -7,9 +7,10 @@
 
 /// A node that emits silence.
 struct SilenceNode: SynthesizerNodeProtocol {
-    func render(inputs: [[Double]], output: inout [Double], state: inout Void, context: SynthesizerContext) {
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout Void, context: SynthesizerContext) -> Bool {
         for i in 0..<output.count {
             output[i] = 0
         }
+        return false
     }
 }

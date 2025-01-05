@@ -13,14 +13,15 @@ protocol SynthesizerNodeProtocol: Hashable, Codable, Sendable {
     
     func makeState() -> State
 
-    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext)
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool
 }
 
 extension SynthesizerNodeProtocol where State == Void {
     func makeState() {}
     
-    func render(inputs: [[Double]], output: inout [Double], context: SynthesizerContext) {
+    @discardableResult
+    func render(inputs: [SynthesizerNodeInput], output: inout [Double], context: SynthesizerContext) -> Bool {
         var void: Void = ()
-        render(inputs: inputs, output: &output, state: &void, context: context)
+        return render(inputs: inputs, output: &output, state: &void, context: context)
     }
 }

@@ -122,12 +122,13 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
     }
     
-    private mutating func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, states: inout States, context: SynthesizerContext) {
+    private mutating func render(nodeId: UUID, to output: (id: UUID, i: Int)?, using buffers: inout Buffers, states: inout States, context: SynthesizerContext) -> Bool {
         let inputIds = inputEdges[nodeId] ?? []
+        var inputsActive = Array(repeating: false, count: inputIds.count)
         
         for (i, inputId) in inputIds.enumerated() {
             // TODO: Detect cycles and prevent duplicate rendering in non-tree DAGs by tracking visits etc.
-            render(
+            inputsActive[i] = render(
                 nodeId: inputId,
                 to: (id: nodeId, i: i),
                 using: &buffers,
@@ -144,16 +145,18 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
             fatalError("No input buffers for node id: \(nodeId)")
         }
         
-        if let output {
+        let inputs = zip(inputsActive, inputBuffers).map { SynthesizerNodeInput(isActive: $0.0, buffer: $0.1) }
+        
+        let result = if let output {
             node.render(
-                inputs: inputBuffers,
+                inputs: inputs,
                 output: &buffers.inputs[output.id]![output.i],
                 state: &states.inputs[nodeId]!,
                 context: context
             )
         } else {
             node.render(
-                inputs: inputBuffers,
+                inputs: inputs,
                 output: &buffers.output,
                 state: &states.output!,
                 context: context
@@ -161,5 +164,6 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
         
         nodes[nodeId] = node
+        return result
     }
 }
