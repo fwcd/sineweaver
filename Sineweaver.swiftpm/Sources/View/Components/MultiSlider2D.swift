@@ -70,6 +70,10 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         var stroke = false
         var fill = false
         var highlightPosition: Double? = nil
+        
+        var highlightIndex: Int? {
+            highlightPosition.map { Int($0) }
+        }
     }
     
     var body: some View {
@@ -92,14 +96,13 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
                         }, with: .color(.gray.opacity(0.5)))
                     }
                     if thumbCurve.stroke {
-                        let highlightIndex = thumbCurve.highlightPosition.map { Int($0) }
                         for (i, (start, end)) in zip(viewThumbPositions, viewThumbPositions.dropFirst()).enumerated() {
                             ctx.stroke(Path { path in
                                 let delta = end - start
                                 let normal = (delta / delta.length) * thumbRadius
                                 path.move(to: start + normal)
                                 path.addLine(to: end - normal)
-                            }, with: highlightIndex == i ? .color(thumbCurveHighlightColor) : .foreground, style: ComponentDefaults.lineStyle)
+                            }, with: thumbCurve.highlightIndex == i ? .color(thumbCurveHighlightColor) : .foreground, style: ComponentDefaults.lineStyle)
                         }
                     }
                     if let highlightViewPos = thumbCurveHighlightViewPosition {
@@ -114,7 +117,11 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
             ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
                 let options = thumbOptions(at: i)
                 let viewPos = viewThumbPositions[i]
+                let thumbStyle: AnyShapeStyle = ((thumbCurve?.highlightPosition).map { abs($0 - Double(i)) < 0.01 } ?? false)
+                    ? AnyShapeStyle(thumbCurveHighlightColor)
+                    : AnyShapeStyle(.foreground)
                 Thumb(isEnabled: options.isEnabled, size: thumbSize)
+                    .foregroundStyle(thumbStyle)
                     .position(viewPos)
                 if let label = options.label {
                     let labelOffset = (label.position == .above ? -1 : 1) * ComponentDefaults.thumbLabelSpacing
