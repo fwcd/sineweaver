@@ -30,8 +30,8 @@ struct SynthesizerADSRView: View {
                 ]
             } set: {
                 assert($0.count == 5)
-                attackMs = max(0, min($0[1].x, $0[2].x))
-                decayMs = max(0, max($0[2].x - $0[1].x, $0[1].x - $0[2].x))
+                attackMs = max(0, min($0[1].x, $0[2].x) - ($0[1].x == $0[2].x ? max(0, $0[3].x - $0[4].x) : 0))
+                decayMs = max(0, max($0[2].x - $0[1].x, $0[1].x - $0[2].x) - max(0, $0[3].x - $0[4].x))
                 sustain = (0...1).clamp($0[3].y != sustain ? $0[3].y : $0[2].y)
                 releaseMs = max(0, $0[4].x - $0[3].x)
             },
