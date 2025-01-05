@@ -10,7 +10,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     typealias State = any Sendable
     
     case oscillator(OscillatorNode)
-    case lfo(OscillatorNode)
+    case lfo(LFONode)
     case mixer(MixerNode)
     case silence(SilenceNode)
     case wavExport(WavExportNode)
@@ -36,12 +36,24 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     var asOscillator: OscillatorNode {
         get {
             switch self {
-            case .oscillator(let node), .lfo(let node): node
+            case .oscillator(let node): node
             default: .init()
             }
         }
         set {
             self = .oscillator(newValue)
+        }
+    }
+    
+    var asLFO: LFONode {
+        get {
+            switch self {
+            case .lfo(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .lfo(newValue)
         }
     }
     
@@ -126,7 +138,8 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     
     func makeState() -> State {
         switch self {
-        case .oscillator(let node), .lfo(let node): node.makeState()
+        case .oscillator(let node): node.makeState()
+        case .lfo(let node): node.makeState()
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
         case .wavExport(let node): node.makeState()
@@ -137,10 +150,14 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
         switch self {
-        case .oscillator(let node), .lfo(let node):
+        case .oscillator(let node):
             var oscState: OscillatorNode.State = state as! OscillatorNode.State
             defer { state = oscState }
             return node.render(inputs: inputs, output: &output, state: &oscState, context: context)
+        case .lfo(let node):
+            var lfoState: LFONode.State = state as! LFONode.State
+            defer { state = lfoState }
+            return node.render(inputs: inputs, output: &output, state: &lfoState, context: context)
         case .mixer(let node):
             var mixerState: MixerNode.State = state as! MixerNode.State
             defer { state = mixerState }

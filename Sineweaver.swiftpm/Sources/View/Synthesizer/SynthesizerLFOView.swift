@@ -8,22 +8,26 @@
 import SwiftUI
 
 struct SynthesizerLFOView: View {
-    @Binding var node: OscillatorNode
+    @Binding var node: LFONode
 
     @State private var referenceDate = Date()
     
     var body: some View {
         let size = ComponentDefaults.padSize / 2
         TimelineView(.animation) { context in
-            let _ = print(context.date)
-            SynthesizerChartView(node: node, timeInterval: context.date.timeIntervalSince(referenceDate))
-                .frame(width: size, height: size)
+            SynthesizerChartView(
+                node: node,
+                timeInterval: context.date.timeIntervalSince(referenceDate),
+                displaySampleRate: 100,
+                displayInterval: 0.1
+            )
+            .frame(width: size, height: size)
         }
     }
 }
 
 #Preview {
-    @Previewable @State var node = OscillatorNode(frequency: 0.5)
+    @Previewable @State var node = LFONode(frequency: 0.5)
     
     SynthesizerLFOView(node: $node)
 }

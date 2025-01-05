@@ -16,7 +16,7 @@ struct SynthesizerNodeView: View {
         case .oscillator:
             SynthesizerOscillatorView(node: $node.asOscillator)
         case .lfo:
-            SynthesizerLFOView(node: $node.asOscillator)
+            SynthesizerLFOView(node: $node.asLFO)
         case .envelope:
             SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
         default:
