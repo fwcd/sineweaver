@@ -14,7 +14,15 @@ struct EnvelopeNode: SynthesizerNodeProtocol {
     var sustain: Double = 1
     var release: Duration = .zero
     
-    func render(inputs: [[Double]], output: inout [Double], state: inout Void, context: SynthesizerContext) {
+    struct State {
+        var duration: Duration = .zero
+    }
+    
+    func makeState() -> State {
+        State()
+    }
+    
+    func render(inputs: [[Double]], output: inout [Double], state: inout State, context: SynthesizerContext) {
         // TODO
     }
 }
