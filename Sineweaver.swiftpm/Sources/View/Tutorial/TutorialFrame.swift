@@ -30,7 +30,7 @@ struct TutorialFrame<Content>: View where Content: View {
                     .frame(maxWidth: 800)
             }
             content
-                .frame(maxWidth: 800, maxHeight: 300)
+                .frame(maxWidth: 800)
             HStack {
                 if !viewModel.isFirstChapter {
                     Button("Back") {

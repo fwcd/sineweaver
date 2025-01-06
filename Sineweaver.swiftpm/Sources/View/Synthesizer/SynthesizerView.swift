@@ -17,14 +17,20 @@ struct SynthesizerView<Level>: View where Level: View {
         HStack {
             let tnodes = model.toposortedNodes
                 .filter { !hiddenNodeIds.contains($0.id) }
-            ForEach(tnodes) { tnode in
-                ComponentBox(tnode.node.name) {
-                    SynthesizerNodeView(
-                        node: $model.nodes[tnode.id].unwrapped,
-                        startDate: startDate,
-                        isActive: model.isActive
-                    )
-                    .fixedSize()
+            let groups = Dictionary(grouping: tnodes, by: \.depth)
+                .sorted { $0.key > $1.key }
+            ForEach(Array(groups.enumerated()), id: \.offset) { (_, group) in
+                VStack(alignment: .trailing) {
+                    ForEach(group.value) { tnode in
+                        ComponentBox(tnode.node.name) {
+                            SynthesizerNodeView(
+                                node: $model.nodes[tnode.id].unwrapped,
+                                startDate: startDate,
+                                isActive: model.isActive
+                            )
+                            .fixedSize()
+                        }
+                    }
                 }
             }
             level()
