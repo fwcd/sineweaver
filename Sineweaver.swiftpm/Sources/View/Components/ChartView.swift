@@ -10,6 +10,7 @@ import SwiftUI
 struct ChartView: View {
     var yRange: Range<Double>? = nil
     var sampleCount: Int = 100
+    var markedSample: Int? = nil
     let function: (inout [Double]) -> Void
     
     private var ys: [Double] {
@@ -22,6 +23,17 @@ struct ChartView: View {
         Canvas { ctx, size in
             let ys = self.ys
             let yRange = self.yRange ?? ((ys.min() ?? 0)..<(ys.max() ?? 1))
+            
+            if let markedSample {
+                let y = ys[markedSample]
+                let displayY = (1 - CGFloat(yRange.normalize(y))) * size.height
+                ctx.fill(Path(CGRect(
+                    x: 0,
+                    y: displayY,
+                    width: size.width,
+                    height: size.height - displayY
+                )), with: .linearGradient(Gradient(colors: [.gray.opacity(0.5), .gray.opacity(0.1)]), startPoint: CGPoint(x: 0, y: displayY), endPoint: CGPoint(x: 0, y: displayY + size.height)))
+            }
             
             ctx.stroke(Path { path in
                 for (i, y) in ys.enumerated() {

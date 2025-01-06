@@ -13,9 +13,26 @@ struct SynthesizerChartView<Node>: View where Node: SynthesizerNodeProtocol {
     var displaySampleRate: Double = 9_000
     var displayInterval: TimeInterval = 0.05
     var displayRange: Range<Double> = -1.05..<1.05
+    var markedSample: MarkedSample? = nil
+    
+    enum MarkedSample: Hashable {
+        case first
+        case last
+        case custom(Int)
+        
+        func index(for sampleCount: Int) -> Int {
+            switch self {
+            case .first: 0
+            case .last: sampleCount - 1
+            case let .custom(i): i
+            }
+        }
+    }
     
     var body: some View {
-        ChartView(yRange: displayRange, sampleCount: Int(displaySampleRate * displayInterval)) { output in
+        let sampleCount = Int(displaySampleRate * displayInterval)
+        let markedSample = markedSample?.index(for: sampleCount)
+        ChartView(yRange: displayRange, sampleCount: sampleCount, markedSample: markedSample) { output in
             var state = node.makeState()
             node.render(inputs: [], output: &output, state: &state, context: .init(
                 frame: Int(timeInterval * displaySampleRate),
