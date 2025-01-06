@@ -13,7 +13,7 @@ struct SynthesizerLFOView: View {
 
     var body: some View {
         let size = ComponentDefaults.padSize / 2
-        VStack(spacing: SynthesizerViewDefaults.vSpacing) {
+        HStack(spacing: SynthesizerViewDefaults.hSpacing) {
             let displayInterval: TimeInterval = 1
             TimelineView(.animation) { context in
                 SynthesizerChartView(
