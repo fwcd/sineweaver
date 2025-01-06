@@ -34,25 +34,15 @@ struct SynthesizerEnvelopeView: View {
             }
             .padding()
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
-                knob(value: $node.attackMs, range: millisRange, label: "Attack", format: format(ms:))
-                knob(value: $node.decayMs, range: millisRange, label: "Decay", format: format(ms:))
-                knob(value: $node.sustain, range: volumeRange, label: "Sustain", format: format(volume:))
-                knob(value: $node.releaseMs, range: millisRange, label: "Release", format: format(ms:))
+                LabelledKnob(value: $node.attackMs, range: millisRange, text: "Attack", format: format(ms:))
+                LabelledKnob(value: $node.decayMs, range: millisRange, text: "Decay", format: format(ms:))
+                LabelledKnob(value: $node.sustain, range: volumeRange, text: "Sustain", format: format(volume:))
+                LabelledKnob(value: $node.releaseMs, range: millisRange, text: "Release", format: format(ms:))
             }
         }
         .clipped()
         .onChange(of: isActive) {
             activeChanged = .now
-        }
-    }
-    
-    @ViewBuilder
-    private func knob(value: Binding<Double>, range: ClosedRange<Double>, label: String, format: (Double) -> String) -> some View {
-        VStack(spacing: SynthesizerViewDefaults.smallVSpacing) {
-            Knob(value: value, range: range)
-            ComponentLabel(label)
-            ComponentLabel(format(value.wrappedValue), textCase: nil)
-                .font(.system(size: 12))
         }
     }
     
