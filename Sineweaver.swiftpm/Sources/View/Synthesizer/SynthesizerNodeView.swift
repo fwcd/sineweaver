@@ -12,7 +12,25 @@ struct SynthesizerNodeView: View {
     var startDate: Date = Date()
     var isActive: Bool = false
     
+    private var hasBox: Bool {
+        switch node {
+        case .mixer: false
+        default: true
+        }
+    }
+    
     var body: some View {
+        if hasBox {
+            ComponentBox(node.name) {
+                inner
+            }
+        } else {
+            inner
+        }
+    }
+    
+    @ViewBuilder
+    private var inner: some View {
         switch node {
         case .oscillator:
             SynthesizerOscillatorView(node: $node.asOscillator)

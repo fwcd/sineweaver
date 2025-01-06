@@ -53,7 +53,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     }
     
     var hiddenNodeIds: Set<UUID> {
-        [activeGateId, lfoMixerId]
+        [activeGateId]
     }
     
     func configure(synthesizer: inout SynthesizerModel) {
