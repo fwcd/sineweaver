@@ -9,16 +9,15 @@ import SwiftUI
 
 struct SynthesizerLFOView: View {
     @Binding var node: LFONode
+    var startDate: Date = Date()
 
-    @State private var referenceDate = Date()
-    
     var body: some View {
         let size = ComponentDefaults.padSize / 2
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             TimelineView(.animation) { context in
                 SynthesizerChartView(
                     node: node,
-                    timeInterval: context.date.timeIntervalSince(referenceDate),
+                    timeInterval: context.date.timeIntervalSince(startDate),
                     displaySampleRate: 30,
                     displayInterval: 1,
                     displayRange: -0.05..<1.05

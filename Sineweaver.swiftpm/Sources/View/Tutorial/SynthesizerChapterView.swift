@@ -18,6 +18,7 @@ struct SynthesizerChapterView: View {
         Debouncer(wrappedValue: $viewModel.model) { $model in
             SynthesizerView(
                 model: $model,
+                startDate: viewModel.synthesizer.startDate,
                 hiddenNodeIds: chapter.hiddenNodeIds
             ) {
                 LiveLevel(synthesizer: viewModel.synthesizer)

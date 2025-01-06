@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SynthesizerNodeView: View {
     @Binding var node: SynthesizerNode
+    var startDate: Date = Date()
     var isActive: Bool = false
     
     var body: some View {
@@ -16,7 +17,7 @@ struct SynthesizerNodeView: View {
         case .oscillator:
             SynthesizerOscillatorView(node: $node.asOscillator)
         case .lfo:
-            SynthesizerLFOView(node: $node.asLFO)
+            SynthesizerLFOView(node: $node.asLFO, startDate: startDate)
         case .envelope:
             SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
         default:

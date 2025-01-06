@@ -46,7 +46,12 @@ final class Synthesizer: Sendable {
         }
     }
     
+    let startTimestamp: Atomic<TimeInterval> = .init(0)
     let level: Atomic<Double> = .init(0)
+    
+    var startDate: Date {
+        Date(timeIntervalSince1970: startTimestamp.load(ordering: .relaxed))
+    }
     
     private struct AudioState {
         var model: SynthesizerModel = .init()
@@ -81,6 +86,7 @@ final class Synthesizer: Sendable {
         // Only used on the audio thread
         var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
         var lastAudioState = audioState.withLock { $0 }
+        var storedStartTimestamp = false
 
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
             let frameCount = Int(frameCount)
@@ -89,6 +95,11 @@ final class Synthesizer: Sendable {
                 guard audioState.buffers.output.count == frameCount else {
                     self.frameCount.withLock { $0 = frameCount }
                     return
+                }
+                
+                if !storedStartTimestamp {
+                    startTimestamp.store(Date().timeIntervalSince1970, ordering: .relaxed)
+                    storedStartTimestamp = true
                 }
                 
                 audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)

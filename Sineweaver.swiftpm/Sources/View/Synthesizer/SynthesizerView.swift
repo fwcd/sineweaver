@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SynthesizerView<Level>: View where Level: View {
     @Binding var model: SynthesizerModel
+    var startDate: Date = Date()
     var hiddenNodeIds: Set<UUID> = []
     @ViewBuilder var level: () -> Level
     
@@ -17,8 +18,12 @@ struct SynthesizerView<Level>: View where Level: View {
             let nodes = model.toposortedNodes.filter { !hiddenNodeIds.contains($0.id) }
             ForEach(nodes, id: \.id) { (id, node) in
                 ComponentBox(node.name) {
-                    SynthesizerNodeView(node: $model.nodes[id].unwrapped, isActive: model.isActive)
-                        .fixedSize()
+                    SynthesizerNodeView(
+                        node: $model.nodes[id].unwrapped,
+                        startDate: startDate,
+                        isActive: model.isActive
+                    )
+                    .fixedSize()
                 }
             }
             level()
