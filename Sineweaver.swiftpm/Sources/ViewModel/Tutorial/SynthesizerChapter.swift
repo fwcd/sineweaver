@@ -57,29 +57,29 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     }
     
     func configure(synthesizer: inout SynthesizerModel) {
-        var newSynth = SynthesizerModel()
+        var synth = SynthesizerModel()
         
-        newSynth.outputNodeId = newSynth.addNode(id: oscillatorId, .oscillator(.init(
+        synth.outputNodeId = synth.addNode(id: oscillatorId, .oscillator(.init(
             volume: 0.5,
             prefersPianoView: self >= .pianoOscillator
         )))
         
         if self >= .envelope {
-            newSynth.outputNodeId = newSynth.addNode(id: envelopeId, .envelope(.init()))
-            newSynth.connect(oscillatorId, to: envelopeId)
+            synth.outputNodeId = synth.addNode(id: envelopeId, .envelope(.init()))
+            synth.connect(oscillatorId, to: envelopeId)
         } else {
-            newSynth.outputNodeId = newSynth.addNode(id: activeGateId, .activeGate(.init()))
-            newSynth.connect(oscillatorId, to: activeGateId)
+            synth.outputNodeId = synth.addNode(id: activeGateId, .activeGate(.init()))
+            synth.connect(oscillatorId, to: activeGateId)
         }
         
         if self >= .lfo {
-            newSynth.outputNodeId = newSynth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
-            newSynth.connect(envelopeId, to: lfoMixerId)
+            synth.outputNodeId = synth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
+            synth.connect(envelopeId, to: lfoMixerId)
             
-            newSynth.addNode(id: lfoId, .lfo(.init()))
-            newSynth.connect(lfoId, to: lfoMixerId)
+            synth.addNode(id: lfoId, .lfo(.init()))
+            synth.connect(lfoId, to: lfoMixerId)
         }
         
-        synthesizer = newSynth
+        synthesizer = synth
     }
 }
