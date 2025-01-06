@@ -21,7 +21,7 @@ struct SynthesizerLFOView: View {
                     timeInterval: context.date.timeIntervalSince(startDate) - displayInterval,
                     displaySampleRate: 30,
                     displayInterval: displayInterval,
-                    displayRange: -0.05..<1.05,
+                    displayRange: 0..<1,
                     markedSample: .last
                 )
                 .frame(width: size, height: size)
