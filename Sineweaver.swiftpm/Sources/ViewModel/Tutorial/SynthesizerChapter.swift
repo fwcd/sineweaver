@@ -10,6 +10,7 @@ import Foundation
 private let oscillatorId = UUID()
 private let activeGateId = UUID()
 private let envelopeId = UUID()
+private let lfoMixerId = UUID()
 private let lfoId = UUID()
 
 enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
@@ -52,7 +53,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     }
     
     var hiddenNodeIds: Set<UUID> {
-        self <= .envelope ? [activeGateId] : []
+        [activeGateId, lfoMixerId]
     }
     
     func configure(synthesizer: inout SynthesizerModel) {
@@ -72,8 +73,11 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         }
         
         if self >= .lfo {
+            newSynth.outputNodeId = newSynth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
+            newSynth.connect(envelopeId, to: lfoMixerId)
+            
             newSynth.addNode(id: lfoId, .lfo(.init()))
-            newSynth.connect(lfoId, to: envelopeId)
+            newSynth.connect(lfoId, to: lfoMixerId)
         }
         
         synthesizer = newSynth
