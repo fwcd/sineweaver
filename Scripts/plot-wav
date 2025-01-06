@@ -6,6 +6,10 @@ import argparse
 import struct
 import matplotlib.pyplot as plt
 
+# It would be nice if we could use the standard library's `wave` module,
+# unfortunately it doesn't seem to support float PCM though:
+# https://stackoverflow.com/questions/60352850/wave-error-unknown-format-3-arises-when-trying-to-convert-a-wav-file-into-text
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('input', type=Path, help='The path to the input wav')
