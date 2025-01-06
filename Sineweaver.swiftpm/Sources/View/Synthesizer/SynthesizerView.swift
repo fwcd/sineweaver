@@ -15,11 +15,12 @@ struct SynthesizerView<Level>: View where Level: View {
     
     var body: some View {
         HStack {
-            let nodes = model.toposortedNodes.filter { !hiddenNodeIds.contains($0.id) }
-            ForEach(nodes, id: \.id) { (id, node) in
-                ComponentBox(node.name) {
+            let tnodes = model.toposortedNodes
+                .filter { !hiddenNodeIds.contains($0.id) }
+            ForEach(tnodes) { tnode in
+                ComponentBox(tnode.node.name) {
                     SynthesizerNodeView(
-                        node: $model.nodes[id].unwrapped,
+                        node: $model.nodes[tnode.id].unwrapped,
                         startDate: startDate,
                         isActive: model.isActive
                     )
