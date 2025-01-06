@@ -27,7 +27,7 @@ struct ChartView: View {
                 for (i, y) in ys.enumerated() {
                     path.addLine(to: CGPoint(
                         x: CGFloat(i) / CGFloat(sampleCount) * size.width,
-                        y: CGFloat(yRange.normalize(y)) * size.height
+                        y: (1 - CGFloat(yRange.normalize(y))) * size.height
                     ))
                 }
             }, with: .foreground, style: ComponentDefaults.lineStyle)
