@@ -64,20 +64,23 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             prefersPianoView: self >= .pianoOscillator
         )))
         
-        if self >= .envelope {
-            synth.outputNodeId = synth.addNode(id: envelopeId, .envelope(.init()))
-            synth.connect(oscillatorId, to: envelopeId)
-        } else {
-            synth.outputNodeId = synth.addNode(id: activeGateId, .activeGate(.init()))
-            synth.connect(oscillatorId, to: activeGateId)
-        }
-        
         if self >= .lfo {
-            synth.outputNodeId = synth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
-            synth.connect(envelopeId, to: lfoMixerId)
+            synth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
+            synth.connect(synth.outputNodeId!, to: lfoMixerId)
+            synth.outputNodeId = lfoMixerId
             
             synth.addNode(id: lfoId, .lfo(.init()))
             synth.connect(lfoId, to: lfoMixerId)
+        }
+        
+        if self >= .envelope {
+            synth.addNode(id: envelopeId, .envelope(.init()))
+            synth.connect(synth.outputNodeId!, to: envelopeId)
+            synth.outputNodeId = envelopeId
+        } else {
+            synth.addNode(id: activeGateId, .activeGate(.init()))
+            synth.connect(synth.outputNodeId!, to: activeGateId)
+            synth.outputNodeId = activeGateId
         }
         
         synthesizer = synth

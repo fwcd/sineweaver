@@ -37,6 +37,6 @@ struct MixerNode: SynthesizerNodeProtocol {
                 output[i] = operation.apply(output[i], input.buffer[i])
             }
         }
-        return true
+        return inputs.first?.isActive ?? false
     }
 }
