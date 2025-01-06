@@ -11,6 +11,7 @@ struct ChartView: View {
     var yRange: Range<Double>? = nil
     var sampleCount: Int = 100
     var markedSample: Int? = nil
+    var padding: CGFloat = 5
     let function: (inout [Double]) -> Void
     
     private var ys: [Double] {
@@ -20,16 +21,18 @@ struct ChartView: View {
     }
 
     var body: some View {
-        Canvas { ctx, size in
+        Canvas { ctx, outerSize in
             let ys = self.ys
             let yRange = self.yRange ?? ((ys.min() ?? 0)..<(ys.max() ?? 1))
+            
+            let size = outerSize - CGVector(dx: 2 * padding, dy: 2 * padding)
             
             if let markedSample {
                 let y = ys[markedSample]
                 let displayY = (1 - CGFloat(yRange.normalize(y))) * size.height
                 ctx.fill(Path(CGRect(
-                    x: 0,
-                    y: displayY,
+                    x: padding,
+                    y: padding + displayY,
                     width: size.width,
                     height: size.height - displayY
                 )), with: .linearGradient(Gradient(colors: [.gray.opacity(0.5), .gray.opacity(0.1)]), startPoint: CGPoint(x: 0, y: displayY), endPoint: CGPoint(x: 0, y: displayY + size.height)))
@@ -38,8 +41,8 @@ struct ChartView: View {
             ctx.stroke(Path { path in
                 for (i, y) in ys.enumerated() {
                     path.addLine(to: CGPoint(
-                        x: CGFloat(i) / CGFloat(sampleCount) * size.width,
-                        y: (1 - CGFloat(yRange.normalize(y))) * size.height
+                        x: padding + CGFloat(i) / CGFloat(sampleCount) * size.width,
+                        y: padding + (1 - CGFloat(yRange.normalize(y))) * size.height
                     ))
                 }
             }, with: .foreground, style: ComponentDefaults.lineStyle)
