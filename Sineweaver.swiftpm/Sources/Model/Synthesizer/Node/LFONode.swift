@@ -18,7 +18,7 @@ struct LFONode: SynthesizerNodeProtocol {
 
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout Void, context: SynthesizerContext) -> Bool {
         for i in 0..<output.count {
-            output[i] = wave.sample(Double(context.frame) * frequency / context.sampleRate) * volume
+            output[i] = wave.sample(Double(context.frame + i) * frequency / context.sampleRate) * volume
         }
         return isActive
     }

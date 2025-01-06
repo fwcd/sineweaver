@@ -18,8 +18,8 @@ struct SynthesizerLFOView: View {
             SynthesizerChartView(
                 node: node,
                 timeInterval: context.date.timeIntervalSince(referenceDate),
-                displaySampleRate: 100,
-                displayInterval: 0.1
+                displaySampleRate: 30,
+                displayInterval: 1
             )
             .frame(width: size, height: size)
         }
@@ -27,7 +27,7 @@ struct SynthesizerLFOView: View {
 }
 
 #Preview {
-    @Previewable @State var node = LFONode(frequency: 0.5)
+    @Previewable @State var node = LFONode()
     
     SynthesizerLFOView(node: $node)
 }

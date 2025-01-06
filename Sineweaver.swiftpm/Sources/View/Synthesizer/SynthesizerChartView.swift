@@ -13,14 +13,13 @@ struct SynthesizerChartView<Node>: View where Node: SynthesizerNodeProtocol {
     var displaySampleRate: Double = 9_000
     var displayInterval: TimeInterval = 0.05
     var displayAmplitude: Double = 1.05
-    var animationSpeed: Double = 1
     
     var body: some View {
         ChartView(yRange: -displayAmplitude..<displayAmplitude, sampleCount: Int(displaySampleRate * displayInterval)) { output in
             var state = node.makeState()
             node.render(inputs: [], output: &output, state: &state, context: .init(
-                frame: Int(timeInterval * displaySampleRate * animationSpeed),
-                sampleRate: Double(displaySampleRate * animationSpeed)
+                frame: Int(timeInterval * displaySampleRate),
+                sampleRate: Double(displaySampleRate)
             ))
         }
     }
