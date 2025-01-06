@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A wave generator.
+/// A wave generator that generates a signal between -1 and 1.
 struct OscillatorNode: SynthesizerNodeProtocol {
     var wave: Wave = .sine
     var frequency: Double = 440

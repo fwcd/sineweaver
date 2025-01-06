@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A sine wave generator.
+/// A low-frequency oscillator that generates a positive signal between 0 and 1.
 struct LFONode: SynthesizerNodeProtocol {
     typealias Wave = OscillatorNode.Wave
     
@@ -18,7 +18,7 @@ struct LFONode: SynthesizerNodeProtocol {
 
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout Void, context: SynthesizerContext) -> Bool {
         for i in 0..<output.count {
-            output[i] = wave.sample(Double(context.frame + i) * frequency / context.sampleRate) * volume
+            output[i] = 0.5 + 0.5 * wave.sample(Double(context.frame + i) * frequency / context.sampleRate) * volume
         }
         return isActive
     }
