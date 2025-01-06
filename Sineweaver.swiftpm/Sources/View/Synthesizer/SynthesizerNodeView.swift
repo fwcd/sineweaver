@@ -38,6 +38,8 @@ struct SynthesizerNodeView: View {
             SynthesizerLFOView(node: $node.asLFO, startDate: startDate)
         case .envelope:
             SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
+        case .mixer:
+            SynthesizerMixerView(node: $node.asMixer)
         default:
             Text("TODO")
         }

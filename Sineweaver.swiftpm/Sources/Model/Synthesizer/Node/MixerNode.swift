@@ -7,7 +7,7 @@
 
 /// A node that aggregates its inputs in some form.
 struct MixerNode: SynthesizerNodeProtocol {
-    enum Operation: Hashable, Codable {
+    enum Operation: Hashable, Codable, CaseIterable {
         /// Adds the signals together. Corresponds to basic mixing.
         case sum
         /// Multiplies the signals together. Corresponds to amplitude modulation.
