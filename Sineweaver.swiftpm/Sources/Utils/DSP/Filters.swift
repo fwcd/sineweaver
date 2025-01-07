@@ -81,17 +81,29 @@ func makeHighpassFilter(sampleRate: Double, cutoffHz: Double, transitionBandwidt
     let width: Double = 100
     let xRange: Range<Double> = 0..<width
     VStack {
-        ChartView(xRange: xRange) { x in
-            sinc(x)
+        Section("Filter functions") {
+            ChartView(xRange: xRange) { x in
+                sinc(x)
+            }
+            ChartView(xRange: xRange) { x in
+                blackmanWindow(width: width, x)
+            }
+            ChartView(xRange: xRange) { x in
+                sincFilter(cutoff: cutoffHz / sampleRate, x - (width - 1) / 2)
+            }
+            ChartView(xRange: xRange) { x in
+                windowedSincFilter(cutoff: cutoffHz / sampleRate, width: width, x)
+            }
         }
-        ChartView(xRange: xRange) { x in
-            blackmanWindow(width: width, x)
+        
+        let transitionBandwidthHz = 4.0
+        
+        Section("Low-pass filter") {
+            ChartView(ys: makeLowpassFilter(sampleRate: sampleRate, cutoffHz: cutoffHz, transitionBandwidthHz: transitionBandwidthHz))
         }
-        ChartView(xRange: xRange) { x in
-            sincFilter(cutoff: cutoffHz / sampleRate, x - (width - 1) / 2)
-        }
-        ChartView(xRange: xRange) { x in
-            windowedSincFilter(cutoff: cutoffHz / sampleRate, width: width, x)
+        
+        Section("High-pass filter") {
+            ChartView(ys: makeHighpassFilter(sampleRate: sampleRate, cutoffHz: cutoffHz, transitionBandwidthHz: transitionBandwidthHz))
         }
     }
 }
