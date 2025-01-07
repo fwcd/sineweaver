@@ -12,7 +12,7 @@ struct LFONode: SynthesizerNodeProtocol {
     typealias Wave = OscillatorNode.Wave
     
     var wave: Wave = .sine
-    var frequency: Double = 0.5
+    var frequency: Double = 1
     var volume: Double = 1
     var isActive = false
 
