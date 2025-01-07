@@ -42,7 +42,10 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "AppModule",
-            path: "."
+            path: ".",
+            swiftSettings: [
+                .unsafeFlags(["-O"]) // Always optimize
+            ]
         )
     ],
     swiftLanguageVersions: [.version("6")]
