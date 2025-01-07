@@ -53,13 +53,16 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             [
                 "Oscillators are not just useful for generating sounds directly, they can also be used to influence other signals, this is known as _modulation_. Usually such oscillators will operate at a much lower frequency than those used to generate sounds, therefore they are commonly referred to as **Low-Frequency Oscillators** (**LFOs**).",
                 "A very simple form of modulation is **amplitude modulation** where the signals are effetively multiplied together. Try changing the LFO frequency and see how this affects the sound when you press a piano key!",
+                // TODO: Introduce frequency/time-domain before jumping to filters?
+                // TODO: Showcase ADSR modulation first?
+                "Amplitude is not the only thing we can modulate, however. Modern synthesizers let you modulate almost any parameter. To make things more interesting, we will now introduce another effect...",
             ]
-        // TODO: Introduce frequency/time-domain first?
         case .filter:
             [
-                "Filters are another way of processing the audio signal, namely by boosting or attenuating different frequencies. The simplest kind of filter is a **low-pass filter**, which leaves all frequencies below a cutoff frequency untouched (the **passband**) and silences all frequencies above the cutoff (the **stopband**). Swapping passband and stopband gives us a **high-pass filter**, i.e. one that only lets high frequencies pass.",
+                "Filters change the audio signal by boosting or attenuating different frequencies. The simplest kind of filter is a **low-pass filter**, which leaves all frequencies below a cutoff frequency untouched (the **passband**) and silences all frequencies above the cutoff (the **stopband**). Swapping passband and stopband gives us a **high-pass filter**, i.e. one that only lets high frequencies pass.",
+                // TODO: Should we skip the section about roll-off, is this relevant? Perhaps add support for footnotes?
                 "In reality perfect filters (also called _brickwall filters_) with a perfectly sharp cutoff are not achievable, since they would introduce an infinitely long delay. The specifics are not too relevant here, in practice this just means that every filter will have a certain _roll-off_, i.e. the frequencies around the cutoff will still pass the filter, albeit slightly attenuated.",
-                "Try tweaking the filter below and see how the sound changes!",
+                "Try tweaking the cutoff frequency and the modulation strength of the filter below, as well as the LFO frequency, and see how the sound changes when you play the oscillator's piano!",
             ]
         }
     }
