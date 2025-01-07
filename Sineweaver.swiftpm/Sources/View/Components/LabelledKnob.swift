@@ -24,11 +24,15 @@ struct LabelledKnob<Value>: View where Value: BinaryFloatingPoint {
             switch orientation {
             case .horizontal:
                 HStack(spacing: ComponentDefaults.smallHSpacing) {
-                    content
+                    knob
+                    VStack(alignment: .leading) {
+                        labels
+                    }
                 }
             case .vertical:
                 VStack(spacing: ComponentDefaults.smallVSpacing) {
-                    content
+                    knob
+                    labels
                 }
             }
         }
@@ -36,8 +40,12 @@ struct LabelledKnob<Value>: View where Value: BinaryFloatingPoint {
     }
     
     @ViewBuilder
-    private var content: some View {
+    private var knob: some View {
         Knob(value: $value, range: range)
+    }
+    
+    @ViewBuilder
+    private var labels: some View {
         if let text {
             ComponentLabel(text)
         }

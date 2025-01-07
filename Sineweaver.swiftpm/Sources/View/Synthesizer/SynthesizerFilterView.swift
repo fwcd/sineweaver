@@ -12,11 +12,11 @@ struct SynthesizerFilterView: View {
     
     var body: some View {
         // TODO: Something more fancy
-        VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), text: "Cutoff") { _ in
+        VStack(alignment: .leading, spacing: SynthesizerViewDefaults.vSpacing) {
+            LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), orientation: .horizontal, text: "Cutoff") { _ in
                 String(format: "%.2f Hz", node.filter.cutoffHz)
             }
-            LabelledKnob(value: $node.modulationFactor, text: "Modulation") {
+            LabelledKnob(value: $node.modulationFactor, orientation: .horizontal, text: "Modulation") {
                 String(format: "%.2f", $0)
             }
         }
