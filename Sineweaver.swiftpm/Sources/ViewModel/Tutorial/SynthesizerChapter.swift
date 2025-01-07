@@ -10,6 +10,7 @@ import Foundation
 private let oscillatorId = UUID()
 private let activeGateId = UUID()
 private let envelopeId = UUID()
+private let filterId = UUID()
 private let lfoMixerId = UUID()
 private let lfoId = UUID()
 
@@ -18,12 +19,14 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     case pianoOscillator
     case envelope
     case lfo
+    case filter
     
     var title: String {
         switch self {
         case .basicOscillator, .pianoOscillator: "The Oscillator"
         case .envelope: "The Envelope"
         case .lfo: "The LFO"
+        case .filter: "The Filter"
         }
     }
     
@@ -49,6 +52,13 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             [
                 "Oscillators are not just useful for generating sounds directly, they can also be used to influence other signals, this is known as _modulation_. Usually such oscillators will operate at a much lower frequency than those used to generate sounds, therefore they are commonly referred to as **Low-Frequency Oscillators** (**LFOs**).",
             ]
+        // TODO: Introduce frequency/time-domain first?
+        case .filter:
+            [
+                "Filters are another way of processing the audio signal, namely by boosting or attenuating different frequencies. The simplest kind of filter is a **low-pass filter**, which leaves all frequencies below a cutoff frequency untouched (the **passband**) and silences all frequencies above the cutoff (the **stopband**). Swapping passband and stopband gives us a **high-pass filter**, i.e. one that only lets high frequencies pass.",
+                "In reality perfect filters (also called _brickwall filters_) with a perfectly sharp cutoff are not achievable, since they would introduce an infinitely long delay. The specifics are not too relevant here, in practice this just means that every filter will have a certain _roll-off_, i.e. the frequencies around the cutoff will still pass the filter, albeit slightly attenuated.",
+                "Try tweaking the filter below and see how the sound changes!",
+            ]
         }
     }
     
@@ -71,6 +81,12 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             
             synth.addNode(id: lfoId, .lfo(.init()))
             synth.connect(lfoId, to: lfoMixerId)
+        }
+        
+        if self >= .filter {
+            synth.addNode(id: filterId, .filter(.init()))
+            synth.connect(synth.outputNodeId!, to: filterId)
+            synth.outputNodeId = filterId
         }
         
         if self >= .envelope {
