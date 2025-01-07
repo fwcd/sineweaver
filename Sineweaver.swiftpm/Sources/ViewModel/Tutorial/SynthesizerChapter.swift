@@ -17,13 +17,14 @@ private let lfoId = UUID()
 enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     case basicOscillator
     case pianoOscillator
+    case envelopeIntro
     case envelope
     case lfo
     case filter
     
     var title: String {
         switch self {
-        case .basicOscillator, .pianoOscillator: "The Oscillator"
+        case .basicOscillator, .pianoOscillator, .envelopeIntro: "The Oscillator"
         case .envelope: "The Envelope"
         case .lfo: "The LFO"
         case .filter: "The Filter"
@@ -42,9 +43,13 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             [
                 "Setting the pitch directly is a bit inconvenient, so let's add a piano keyboard. Try playing different notes and see how the oscillator changes.",
             ]
+        case .envelopeIntro:
+            [
+                "Most sounds are a bit more complex than a sine wave, however. Hitting a drum or a piano key, for example, produces a relatively loud initial sound (the _attack_) that subsequently falls in volume (the _decay_). In the case of a piano key, the sound is also _sustained_ at a certain volume until the key is _released_. Wouldn't it be nice if the synthesizer could emulate this?",
+            ]
         case .envelope:
             [
-                "Most sounds are a bit more complex than a sine wave, however. Hitting a drum or a piano key, for example, produces a relatively loud initial sound (the _attack_) that subsequently falls in volume (the _decay_). In the case of a piano key, the sound is also _sustained_ at a certain volume until the key is _released_. This \"shape\" of a sound is known as the **envelope** and can be customized using the four parameters: **Attack**, **decay**, **sustain** and **release** (**ADSR**).",
+                "Turns out, most synthesizers do offer four parameters to customize the so-called _envelope_ of a wave: **Attack** (the initial ramp-up in volume), **Decay** (the subsequent fall in volume), **Sustain** (the sustained volume) and **Release** (the final drop to silence). Together these parameters are known under the acronym **ADSR**.",
                 "Try dragging the envelope control points (or the knobs below) to customize the ADSR parameters and see how the sound changes when you press a piano key!",
                 // TODO: Add presets to avoid overwhelming the user here?
             ]
