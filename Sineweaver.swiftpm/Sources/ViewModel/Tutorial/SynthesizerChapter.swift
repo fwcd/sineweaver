@@ -56,6 +56,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         case .lfo:
             [
                 "Oscillators are not just useful for generating sounds directly, they can also be used to influence other signals, this is known as _modulation_. Usually such oscillators will operate at a much lower frequency than those used to generate sounds, therefore they are commonly referred to as **Low-Frequency Oscillators** (**LFOs**).",
+                "A very simple form of modulation is **amplitude modulation** where the signals are effetively multiplied together. Try changing the LFO frequency and see how this affects the sound when you press a piano key!",
             ]
         // TODO: Introduce frequency/time-domain first?
         case .filter:
