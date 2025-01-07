@@ -75,20 +75,21 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         )))
         
         if self >= .lfo {
-            synth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
-            synth.connect(synth.outputNodeId!, to: lfoMixerId)
-            synth.outputNodeId = lfoMixerId
-            
             synth.addNode(id: lfoId, .lfo(.init()))
-            synth.connect(lfoId, to: lfoMixerId)
+            
+            if self >= .filter {
+                synth.addNode(id: filterId, .filter(.init()))
+                synth.connect(synth.outputNodeId!, to: filterId)
+                synth.connect(lfoId, to: filterId)
+                synth.outputNodeId = filterId
+            } else {
+                synth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
+                synth.connect(synth.outputNodeId!, to: lfoMixerId)
+                synth.connect(lfoId, to: lfoMixerId)
+                synth.outputNodeId = lfoMixerId
+            }
         }
-        
-        if self >= .filter {
-            synth.addNode(id: filterId, .filter(.init()))
-            synth.connect(synth.outputNodeId!, to: filterId)
-            synth.outputNodeId = filterId
-        }
-        
+
         if self >= .envelope {
             synth.addNode(id: envelopeId, .envelope(.init()))
             synth.connect(synth.outputNodeId!, to: envelopeId)
