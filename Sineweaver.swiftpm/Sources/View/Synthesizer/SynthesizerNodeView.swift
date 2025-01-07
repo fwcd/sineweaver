@@ -36,6 +36,8 @@ struct SynthesizerNodeView: View {
             SynthesizerOscillatorView(node: $node.asOscillator)
         case .lfo:
             SynthesizerLFOView(node: $node.asLFO, startDate: startDate)
+        case .filter:
+            SynthesizerFilterView(node: $node.asFilter)
         case .envelope:
             SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
         case .mixer:
