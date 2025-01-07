@@ -23,7 +23,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
         func sample(_ x: Double) -> Double {
             switch self {
             case .sine: sin(2 * .pi * x)
-            case .saw: 1 - x.truncatingRemainder(dividingBy: 1)
+            case .saw: 1 - 2 * x.truncatingRemainder(dividingBy: 1)
             case .square: x.truncatingRemainder(dividingBy: 1) < 0.5 ? 0 : 1
             }
         }
