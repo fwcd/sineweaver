@@ -11,7 +11,8 @@ struct SynthesizerFilterView: View {
     @Binding var node: FilterNode
     
     var body: some View {
-        // TODO: Something more fancy
+        // TODO: Render filter curve
+        // TODO: Show animated modulation on cutoff knob/in filter curve
         HStack(spacing: SynthesizerViewDefaults.hSpacing) {
             LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), text: "Cutoff") { _ in
                 String(format: "%.2f Hz", node.filter.cutoffHz)
