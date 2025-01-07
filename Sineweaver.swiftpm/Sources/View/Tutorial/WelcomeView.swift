@@ -17,12 +17,16 @@ struct WelcomeView: View {
                 .aspectRatio(1, contentMode: .fit)
                 .frame(width: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
-            VStack(spacing: 10) {
-                Text("Welcome to Sineweaver!")
+            VStack(spacing: 20) {
+                Text("Sineweaver")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                Text("An interactive introduction to synthesizers")
-                    .font(.title3)
+                Text("An introduction to synthesizers")
+                    .font(.title2)
+                Text("Electronic music is everywhere, yet traditional music education often focuses on classical or acoustic compositions. Synthesizers, the instruments at the heart of electronic music, offer virtually limitless possibilities for crafting sounds from scratch. In this playground we will explore some of the fundamental components of a synthesizer and how they can be used for sound design.")
+                    .lineLimit(nil)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
     }
