@@ -25,7 +25,7 @@ struct SynthesizerOscillatorView: View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 SynthesizerChartView(node: playingNode)
-                    .frame(minWidth: ComponentDefaults.padSize)
+                    .frame(minWidth: 0.8 * ComponentDefaults.padSize)
                     .opacity(node.isPlaying ? 1 : 0.5)
                     .overlay(alignment: .bottom) {
                         HStack(spacing: 20) {
@@ -58,19 +58,14 @@ struct SynthesizerOscillatorView: View {
                 .font(node.prefersPianoView ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
-                ViewThatFits {
-                    ForEach(0..<2) { octaveReduction in
-                        PianoView(notes: Note(.c, 3)..<Note(.b, 6 - octaveReduction)) { notes in
-                            if let note = notes.first {
-                                node.frequency = tuning.pitchHz(for: note)
-                            }
-                            node.isPlaying = !notes.isEmpty
-                        }
+                PianoView(notes: Note(.c, 3)..<Note(.c, 6)) { notes in
+                    if let note = notes.first {
+                        node.frequency = tuning.pitchHz(for: note)
                     }
+                    node.isPlaying = !notes.isEmpty
                 }
             }
         }
-        .frame(maxWidth: 2 * ComponentDefaults.padSize)
     }
 }
 
