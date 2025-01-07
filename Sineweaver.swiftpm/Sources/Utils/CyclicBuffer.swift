@@ -8,7 +8,7 @@
 struct CyclicBuffer<Value>: Sequence, CustomStringConvertible {
     let size: Int
     
-    private var data: [Value] = []
+    private var data: [Value]
     private var headIndex: Int = 0
 
     var count: Int {
@@ -18,9 +18,14 @@ struct CyclicBuffer<Value>: Sequence, CustomStringConvertible {
     var description: String {
         String(describing: Array(self))
     }
+    
+    fileprivate init(size: Int, data: [Value] = []) {
+        self.size = size
+        self.data = data
+    }
 
     init(size: Int) {
-        self.size = size
+        self.init(size: size, data: [])
     }
     
     mutating func append(_ value: Value) {
@@ -31,6 +36,12 @@ struct CyclicBuffer<Value>: Sequence, CustomStringConvertible {
             data[headIndex] = value
         }
         headIndex += 1
+    }
+    
+    static func +=(lhs: inout Self, rhs: some Sequence<Value>) {
+        for value in rhs {
+            lhs.append(value)
+        }
     }
 
     struct Iterator: IteratorProtocol {
@@ -47,6 +58,12 @@ struct CyclicBuffer<Value>: Sequence, CustomStringConvertible {
     
     func makeIterator() -> Iterator {
         Iterator(buffer: self)
+    }
+}
+
+extension CyclicBuffer where Value: AdditiveArithmetic {
+    static func zeros(size: Int) -> Self {
+        Self(size: size, data: Array(repeating: .zero, count: size))
     }
 }
 
