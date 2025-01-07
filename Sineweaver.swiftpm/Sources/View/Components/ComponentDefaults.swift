@@ -18,5 +18,6 @@ enum ComponentDefaults {
     static let knobSize: CGFloat = 40
     static let highlightColor = Color.cyan
     static let smallVSpacing: CGFloat = 6
+    static let smallHSpacing: CGFloat = smallVSpacing
     static let chartPadding: CGFloat = 5
 }
