@@ -36,7 +36,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             [
                 // TODO: Square waves etc.? Maybe a generic preset mechanism that we could later use for the envelope too would be appropriate?
                 #"At the most fundamental level, a synthesizer produces sounds by sampling a periodic function, commonly a sine wave. The synthesizer presented here is called an **oscillator** and it forms the fundamental building block of almost every form of audio synthesis."#,
-                "This oscillator has two parameters: **Frequency** (or **pitch**) and **volume**. Press and drag the slider on the right-hand side to play the synth and control the parameters.",
+                "This oscillator has two parameters: **Frequency** (or **pitch**) and **volume**. Press and drag the knob on the frequency/volume pad to play the synth and control the parameters. Make sure to turn down your volume first!",
             ]
         case .pianoOscillator:
             [
