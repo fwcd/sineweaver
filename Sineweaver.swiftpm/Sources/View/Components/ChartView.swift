@@ -8,21 +8,13 @@
 import SwiftUI
 
 struct ChartView: View {
+    let ys: [Double]
     var yRange: Range<Double>? = nil
-    var sampleCount: Int = 100
     var markedSample: Int? = nil
-    var padding: CGFloat = 5
-    let function: (inout [Double]) -> Void
-    
-    private var ys: [Double] {
-        var ys = [Double](repeating: 0, count: sampleCount)
-        function(&ys)
-        return ys
-    }
+    var padding: CGFloat = ComponentDefaults.chartPadding
 
     var body: some View {
         Canvas { ctx, outerSize in
-            let ys = self.ys
             let yRange = self.yRange ?? ((ys.min() ?? 0)..<(ys.max() ?? 1))
             
             let size = outerSize - CGVector(dx: 2 * padding, dy: 2 * padding)
@@ -41,7 +33,7 @@ struct ChartView: View {
             ctx.stroke(Path { path in
                 for (i, y) in ys.enumerated() {
                     path.addLine(to: CGPoint(
-                        x: padding + CGFloat(i) / CGFloat(sampleCount) * size.width,
+                        x: padding + CGFloat(i) / CGFloat(ys.count) * size.width,
                         y: padding + (1 - CGFloat(yRange.normalize(y))) * size.height
                     ))
                 }
@@ -52,12 +44,32 @@ struct ChartView: View {
 
 extension ChartView {
     init(
+        yRange: Range<Double>? = nil,
+        sampleCount: Int = 100,
+        markedSample: Int? = nil,
+        padding: CGFloat = ComponentDefaults.chartPadding,
+        function: (inout [Double]) -> Void
+    ) {
+        var ys = [Double](repeating: 0, count: sampleCount)
+        function(&ys)
+        self.init(
+            ys: ys,
+            yRange: yRange,
+            markedSample: markedSample,
+            padding: padding
+        )
+    }
+}
+
+extension ChartView {
+    init(
         xRange: Range<Double> = 0..<1,
         yRange: Range<Double>? = nil,
         sampleCount: Int = 100,
+        padding: CGFloat = ComponentDefaults.chartPadding,
         function: @escaping (Double) -> Double
     ) {
-        self.init(yRange: yRange, sampleCount: sampleCount) { output in
+        self.init(yRange: yRange, sampleCount: sampleCount, padding: padding) { output in
             let step = (xRange.upperBound - xRange.lowerBound) / Double(output.count)
             for i in 0..<output.count {
                 output[i] = function(Double(i) * step + xRange.lowerBound)
