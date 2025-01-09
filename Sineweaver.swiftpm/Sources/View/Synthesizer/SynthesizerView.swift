@@ -25,52 +25,8 @@ struct SynthesizerView<Level>: View where Level: View {
         let coordinateSpace: NamedCoordinateSpace = .named("SynthesizerView")
         let nodeSpacing: CGFloat = 30
         
-        HStack(spacing: nodeSpacing) {
-            let tnodes: [ToposortedNode] = model.toposortedNodes
-                .filter { !hiddenNodeIds.contains($0.id) }
-            let groups = Dictionary(grouping: tnodes, by: \.depth)
-                .sorted { $0.key > $1.key }
-                .map { (id: $0.value.first?.id, group: $0.value) }
-            
-            ForEach(groups, id: \.id) { (_, group) in
-                VStack(alignment: .trailing, spacing: nodeSpacing) {
-                    ForEach(group) { (tnode: ToposortedNode) in
-                        let id = tnode.id
-                        SynthesizerNodeView(
-                            node: $model.nodes[id].unwrapped,
-                            startDate: startDate,
-                            isActive: model.isActive
-                        ) {
-                            if allowsEditing && hovered.contains(id) {
-                                toolbar(for: id, in: coordinateSpace)
-                                    .padding(.bottom, 5)
-                            }
-                        }
-                        .background(FrameReader(in: coordinateSpace) { frame in
-                            frames[id] = frame
-                        })
-                        .fixedSize()
-                        .background(offsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
-                        .zIndex(offsets.keys.contains(id) ? 2 : 1)
-                        .offset(offsets[id] ?? CGSize())
-                        .onHover { over in
-                            if over {
-                                hovered.insert(id)
-                            } else {
-                                hovered.remove(id)
-                            }
-                        }
-                    }
-                }
-                .zIndex(Set(offsets.keys).isDisjoint(with: group.map(\.id)) ? 1 : 2)
-            }
-            level()
-        }
-        .coordinateSpace(coordinateSpace)
-        .animation(.default, value: model.inputEdges)
-        .animation(.default, value: Set(model.nodes.keys))
-        .overlay {
-            ZStack(alignment: .topLeading) {
+        ZStack {
+            Group {
                 if debugFrames {
                     ForEach(Array(frames), id: \.key) { (id, frame) in
                         Rectangle()
@@ -93,7 +49,52 @@ struct SynthesizerView<Level>: View where Level: View {
                 }
             }
             .allowsHitTesting(false)
+            
+            HStack(spacing: nodeSpacing) {
+                let tnodes: [ToposortedNode] = model.toposortedNodes
+                    .filter { !hiddenNodeIds.contains($0.id) }
+                let groups = Dictionary(grouping: tnodes, by: \.depth)
+                    .sorted { $0.key > $1.key }
+                    .map { (id: $0.value.first?.id, group: $0.value) }
+                
+                ForEach(groups, id: \.id) { (_, group) in
+                    VStack(alignment: .trailing, spacing: nodeSpacing) {
+                        ForEach(group) { (tnode: ToposortedNode) in
+                            let id = tnode.id
+                            SynthesizerNodeView(
+                                node: $model.nodes[id].unwrapped,
+                                startDate: startDate,
+                                isActive: model.isActive
+                            ) {
+                                if allowsEditing && hovered.contains(id) {
+                                    toolbar(for: id, in: coordinateSpace)
+                                        .padding(.bottom, 5)
+                                }
+                            }
+                            .background(FrameReader(in: coordinateSpace) { frame in
+                                frames[id] = frame
+                            })
+                            .fixedSize()
+                            .background(offsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
+                            .zIndex(offsets.keys.contains(id) ? 2 : 1)
+                            .offset(offsets[id] ?? CGSize())
+                            .onHover { over in
+                                if over {
+                                    hovered.insert(id)
+                                } else {
+                                    hovered.remove(id)
+                                }
+                            }
+                        }
+                    }
+                    .zIndex(Set(offsets.keys).isDisjoint(with: group.map(\.id)) ? 1 : 2)
+                }
+                level()
+            }
+            .animation(.default, value: model.inputEdges)
+            .animation(.default, value: Set(model.nodes.keys))
         }
+        .coordinateSpace(coordinateSpace)
     }
     
     @ViewBuilder
