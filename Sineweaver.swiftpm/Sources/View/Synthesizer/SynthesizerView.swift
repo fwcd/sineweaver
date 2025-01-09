@@ -88,6 +88,18 @@ struct SynthesizerView<Level>: View where Level: View {
                         .frame(width: frame.size.width, height: frame.size.height)
                         .position(x: frame.midX, y: frame.midY)
                 }
+                
+                ForEach(Array(model.inputEdges), id: \.key) { (id, inputIds) in
+                    ForEach(inputIds, id: \.self) { inputId in
+                        if let frame = frames[id], let inputFrame = frames[inputId] {
+                            Path { path in
+                                path.move(to: CGPoint(x: inputFrame.maxX, y: inputFrame.midY))
+                                path.addLine(to: CGPoint(x: frame.minX, y: frame.midY))
+                            }
+                            .stroke(.gray, lineWidth: 2)
+                        }
+                    }
+                }
             }
             .allowsHitTesting(false)
         }
