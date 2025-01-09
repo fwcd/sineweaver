@@ -22,8 +22,9 @@ struct SynthesizerView<Level>: View where Level: View {
 
     var body: some View {
         let coordinateSpace: NamedCoordinateSpace = .named("SynthesizerView")
+        let nodeSpacing: CGFloat = 30
         
-        HStack {
+        HStack(spacing: nodeSpacing) {
             let tnodes: [ToposortedNode] = model.toposortedNodes
                 .filter { !hiddenNodeIds.contains($0.id) }
             let groups = Dictionary(grouping: tnodes, by: \.depth)
@@ -31,7 +32,7 @@ struct SynthesizerView<Level>: View where Level: View {
                 .map { (id: $0.value.first?.id, group: $0.value) }
             
             ForEach(groups, id: \.id) { (_, group) in
-                VStack(alignment: .trailing) {
+                VStack(alignment: .trailing, spacing: nodeSpacing) {
                     ForEach(group) { (tnode: ToposortedNode) in
                         let id = tnode.id
                         SynthesizerNodeView(
@@ -53,6 +54,9 @@ struct SynthesizerView<Level>: View where Level: View {
                                     }
                                     .onChange(of: frame.origin) {
                                         frames[id] = frame
+                                    }
+                                    .onDisappear {
+                                        frames[id] = nil
                                     }
                             }
                         )
