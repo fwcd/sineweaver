@@ -77,6 +77,14 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         return id
     }
     
+    mutating func removeNode(id: UUID) {
+        if let input = inputEdges[id]?.first {
+            outputNodeId = input
+        }
+        nodes[id] = nil
+        inputEdges[id] = []
+    }
+    
     mutating func connect(_ inputId: UUID, to outputId: UUID) {
         guard nodes.keys.contains(inputId) else {
             fatalError("Cannot connect invalid input id: \(inputId)")

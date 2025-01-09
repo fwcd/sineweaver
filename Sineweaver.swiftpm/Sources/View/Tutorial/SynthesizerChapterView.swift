@@ -19,7 +19,8 @@ struct SynthesizerChapterView: View {
             SynthesizerView(
                 model: $model,
                 startDate: viewModel.synthesizer.startDate,
-                hiddenNodeIds: chapter?.hiddenNodeIds ?? []
+                hiddenNodeIds: chapter?.hiddenNodeIds ?? [],
+                allowsEditing: chapter == nil
             ) {
                 LiveLevel(synthesizer: viewModel.synthesizer)
             }
