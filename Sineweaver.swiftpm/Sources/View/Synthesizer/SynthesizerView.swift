@@ -107,7 +107,11 @@ struct SynthesizerView<Level>: View where Level: View {
                             offsets[id] = value.translation
                         }
                         .onEnded { _ in
-                            offsets[id] = nil
+                            Task {
+                                // A small workaround to avoid having the FrameReader's onChanged fire multiple times during a single SwiftUI frame
+                                try? await Task.sleep(for: .milliseconds(10))
+                                offsets[id] = nil
+                            }
                         }
                 )
             Button {
