@@ -31,28 +31,45 @@ struct TutorialFrame<Content>: View where Content: View {
             }
             content
                 .frame(maxWidth: 800)
-            HStack {
+                .padding(.bottom, viewModel.isFirstChapter ? 30 : 0)
+        }
+        .frame(
+            maxWidth: viewModel.isFirstChapter ? nil : .infinity,
+            maxHeight: viewModel.isFirstChapter ? nil : .infinity
+        )
+        .safeAreaInset(edge: .bottom) {
+            VStack {
                 if !viewModel.isFirstChapter {
-                    Button("Back") {
+                    Text("Chapter \(viewModel.chapterIndex) of \(TutorialChapter.allCases.count - 1)")
+                    .opacity(0.5)
+                }
+                HStack {
+                    if !viewModel.isFirstChapter {
+                        Button {
+                            withAnimation {
+                                viewModel.back()
+                            }
+                        } label: {
+                            Image(systemName: "chevron.left")
+                            Text("Back")
+                        }
+                        .buttonStyle(BorderedButtonStyle())
+                    }
+                    Button{
                         withAnimation {
-                            viewModel.back()
+                            viewModel.forward()
+                        }
+                    } label: {
+                        if viewModel.isFirstChapter {
+                            Text("Get Started")
+                                .frame(minWidth: 200, minHeight: 40)
+                        } else {
+                            Text("Next")
+                            Image(systemName: "chevron.right")
                         }
                     }
-                    .buttonStyle(BorderedButtonStyle())
+                    .buttonStyle(BorderedProminentButtonStyle())
                 }
-                Button{
-                    withAnimation {
-                        viewModel.forward()
-                    }
-                } label: {
-                    if viewModel.isFirstChapter {
-                        Text("Get Started")
-                            .frame(minWidth: 200, minHeight: 40)
-                    } else {
-                        Text("Next")
-                    }
-                }
-                .buttonStyle(BorderedProminentButtonStyle())
             }
         }
     }
