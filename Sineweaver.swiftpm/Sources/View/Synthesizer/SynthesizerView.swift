@@ -40,6 +40,7 @@ struct SynthesizerView<Level>: View where Level: View {
                             if allowsEditing && hovered.contains(tnode.id) {
                                 HStack(spacing: 10) {
                                     Image(systemName: "line.3.horizontal")
+                                        .contentShape(Rectangle())
                                         .gesture(
                                             DragGesture(minimumDistance: 0, coordinateSpace: coordinateSpace)
                                                 .onChanged { value in
