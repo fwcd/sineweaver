@@ -16,6 +16,7 @@ struct SynthesizerView<Level>: View where Level: View {
     var allowsEditing = false
     @ViewBuilder var level: () -> Level
     
+    @State private var hovered: Set<UUID> = []
     @State private var offsets: [UUID: CGSize] = [:]
     
     var body: some View {
@@ -36,7 +37,7 @@ struct SynthesizerView<Level>: View where Level: View {
                             startDate: startDate,
                             isActive: model.isActive
                         ) {
-                            if allowsEditing {
+                            if allowsEditing && hovered.contains(tnode.id) {
                                 HStack(spacing: 10) {
                                     Image(systemName: "line.3.horizontal")
                                         .gesture(
@@ -60,6 +61,13 @@ struct SynthesizerView<Level>: View where Level: View {
                         }
                         .fixedSize()
                         .offset(offsets[tnode.id] ?? CGSize())
+                        .onHover { over in
+                            if over {
+                                hovered.insert(tnode.id)
+                            } else {
+                                hovered.remove(tnode.id)
+                            }
+                        }
                     }
                 }
             }
