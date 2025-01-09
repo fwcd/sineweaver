@@ -73,10 +73,10 @@ struct SynthesizerView<Level>: View where Level: View {
                 }
             }
             .coordinateSpace(coordinateSpace)
-            .animation(.default, value: model.inputEdges)
-            .animation(.default, value: Set(model.nodes.keys))
             level()
         }
+        .animation(.default, value: model.inputEdges)
+        .animation(.default, value: Set(model.nodes.keys))
     }
 }
 
