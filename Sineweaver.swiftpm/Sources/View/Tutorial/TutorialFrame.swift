@@ -13,6 +13,7 @@ struct TutorialFrame<Content>: View where Content: View {
     @ViewBuilder var content: () -> Content
     
     @Environment(TutorialViewModel.self) private var viewModel
+    @State private var chapterPickerShown = false
 
     var body: some View {
         VStack(spacing: 40) {
@@ -41,7 +42,10 @@ struct TutorialFrame<Content>: View where Content: View {
             VStack {
                 if !viewModel.isFirstChapter {
                     Text("Chapter \(viewModel.chapterIndex) of \(TutorialChapter.allCases.count - 1)")
-                    .opacity(0.5)
+                        .opacity(0.5)
+                        .onTapGesture {
+                            chapterPickerShown = true
+                        }
                 }
                 HStack {
                     if !viewModel.isFirstChapter {
@@ -70,6 +74,21 @@ struct TutorialFrame<Content>: View where Content: View {
                     }
                     .buttonStyle(BorderedProminentButtonStyle())
                 }
+            }
+            .popover(isPresented: $chapterPickerShown) {
+                @Bindable var viewModel = viewModel
+                VStack(alignment: .leading, spacing: 5) {
+                    ForEach(Array(TutorialChapter.allCases.enumerated()), id: \.offset) { (i, chapter) in
+                        if i > 0 {
+                            Text("Chapter \(i)\(chapter.title.map { ": \($0)" } ?? "")")
+                                .fontWeight(i == viewModel.chapterIndex ? .bold : nil)
+                                .onTapGesture {
+                                    viewModel.chapterIndex = i
+                                }
+                        }
+                    }
+                }
+                .padding()
             }
         }
     }
