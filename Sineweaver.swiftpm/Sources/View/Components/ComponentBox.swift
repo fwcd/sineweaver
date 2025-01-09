@@ -36,7 +36,7 @@ private extension View {
             dimensions.height / 2
         }
         .padding(.horizontal, 5)
-        .background(.background)
+        .background(RoundedRectangle(cornerRadius: 5).fill(.ultraThinMaterial))
         .padding(.horizontal, 5)
     }
 }
