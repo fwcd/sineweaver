@@ -14,6 +14,7 @@ struct SynthesizerView<Level>: View where Level: View {
     var startDate: Date = Date()
     var hiddenNodeIds: Set<UUID> = []
     var allowsEditing = false
+    var debugFrames = false
     @ViewBuilder var level: () -> Level
     
     @State private var hovered: Set<UUID> = []
@@ -82,11 +83,13 @@ struct SynthesizerView<Level>: View where Level: View {
         .animation(.default, value: Set(model.nodes.keys))
         .overlay {
             ZStack(alignment: .topLeading) {
-                ForEach(Array(frames), id: \.key) { (id, frame) in
-                    Rectangle()
-                        .fill(.red.opacity(0.3))
-                        .frame(width: frame.size.width, height: frame.size.height)
-                        .position(x: frame.midX, y: frame.midY)
+                if debugFrames {
+                    ForEach(Array(frames), id: \.key) { (id, frame) in
+                        Rectangle()
+                            .fill(.red.opacity(0.3))
+                            .frame(width: frame.size.width, height: frame.size.height)
+                            .position(x: frame.midX, y: frame.midY)
+                    }
                 }
                 
                 ForEach(Array(model.inputEdges), id: \.key) { (id, inputIds) in
