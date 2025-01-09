@@ -81,8 +81,8 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     }
     
     mutating func removeNode(id: UUID) {
-        if let input = inputEdges[id]?.first {
-            outputNodeId = input
+        if outputNodeId == id {
+            outputNodeId = inputEdges[id]?.first
         }
         nodes[id] = nil
         inputEdges[id] = []
