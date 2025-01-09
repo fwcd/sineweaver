@@ -38,26 +38,8 @@ struct SynthesizerView<Level>: View where Level: View {
                             isActive: model.isActive
                         ) {
                             if allowsEditing && hovered.contains(tnode.id) {
-                                HStack(spacing: 10) {
-                                    Image(systemName: "line.3.horizontal")
-                                        .contentShape(Rectangle())
-                                        .gesture(
-                                            DragGesture(minimumDistance: 0, coordinateSpace: coordinateSpace)
-                                                .onChanged { value in
-                                                    offsets[tnode.id] = value.translation
-                                                }
-                                                .onEnded { _ in
-                                                    offsets[tnode.id] = nil
-                                                }
-                                        )
-                                    Button {
-                                        model.removeNode(id: tnode.id)
-                                    } label: {
-                                        Image(systemName: "x.circle")
-                                    }
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                .padding(.bottom, 5)
+                                toolbar(for: tnode.id, in: coordinateSpace)
+                                    .padding(.bottom, 5)
                             }
                         }
                         .fixedSize()
@@ -80,6 +62,29 @@ struct SynthesizerView<Level>: View where Level: View {
         }
         .animation(.default, value: model.inputEdges)
         .animation(.default, value: Set(model.nodes.keys))
+    }
+    
+    @ViewBuilder
+    private func toolbar(for id: UUID, in coordinateSpace: some CoordinateSpaceProtocol) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: "line.3.horizontal")
+                .contentShape(Rectangle())
+                .gesture(
+                    DragGesture(minimumDistance: 0, coordinateSpace: coordinateSpace)
+                        .onChanged { value in
+                            offsets[id] = value.translation
+                        }
+                        .onEnded { _ in
+                            offsets[id] = nil
+                        }
+                )
+            Button {
+                model.removeNode(id: id)
+            } label: {
+                Image(systemName: "x.circle")
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
