@@ -46,21 +46,9 @@ struct SynthesizerView<Level>: View where Level: View {
                                     .padding(.bottom, 5)
                             }
                         }
-                        .background(
-                            GeometryReader { proxy in
-                                let frame = proxy.frame(in: coordinateSpace)
-                                Color.clear
-                                    .onAppear {
-                                        frames[id] = frame
-                                    }
-                                    .onChange(of: frame.origin) {
-                                        frames[id] = frame
-                                    }
-                                    .onDisappear {
-                                        frames[id] = nil
-                                    }
-                            }
-                        )
+                        .background(FrameReader(in: coordinateSpace) { frame in
+                            frames[id] = frame
+                        })
                         .fixedSize()
                         .background(offsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
                         .zIndex(offsets.keys.contains(id) ? 2 : 1)
