@@ -35,8 +35,7 @@ struct SynthesizerView<Level>: View where Level: View {
                             node: $model.nodes[tnode.id].unwrapped,
                             startDate: startDate,
                             isActive: model.isActive
-                        )
-                        .overlay(alignment: .topTrailing) {
+                        ) {
                             if allowsEditing {
                                 HStack(spacing: 10) {
                                     Image(systemName: "line.3.horizontal")
@@ -56,7 +55,7 @@ struct SynthesizerView<Level>: View where Level: View {
                                     }
                                 }
                                 .buttonStyle(PlainButtonStyle())
-                                .padding(5)
+                                .padding(.bottom, 5)
                             }
                         }
                         .fixedSize()
