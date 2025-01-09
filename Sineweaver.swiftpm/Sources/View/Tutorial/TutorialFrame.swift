@@ -48,21 +48,21 @@ struct TutorialFrame<Content>: View where Content: View {
                     }
                 }
                 HStack {
-                    if viewModel.isLastChapter {
-                        Button {
-                            viewModel.goTo(chapterIndex: 0)
-                        } label: {
-                            Image(systemName: "house")
-                            Text("Welcome")
-                        }
-                        .buttonStyle(BorderedButtonStyle())
-                    }
                     if !viewModel.isFirstChapter {
                         Button {
                             viewModel.back()
                         } label: {
                             Image(systemName: "chevron.left")
                             Text(viewModel.isLastChapter ? "Tutorial" : "Back")
+                        }
+                        .buttonStyle(BorderedButtonStyle())
+                    }
+                    if viewModel.isLastChapter {
+                        Button {
+                            viewModel.goTo(chapterIndex: 0)
+                        } label: {
+                            Image(systemName: "house")
+                            Text("Welcome")
                         }
                         .buttonStyle(BorderedButtonStyle())
                     }
