@@ -20,18 +20,18 @@ struct ComponentBox<Content, Label, Toolbar>: View where Content: View, Label: V
                     .stroke(.foreground)
                     .overlay(alignment: .topLeading) {
                         label()
-                            .topBoxAligned
+                            .topBoxAligned()
                     }
                     .overlay(alignment: .topTrailing) {
                         toolbar()
-                            .topBoxAligned
+                            .topBoxAligned()
                     }
             }
     }
 }
 
 private extension View {
-    var topBoxAligned: some View {
+    func topBoxAligned() -> some View {
         alignmentGuide(.top) { dimensions in
             dimensions.height / 2
         }
