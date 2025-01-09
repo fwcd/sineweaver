@@ -84,8 +84,17 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         if outputNodeId == id {
             outputNodeId = inputEdges[id]?.first
         }
+        
+        for outId in outputEdges(id: id) {
+            inputEdges[outId]?.removeAll { $0 == id }
+        }
+        
         nodes[id] = nil
         inputEdges[id] = []
+    }
+    
+    func outputEdges(id: UUID) -> Set<UUID> {
+        Set(inputEdges.filter { $0.value.contains(id) }.map(\.key))
     }
     
     mutating func connect(_ inputId: UUID, to outputId: UUID) {
