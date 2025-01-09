@@ -18,7 +18,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @ViewBuilder var level: () -> Level
     
     @State private var hovered: Set<UUID> = []
-    @State private var offsets: [UUID: CGSize] = [:]
+    @State private var activeDragOffsets: [UUID: CGSize] = [:]
     @State private var frames: [UUID: CGRect] = [:]
 
     var body: some View {
@@ -36,7 +36,8 @@ struct SynthesizerView<Level>: View where Level: View {
                 
                 ForEach(Array(model.inputEdges), id: \.key) { (id, inputIds) in
                     ForEach(inputIds, id: \.self) { inputId in
-                        if !offsets.keys.contains(id) && !offsets.keys.contains(inputId),
+                        if !activeDragOffsets.keys.contains(id),
+                           !activeDragOffsets.keys.contains(inputId),
                            let frame = frames[id],
                            let inputFrame = frames[inputId] {
                             Path { path in
@@ -75,9 +76,9 @@ struct SynthesizerView<Level>: View where Level: View {
                                 frames[id] = frame
                             })
                             .fixedSize()
-                            .background(offsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
-                            .zIndex(offsets.keys.contains(id) ? 2 : 1)
-                            .offset(offsets[id] ?? CGSize())
+                            .background(activeDragOffsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
+                            .zIndex(activeDragOffsets.keys.contains(id) ? 2 : 1)
+                            .offset(activeDragOffsets[id] ?? CGSize())
                             .onHover { over in
                                 if over {
                                     hovered.insert(id)
@@ -87,7 +88,7 @@ struct SynthesizerView<Level>: View where Level: View {
                             }
                         }
                     }
-                    .zIndex(Set(offsets.keys).isDisjoint(with: group.map(\.id)) ? 1 : 2)
+                    .zIndex(Set(activeDragOffsets.keys).isDisjoint(with: group.map(\.id)) ? 1 : 2)
                 }
                 level()
             }
@@ -105,13 +106,13 @@ struct SynthesizerView<Level>: View where Level: View {
                 .gesture(
                     DragGesture(minimumDistance: 0, coordinateSpace: coordinateSpace)
                         .onChanged { value in
-                            offsets[id] = value.translation
+                            activeDragOffsets[id] = value.translation
                         }
                         .onEnded { _ in
                             Task {
                                 // A small workaround to avoid having the FrameReader's onChanged fire multiple times during a single SwiftUI frame
                                 try? await Task.sleep(for: .milliseconds(10))
-                                offsets[id] = nil
+                                activeDragOffsets[id] = nil
                             }
                         }
                 )
