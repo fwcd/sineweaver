@@ -71,6 +71,8 @@ struct TutorialFrame<Content>: View where Content: View {
                     .buttonStyle(BorderedProminentButtonStyle())
                 }
             }
+            .animation(.default, value: viewModel.chapterIndex)
+            .animation(.default, value: viewModel.detailIndex)
             .popover(isPresented: $chapterPickerShown) {
                 @Bindable var viewModel = viewModel
                 VStack(alignment: .leading, spacing: 5) {
