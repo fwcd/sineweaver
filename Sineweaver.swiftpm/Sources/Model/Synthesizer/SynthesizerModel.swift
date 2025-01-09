@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import OSLog
+
+private let log = Logger(subsystem: "Sineweaver", category: "SynthesizerModel")
 
 /// A synthesizer modeled as a graph of processing nodes.
 struct SynthesizerModel: Hashable, Codable, Sendable {
@@ -179,11 +182,13 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
         
         guard let node = nodes[nodeId] else {
-            fatalError("Unknown node id: \(nodeId)")
+            log.critical("Unknown node id: \(nodeId)")
+            return false
         }
         
         guard let inputBuffers = buffers.inputs[nodeId] else {
-            fatalError("No input buffers for node id: \(nodeId)")
+            log.critical("No input buffers for node id: \(nodeId)")
+            return false
         }
         
         let inputs = zip(inputsActive, inputBuffers).map { SynthesizerNodeInput(isActive: $0.0, buffer: $0.1) }
