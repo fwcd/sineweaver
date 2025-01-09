@@ -22,8 +22,12 @@ struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
     
     var body: some View {
         if hasBox {
-            ComponentBox(node.name) {
+            ComponentBox {
                 inner
+            } label: {
+                Text(node.name)
+            } toolbar: {
+                toolbar()
             }
         } else {
             inner
@@ -33,7 +37,6 @@ struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
     @ViewBuilder
     private var inner: some View {
         VStack(alignment: .trailing) {
-            toolbar()
             switch node {
             case .oscillator:
                 SynthesizerOscillatorView(node: $node.asOscillator)
