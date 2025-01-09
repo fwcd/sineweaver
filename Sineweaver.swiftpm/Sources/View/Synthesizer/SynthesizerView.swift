@@ -44,7 +44,7 @@ struct SynthesizerView<Level>: View where Level: View {
                                     .padding(.bottom, 5)
                             }
                         }
-                        .overlay {
+                        .background(
                             GeometryReader { proxy in
                                 let frame = proxy.frame(in: coordinateSpace)
                                 Color.clear
@@ -55,7 +55,7 @@ struct SynthesizerView<Level>: View where Level: View {
                                         frames[id] = frame
                                     }
                             }
-                        }
+                        )
                         .fixedSize()
                         .background(offsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
                         .zIndex(offsets.keys.contains(id) ? 2 : 1)
