@@ -16,11 +16,10 @@ struct TutorialChapterView: View {
     
     var body: some View {
         TutorialFrame(title: chapter.title, details: chapter.details) {
-            switch viewModel.chapter {
-            case .welcome:
+            if case .welcome = viewModel.chapter {
                 WelcomeView()
-            case .synthesizer(let chapter):
-                SynthesizerChapterView(chapter: chapter)
+            } else {
+                SynthesizerChapterView(chapter: viewModel.chapter.synthesizerChapter)
             }
         }
     }

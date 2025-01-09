@@ -42,33 +42,53 @@ struct TutorialFrame<Content>: View where Content: View {
         )
         .safeAreaInset(edge: .bottom) {
             VStack {
-                if !viewModel.isFirstChapter {
-                    Button("Chapter \(viewModel.chapterIndex) of \(TutorialChapter.allCases.count - 1)") {
+                if !viewModel.isFirstChapter && !viewModel.isLastChapter {
+                    Button("Chapter \(viewModel.chapterIndex) of \(SynthesizerChapter.allCases.count)") {
                         chapterPickerShown = true
                     }
                 }
                 HStack {
+                    if viewModel.isLastChapter {
+                        Button {
+                            viewModel.goTo(chapterIndex: 0)
+                        } label: {
+                            Image(systemName: "house")
+                            Text("Welcome")
+                        }
+                        .buttonStyle(BorderedButtonStyle())
+                    }
                     if !viewModel.isFirstChapter {
                         Button {
                             viewModel.back()
                         } label: {
                             Image(systemName: "chevron.left")
-                            Text("Back")
+                            Text(viewModel.isLastChapter ? "Tutorial" : "Back")
                         }
                         .buttonStyle(BorderedButtonStyle())
                     }
-                    Button{
-                        viewModel.forward()
-                    } label: {
-                        if viewModel.isFirstChapter {
-                            Text("Get Started")
-                                .frame(minWidth: 200, minHeight: 40)
-                        } else {
-                            Text("Next")
-                            Image(systemName: "chevron.right")
+                    if !viewModel.isLastChapter {
+                        Button {
+                            viewModel.forward()
+                        } label: {
+                            if viewModel.isFirstChapter {
+                                Text("Get Started")
+                                    .bigLabel()
+                            } else {
+                                Text(viewModel.isAlmostCompleted ? "Complete Tutorial" : "Next")
+                                Image(systemName: "chevron.right")
+                            }
                         }
+                        .buttonStyle(BorderedProminentButtonStyle())
                     }
-                    .buttonStyle(BorderedProminentButtonStyle())
+                    if viewModel.isFirstChapter {
+                        Button {
+                            viewModel.skipTutorial()
+                        } label: {
+                            Text("Skip Tutorial")
+                                .bigLabel()
+                        }
+                        .buttonStyle(BorderedButtonStyle())
+                    }
                 }
             }
             .animation(.default, value: viewModel.chapterIndex)
@@ -76,18 +96,22 @@ struct TutorialFrame<Content>: View where Content: View {
             .popover(isPresented: $chapterPickerShown) {
                 @Bindable var viewModel = viewModel
                 VStack(alignment: .leading, spacing: 5) {
-                    ForEach(Array(TutorialChapter.allCases.enumerated()), id: \.offset) { (i, chapter) in
-                        if i > 0 {
-                            Text("Chapter \(i)\(chapter.title.map { ": \($0)" } ?? "")")
-                                .fontWeight(i == viewModel.chapterIndex ? .bold : nil)
-                                .onTapGesture {
-                                    viewModel.goTo(chapterIndex: i)
-                                }
-                        }
+                    ForEach(Array(SynthesizerChapter.allCases.enumerated()), id: \.offset) { (i, chapter) in
+                        Text("Chapter \(i + 1): \(chapter.title)")
+                            .fontWeight(i + 1 == viewModel.chapterIndex ? .bold : nil)
+                            .onTapGesture {
+                                viewModel.goTo(chapterIndex: i + 1)
+                            }
                     }
                 }
                 .padding()
             }
         }
+    }
+}
+
+private extension View {
+    func bigLabel() -> some View {
+        frame(minWidth: 140, minHeight: 40)
     }
 }

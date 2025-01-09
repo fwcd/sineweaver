@@ -8,15 +8,24 @@
 enum TutorialChapter: Hashable, CaseIterable {
     case welcome
     case synthesizer(SynthesizerChapter)
+    case completed
     
     static var allCases: [Self] {
-        [.welcome] + SynthesizerChapter.allCases.map { .synthesizer($0) }
+        [.welcome] + SynthesizerChapter.allCases.map { .synthesizer($0) } + [.completed]
+    }
+    
+    var synthesizerChapter: SynthesizerChapter? {
+        switch self {
+        case .synthesizer(let chapter): chapter
+        default: nil
+        }
     }
     
     var title: String? {
         switch self {
+        case .welcome: nil
         case .synthesizer(let chapter): chapter.title
-        default: nil
+        case .completed: "The Synthesizer"
         }
     }
     
@@ -31,6 +40,7 @@ enum TutorialChapter: Hashable, CaseIterable {
         switch self {
         case .welcome: synthesizer = .init()
         case .synthesizer(let chapter): chapter.configure(synthesizer: &synthesizer)
+        case .completed: SynthesizerChapter.allCases.last!.configure(synthesizer: &synthesizer)
         }
     }
 }

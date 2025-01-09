@@ -28,6 +28,14 @@ final class TutorialViewModel: Sendable {
         chapterIndex == 0
     }
     
+    var isAlmostCompleted: Bool {
+        chapterIndex == TutorialChapter.allCases.count - 2 && detailIndex == chapter.details.count - 1
+    }
+    
+    var isLastChapter: Bool {
+        chapterIndex == TutorialChapter.allCases.count - 1
+    }
+
     init(synthesizer: SynthesizerViewModel, chapterIndex: Int = 0, detailIndex: Int = 0) {
         self.synthesizer = synthesizer
         self.chapterIndex = chapterIndex
@@ -55,5 +63,9 @@ final class TutorialViewModel: Sendable {
     func goTo(chapterIndex: Int) {
         self.chapterIndex = chapterIndex
         detailIndex = 0
+    }
+    
+    func skipTutorial() {
+        goTo(chapterIndex: TutorialChapter.allCases.count - 1)
     }
 }

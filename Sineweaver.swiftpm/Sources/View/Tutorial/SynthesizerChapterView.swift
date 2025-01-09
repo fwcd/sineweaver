@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SynthesizerChapterView: View {
-    let chapter: SynthesizerChapter
+    var chapter: SynthesizerChapter? = nil
     
     @Environment(SynthesizerViewModel.self) private var viewModel
     
@@ -19,7 +19,7 @@ struct SynthesizerChapterView: View {
             SynthesizerView(
                 model: $model,
                 startDate: viewModel.synthesizer.startDate,
-                hiddenNodeIds: chapter.hiddenNodeIds
+                hiddenNodeIds: chapter?.hiddenNodeIds ?? []
             ) {
                 LiveLevel(synthesizer: viewModel.synthesizer)
             }
