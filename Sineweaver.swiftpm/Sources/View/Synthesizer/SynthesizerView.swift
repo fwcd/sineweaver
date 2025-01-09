@@ -20,11 +20,14 @@ struct SynthesizerView<Level>: View where Level: View {
     
     var body: some View {
         HStack {
+            let coordinateSpace: NamedCoordinateSpace = .named("SynthesizerView")
+            
             let tnodes: [ToposortedNode] = model.toposortedNodes
                 .filter { !hiddenNodeIds.contains($0.id) }
             let groups = Dictionary(grouping: tnodes, by: \.depth)
                 .sorted { $0.key > $1.key }
                 .map { (id: $0.value.first?.id, group: $0.value) }
+            
             ForEach(groups, id: \.id) { (_, group) in
                 VStack(alignment: .trailing) {
                     ForEach(group) { (tnode: ToposortedNode) in
@@ -38,7 +41,7 @@ struct SynthesizerView<Level>: View where Level: View {
                                 HStack(spacing: 10) {
                                     Image(systemName: "line.3.horizontal")
                                         .gesture(
-                                            DragGesture(minimumDistance: 0)
+                                            DragGesture(minimumDistance: 0, coordinateSpace: coordinateSpace)
                                                 .onChanged { value in
                                                     offsets[tnode.id] = value.translation
                                                 }
@@ -61,6 +64,7 @@ struct SynthesizerView<Level>: View where Level: View {
                     }
                 }
             }
+            .coordinateSpace(coordinateSpace)
             level()
         }
     }
