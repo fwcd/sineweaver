@@ -36,3 +36,12 @@ struct SynthesizerView<Level>: View where Level: View {
         }
     }
 }
+
+#Preview(traits: .landscapeLeft) {
+    @Previewable @State var model = SynthesizerModel()
+    
+    SynthesizerView(model: $model) {}
+        .onAppear {
+            SynthesizerChapter.allCases.last!.configure(synthesizer: &model)
+        }
+}
