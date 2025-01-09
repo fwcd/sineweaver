@@ -61,6 +61,8 @@ struct SynthesizerView<Level>: View where Level: View {
                             }
                         }
                         .fixedSize()
+                        .background(offsets.keys.contains(tnode.id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
+                        .zIndex(offsets.keys.contains(tnode.id) ? 2 : 1)
                         .offset(offsets[tnode.id] ?? CGSize())
                         .onHover { over in
                             if over {
@@ -71,6 +73,7 @@ struct SynthesizerView<Level>: View where Level: View {
                         }
                     }
                 }
+                .zIndex(Set(offsets.keys).isDisjoint(with: group.map(\.id)) ? 1 : 2)
             }
             .coordinateSpace(coordinateSpace)
             level()
