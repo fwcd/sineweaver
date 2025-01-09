@@ -27,18 +27,18 @@ struct SynthesizerView<Level>: View where Level: View {
         
         ZStack {
             Group {
-                if debugFrames {
-                    ForEach(Array(frames), id: \.key) { (id, frame) in
-                        Rectangle()
-                            .fill(.red.opacity(0.3))
-                            .frame(width: frame.size.width, height: frame.size.height)
-                            .position(x: frame.midX, y: frame.midY)
-                    }
+                ForEach(Array(frames), id: \.key) { (id, frame) in
+                    Rectangle()
+                        .fill(debugFrames ? .red.opacity(0.3) : .clear)
+                        .frame(width: frame.size.width, height: frame.size.height)
+                        .position(x: frame.midX, y: frame.midY)
                 }
                 
                 ForEach(Array(model.inputEdges), id: \.key) { (id, inputIds) in
                     ForEach(inputIds, id: \.self) { inputId in
-                        if let frame = frames[id], let inputFrame = frames[inputId] {
+                        if !offsets.keys.contains(id) && !offsets.keys.contains(inputId),
+                           let frame = frames[id],
+                           let inputFrame = frames[inputId] {
                             Path { path in
                                 path.move(to: CGPoint(x: inputFrame.maxX, y: inputFrame.midY))
                                 path.addLine(to: CGPoint(x: frame.minX, y: frame.midY))
