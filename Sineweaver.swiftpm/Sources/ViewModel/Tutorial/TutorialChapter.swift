@@ -23,9 +23,8 @@ enum TutorialChapter: Hashable, CaseIterable {
     
     var title: String? {
         switch self {
-        case .welcome: nil
         case .synthesizer(let chapter): chapter.title
-        case .completed: "The Synthesizer"
+        default: nil
         }
     }
     
