@@ -20,23 +20,24 @@ struct ComponentBox<Content, Label, Toolbar>: View where Content: View, Label: V
                     .stroke(.foreground)
                     .overlay(alignment: .topLeading) {
                         label()
-                            .alignmentGuide(.top) { dimensions in
-                                dimensions.height / 2
-                            }
-                            .padding(.horizontal, 5)
-                            .background(.background)
-                            .padding(.horizontal, 10)
+                            .topBoxAligned
                     }
                     .overlay(alignment: .topTrailing) {
                         toolbar()
-                            .alignmentGuide(.top) { dimensions in
-                                dimensions.height / 2
-                            }
-                            .padding(.horizontal, 5)
-                            .background(.background)
-                            .padding(.horizontal, 5)
+                            .topBoxAligned
                     }
             }
+    }
+}
+
+private extension View {
+    var topBoxAligned: some View {
+        alignmentGuide(.top) { dimensions in
+            dimensions.height / 2
+        }
+        .padding(.horizontal, 5)
+        .background(.background)
+        .padding(.horizontal, 5)
     }
 }
 
