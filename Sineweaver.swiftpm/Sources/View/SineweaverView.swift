@@ -8,3 +8,11 @@ struct SineweaverView: View {
         TutorialView()
     }
 }
+
+#Preview {
+    let synthesizer = SynthesizerViewModel()
+    let tutorial = TutorialViewModel(synthesizer: synthesizer)
+    SineweaverView()
+        .environment(synthesizer)
+        .environment(tutorial)
+}

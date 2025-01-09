@@ -15,5 +15,9 @@ struct TutorialView: View {
 }
 
 #Preview {
+    let synthesizer = SynthesizerViewModel()
+    let tutorial = TutorialViewModel(synthesizer: synthesizer)
     TutorialView()
+        .environment(synthesizer)
+        .environment(tutorial)
 }
