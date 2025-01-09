@@ -81,12 +81,14 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     }
     
     mutating func removeNode(id: UUID) {
+        let inputIds = inputEdges[id] ?? []
+        
         if outputNodeId == id {
-            outputNodeId = inputEdges[id]?.first
+            outputNodeId = inputIds.first
         }
         
         for outId in outputEdges(id: id) {
-            inputEdges[outId]?.removeAll { $0 == id }
+            inputEdges[outId] = inputEdges[outId]?.flatMap { $0 == id ? inputIds : [$0] }
         }
         
         nodes[id] = nil
