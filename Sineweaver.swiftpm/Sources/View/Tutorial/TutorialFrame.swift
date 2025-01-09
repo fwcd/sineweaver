@@ -34,6 +34,8 @@ struct TutorialFrame<Content>: View where Content: View {
                 .frame(maxWidth: 800)
                 .padding(.bottom, viewModel.isFirstChapter ? 30 : 0)
         }
+        .animation(.default, value: viewModel.chapterIndex)
+        .animation(.default, value: viewModel.detailIndex)
         .frame(
             maxWidth: viewModel.isFirstChapter ? nil : .infinity,
             maxHeight: viewModel.isFirstChapter ? nil : .infinity
@@ -48,9 +50,7 @@ struct TutorialFrame<Content>: View where Content: View {
                 HStack {
                     if !viewModel.isFirstChapter {
                         Button {
-                            withAnimation {
-                                viewModel.back()
-                            }
+                            viewModel.back()
                         } label: {
                             Image(systemName: "chevron.left")
                             Text("Back")
@@ -58,9 +58,7 @@ struct TutorialFrame<Content>: View where Content: View {
                         .buttonStyle(BorderedButtonStyle())
                     }
                     Button{
-                        withAnimation {
-                            viewModel.forward()
-                        }
+                        viewModel.forward()
                     } label: {
                         if viewModel.isFirstChapter {
                             Text("Get Started")
@@ -81,9 +79,7 @@ struct TutorialFrame<Content>: View where Content: View {
                             Text("Chapter \(i)\(chapter.title.map { ": \($0)" } ?? "")")
                                 .fontWeight(i == viewModel.chapterIndex ? .bold : nil)
                                 .onTapGesture {
-                                    withAnimation {
-                                        viewModel.goTo(chapterIndex: i)
-                                    }
+                                    viewModel.goTo(chapterIndex: i)
                                 }
                         }
                     }
