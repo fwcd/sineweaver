@@ -41,11 +41,9 @@ struct TutorialFrame<Content>: View where Content: View {
         .safeAreaInset(edge: .bottom) {
             VStack {
                 if !viewModel.isFirstChapter {
-                    Text("Chapter \(viewModel.chapterIndex) of \(TutorialChapter.allCases.count - 1)")
-                        .opacity(0.5)
-                        .onTapGesture {
-                            chapterPickerShown = true
-                        }
+                    Button("Chapter \(viewModel.chapterIndex) of \(TutorialChapter.allCases.count - 1)") {
+                        chapterPickerShown = true
+                    }
                 }
                 HStack {
                     if !viewModel.isFirstChapter {
@@ -83,7 +81,9 @@ struct TutorialFrame<Content>: View where Content: View {
                             Text("Chapter \(i)\(chapter.title.map { ": \($0)" } ?? "")")
                                 .fontWeight(i == viewModel.chapterIndex ? .bold : nil)
                                 .onTapGesture {
-                                    viewModel.chapterIndex = i
+                                    withAnimation {
+                                        viewModel.goTo(chapterIndex: i)
+                                    }
                                 }
                         }
                     }

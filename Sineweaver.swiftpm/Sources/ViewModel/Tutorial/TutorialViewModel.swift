@@ -12,13 +12,13 @@ import Observation
 final class TutorialViewModel: Sendable {
     private let synthesizer: SynthesizerViewModel
     
-    var chapterIndex: Int {
+    private(set) var chapterIndex: Int {
         willSet {
             TutorialChapter.allCases[newValue].configure(synthesizer: &synthesizer.model)
         }
     }
     
-    var detailIndex: Int
+    private(set) var detailIndex: Int
     
     var chapter: TutorialChapter {
         .allCases[chapterIndex]
@@ -50,5 +50,10 @@ final class TutorialViewModel: Sendable {
             chapterIndex = (chapterIndex + 1) % TutorialChapter.allCases.count
             detailIndex = 0
         }
+    }
+    
+    func goTo(chapterIndex: Int) {
+        self.chapterIndex = chapterIndex
+        detailIndex = 0
     }
 }
