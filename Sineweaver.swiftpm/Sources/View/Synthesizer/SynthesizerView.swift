@@ -23,10 +23,17 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var dockNewNodePopover: (id: UUID, edge: Edge)? = nil
     @State private var addNewNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
+    @State private var nodeAddWarning: NodeAddWarning? = nil
 
     private struct NodeRemovalWarning: Hashable {
         let id: UUID
-        let text: String?
+        let text: String
+    }
+    
+    private struct NodeAddWarning: Hashable {
+        let type: SynthesizerNodeType
+        let chainableTypes: [SynthesizerNodeType]
+        let text: String
     }
 
     var body: some View {
@@ -77,6 +84,23 @@ struct SynthesizerView<Level>: View where Level: View {
                     .buttonStyle(.bordered)
                     .popover(isPresented: $addNewNodePopoverShown) {
                         newNodePopover()
+                    }
+                    .alert(nodeAddWarning?.text ?? "Add node?", isPresented: $nodeAddWarning.notNil) {
+                        Button("Cancel", role: .cancel) {
+                            nodeAddWarning = nil
+                        }
+                        if let nodeAddWarning {
+                            ForEach(nodeAddWarning.chainableTypes, id: \.self) { chainableType in
+                                Button("Add \(chainableType.name)") {
+                                    addInitialNode(type: nodeAddWarning.type, chainedType: chainableType)
+                                    self.nodeAddWarning = nil
+                                }
+                            }
+                            Button("Just Add \(nodeAddWarning.type.name)", role: .destructive) {
+                                addInitialNode(type: nodeAddWarning.type)
+                                self.nodeAddWarning = nil
+                            }
+                        }
                     }
                 }
             
@@ -185,15 +209,37 @@ struct SynthesizerView<Level>: View where Level: View {
                     if let id, let edge {
                         model.insertNode(around: id, at: edge, .init(type: type))
                     } else {
-                        let id = model.addNode(.init(type: type))
-                        if model.outputNodeId == nil {
-                            model.outputNodeId = id
+                        if type == .oscillator {
+                            nodeAddWarning = .init(
+                                type: type,
+                                chainableTypes: [
+                                    .envelope,
+                                    .activeGate,
+                                ],
+                                text: "Adding an oscillator as a first node will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
+                            )
+                        } else {
+                            addInitialNode(type: type)
                         }
                     }
                 }
             }
         }
         .padding()
+    }
+    
+    @discardableResult
+    private func addInitialNode(type: SynthesizerNodeType, chainedType: SynthesizerNodeType? = nil) -> UUID {
+        var id = model.addNode(.init(type: type))
+        if let chainedType {
+            let chainedId = model.addNode(.init(type: chainedType))
+            model.connect(id, to: chainedId)
+            id = chainedId
+        }
+        if model.outputNodeId == nil {
+            model.outputNodeId = id
+        }
+        return id
     }
 }
 
