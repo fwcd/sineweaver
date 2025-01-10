@@ -18,8 +18,14 @@ struct SynthesizerView<Level>: View where Level: View {
     @ViewBuilder var level: () -> Level
     
     @State private var hovered: Set<UUID> = []
-    @State private var newNodePopover: (id: UUID, edge: Edge)? = nil
     @State private var frames: [UUID: CGRect] = [:]
+    @State private var newNodePopover: (id: UUID, edge: Edge)? = nil
+    @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
+
+    private struct NodeRemovalWarning {
+        let id: UUID
+        let text: String?
+    }
 
     var body: some View {
         let coordinateSpace: NamedCoordinateSpace = .named("SynthesizerView")
@@ -95,12 +101,35 @@ struct SynthesizerView<Level>: View where Level: View {
             .animation(.default, value: Set(model.nodes.keys))
         }
         .coordinateSpace(coordinateSpace)
+        .alert(nodeRemovalWarning?.text ?? "Remove node?", isPresented: Binding {
+            nodeRemovalWarning != nil
+        } set: {
+            nodeRemovalWarning = $0 ? nodeRemovalWarning : nil
+        }) {
+            Button("Cancel", role: .cancel) {
+                nodeRemovalWarning = nil
+            }
+            Button("Remove Node", role: .destructive) {
+                if let nodeRemovalWarning {
+                    model.removeNode(id: nodeRemovalWarning.id)
+                }
+                nodeRemovalWarning = nil
+            }
+        }
     }
     
     @ViewBuilder
     private func toolbar(for id: UUID, in coordinateSpace: some CoordinateSpaceProtocol) -> some View {
         Button {
-            model.removeNode(id: id)
+            guard let node = model.nodes[id] else { return }
+            if (node.type == .envelope || node.type == .activeGate) && id == model.outputNodeId {
+                nodeRemovalWarning = .init(
+                    id: id,
+                    text: "Removing this node will pass sound straight from its inputs to the output, regardless of whether e.g. an oscillator key is pressed or not. Thus removing the node may result in a continuous tone playing from your speaker. Are you sure you wish to remove this node?"
+                )
+            } else {
+                model.removeNode(id: id)
+            }
         } label: {
             Image(systemName: "multiply")
         }
