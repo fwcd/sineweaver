@@ -5,11 +5,21 @@
 //  Created on 25.12.24
 //
 
+import Foundation
 import Observation
+import Synchronization
 
 @Observable
 final class SynthesizerViewModel: Sendable {
-    let synthesizer = try! Synthesizer()
+    private let synthesizer = try! Synthesizer()
+    
+    var startDate: Date {
+        synthesizer.startDate
+    }
+    
+    var level: SendableAtomic<Double> {
+        synthesizer.level
+    }
     
     @MainActor
     var model: SynthesizerModel {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Synchronization
 
 struct SynthesizerChapterView: View {
     var chapter: SynthesizerChapter? = nil
@@ -18,21 +19,21 @@ struct SynthesizerChapterView: View {
         Debouncer(wrappedValue: $viewModel.model) { $model in
             SynthesizerView(
                 model: $model,
-                startDate: viewModel.synthesizer.startDate,
+                startDate: viewModel.startDate,
                 hiddenNodeIds: chapter?.hiddenNodeIds ?? [],
                 allowsEditing: chapter == nil
             ) {
-                LiveLevel(synthesizer: viewModel.synthesizer)
+                LiveLevel(level: viewModel.level)
             }
         }
     }
     
     private struct LiveLevel: View {
-        let synthesizer: Synthesizer
+        let level: SendableAtomic<Double>
         
         var body: some View {
             TimelineView(.animation(minimumInterval: 0.1)) { context in
-                let level = synthesizer.level.load(ordering: .relaxed)
+                let level = level.wrappedAtomic.load(ordering: .relaxed)
                 SynthesizerLevelView(level: level)
             }
         }

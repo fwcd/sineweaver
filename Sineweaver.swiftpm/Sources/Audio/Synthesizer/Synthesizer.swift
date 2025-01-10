@@ -46,11 +46,11 @@ final class Synthesizer: Sendable {
         }
     }
     
-    let startTimestamp: Atomic<TimeInterval> = .init(0)
-    let level: Atomic<Double> = .init(0)
+    let startTimestamp: SendableAtomic<TimeInterval> = .init(0)
+    let level: SendableAtomic<Double> = .init(0)
     
     var startDate: Date {
-        Date(timeIntervalSince1970: startTimestamp.load(ordering: .relaxed))
+        Date(timeIntervalSince1970: startTimestamp.wrappedAtomic.load(ordering: .relaxed))
     }
     
     private struct AudioState {
@@ -98,13 +98,13 @@ final class Synthesizer: Sendable {
                 }
                 
                 if !storedStartTimestamp {
-                    startTimestamp.store(Date().timeIntervalSince1970, ordering: .relaxed)
+                    startTimestamp.wrappedAtomic.store(Date().timeIntervalSince1970, ordering: .relaxed)
                     storedStartTimestamp = true
                 }
                 
                 audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
                 
-                level.store(audioState.buffers.output.map(abs).reduce(0, max), ordering: .relaxed)
+                level.wrappedAtomic.store(audioState.buffers.output.map(abs).reduce(0, max), ordering: .relaxed)
                 
                 let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
                 for audioBuffer in audioBuffers {
