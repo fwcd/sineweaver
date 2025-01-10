@@ -1,8 +1,16 @@
 # Sineweaver
 
-An interactive introduction to synthesizers.
+A modular synthesizer featuring an interactive introduction.
 
-<img alt="Logo" src="Icons/AppIconRounded.svg" width="100">
+<div align="center">
+<p>
+<img alt="Logo" src="Icons/AppIconRounded.svg" width="80">
+</p>
+
+<p>
+<img alt="Screenshot" src="Screenshots/Screenshot.png" width="600">
+</p>
+</div>
 
 ## Open Source
 
