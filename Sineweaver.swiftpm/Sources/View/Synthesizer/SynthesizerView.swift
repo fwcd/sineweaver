@@ -18,7 +18,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @ViewBuilder var level: () -> Level
     
     @State private var hovered: Set<UUID> = []
-    @State private var newNodePopovers: Set<UUID> = []
+    @State private var newNodePopover: (id: UUID, edge: Edge)? = nil
     @State private var activeDragOffsets: [UUID: CGSize] = [:]
     @State private var frames: [UUID: CGRect] = [:]
 
@@ -63,17 +63,18 @@ struct SynthesizerView<Level>: View where Level: View {
                     VStack(alignment: .trailing, spacing: nodeSpacing) {
                         ForEach(group) { (tnode: ToposortedNode) in
                             let id = tnode.id
+                            let showsHUD = (allowsEditing && hovered.contains(id)) || newNodePopover?.id == id
                             SynthesizerNodeView(
                                 node: $model.nodes[id].unwrapped,
                                 startDate: startDate,
                                 isActive: model.isActive
                             ) {
-                                if allowsEditing && hovered.contains(id) {
+                                if showsHUD {
                                     toolbar(for: id, in: coordinateSpace)
                                         .padding(.bottom, 5)
                                 }
                             } dock: { edge in
-                                if hovered.contains(id) {
+                                if showsHUD {
                                     dock(for: id, edge: edge)
                                 }
                             }
@@ -132,12 +133,24 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @ViewBuilder
     private func dock(for id: UUID, edge: Edge) -> some View {
+        let key = (id: id, edge: edge)
         Button {
-            // TODO
+            newNodePopover = key
         } label: {
             Image(systemName: "plus.circle")
         }
         .buttonStyle(.plain)
+        .popover(isPresented: Binding {
+            newNodePopover?.id == id && newNodePopover?.edge == edge
+        } set: {
+            newNodePopover = $0 ? key : nil
+        }) {
+            VStack {
+                ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
+                    Text(type.name)
+                }
+            }
+        }
     }
 }
 
