@@ -11,7 +11,7 @@ struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, La
     @ViewBuilder let content: () -> Content
     @ViewBuilder let label: () -> Label
     @ViewBuilder let toolbar: () -> Toolbar
-    @ViewBuilder let dock: (Alignment) -> Dock
+    @ViewBuilder let dock: (Edge) -> Dock
 
     var body: some View {
         content()
@@ -20,77 +20,53 @@ struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, La
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.foreground)
                     .overlay(alignment: .topLeading) {
-                        label()
-                            .boxBoundAligned(.top)
+                        aligned(.top) {
+                            label()
+                        }
                     }
                     .overlay(alignment: .top) {
-                        alignedDock(.top)
+                        aligned(.top) {
+                            dock(.top)
+                        }
                     }
                     .overlay(alignment: .topTrailing) {
-                        toolbar()
-                            .boxBoundAligned(.top)
+                        aligned(.top) {
+                            toolbar()
+                        }
                     }
                     .overlay(alignment: .leading) {
-                        alignedDock(.leading)
+                        aligned(.leading) {
+                            dock(.leading)
+                        }
                     }
                     .overlay(alignment: .trailing) {
-                        alignedDock(.trailing)
+                        aligned(.trailing) {
+                            dock(.trailing)
+                        }
                     }
                     .overlay(alignment: .bottom) {
-                        alignedDock(.bottom)
+                        aligned(.bottom) {
+                            dock(.bottom)
+                        }
                     }
             }
     }
     
     @ViewBuilder
-    private func alignedDock(_ alignment: HorizontalAlignment) -> some View {
-        Group(subviews: dock(.init(horizontal: alignment, vertical: .center))) { subviews in
+    private func aligned(_ edge: Edge, @ViewBuilder content: () -> some View) -> some View {
+        Group(subviews: content()) { subviews in
             if !subviews.isEmpty {
                 subviews
-                    .boxBoundAligned(alignment)
+                    .padding(2)
+                    .background(RoundedRectangle(cornerRadius: 5).fill(.ultraThinMaterial))
+                    .padding(Edge.Set.horizontal.contains(.init(edge)) ? .vertical : .horizontal, 10)
+                    .fixedSize()
             }
         }
-    }
-    
-    @ViewBuilder
-    private func alignedDock(_ alignment: VerticalAlignment) -> some View {
-        Group(subviews: dock(.init(horizontal: .center, vertical: alignment))) { subviews in
-            if !subviews.isEmpty {
-                subviews
-                    .boxBoundAligned(alignment)
-            }
-        }
-    }
-}
-
-private let boundPadding: CGFloat = 2
-private let boundMargin: CGFloat = 5
-
-private func boundViewBackground() -> some View {
-    RoundedRectangle(cornerRadius: 5).fill(.ultraThinMaterial)
-}
-
-private extension View {
-    @ViewBuilder
-    func boxBoundAligned(_ alignment: VerticalAlignment) -> some View {
-        alignmentGuide(alignment) { dimensions in
-            dimensions.height / 2
-        }
-        .padding(boundPadding)
-        .background(boundViewBackground())
-        .padding(.horizontal, boundMargin)
-        .fixedSize()
-    }
-    
-    @ViewBuilder
-    func boxBoundAligned(_ alignment: HorizontalAlignment) -> some View {
-        alignmentGuide(alignment) { dimensions in
-            dimensions.width / 2
-        }
-        .padding(boundPadding)
-        .background(boundViewBackground())
-        .padding(.vertical, boundMargin)
-        .fixedSize()
+        .alignmentGuide(.leading) { $0[.leading] - (edge == .leading ? $0.width / 2 : 0) }
+        .alignmentGuide(.trailing) { $0[.trailing] + (edge == .trailing ? $0.width / 2 : 0) }
+        .alignmentGuide(.top) { $0[.top] + (edge == .top ? $0.height / 2 : 0) }
+        .alignmentGuide(.bottom) { $0[.bottom] - (edge == .bottom ? $0.height / 2 : 0) }
     }
 }
 
