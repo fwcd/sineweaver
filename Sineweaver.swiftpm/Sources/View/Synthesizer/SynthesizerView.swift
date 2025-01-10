@@ -19,6 +19,7 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @State private var hovered: Set<UUID> = []
     @State private var frames: [UUID: CGRect] = [:]
+    @State private var levelFrame: CGRect? = nil
     @State private var newNodePopover: (id: UUID, edge: Edge)? = nil
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
 
@@ -51,6 +52,16 @@ struct SynthesizerView<Level>: View where Level: View {
                             .stroke(.gray, lineWidth: 2)
                         }
                     }
+                }
+                
+                if let outputNodeId = model.outputNodeId,
+                   let outputFrame = frames[outputNodeId],
+                   let levelFrame {
+                    Path { path in
+                        path.move(to: CGPoint(x: outputFrame.maxX, y: outputFrame.midY))
+                        path.addLine(to: CGPoint(x: levelFrame.minX, y: levelFrame.midY))
+                    }
+                    .stroke(.gray, lineWidth: 2)
                 }
             }
             .allowsHitTesting(false)
@@ -96,6 +107,9 @@ struct SynthesizerView<Level>: View where Level: View {
                     }
                 }
                 level()
+                    .background(FrameReader(in: coordinateSpace) { frame in
+                        levelFrame = frame
+                    })
             }
             .animation(.default, value: model.inputEdges)
             .animation(.default, value: Set(model.nodes.keys))
