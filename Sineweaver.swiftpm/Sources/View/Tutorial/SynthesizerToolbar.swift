@@ -10,19 +10,53 @@ import SwiftUI
 struct SynthesizerToolbar: View {
     @EnvironmentObject private var viewModel: SynthesizerViewModel
     @State private var helpPopoverShown = false
+    @State private var openError: String? = nil
+    @State private var openDialogShown = false
+    @State private var saveDialogShown = false
 
     var body: some View {
         Group {
             Button {
                 viewModel.model = .init()
             } label: {
-                Label("Clear Synthesizer", systemImage: "trash")
+                Label("Clear", systemImage: "trash")
             }
             Button {
                 viewModel.model = SynthesizerChapter.fullyConfiguredSynthesizer
             } label: {
-                Label("Reset Synthesizer", systemImage: "arrow.uturn.backward")
+                Label("Reset", systemImage: "arrow.uturn.backward")
             }
+            Button {
+                openDialogShown = true
+            } label: {
+                Label("Open", systemImage: "folder")
+            }
+            .fileImporter(
+                isPresented: $openDialogShown,
+                allowedContentTypes: SynthesizerModel.readableContentTypes
+            ) { result in
+                guard case let .success(url) = result,
+                      let data = try? Data(contentsOf: url) else { return }
+                do {
+                    viewModel.model = try SynthesizerModel(data: data)
+                } catch {
+                    openError = "Could not open model: \(error)"
+                }
+            }
+            .alert(openError ?? "Could not open model", isPresented: $openError.notNil) {
+                Button("OK") {}
+            }
+            Button {
+                saveDialogShown = true
+            } label: {
+                Label("Save", systemImage: "display.and.arrow.down")
+            }
+            .fileExporter(
+                isPresented: $saveDialogShown,
+                document: viewModel.model,
+                contentType: SynthesizerModel.contentType,
+                defaultFilename: "My Synthesizer.json"
+            ) { _ in }
             Button {
                 helpPopoverShown = true
             } label: {
