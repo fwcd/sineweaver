@@ -72,6 +72,10 @@ struct SynthesizerView<Level>: View where Level: View {
                                     toolbar(for: id, in: coordinateSpace)
                                         .padding(.bottom, 5)
                                 }
+                            } dock: { edge in
+                                if hovered.contains(id) {
+                                    dock(for: id, edge: edge)
+                                }
                             }
                             .background(FrameReader(in: coordinateSpace) { frame in
                                 frames[id] = frame
@@ -124,6 +128,11 @@ struct SynthesizerView<Level>: View where Level: View {
             }
         }
         .buttonStyle(PlainButtonStyle())
+    }
+    
+    @ViewBuilder
+    private func dock(for id: UUID, edge: Edge) -> some View {
+        Image(systemName: "plus")
     }
 }
 

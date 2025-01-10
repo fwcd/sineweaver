@@ -63,8 +63,8 @@ struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, La
                     .fixedSize()
             }
         }
-        .alignmentGuide(.leading) { $0[.leading] - (edge == .leading ? $0.width / 2 : 0) }
-        .alignmentGuide(.trailing) { $0[.trailing] + (edge == .trailing ? $0.width / 2 : 0) }
+        .alignmentGuide(.leading) { $0[.leading] + (edge == .leading ? $0.width / 2 : 0) }
+        .alignmentGuide(.trailing) { $0[.trailing] - (edge == .trailing ? $0.width / 2 : 0) }
         .alignmentGuide(.top) { $0[.top] + (edge == .top ? $0.height / 2 : 0) }
         .alignmentGuide(.bottom) { $0[.bottom] - (edge == .bottom ? $0.height / 2 : 0) }
     }

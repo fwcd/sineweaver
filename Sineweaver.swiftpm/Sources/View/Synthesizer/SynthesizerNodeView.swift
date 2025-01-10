@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
+struct SynthesizerNodeView<Toolbar, Dock>: View where Toolbar: View, Dock: View {
     @Binding var node: SynthesizerNode
     var startDate: Date = Date()
     var isActive: Bool = false
     @ViewBuilder var toolbar: () -> Toolbar
+    @ViewBuilder var dock: (Edge) -> Dock
 
     private var hasBox: Bool {
         switch node {
@@ -28,8 +29,8 @@ struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
                 Text(node.name)
             } toolbar: {
                 toolbar()
-            } dock: { alignment in
-                // TODO
+            } dock: { edge in
+                dock(edge)
             }
         } else {
             inner
@@ -57,7 +58,7 @@ struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
     }
 }
 
-extension SynthesizerNodeView where Toolbar == EmptyView {
+extension SynthesizerNodeView where Toolbar == EmptyView, Dock == EmptyView {
     init(
         node: Binding<SynthesizerNode>,
         startDate: Date = Date(),
@@ -67,7 +68,7 @@ extension SynthesizerNodeView where Toolbar == EmptyView {
             node: node,
             startDate: startDate,
             isActive: isActive
-        ) {}
+        ) {} dock: { _ in }
     }
 }
 
