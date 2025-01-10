@@ -136,9 +136,4 @@ final class Synthesizer: Sendable {
         log.info("Starting engine")
         try engine.start()
     }
-    
-    // TODO: Remove this
-    static func amplitude(at frame: Float, frequency: Float, sampleRate: Float) -> Float {
-        sin(2 * .pi * frame / sampleRate * frequency)
-    }
 }
