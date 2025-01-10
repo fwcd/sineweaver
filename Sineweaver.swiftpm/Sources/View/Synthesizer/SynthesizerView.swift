@@ -147,9 +147,12 @@ struct SynthesizerView<Level>: View where Level: View {
         }, arrowEdge: edge.opposite) {
             VStack {
                 ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
-                    Text(type.name)
+                    Button(type.name) {
+                        model.insertNode(around: id, at: edge, .init(type: type))
+                    }
                 }
             }
+            .padding()
         }
     }
 }

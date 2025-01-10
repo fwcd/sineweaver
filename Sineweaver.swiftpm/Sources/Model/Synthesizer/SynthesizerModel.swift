@@ -7,6 +7,7 @@
 
 import Foundation
 import OSLog
+import enum SwiftUI.Edge
 
 private let log = Logger(subsystem: "Sineweaver", category: "SynthesizerModel")
 
@@ -77,6 +78,27 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     mutating func addNode(id: UUID = UUID(), _ node: SynthesizerNode) -> UUID {
         nodes[id] = node
         inputEdges[id] = []
+        return id
+    }
+    
+    @discardableResult
+    mutating func insertNode(around adjacentId: UUID, at edge: SwiftUI.Edge, id: UUID = UUID(), _ node: SynthesizerNode) -> UUID {
+        nodes[id] = node
+        inputEdges[id] = []
+        
+        switch edge {
+        case .top:
+            inputEdges = inputEdges.mapValues { $0.flatMap { $0 == adjacentId ? [id, $0] : [$0] } }
+        case .bottom:
+            inputEdges = inputEdges.mapValues { $0.flatMap { $0 == adjacentId ? [$0, id] : [$0] } }
+        case .leading:
+            inputEdges[id] = inputEdges[adjacentId]
+            inputEdges[adjacentId] = [id]
+        case .trailing:
+            inputEdges = inputEdges.mapValues { $0.map { $0 == adjacentId ? id : $0 } }
+            inputEdges[id] = [adjacentId]
+        }
+        
         return id
     }
     
