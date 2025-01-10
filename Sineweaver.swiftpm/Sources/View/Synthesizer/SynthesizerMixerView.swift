@@ -11,17 +11,11 @@ struct SynthesizerMixerView: View {
     @Binding var node: MixerNode
     
     var body: some View {
-        let size = SynthesizerViewDefaults.mixerNodeSize
-        Circle()
-            .stroke()
-            .frame(width: size, height: size)
-            .overlay {
-                let icon = switch node.operation {
-                case .sum: "plus"
-                case .product: "multiply"
-                }
-                Image(systemName: icon)
-            }
+        let icon = switch node.operation {
+        case .sum: "plus"
+        case .product: "multiply"
+        }
+        Image(systemName: icon)
     }
 }
 

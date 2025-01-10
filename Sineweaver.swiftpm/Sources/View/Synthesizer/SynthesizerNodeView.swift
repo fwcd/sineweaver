@@ -14,7 +14,7 @@ struct SynthesizerNodeView<Toolbar, Dock>: View where Toolbar: View, Dock: View 
     @ViewBuilder var toolbar: () -> Toolbar
     @ViewBuilder var dock: (Edge) -> Dock
 
-    private var hasBox: Bool {
+    private var hasLabel: Bool {
         switch node {
         case .mixer: false
         default: true
@@ -22,18 +22,16 @@ struct SynthesizerNodeView<Toolbar, Dock>: View where Toolbar: View, Dock: View 
     }
     
     var body: some View {
-        if hasBox {
-            ComponentBox {
-                inner
-            } label: {
-                Text(node.name)
-            } toolbar: {
-                toolbar()
-            } dock: { edge in
-                dock(edge)
-            }
-        } else {
+        ComponentBox {
             inner
+        } label: {
+            if hasLabel {
+                Text(node.name)
+            }
+        } toolbar: {
+            toolbar()
+        } dock: { edge in
+            dock(edge)
         }
     }
     

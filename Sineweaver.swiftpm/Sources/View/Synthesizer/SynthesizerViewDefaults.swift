@@ -11,5 +11,4 @@ enum SynthesizerViewDefaults {
     static let vSpacing: CGFloat = 15
     static let hSpacing: CGFloat = 20
     static let durationMs: Double = 300
-    static let mixerNodeSize: CGFloat = 50
 }
