@@ -19,7 +19,6 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @State private var hovered: Set<UUID> = []
     @State private var newNodePopover: (id: UUID, edge: Edge)? = nil
-    @State private var activeDragOffsets: [UUID: CGSize] = [:]
     @State private var frames: [UUID: CGRect] = [:]
 
     var body: some View {
@@ -37,9 +36,7 @@ struct SynthesizerView<Level>: View where Level: View {
                 
                 ForEach(Array(model.inputEdges), id: \.key) { (id, inputIds) in
                     ForEach(inputIds, id: \.self) { inputId in
-                        if !activeDragOffsets.keys.contains(id),
-                           !activeDragOffsets.keys.contains(inputId),
-                           let frame = frames[id],
+                        if let frame = frames[id],
                            let inputFrame = frames[inputId] {
                             Path { path in
                                 path.move(to: CGPoint(x: inputFrame.maxX, y: inputFrame.midY))
@@ -82,9 +79,6 @@ struct SynthesizerView<Level>: View where Level: View {
                                 frames[id] = frame
                             })
                             .fixedSize()
-                            .background(activeDragOffsets.keys.contains(id) ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(.clear))
-                            .zIndex(activeDragOffsets.keys.contains(id) ? 2 : 1)
-                            .offset(activeDragOffsets[id] ?? CGSize())
                             .onHover { over in
                                 if over {
                                     hovered.insert(id)
@@ -94,7 +88,6 @@ struct SynthesizerView<Level>: View where Level: View {
                             }
                         }
                     }
-                    .zIndex(Set(activeDragOffsets.keys).isDisjoint(with: group.map(\.id)) ? 1 : 2)
                 }
                 level()
             }
@@ -106,27 +99,10 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @ViewBuilder
     private func toolbar(for id: UUID, in coordinateSpace: some CoordinateSpaceProtocol) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: "line.3.horizontal")
-                .contentShape(Rectangle())
-                .gesture(
-                    DragGesture(minimumDistance: 0, coordinateSpace: coordinateSpace)
-                        .onChanged { value in
-                            activeDragOffsets[id] = value.translation
-                        }
-                        .onEnded { _ in
-                            Task {
-                                // A small workaround to avoid having the FrameReader's onChanged fire multiple times during a single SwiftUI frame
-                                try? await Task.sleep(for: .milliseconds(10))
-                                activeDragOffsets[id] = nil
-                            }
-                        }
-                )
-            Button {
-                model.removeNode(id: id)
-            } label: {
-                Image(systemName: "multiply")
-            }
+        Button {
+            model.removeNode(id: id)
+        } label: {
+            Image(systemName: "multiply")
         }
         .buttonStyle(.plain)
     }
