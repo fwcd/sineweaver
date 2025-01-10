@@ -132,7 +132,12 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @ViewBuilder
     private func dock(for id: UUID, edge: Edge) -> some View {
-        Image(systemName: "plus")
+        Button {
+            // TODO
+        } label: {
+            Image(systemName: "plus")
+        }
+        .buttonStyle(.plain)
     }
 }
 
