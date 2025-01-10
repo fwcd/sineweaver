@@ -5,20 +5,19 @@
 //  Created on 25.12.24
 //
 
-import Observation
+import Combine
 
-@Observable
 @MainActor
-final class TutorialViewModel: Sendable {
+final class TutorialViewModel: Sendable, ObservableObject {
     private let synthesizer: SynthesizerViewModel
     
-    private(set) var chapterIndex: Int {
+    @Published private(set) var chapterIndex: Int {
         willSet {
             TutorialChapter.allCases[newValue].configure(synthesizer: &synthesizer.model)
         }
     }
     
-    private(set) var detailIndex: Int
+    @Published private(set) var detailIndex: Int
     
     var chapter: TutorialChapter {
         .allCases[chapterIndex]

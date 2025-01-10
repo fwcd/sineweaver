@@ -18,6 +18,6 @@ struct TutorialView: View {
     let synthesizer = SynthesizerViewModel()
     let tutorial = TutorialViewModel(synthesizer: synthesizer)
     TutorialView()
-        .environment(synthesizer)
-        .environment(tutorial)
+        .environmentObject(synthesizer)
+        .environmentObject(tutorial)
 }

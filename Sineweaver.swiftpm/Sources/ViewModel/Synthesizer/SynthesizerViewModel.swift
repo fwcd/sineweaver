@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import Observation
+import Combine
 import Synchronization
 
-@Observable
-final class SynthesizerViewModel: Sendable {
+final class SynthesizerViewModel: ObservableObject, Sendable {
     private let synthesizer = try! Synthesizer()
     
     var startDate: Date {
@@ -24,6 +23,9 @@ final class SynthesizerViewModel: Sendable {
     @MainActor
     var model: SynthesizerModel {
         get { synthesizer.model }
-        set { synthesizer.model = newValue }
+        set {
+            synthesizer.model = newValue
+            objectWillChange.send()
+        }
     }
 }

@@ -11,11 +11,9 @@ import Synchronization
 struct SynthesizerChapterView: View {
     var chapter: SynthesizerChapter? = nil
     
-    @Environment(SynthesizerViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: SynthesizerViewModel
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         Debouncer(wrappedValue: $viewModel.model) { $model in
             SynthesizerView(
                 model: $model,

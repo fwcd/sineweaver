@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @Environment(TutorialViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: TutorialViewModel
     
     var body: some View {
         VStack(spacing: 40) {

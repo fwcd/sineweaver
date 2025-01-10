@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SynthesizerToolbar: View {
-    @Environment(SynthesizerViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: SynthesizerViewModel
 
     var body: some View {
         Group {

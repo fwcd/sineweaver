@@ -13,7 +13,7 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
     @ViewBuilder var content: () -> Content
     @ViewBuilder var toolbar: () -> Toolbar
 
-    @Environment(TutorialViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: TutorialViewModel
     @State private var chapterPickerShown = false
 
     var body: some View {
@@ -96,7 +96,6 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
             .animation(.default, value: viewModel.chapterIndex)
             .animation(.default, value: viewModel.detailIndex)
             .popover(isPresented: $chapterPickerShown) {
-                @Bindable var viewModel = viewModel
                 VStack(alignment: .leading, spacing: 5) {
                     ForEach(Array(SynthesizerChapter.allCases.enumerated()), id: \.offset) { (i, chapter) in
                         Text("Chapter \(i + 1): \(chapter.title)")

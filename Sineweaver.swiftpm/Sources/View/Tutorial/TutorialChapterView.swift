@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TutorialChapterView: View {
-    @Environment(TutorialViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: TutorialViewModel
 
     private var chapter: TutorialChapter {
         viewModel.chapter

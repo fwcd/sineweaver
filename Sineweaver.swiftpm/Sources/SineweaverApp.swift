@@ -8,8 +8,8 @@ struct SineweaverApp: App {
     var body: some Scene {
         WindowGroup {
             SineweaverView()
-                .environment(synthesizer)
-                .environment(tutorial)
+                .environmentObject(synthesizer)
+                .environmentObject(tutorial)
         }
     }
 }
