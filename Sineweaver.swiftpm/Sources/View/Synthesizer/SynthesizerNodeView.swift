@@ -12,7 +12,7 @@ struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
     var startDate: Date = Date()
     var isActive: Bool = false
     @ViewBuilder var toolbar: () -> Toolbar
-    
+
     private var hasBox: Bool {
         switch node {
         case .mixer: false
@@ -28,6 +28,8 @@ struct SynthesizerNodeView<Toolbar>: View where Toolbar: View {
                 Text(node.name)
             } toolbar: {
                 toolbar()
+            } dock: { alignment in
+                // TODO
             }
         } else {
             inner

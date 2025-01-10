@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-struct ComponentBox<Content, Label, Toolbar>: View where Content: View, Label: View, Toolbar: View {
+struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, Label: View, Toolbar: View, Dock: View {
     @ViewBuilder let content: () -> Content
     @ViewBuilder let label: () -> Label
     @ViewBuilder let toolbar: () -> Toolbar
+    @ViewBuilder let dock: (Alignment) -> Dock
 
     var body: some View {
         content()
@@ -20,37 +21,89 @@ struct ComponentBox<Content, Label, Toolbar>: View where Content: View, Label: V
                     .stroke(.foreground)
                     .overlay(alignment: .topLeading) {
                         label()
-                            .topBoxAligned()
+                            .boxBoundAligned(.top)
+                    }
+                    .overlay(alignment: .top) {
+                        alignedDock(.top)
                     }
                     .overlay(alignment: .topTrailing) {
                         toolbar()
-                            .topBoxAligned()
+                            .boxBoundAligned(.top)
+                    }
+                    .overlay(alignment: .leading) {
+                        alignedDock(.leading)
+                    }
+                    .overlay(alignment: .trailing) {
+                        alignedDock(.trailing)
+                    }
+                    .overlay(alignment: .bottom) {
+                        alignedDock(.bottom)
                     }
             }
     }
-}
-
-private extension View {
-    func topBoxAligned() -> some View {
-        alignmentGuide(.top) { dimensions in
-            dimensions.height / 2
+    
+    @ViewBuilder
+    private func alignedDock(_ alignment: HorizontalAlignment) -> some View {
+        Group(subviews: dock(.init(horizontal: alignment, vertical: .center))) { subviews in
+            if !subviews.isEmpty {
+                subviews
+                    .boxBoundAligned(alignment)
+            }
         }
-        .padding(.horizontal, 5)
-        .background(RoundedRectangle(cornerRadius: 5).fill(.ultraThinMaterial))
-        .padding(.horizontal, 5)
+    }
+    
+    @ViewBuilder
+    private func alignedDock(_ alignment: VerticalAlignment) -> some View {
+        Group(subviews: dock(.init(horizontal: .center, vertical: alignment))) { subviews in
+            if !subviews.isEmpty {
+                subviews
+                    .boxBoundAligned(alignment)
+            }
+        }
     }
 }
 
-extension ComponentBox where Toolbar == EmptyView {
+private let boundPadding: CGFloat = 2
+private let boundMargin: CGFloat = 5
+
+private func boundViewBackground() -> some View {
+    RoundedRectangle(cornerRadius: 5).fill(.ultraThinMaterial)
+}
+
+private extension View {
+    @ViewBuilder
+    func boxBoundAligned(_ alignment: VerticalAlignment) -> some View {
+        alignmentGuide(alignment) { dimensions in
+            dimensions.height / 2
+        }
+        .padding(boundPadding)
+        .background(boundViewBackground())
+        .padding(.horizontal, boundMargin)
+        .fixedSize()
+    }
+    
+    @ViewBuilder
+    func boxBoundAligned(_ alignment: HorizontalAlignment) -> some View {
+        alignmentGuide(alignment) { dimensions in
+            dimensions.width / 2
+        }
+        .padding(boundPadding)
+        .background(boundViewBackground())
+        .padding(.vertical, boundMargin)
+        .fixedSize()
+    }
+}
+
+extension ComponentBox where Toolbar == EmptyView, Dock == EmptyView {
     init(
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder label: @escaping () -> Label
     ) {
-        self.init(content: content, label: label) {}
+        self.init(content: content, label: label) {} dock: { _ in }
     }
 }
 
-extension ComponentBox where Label == Text, Toolbar == EmptyView {
+extension ComponentBox where Label == Text, Toolbar == EmptyView, Dock == EmptyView {
     init(_ label: String = "", @ViewBuilder content: @escaping () -> Content) {
         self.init(content: content) {
             Text(label)

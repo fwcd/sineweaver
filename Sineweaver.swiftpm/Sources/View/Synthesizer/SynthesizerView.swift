@@ -18,6 +18,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @ViewBuilder var level: () -> Level
     
     @State private var hovered: Set<UUID> = []
+    @State private var newNodePopovers: Set<UUID> = []
     @State private var activeDragOffsets: [UUID: CGSize] = [:]
     @State private var frames: [UUID: CGRect] = [:]
 
