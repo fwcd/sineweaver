@@ -90,7 +90,14 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
                         }
                         .buttonStyle(.bordered)
                     }
-                    toolbar()
+                    Group(subviews: toolbar()) { subviews in
+                        if !subviews.isEmpty {
+                            Divider()
+                                .frame(height: 30)
+                                .fixedSize()
+                            subviews
+                        }
+                    }
                 }
             }
             .animation(.default, value: viewModel.chapterIndex)
