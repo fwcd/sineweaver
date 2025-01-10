@@ -138,6 +138,6 @@ struct SynthesizerView<Level>: View where Level: View {
     
     SynthesizerView(model: $model, allowsEditing: true) {}
         .onAppear {
-            SynthesizerChapter.allCases.last!.configure(synthesizer: &model)
+            model = SynthesizerChapter.fullyConfiguredSynthesizer
         }
 }

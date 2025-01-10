@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TutorialChapterView: View {
     @Environment(TutorialViewModel.self) private var viewModel
-    
+
     private var chapter: TutorialChapter {
         viewModel.chapter
     }
@@ -20,6 +20,10 @@ struct TutorialChapterView: View {
                 WelcomeView()
             } else {
                 SynthesizerChapterView(chapter: viewModel.chapter.synthesizerChapter)
+            }
+        } toolbar: {
+            if viewModel.isLastChapter {
+                SynthesizerToolbar()
             }
         }
     }

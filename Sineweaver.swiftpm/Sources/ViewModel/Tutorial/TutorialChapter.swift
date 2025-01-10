@@ -39,7 +39,7 @@ enum TutorialChapter: Hashable, CaseIterable {
         switch self {
         case .welcome: synthesizer = .init()
         case .synthesizer(let chapter): chapter.configure(synthesizer: &synthesizer)
-        case .completed: SynthesizerChapter.allCases.last!.configure(synthesizer: &synthesizer)
+        case .completed: synthesizer = SynthesizerChapter.fullyConfiguredSynthesizer
         }
     }
 }

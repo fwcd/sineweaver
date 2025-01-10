@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct TutorialFrame<Content>: View where Content: View {
+struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View {
     var title: String? = nil
     var details: [String] = []
     @ViewBuilder var content: () -> Content
-    
+    @ViewBuilder var toolbar: () -> Toolbar
+
     @Environment(TutorialViewModel.self) private var viewModel
     @State private var chapterPickerShown = false
 
@@ -89,6 +90,7 @@ struct TutorialFrame<Content>: View where Content: View {
                         }
                         .buttonStyle(.bordered)
                     }
+                    toolbar()
                 }
             }
             .animation(.default, value: viewModel.chapterIndex)

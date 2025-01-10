@@ -72,6 +72,16 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         [activeGateId]
     }
     
+    var synthesizer: SynthesizerModel {
+        var synthesizer = SynthesizerModel()
+        configure(synthesizer: &synthesizer)
+        return synthesizer
+    }
+    
+    static var fullyConfiguredSynthesizer: SynthesizerModel {
+        allCases.last!.synthesizer
+    }
+    
     func configure(synthesizer: inout SynthesizerModel) {
         var synth = SynthesizerModel()
         
