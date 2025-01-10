@@ -11,9 +11,9 @@ import Foundation
 struct OscillatorNode: SynthesizerNodeProtocol {
     var wave: Wave = .sine
     var frequency: Double = 440
-    var volume: Double = 1
+    var volume: Double = 0.75
     var isPlaying = false
-    var prefersPianoView = false
+    var prefersPianoView = true
 
     enum Wave: String, Hashable, Codable, CaseIterable {
         case sine = "Sine"

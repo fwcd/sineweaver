@@ -87,7 +87,6 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         
         synth.outputNodeId = synth.addNode(id: oscillatorId, .oscillator(.init(
             wave: self >= .filter ? .saw : .sine, // TODO: Add explanation
-            volume: 0.5,
             prefersPianoView: self >= .pianoOscillator
         )))
         
