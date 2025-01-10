@@ -50,7 +50,9 @@ struct SynthesizerNodeView<Toolbar, Dock>: View where Toolbar: View, Dock: View 
             case .mixer:
                 SynthesizerMixerView(node: $node.asMixer)
             default:
-                Text("TODO")
+                Text("this node has no UI")
+                    .italic()
+                    .opacity(0.5)
             }
         }
     }
