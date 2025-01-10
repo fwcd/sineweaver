@@ -20,7 +20,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var hovered: Set<UUID> = []
     @State private var frames: [UUID: CGRect] = [:]
     @State private var levelFrame: CGRect? = nil
-    @State private var dockNewNodePopover: (id: UUID, edge: Edge)? = nil
+    @State private var insertNewNodePopover: (id: UUID, edge: Edge)? = nil
     @State private var addNewNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
     @State private var nodeAddWarning: NodeAddWarning? = nil
@@ -114,7 +114,7 @@ struct SynthesizerView<Level>: View where Level: View {
                     VStack(alignment: .trailing, spacing: nodeSpacing) {
                         ForEach(group) { (tnode: ToposortedNode) in
                             let id = tnode.id
-                            let showsHUD = (allowsEditing && hovered.contains(id)) || dockNewNodePopover?.id == id
+                            let showsHUD = (allowsEditing && hovered.contains(id)) || insertNewNodePopover?.id == id
                             SynthesizerNodeView(
                                 node: $model.nodes[id].unwrapped,
                                 startDate: startDate,
@@ -124,9 +124,9 @@ struct SynthesizerView<Level>: View where Level: View {
                                     toolbar(for: id, in: coordinateSpace)
                                         .padding(.bottom, 5)
                                 }
-                            } dock: { edge in
+                            } handle: { edge in
                                 if showsHUD {
-                                    dock(for: id, edge: edge)
+                                    handle(for: id, edge: edge)
                                 }
                             }
                             .background(FrameReader(in: coordinateSpace) { frame in
@@ -184,18 +184,18 @@ struct SynthesizerView<Level>: View where Level: View {
     }
     
     @ViewBuilder
-    private func dock(for id: UUID, edge: Edge) -> some View {
+    private func handle(for id: UUID, edge: Edge) -> some View {
         let key = (id: id, edge: edge)
         Button {
-            dockNewNodePopover = key
+            insertNewNodePopover = key
         } label: {
             Image(systemName: "plus.circle")
         }
         .buttonStyle(.plain)
         .popover(isPresented: Binding {
-            dockNewNodePopover?.id == id && dockNewNodePopover?.edge == edge
+            insertNewNodePopover?.id == id && insertNewNodePopover?.edge == edge
         } set: {
-            dockNewNodePopover = $0 ? key : nil
+            insertNewNodePopover = $0 ? key : nil
         }, arrowEdge: edge.opposite) {
             newNodePopover(id: id, edge: edge)
         }

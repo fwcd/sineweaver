@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, Label: View, Toolbar: View, Dock: View {
+struct ComponentBox<Content, Label, Toolbar, Handle>: View where Content: View, Label: View, Toolbar: View, Handle: View {
     @ViewBuilder let content: () -> Content
     @ViewBuilder let label: () -> Label
     @ViewBuilder let toolbar: () -> Toolbar
-    @ViewBuilder let dock: (Edge) -> Dock
+    @ViewBuilder let handle: (Edge) -> Handle
 
     var body: some View {
         content()
@@ -26,7 +26,7 @@ struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, La
                     }
                     .overlay(alignment: .top) {
                         aligned(.top) {
-                            dock(.top)
+                            handle(.top)
                         }
                     }
                     .overlay(alignment: .topTrailing) {
@@ -36,17 +36,17 @@ struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, La
                     }
                     .overlay(alignment: .leading) {
                         aligned(.leading) {
-                            dock(.leading)
+                            handle(.leading)
                         }
                     }
                     .overlay(alignment: .trailing) {
                         aligned(.trailing) {
-                            dock(.trailing)
+                            handle(.trailing)
                         }
                     }
                     .overlay(alignment: .bottom) {
                         aligned(.bottom) {
-                            dock(.bottom)
+                            handle(.bottom)
                         }
                     }
             }
@@ -70,16 +70,16 @@ struct ComponentBox<Content, Label, Toolbar, Dock>: View where Content: View, La
     }
 }
 
-extension ComponentBox where Toolbar == EmptyView, Dock == EmptyView {
+extension ComponentBox where Toolbar == EmptyView, Handle == EmptyView {
     init(
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder label: @escaping () -> Label
     ) {
-        self.init(content: content, label: label) {} dock: { _ in }
+        self.init(content: content, label: label) {} handle: { _ in }
     }
 }
 
-extension ComponentBox where Label == Text, Toolbar == EmptyView, Dock == EmptyView {
+extension ComponentBox where Label == Text, Toolbar == EmptyView, Handle == EmptyView {
     init(_ label: String = "", @ViewBuilder content: @escaping () -> Content) {
         self.init(content: content) {
             Text(label)
