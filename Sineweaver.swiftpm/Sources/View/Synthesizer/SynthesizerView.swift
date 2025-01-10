@@ -75,7 +75,7 @@ struct SynthesizerView<Level>: View where Level: View {
             .allowsHitTesting(false)
             
             HStack(spacing: nodeSpacing) {
-                if model.nodes.isEmpty {
+                if model.nodes.isEmpty && allowsEditing {
                     Button {
                         addNewNodePopoverShown = true
                     } label: {
