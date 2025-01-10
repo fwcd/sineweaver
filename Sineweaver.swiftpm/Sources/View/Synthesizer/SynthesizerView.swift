@@ -20,7 +20,8 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var hovered: Set<UUID> = []
     @State private var frames: [UUID: CGRect] = [:]
     @State private var levelFrame: CGRect? = nil
-    @State private var newNodePopover: (id: UUID, edge: Edge)? = nil
+    @State private var dockNewNodePopover: (id: UUID, edge: Edge)? = nil
+    @State private var addNewNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
 
     private struct NodeRemovalWarning {
@@ -67,6 +68,18 @@ struct SynthesizerView<Level>: View where Level: View {
             .allowsHitTesting(false)
             
             HStack(spacing: nodeSpacing) {
+                if model.nodes.isEmpty {
+                    Button {
+                        addNewNodePopoverShown = true
+                    } label: {
+                        Label("Add Node", systemImage: "plus")
+                    }
+                    .buttonStyle(.bordered)
+                    .popover(isPresented: $addNewNodePopoverShown) {
+                        newNodePopover()
+                    }
+                }
+            
                 let tnodes: [ToposortedNode] = model.toposortedNodes
                     .filter { !hiddenNodeIds.contains($0.id) }
                 let groups = Dictionary(grouping: tnodes, by: \.depth)
@@ -77,7 +90,7 @@ struct SynthesizerView<Level>: View where Level: View {
                     VStack(alignment: .trailing, spacing: nodeSpacing) {
                         ForEach(group) { (tnode: ToposortedNode) in
                             let id = tnode.id
-                            let showsHUD = (allowsEditing && hovered.contains(id)) || newNodePopover?.id == id
+                            let showsHUD = (allowsEditing && hovered.contains(id)) || dockNewNodePopover?.id == id
                             SynthesizerNodeView(
                                 node: $model.nodes[id].unwrapped,
                                 startDate: startDate,
@@ -154,25 +167,37 @@ struct SynthesizerView<Level>: View where Level: View {
     private func dock(for id: UUID, edge: Edge) -> some View {
         let key = (id: id, edge: edge)
         Button {
-            newNodePopover = key
+            dockNewNodePopover = key
         } label: {
             Image(systemName: "plus.circle")
         }
         .buttonStyle(.plain)
         .popover(isPresented: Binding {
-            newNodePopover?.id == id && newNodePopover?.edge == edge
+            dockNewNodePopover?.id == id && dockNewNodePopover?.edge == edge
         } set: {
-            newNodePopover = $0 ? key : nil
+            dockNewNodePopover = $0 ? key : nil
         }, arrowEdge: edge.opposite) {
-            VStack {
-                ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
-                    Button(type.name) {
+            newNodePopover(id: id, edge: edge)
+        }
+    }
+    
+    @ViewBuilder
+    private func newNodePopover(id: UUID? = nil, edge: Edge? = nil) -> some View {
+        VStack {
+            ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
+                Button(type.name) {
+                    if let id, let edge {
                         model.insertNode(around: id, at: edge, .init(type: type))
+                    } else {
+                        let id = model.addNode(.init(type: type))
+                        if model.outputNodeId == nil {
+                            model.outputNodeId = id
+                        }
                     }
                 }
             }
-            .padding()
         }
+        .padding()
     }
 }
 
