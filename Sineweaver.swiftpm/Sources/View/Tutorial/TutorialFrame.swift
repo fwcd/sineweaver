@@ -55,7 +55,7 @@ struct TutorialFrame<Content>: View where Content: View {
                             Image(systemName: "chevron.left")
                             Text(viewModel.isLastChapter ? "Tutorial" : "Back")
                         }
-                        .buttonStyle(BorderedButtonStyle())
+                        .buttonStyle(.bordered)
                     }
                     if viewModel.isLastChapter {
                         Button {
@@ -64,7 +64,7 @@ struct TutorialFrame<Content>: View where Content: View {
                             Image(systemName: "house")
                             Text("Welcome")
                         }
-                        .buttonStyle(BorderedButtonStyle())
+                        .buttonStyle(.bordered)
                     }
                     if !viewModel.isLastChapter {
                         Button {
@@ -78,7 +78,7 @@ struct TutorialFrame<Content>: View where Content: View {
                                 Image(systemName: "chevron.right")
                             }
                         }
-                        .buttonStyle(BorderedProminentButtonStyle())
+                        .buttonStyle(.borderedProminent)
                     }
                     if viewModel.isFirstChapter {
                         Button {
@@ -87,7 +87,7 @@ struct TutorialFrame<Content>: View where Content: View {
                             Text("Skip Tutorial")
                                 .bigLabel()
                         }
-                        .buttonStyle(BorderedButtonStyle())
+                        .buttonStyle(.bordered)
                     }
                 }
             }

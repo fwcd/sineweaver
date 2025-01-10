@@ -127,7 +127,7 @@ struct SynthesizerView<Level>: View where Level: View {
                 Image(systemName: "x.circle")
             }
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.plain)
     }
     
     @ViewBuilder
