@@ -24,7 +24,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var addNewNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
 
-    private struct NodeRemovalWarning {
+    private struct NodeRemovalWarning: Hashable {
         let id: UUID
         let text: String?
     }
@@ -128,11 +128,7 @@ struct SynthesizerView<Level>: View where Level: View {
             .animation(.default, value: Set(model.nodes.keys))
         }
         .coordinateSpace(coordinateSpace)
-        .alert(nodeRemovalWarning?.text ?? "Remove node?", isPresented: Binding {
-            nodeRemovalWarning != nil
-        } set: {
-            nodeRemovalWarning = $0 ? nodeRemovalWarning : nil
-        }) {
+        .alert(nodeRemovalWarning?.text ?? "Remove node?", isPresented: $nodeRemovalWarning.notNil) {
             Button("Cancel", role: .cancel) {
                 nodeRemovalWarning = nil
             }
