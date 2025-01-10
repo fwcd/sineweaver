@@ -124,7 +124,7 @@ struct SynthesizerView<Level>: View where Level: View {
             Button {
                 model.removeNode(id: id)
             } label: {
-                Image(systemName: "x.circle")
+                Image(systemName: "multiply")
             }
         }
         .buttonStyle(.plain)
@@ -135,7 +135,7 @@ struct SynthesizerView<Level>: View where Level: View {
         Button {
             // TODO
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: "plus.circle")
         }
         .buttonStyle(.plain)
     }
