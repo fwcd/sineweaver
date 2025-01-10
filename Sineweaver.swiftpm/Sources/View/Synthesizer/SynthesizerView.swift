@@ -144,7 +144,7 @@ struct SynthesizerView<Level>: View where Level: View {
             newNodePopover?.id == id && newNodePopover?.edge == edge
         } set: {
             newNodePopover = $0 ? key : nil
-        }) {
+        }, arrowEdge: edge.opposite) {
             VStack {
                 ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
                     Text(type.name)
