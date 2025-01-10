@@ -97,6 +97,10 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         case .trailing:
             inputEdges = inputEdges.mapValues { $0.map { $0 == adjacentId ? id : $0 } }
             inputEdges[id] = [adjacentId]
+            
+            if adjacentId == outputNodeId {
+                outputNodeId = id
+            }
         }
         
         return id
