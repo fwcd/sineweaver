@@ -133,7 +133,7 @@ final class Synthesizer: Sendable {
         engine.connect(srcNode, to: mainMixer, format: inputFormat)
         engine.connect(mainMixer, to: outputNode, format: outputFormat)
 
-        print("Starting engine")
+        log.info("Starting engine")
         try engine.start()
     }
     
