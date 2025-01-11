@@ -69,6 +69,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
                 "Try tweaking the cutoff frequency and the modulation strength of the filter below, as well as the LFO frequency, and see how the sound changes when you play the oscillator's piano!",
                 "You now know the basics of synthesizers. Click the button to complete the tutorial and to unlock the fully customizable synth UI. Have fun!",
             ]
+        // TODO: Add a chapter on white noise
         }
     }
     
