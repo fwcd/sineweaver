@@ -170,7 +170,7 @@ struct SynthesizerView<Level>: View where Level: View {
     private func toolbar(for id: UUID, in coordinateSpace: some CoordinateSpaceProtocol) -> some View {
         Button {
             guard let node = model.nodes[id] else { return }
-            if (node.type == .envelope || node.type == .activeGate) && id == model.outputNodeId {
+            if (node.type == .envelope || node.type == .activeGate) && id == model.outputNodeId && (model.inputEdges[id]?.count ?? 0) > 0 {
                 nodeRemovalWarning = .init(
                     id: id,
                     text: "Removing this node will pass sound straight from its inputs to the output, regardless of whether e.g. an oscillator key is pressed or not. Thus removing the node may result in a continuous tone playing from your speaker. Are you sure you wish to remove this node?"
