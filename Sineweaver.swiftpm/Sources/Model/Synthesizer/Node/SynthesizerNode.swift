@@ -162,6 +162,8 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     var isActive: Bool {
         switch self {
         case .oscillator(let node): node.isPlaying
+        case .noise(let node): node.isActive
+        case .controller(let node): node.isActive
         default: false
         }
     }
