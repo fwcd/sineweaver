@@ -14,7 +14,7 @@ struct VUMeter<Value>: View where Value: BinaryFloatingPoint {
     var body: some View {
         let width = ComponentDefaults.meterThickness
         let height = ComponentDefaults.padSize * 0.6
-        let levelHeight = height * CGFloat(range.normalize(value))
+        let levelHeight = height * CGFloat(range.normalize(range.clamp(value)))
         Rectangle()
             .fill(.foreground)
             .frame(width: width, height: levelHeight)
