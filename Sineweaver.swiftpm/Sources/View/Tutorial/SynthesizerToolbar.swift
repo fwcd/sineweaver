@@ -36,19 +36,29 @@ struct SynthesizerToolbar: View {
                 Label("Open Preset", systemImage: "square.dashed")
             }
             .popover(isPresented: $presetPopoverShown) {
-                VStack(alignment: .leading, spacing: 5) {
-                    let _ = print(SynthesizerPreset.presetsInBundle)
-                    ForEach(SynthesizerPreset.presetsInBundle) { preset in
-                        Button(preset.name) {
-                            do {
-                                viewModel.model = try preset.read()
-                            } catch {
-                                // TODO: Make this a modal
-                                log.error("Could not read preset: \(error)")
+                HStack(alignment: .top) {
+                    let groupedPresets: [String: [SynthesizerPreset]] = Dictionary(
+                        grouping: SynthesizerPreset.presetsInBundle,
+                        by: \.category
+                    )
+                    let sortedGroups = groupedPresets.sorted(by: ascendingComparator(by: \.key))
+                    ForEach(sortedGroups, id: \.key) { (group, presets) in
+                        VStack {
+                            Section(group) {
+                                ForEach(presets) { preset in
+                                    Button(preset.name) {
+                                        do {
+                                            viewModel.model = try preset.read()
+                                        } catch {
+                                            // TODO: Make this a modal
+                                            log.error("Could not read preset: \(error)")
+                                        }
+                                    }
+                                }
                             }
                         }
-                        .buttonStyle(.bordered)
                     }
+                    .buttonStyle(.bordered)
                 }
                 .padding()
             }
