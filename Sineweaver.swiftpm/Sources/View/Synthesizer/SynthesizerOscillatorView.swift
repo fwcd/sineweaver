@@ -48,9 +48,7 @@ struct SynthesizerOscillatorView: View {
                             Spacer()
                             if allowsEditing {
                                 if node.prefersPianoView {
-                                    Stepper("Octave: \(pianoBaseNote)", value: $node.pianoBaseOctave, in: 0...9)
-                                        .monospacedDigit()
-                                        .fixedSize()
+                                    OctavePicker(noteClass: pianoBaseNote.noteClass, octave: $node.pianoBaseOctave)
                                 }
                                 Button {
                                     node.prefersPianoView = !node.prefersPianoView
