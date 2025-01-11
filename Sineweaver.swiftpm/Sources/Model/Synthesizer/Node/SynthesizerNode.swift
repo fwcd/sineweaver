@@ -18,6 +18,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case wavExport(WavExportNode)
     case envelope(EnvelopeNode)
     case activeGate(ActiveGateNode)
+    case controller(ControllerNode)
     
     var type: SynthesizerNodeType {
         switch self {
@@ -30,6 +31,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .wavExport: .wavExport
         case .envelope: .envelope
         case .activeGate: .activeGate
+        case .controller: .controller
         }
     }
     
@@ -145,6 +147,18 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
+    var asController: ControllerNode {
+        get {
+            switch self {
+            case .controller(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .controller(newValue)
+        }
+    }
+    
     var isActive: Bool {
         switch self {
         case .oscillator(let node): node.isPlaying
@@ -163,6 +177,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .wavExport: self = .wavExport(.init())
         case .envelope: self = .envelope(.init())
         case .activeGate: self = .activeGate(.init())
+        case .controller: self = .controller(.init())
         }
     }
     
@@ -177,6 +192,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .wavExport(let node): node.makeState()
         case .envelope(let node): node.makeState()
         case .activeGate(let node): node.makeState()
+        case .controller(let node): node.makeState()
         }
     }
     
@@ -218,6 +234,10 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var gateState: ActiveGateNode.State = state as! ActiveGateNode.State
             defer { state = gateState }
             return node.render(inputs: inputs, output: &output, state: &gateState, context: context)
+        case .controller(let node):
+            var controllerState: ControllerNode.State = state as! ControllerNode.State
+            defer { state = controllerState }
+            return node.render(inputs: inputs, output: &output, state: &controllerState, context: context)
         }
     }
 }
