@@ -26,7 +26,7 @@ struct SynthesizerOscillatorView: View {
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 VStack {
                     SynthesizerChartView(node: playingNode)
-                        .frame(minWidth: 0.8 * ComponentDefaults.padSize)
+                        .frame(minWidth: (node.prefersPianoView ? 1 : 1.25) * ComponentDefaults.padSize)
                         .opacity(node.isPlaying ? 1 : 0.5)
                     if node.prefersWavePicker {
                         HStack {
