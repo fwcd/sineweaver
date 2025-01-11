@@ -223,7 +223,7 @@ struct SynthesizerView<Level>: View where Level: View {
         VStack {
             ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
                 Button(type.name) {
-                    if type == .oscillator && insertionPoint == nil {
+                    if type == .oscillator && localOutputIds.isEmpty {
                         nodeInsertionWarning = .init(
                             insertionPoint: insertionPoint,
                             type: type,
@@ -231,7 +231,7 @@ struct SynthesizerView<Level>: View where Level: View {
                                 .envelope,
                                 .activeGate,
                             ],
-                            text: "Adding an oscillator as a first node will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
+                            text: "Connecting an oscillator to the output will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
                         )
                     } else if type == .controller, localOutputIds.isEmpty || localOutputIds.contains(where: { model.nodes[$0]?.type != .oscillator }) {
                         nodeInsertionWarning = .init(
