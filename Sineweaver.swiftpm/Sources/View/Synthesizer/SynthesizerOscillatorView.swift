@@ -28,26 +28,26 @@ struct SynthesizerOscillatorView: View {
                     SynthesizerChartView(node: playingNode)
                         .frame(minWidth: 0.8 * ComponentDefaults.padSize)
                         .opacity(node.isPlaying ? 1 : 0.5)
-                    HStack {
-                        if node.prefersWavePicker {
+                    if node.prefersWavePicker {
+                        HStack {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
                             Spacer()
-                        }
-                        HStack(spacing: 20) {
-                            HStack {
-                                Text("\(Int(node.frequency)) Hz")
-                                if node.prefersPianoView {
-                                    Text("(aka. \(note))")
+                            HStack(spacing: 20) {
+                                HStack {
+                                    Text("\(Int(node.frequency)) Hz")
+                                    if node.prefersPianoView {
+                                        Text("(aka. \(note))")
+                                    }
                                 }
+                                Text(String(format: "%.2f dB", 10 * log10(node.volume)))
                             }
-                            Text(String(format: "%.2f dB", 10 * log10(node.volume)))
+                            .font(.system(size: 14).monospacedDigit())
+                            .padding(10)
+                            .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .opacity(node.isPlaying ? 1 : 0)
+                            .animation(.default, value: node.isPlaying)
                         }
-                        .font(.system(size: 14).monospacedDigit())
-                        .padding(10)
-                        .background(.ultraThinMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .opacity(node.isPlaying ? 1 : 0)
-                        .animation(.default, value: node.isPlaying)
                     }
                 }
                 Slider2D(
