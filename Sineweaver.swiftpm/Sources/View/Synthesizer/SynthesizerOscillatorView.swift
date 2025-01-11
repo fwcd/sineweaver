@@ -12,10 +12,12 @@ struct SynthesizerOscillatorView: View {
     var allowsEditing: Bool = true
     var tuning: any Tuning = EqualTemperament()
     
-    @State private var baseOctave: Int = 3
+    private var pianoBaseNote: Note {
+        Note(.c, node.pianoBaseOctave)
+    }
     
-    private var baseNote: Note {
-        Note(.c, baseOctave)
+    private var pianoRange: Range<Note> {
+        pianoBaseNote..<(pianoBaseNote + .octaves(3))
     }
     
     private var note: Note {
@@ -41,7 +43,7 @@ struct SynthesizerOscillatorView: View {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
                             Spacer()
                             if allowsEditing {
-                                Stepper("Octave: \(baseNote)", value: $baseOctave, in: 0...9)
+                                Stepper("Octave: \(pianoBaseNote)", value: $node.pianoBaseOctave, in: 0...9)
                                     .monospacedDigit()
                                     .fixedSize()
                             }
@@ -79,7 +81,7 @@ struct SynthesizerOscillatorView: View {
                 .font(node.prefersPianoView ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
-                PianoView(notes: baseNote..<(baseNote + .octaves(3))) { notes in
+                PianoView(notes: pianoRange) { notes in
                     if let note = notes.first {
                         self.note = note
                     }
@@ -87,8 +89,8 @@ struct SynthesizerOscillatorView: View {
                 }
             }
         }
-        .onChange(of: baseNote) {
-            note = baseNote
+        .onChange(of: node.pianoBaseOctave) {
+            note = pianoBaseNote
         }
     }
 }
