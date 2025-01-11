@@ -15,7 +15,7 @@ struct SynthesizerPreset: Identifiable {
         url
     }
     
-    private static let urlsInBundle: [URL] = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "Presets") ?? []
+    private static let urlsInBundle: [URL] = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? []
     static let presetsInBundle: [Self] = urlsInBundle.map { Self(name: $0.deletingPathExtension().lastPathComponent, url: $0) }
     
     func read() throws -> SynthesizerModel {
