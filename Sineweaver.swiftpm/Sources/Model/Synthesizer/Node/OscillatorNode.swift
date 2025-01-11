@@ -13,6 +13,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     var frequency: Double = 440
     var volume: Double = 0.75
     var isPlaying = false
+    var prefersWavePicker = true
     var prefersPianoView = true
 
     enum Wave: String, Hashable, Codable, CaseIterable, CustomStringConvertible {

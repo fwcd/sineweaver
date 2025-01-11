@@ -16,6 +16,7 @@ private let lfoId = UUID()
 
 enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     case basicOscillator
+    case waveOscillator
     case pianoOscillator
     case envelope
     case lfo
@@ -23,7 +24,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     
     var title: String {
         switch self {
-        case .basicOscillator, .pianoOscillator: "The Oscillator"
+        case .basicOscillator, .waveOscillator, .pianoOscillator: "The Oscillator"
         case .envelope: "The Envelope"
         case .lfo: "The LFO"
         case .filter: "The Filter"
@@ -34,9 +35,12 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         switch self {
         case .basicOscillator:
             [
-                // TODO: Square waves etc.? Maybe a generic preset mechanism that we could later use for the envelope too would be appropriate?
                 #"At the most fundamental level, a synthesizer produces sounds by sampling a periodic function, commonly a sine wave. The synthesizer presented here is called an **oscillator** and it forms the fundamental building block of almost every form of audio synthesis."#,
                 "This oscillator has two parameters: **Frequency** (or **pitch**) and **volume**. The meter on the right-hand side displays the volume of the output signal. Set your computer volume to a comfortable level and then try pressing/dragging the knob on the frequency/volume pad to control and play the synth!",
+            ]
+        case .waveOscillator:
+            [
+                "There are other kinds of waves we can generate too. The perhaps most common types are **saw waves** and **square waves**. Try changing the wave type in the drop down menu and see how that affects the sound!",
             ]
         case .pianoOscillator:
             [
@@ -87,6 +91,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         
         synth.outputNodeId = synth.addNode(id: oscillatorId, .oscillator(.init(
             wave: self >= .filter ? .saw : .sine, // TODO: Add explanation
+            prefersWavePicker: self >= .waveOscillator,
             prefersPianoView: self >= .pianoOscillator
         )))
         
