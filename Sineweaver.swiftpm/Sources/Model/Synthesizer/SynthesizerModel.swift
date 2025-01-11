@@ -81,24 +81,29 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         return id
     }
     
+    struct InsertionPoint: Hashable {
+        let id: UUID
+        let edge: SwiftUI.Edge
+    }
+    
     @discardableResult
-    mutating func insertNode(around adjacentId: UUID, at edge: SwiftUI.Edge, id: UUID = UUID(), _ node: SynthesizerNode) -> UUID {
+    mutating func insertNode(at insertionPoint: InsertionPoint, id: UUID = UUID(), _ node: SynthesizerNode) -> UUID {
         nodes[id] = node
         inputEdges[id] = []
         
-        switch edge {
+        switch insertionPoint.edge {
         case .top:
-            inputEdges = inputEdges.mapValues { $0.flatMap { $0 == adjacentId ? [id, $0] : [$0] } }
+            inputEdges = inputEdges.mapValues { $0.flatMap { $0 == insertionPoint.id ? [id, $0] : [$0] } }
         case .bottom:
-            inputEdges = inputEdges.mapValues { $0.flatMap { $0 == adjacentId ? [$0, id] : [$0] } }
+            inputEdges = inputEdges.mapValues { $0.flatMap { $0 == insertionPoint.id ? [$0, id] : [$0] } }
         case .leading:
-            inputEdges[id] = inputEdges[adjacentId]
-            inputEdges[adjacentId] = [id]
+            inputEdges[id] = inputEdges[insertionPoint.id]
+            inputEdges[insertionPoint.id] = [id]
         case .trailing:
-            inputEdges = inputEdges.mapValues { $0.map { $0 == adjacentId ? id : $0 } }
-            inputEdges[id] = [adjacentId]
+            inputEdges = inputEdges.mapValues { $0.map { $0 == insertionPoint.id ? id : $0 } }
+            inputEdges[id] = [insertionPoint.id]
             
-            if adjacentId == outputNodeId {
+            if insertionPoint.id == outputNodeId {
                 outputNodeId = id
             }
         }
@@ -126,6 +131,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     }
     
     mutating func connect(_ inputId: UUID, to outputId: UUID) {
+        precondition(inputId != outputId)
         guard nodes.keys.contains(inputId) else {
             fatalError("Cannot connect invalid input id: \(inputId)")
         }

@@ -25,11 +25,8 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
     @State private var nodeInsertionWarning: NodeInsertionWarning? = nil
     
-    private struct InsertionPoint: Hashable {
-        let id: UUID
-        let edge: Edge
-    }
-
+    private typealias InsertionPoint = SynthesizerModel.InsertionPoint
+    
     private struct NodeRemovalWarning: Hashable {
         let id: UUID
         let text: String
@@ -149,12 +146,19 @@ struct SynthesizerView<Level>: View where Level: View {
             if let nodeInsertionWarning {
                 ForEach(nodeInsertionWarning.chainableTypes, id: \.self) { chainableType in
                     Button("Add \(chainableType.name)") {
-                        addInitialNode(type: nodeInsertionWarning.type, chainedType: chainableType)
+                        addNode(
+                            type: nodeInsertionWarning.type,
+                            chainedType: chainableType,
+                            at: nodeInsertionWarning.insertionPoint
+                        )
                         self.nodeInsertionWarning = nil
                     }
                 }
                 Button("Just Add \(nodeInsertionWarning.type.name)", role: .destructive) {
-                    addInitialNode(type: nodeInsertionWarning.type)
+                    addNode(
+                        type: nodeInsertionWarning.type,
+                        at: nodeInsertionWarning.insertionPoint
+                    )
                     self.nodeInsertionWarning = nil
                 }
             }
@@ -242,10 +246,8 @@ struct SynthesizerView<Level>: View where Level: View {
                             ],
                             text: "Connecting a controller to an audio node will produce loud pops/clicks, since the (digital) control signal will be passed onto an audio path. This may be unexpected. Do you want to add an intermediate oscillator?"
                         )
-                    } else if let insertionPoint {
-                        model.insertNode(around: insertionPoint.id, at: insertionPoint.edge, .init(type: type))
                     } else {
-                        addInitialNode(type: type)
+                        addNode(type: type, at: insertionPoint)
                     }
                 }
             }
@@ -254,17 +256,36 @@ struct SynthesizerView<Level>: View where Level: View {
     }
     
     @discardableResult
-    private func addInitialNode(type: SynthesizerNodeType, chainedType: SynthesizerNodeType? = nil) -> UUID {
-        var id = model.addNode(.init(type: type))
+    private func addNode(type: SynthesizerNodeType, chainedType: SynthesizerNodeType? = nil, at insertionPoint: InsertionPoint? = nil) -> UUID {
+        let isOrderReversed = insertionPoint.map { $0.edge != .trailing } ?? false
+        var id: UUID? = nil
+        if !isOrderReversed {
+            id = insertNode(type: type, at: insertionPoint)
+        }
         if let chainedType {
-            let chainedId = model.addNode(.init(type: chainedType))
-            model.connect(id, to: chainedId)
+            let chainedId = insertNode(type: chainedType, at: insertionPoint)
+            if let id {
+                model.connect(id, to: chainedId)
+            }
             id = chainedId
+        }
+        if isOrderReversed {
+            id = insertNode(type: type, at: insertionPoint)
         }
         if model.outputNodeId == nil {
             model.outputNodeId = id
         }
-        return id
+        return id!
+    }
+    
+    @discardableResult
+    private func insertNode(type: SynthesizerNodeType, at insertionPoint: InsertionPoint? = nil) -> UUID {
+        let node = SynthesizerNode(type: type)
+        return if let insertionPoint {
+            model.insertNode(at: insertionPoint, node)
+        } else {
+            model.addNode(node)
+        }
     }
 }
 
