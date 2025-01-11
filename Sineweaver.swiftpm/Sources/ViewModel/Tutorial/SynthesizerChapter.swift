@@ -40,7 +40,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             ]
         case .waveOscillator:
             [
-                "There are other kinds of waves we can generate too. The perhaps most common types are **saw waves** and **square waves**. Try changing the wave type in the drop down menu and see how that affects the sound!",
+                #"There are other kinds of waves we can generate too. The perhaps most common types are **saw waves** and **square waves**. Try changing the wave type in the drop down menu and see how that affects the sound. You may wish to turn your volume down a bit, since saw and square waves "feel louder" due to being harmonically richer."#, // TODO: Add footnote on why that's the case and how humans perceive different frequencies differently
             ]
         case .pianoOscillator:
             [
