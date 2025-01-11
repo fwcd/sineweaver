@@ -257,25 +257,21 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @discardableResult
     private func addNode(type: SynthesizerNodeType, chainedType: SynthesizerNodeType? = nil, at insertionPoint: InsertionPoint? = nil) -> UUID {
-        let isOrderReversed = insertionPoint.map { $0.edge != .trailing } ?? false
-        var id: UUID? = nil
-        if !isOrderReversed {
-            id = insertNode(type: type, at: insertionPoint)
-        }
+        var id = insertNode(type: type, at: insertionPoint)
+        
         if let chainedType {
-            let chainedId = insertNode(type: chainedType, at: insertionPoint)
-            if let id {
-                model.connect(id, to: chainedId)
+            let chainedInsertionPoint: InsertionPoint = switch insertionPoint?.edge {
+            case .leading: insertionPoint!
+            default: .init(id: id, edge: .trailing)
             }
-            id = chainedId
+            id = insertNode(type: chainedType, at: chainedInsertionPoint)
         }
-        if isOrderReversed {
-            id = insertNode(type: type, at: insertionPoint)
-        }
-        if model.outputNodeId == nil {
+        
+        if model.outputEdges(id: id).isEmpty {
             model.outputNodeId = id
         }
-        return id!
+        
+        return id
     }
     
     @discardableResult
