@@ -11,6 +11,7 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
     @Binding var node: SynthesizerNode
     var startDate: Date = Date()
     var isActive: Bool = false
+    var allowsEditing: Bool = true
     @ViewBuilder var toolbar: () -> Toolbar
     @ViewBuilder var handle: (Edge) -> Handle
 
@@ -40,7 +41,7 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
         VStack(alignment: .trailing) {
             switch node {
             case .oscillator:
-                SynthesizerOscillatorView(node: $node.asOscillator)
+                SynthesizerOscillatorView(node: $node.asOscillator, allowsEditing: allowsEditing)
             case .lfo:
                 SynthesizerLFOView(node: $node.asLFO, startDate: startDate)
             case .filter:

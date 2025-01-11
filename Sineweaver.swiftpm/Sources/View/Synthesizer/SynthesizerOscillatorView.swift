@@ -9,10 +9,18 @@ import SwiftUI
 
 struct SynthesizerOscillatorView: View {
     @Binding var node: OscillatorNode
+    var allowsEditing: Bool = true
     var tuning: any Tuning = EqualTemperament()
     
+    @State private var baseOctave: Int = 3
+    
+    private var baseNote: Note {
+        Note(.c, baseOctave)
+    }
+    
     private var note: Note {
-        Note(semitone: Int(tuning.semitone(for: node.frequency).rounded()))
+        get { Note(semitone: Int(tuning.semitone(for: node.frequency).rounded())) }
+        nonmutating set { node.frequency = tuning.pitchHz(for: newValue) }
     }
 
     private var playingNode: OscillatorNode {
@@ -32,6 +40,11 @@ struct SynthesizerOscillatorView: View {
                         HStack {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
                             Spacer()
+                            if allowsEditing {
+                                Stepper("Octave: \(baseNote)", value: $baseOctave)
+                                    .monospacedDigit()
+                                    .fixedSize()
+                            }
                         }
                         .overlay(alignment: .trailing) {
                             HStack(spacing: 20) {
@@ -66,13 +79,16 @@ struct SynthesizerOscillatorView: View {
                 .font(node.prefersPianoView ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
-                PianoView(notes: Note(.c, 3)..<Note(.c, 6)) { notes in
+                PianoView(notes: baseNote..<(baseNote + .octaves(3))) { notes in
                     if let note = notes.first {
-                        node.frequency = tuning.pitchHz(for: note)
+                        self.note = note
                     }
                     node.isPlaying = !notes.isEmpty
                 }
             }
+        }
+        .onChange(of: baseNote) {
+            note = baseNote
         }
     }
 }

@@ -118,7 +118,8 @@ struct SynthesizerView<Level>: View where Level: View {
                             SynthesizerNodeView(
                                 node: $model.nodes[id].unwrapped,
                                 startDate: startDate,
-                                isActive: model.isActive
+                                isActive: model.isActive,
+                                allowsEditing: allowsEditing
                             ) {
                                 if showsHUD {
                                     toolbar(for: id, in: coordinateSpace)
