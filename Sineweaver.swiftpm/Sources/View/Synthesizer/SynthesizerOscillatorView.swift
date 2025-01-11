@@ -41,7 +41,7 @@ struct SynthesizerOscillatorView: View {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
                             Spacer()
                             if allowsEditing {
-                                Stepper("Octave: \(baseNote)", value: $baseOctave)
+                                Stepper("Octave: \(baseNote)", value: $baseOctave, in: 0...9)
                                     .monospacedDigit()
                                     .fixedSize()
                             }
