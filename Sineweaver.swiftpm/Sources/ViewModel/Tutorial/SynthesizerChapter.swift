@@ -56,11 +56,12 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         case .lfo:
             [
                 "Oscillators are not just useful for generating sounds directly, they can also be used to influence other signals, this is known as _modulation_. Usually such oscillators will operate at a much lower frequency than those used to generate sounds, therefore they are commonly referred to as **Low-Frequency Oscillators** (**LFOs**).",
-                "A very simple form of modulation is **amplitude modulation** where the signals are effetively multiplied together. Try changing the LFO frequency and see how this affects the sound when you press a piano key!",
+                "A very simple form of modulation is **amplitude modulation** where the signals are effetively multiplied together. Try pressing and holding a piano key. How does changing the LFO frequency affect the sound?",
                 // TODO: Introduce frequency/time-domain before jumping to filters?
                 // TODO: Showcase ADSR modulation first?
                 "Amplitude is not the only thing we can modulate, however. Modern synthesizers let you modulate almost any parameter. To make things more interesting, we will now introduce another effect...",
             ]
+        // TODO: Add a chapter on white noise, maybe before filters?
         case .filter:
             [
                 "Filters change the audio signal by boosting or attenuating different frequencies. The simplest kind of filter is a **low-pass filter**, which leaves all frequencies below a cutoff frequency untouched (the **passband**) and silences all frequencies above the cutoff (the **stopband**). Swapping passband and stopband gives us a **high-pass filter**, i.e. one that only lets high frequencies pass.",
@@ -70,7 +71,6 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
                 // TODO: Introduce high-pass
                 "You now know the basics of synthesizers. Click the button to complete the tutorial and to unlock the fully customizable synth UI. Have fun!",
             ]
-        // TODO: Add a chapter on white noise
         }
     }
     
