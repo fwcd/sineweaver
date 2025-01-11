@@ -32,6 +32,8 @@ struct SynthesizerOscillatorView: View {
                         HStack {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
                             Spacer()
+                        }
+                        .overlay(alignment: .trailing) {
                             HStack(spacing: 20) {
                                 HStack {
                                     Text("\(Int(node.frequency)) Hz")
