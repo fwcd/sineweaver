@@ -29,7 +29,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
             switch self {
             case .sine: sin(2 * .pi * x)
             case .saw: 1 - 2 * x.truncatingRemainder(dividingBy: 1)
-            case .square: x.truncatingRemainder(dividingBy: 1) < 0.5 ? 0 : 1
+            case .square: x.truncatingRemainder(dividingBy: 1) < 0.5 ? -1 : 1
             }
         }
     }
