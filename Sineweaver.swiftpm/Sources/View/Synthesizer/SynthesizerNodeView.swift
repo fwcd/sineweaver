@@ -44,6 +44,8 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
                 SynthesizerOscillatorView(node: $node.asOscillator, allowsEditing: allowsEditing)
             case .lfo:
                 SynthesizerLFOView(node: $node.asLFO, startDate: startDate)
+            case .noise:
+                SynthesizerNoiseView(node: $node.asNoise)
             case .filter:
                 SynthesizerFilterView(node: $node.asFilter)
             case .envelope:

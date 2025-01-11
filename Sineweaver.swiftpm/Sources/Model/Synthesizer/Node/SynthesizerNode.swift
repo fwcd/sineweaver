@@ -11,6 +11,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     
     case oscillator(OscillatorNode)
     case lfo(LFONode)
+    case noise(NoiseNode)
     case filter(FilterNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
@@ -22,6 +23,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         switch self {
         case .oscillator: .oscillator
         case .lfo: .lfo
+        case .noise: .noise
         case .filter: .filter
         case .mixer: .mixer
         case .silence: .silence
@@ -56,6 +58,18 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
         set {
             self = .lfo(newValue)
+        }
+    }
+    
+    var asNoise: NoiseNode {
+        get {
+            switch self {
+            case .noise(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .noise(newValue)
         }
     }
     
@@ -142,6 +156,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         switch type {
         case .oscillator: self = .oscillator(.init())
         case .lfo: self = .lfo(.init())
+        case .noise: self = .noise(.init())
         case .filter: self = .filter(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
@@ -155,6 +170,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         switch self {
         case .oscillator(let node): node.makeState()
         case .lfo(let node): node.makeState()
+        case .noise(let node): node.makeState()
         case .filter(let node): node.makeState()
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
@@ -174,6 +190,10 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var lfoState: LFONode.State = state as! LFONode.State
             defer { state = lfoState }
             return node.render(inputs: inputs, output: &output, state: &lfoState, context: context)
+        case .noise(let node):
+            var noiseState: NoiseNode.State = state as! NoiseNode.State
+            defer { state = noiseState }
+            return node.render(inputs: inputs, output: &output, state: &noiseState, context: context)
         case .filter(let node):
             var filterState: FilterNode.State = state as! FilterNode.State
             defer { state = filterState }
