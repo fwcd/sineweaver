@@ -110,7 +110,8 @@ final class Synthesizer: Sendable {
                 for audioBuffer in audioBuffers {
                     let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
                     for i in 0..<frameCount {
-                        audioBuffer[i] = Float(audioState.buffers.output[i])
+                        // Clip the signal to avoid loud pops etc.
+                        audioBuffer[i] = Float(max(-1, min(1, audioState.buffers.output[i])))
                     }
                 }
                 
