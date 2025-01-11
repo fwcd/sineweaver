@@ -24,10 +24,13 @@ struct SynthesizerOscillatorView: View {
     var body: some View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
-                SynthesizerChartView(node: playingNode)
-                    .frame(minWidth: 0.8 * ComponentDefaults.padSize)
-                    .opacity(node.isPlaying ? 1 : 0.5)
-                    .overlay(alignment: .bottom) {
+                VStack {
+                    SynthesizerChartView(node: playingNode)
+                        .frame(minWidth: 0.8 * ComponentDefaults.padSize)
+                        .opacity(node.isPlaying ? 1 : 0.5)
+                    HStack {
+                        EnumPicker(selection: $node.wave, label: Text("Wave"))
+                        Spacer()
                         HStack(spacing: 20) {
                             HStack {
                                 Text("\(Int(node.frequency)) Hz")
@@ -44,6 +47,7 @@ struct SynthesizerOscillatorView: View {
                         .opacity(node.isPlaying ? 1 : 0)
                         .animation(.default, value: node.isPlaying)
                     }
+                }
                 Slider2D(
                     size: node.prefersPianoView ? 100 : 200,
                     x: $node.frequency.logarithmic,

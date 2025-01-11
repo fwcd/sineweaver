@@ -15,10 +15,14 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     var isPlaying = false
     var prefersPianoView = true
 
-    enum Wave: String, Hashable, Codable, CaseIterable {
+    enum Wave: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
         case sine = "Sine"
         case saw = "Saw"
         case square = "Square"
+        
+        var description: String {
+            rawValue
+        }
         
         func sample(_ x: Double) -> Double {
             switch self {
