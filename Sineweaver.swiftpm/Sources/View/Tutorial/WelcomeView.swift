@@ -29,5 +29,6 @@ struct WelcomeView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+        .frame(maxWidth: 800)
     }
 }

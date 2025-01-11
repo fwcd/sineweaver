@@ -17,30 +17,32 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
     @State private var chapterPickerShown = false
 
     var body: some View {
-        VStack(spacing: 40) {
-            let content = self.content()
-            if let title = title {
-                Text(title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-            }
-            if !details.isEmpty {
-                let rawDetails = details[viewModel.detailIndex]
-                Text(AttributedString((try? NSAttributedString(markdown: rawDetails)) ?? NSAttributedString(string: rawDetails)))
-                    .font(.title3)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: 800)
-            }
-            content
-                .frame(maxWidth: 800)
-                .padding(.bottom, viewModel.isFirstChapter ? 30 : 0)
+        ScrollView([.horizontal, .vertical]) {
+            content()
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .animation(.default, value: viewModel.chapterIndex)
-        .animation(.default, value: viewModel.detailIndex)
-        .frame(
-            maxWidth: viewModel.isFirstChapter ? nil : .infinity,
-            maxHeight: viewModel.isFirstChapter ? nil : .infinity
-        )
+        .safeAreaInset(edge: .top) {
+            Group {
+                if !viewModel.isFirstChapter && !viewModel.isLastChapter {
+                    VStack(spacing: 40) {
+                        if let title = title {
+                            Text(title)
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                        }
+                        if !details.isEmpty {
+                            let rawDetails = details[viewModel.detailIndex]
+                            Text(AttributedString((try? NSAttributedString(markdown: rawDetails)) ?? NSAttributedString(string: rawDetails)))
+                                .font(.title3)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: 800)
+                        }
+                    }
+                    .padding()
+                }
+            }
+        }
         .safeAreaInset(edge: .bottom) {
             VStack {
                 if !viewModel.isFirstChapter && !viewModel.isLastChapter {
@@ -100,8 +102,7 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
                     }
                 }
             }
-            .animation(.default, value: viewModel.chapterIndex)
-            .animation(.default, value: viewModel.detailIndex)
+            .padding()
             .popover(isPresented: $chapterPickerShown) {
                 VStack(alignment: .leading, spacing: 5) {
                     ForEach(Array(SynthesizerChapter.allCases.enumerated()), id: \.offset) { (i, chapter) in
@@ -115,6 +116,8 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
                 .padding()
             }
         }
+        .animation(.default, value: viewModel.chapterIndex)
+        .animation(.default, value: viewModel.detailIndex)
     }
 }
 
