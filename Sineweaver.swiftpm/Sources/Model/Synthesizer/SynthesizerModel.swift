@@ -23,10 +23,6 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
     }
     
-    var isActive: Bool {
-        nodes.values.contains(where: \.isActive)
-    }
-    
     struct ToposortedNode: Identifiable {
         let id: UUID
         let node: SynthesizerNode
@@ -157,6 +153,16 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         var output: (any Sendable)? = nil
         
         var outputId: UUID? = nil
+    }
+    
+    func hasActiveAncestor(id: UUID) -> Bool {
+        guard let node = nodes[id] else { return false }
+        if node.isActive {
+            return true
+        }
+        
+        guard let inputs = inputEdges[id] else { return false }
+        return inputs.contains { hasActiveAncestor(id: $0) }
     }
     
     func update(buffers: inout Buffers, frameCount: Int) {

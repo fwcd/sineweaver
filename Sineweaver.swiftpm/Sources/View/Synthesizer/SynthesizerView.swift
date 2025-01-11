@@ -104,7 +104,8 @@ struct SynthesizerView<Level>: View where Level: View {
                             SynthesizerNodeView(
                                 node: $model.nodes[id].unwrapped,
                                 startDate: startDate,
-                                isActive: model.isActive,
+                                // TODO: Propagate the 'true' activeness instead of using this heuristic
+                                isActive: model.hasActiveAncestor(id: id),
                                 allowsEditing: allowsEditing
                             ) {
                                 if showsHUD {
