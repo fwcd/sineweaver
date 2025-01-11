@@ -39,15 +39,15 @@ struct SynthesizerToolbar: View {
                 VStack(alignment: .leading, spacing: 5) {
                     let _ = print(SynthesizerPreset.presetsInBundle)
                     ForEach(SynthesizerPreset.presetsInBundle) { preset in
-                        Text(preset.name)
-                            .onTapGesture {
-                                do {
-                                    viewModel.model = try preset.read()
-                                } catch {
-                                    // TODO: Make this a modal
-                                    log.error("Could not read preset: \(error)")
-                                }
+                        Button(preset.name) {
+                            do {
+                                viewModel.model = try preset.read()
+                            } catch {
+                                // TODO: Make this a modal
+                                log.error("Could not read preset: \(error)")
                             }
+                        }
+                        .buttonStyle(.bordered)
                     }
                 }
                 .padding()
