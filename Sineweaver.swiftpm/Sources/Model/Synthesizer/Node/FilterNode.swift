@@ -19,9 +19,13 @@ struct FilterNode: SynthesizerNodeProtocol {
         var cutoffHz: Double = 200
         var transitionBandwidthHz: Double = 1000 // TODO: Should this be dependent on the cutoff? Is there an easy way to e.g. specify this as dB/octave and compute the bandwidth in Hz from that?
         
-        enum Kind: Hashable, Codable, CaseIterable {
-            case lowpass
-            case highpass
+        enum Kind: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
+            case lowpass = "Low-Pass"
+            case highpass = "High-Pass"
+            
+            var description: String {
+                rawValue
+            }
         }
     }
     
