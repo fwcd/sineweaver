@@ -238,7 +238,7 @@ struct SynthesizerView<Level>: View where Level: View {
                             ],
                             text: "Connecting an oscillator to the output will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
                         )
-                    } else if type == .controller, localOutputIds.isEmpty || localOutputIds.contains(where: { model.nodes[$0]?.type != .oscillator }) {
+                    } else if type == .controller, localOutputIds.isEmpty || localOutputIds.contains(where: { ![.oscillator, .noise].contains(model.nodes[$0]?.type) }) {
                         nodeInsertionWarning = .init(
                             insertionPoint: insertionPoint,
                             type: type,
