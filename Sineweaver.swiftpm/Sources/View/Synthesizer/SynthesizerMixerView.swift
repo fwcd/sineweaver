@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SynthesizerMixerView: View {
     @Binding var node: MixerNode
+    var allowsEditing = false
     
     var body: some View {
         let icon = switch node.operation {
@@ -16,6 +17,14 @@ struct SynthesizerMixerView: View {
         case .product: "multiply"
         }
         Image(systemName: icon)
+            .onTapGesture {
+                if allowsEditing {
+                    node.operation = switch node.operation {
+                    case .sum: .product
+                    case .product: .sum
+                    }
+                }
+            }
     }
 }
 

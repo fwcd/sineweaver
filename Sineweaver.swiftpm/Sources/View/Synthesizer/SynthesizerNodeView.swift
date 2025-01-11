@@ -51,7 +51,7 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
             case .envelope:
                 SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
             case .mixer:
-                SynthesizerMixerView(node: $node.asMixer)
+                SynthesizerMixerView(node: $node.asMixer, allowsEditing: allowsEditing)
             default:
                 Text("this node has no UI")
                     .italic()
