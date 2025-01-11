@@ -20,17 +20,23 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var hovered: Set<UUID> = []
     @State private var frames: [UUID: CGRect] = [:]
     @State private var levelFrame: CGRect? = nil
-    @State private var insertNewNodePopover: (id: UUID, edge: Edge)? = nil
-    @State private var addNewNodePopoverShown = false
+    @State private var insertionPopover: InsertionPoint? = nil
+    @State private var addFirstNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
-    @State private var nodeAddWarning: NodeAddWarning? = nil
+    @State private var nodeInsertionWarning: NodeInsertionWarning? = nil
+    
+    private struct InsertionPoint: Hashable {
+        let id: UUID
+        let edge: Edge
+    }
 
     private struct NodeRemovalWarning: Hashable {
         let id: UUID
         let text: String
     }
     
-    private struct NodeAddWarning: Hashable {
+    private struct NodeInsertionWarning: Hashable {
+        let insertionPoint: InsertionPoint?
         let type: SynthesizerNodeType
         let chainableTypes: [SynthesizerNodeType]
         let text: String
@@ -77,30 +83,13 @@ struct SynthesizerView<Level>: View where Level: View {
             HStack(spacing: nodeSpacing) {
                 if model.nodes.isEmpty && allowsEditing {
                     Button {
-                        addNewNodePopoverShown = true
+                        addFirstNodePopoverShown = true
                     } label: {
                         Label("Add Node", systemImage: "plus")
                     }
                     .buttonStyle(.bordered)
-                    .popover(isPresented: $addNewNodePopoverShown) {
-                        newNodePopover()
-                    }
-                    .alert(nodeAddWarning?.text ?? "Add node?", isPresented: $nodeAddWarning.notNil) {
-                        Button("Cancel", role: .cancel) {
-                            nodeAddWarning = nil
-                        }
-                        if let nodeAddWarning {
-                            ForEach(nodeAddWarning.chainableTypes, id: \.self) { chainableType in
-                                Button("Add \(chainableType.name)") {
-                                    addInitialNode(type: nodeAddWarning.type, chainedType: chainableType)
-                                    self.nodeAddWarning = nil
-                                }
-                            }
-                            Button("Just Add \(nodeAddWarning.type.name)", role: .destructive) {
-                                addInitialNode(type: nodeAddWarning.type)
-                                self.nodeAddWarning = nil
-                            }
-                        }
+                    .popover(isPresented: $addFirstNodePopoverShown) {
+                        nodeInsertionPopover()
                     }
                 }
             
@@ -114,7 +103,7 @@ struct SynthesizerView<Level>: View where Level: View {
                     VStack(alignment: .trailing, spacing: nodeSpacing) {
                         ForEach(group) { (tnode: ToposortedNode) in
                             let id = tnode.id
-                            let showsHUD = (allowsEditing && hovered.contains(id)) || insertNewNodePopover?.id == id
+                            let showsHUD = (allowsEditing && hovered.contains(id)) || insertionPopover?.id == id
                             SynthesizerNodeView(
                                 node: $model.nodes[id].unwrapped,
                                 startDate: startDate,
@@ -153,6 +142,23 @@ struct SynthesizerView<Level>: View where Level: View {
             .animation(.default, value: Set(model.nodes.keys))
         }
         .coordinateSpace(coordinateSpace)
+        .alert(nodeInsertionWarning?.text ?? "Add node?", isPresented: $nodeInsertionWarning.notNil) {
+            Button("Cancel", role: .cancel) {
+                nodeInsertionWarning = nil
+            }
+            if let nodeInsertionWarning {
+                ForEach(nodeInsertionWarning.chainableTypes, id: \.self) { chainableType in
+                    Button("Add \(chainableType.name)") {
+                        addInitialNode(type: nodeInsertionWarning.type, chainedType: chainableType)
+                        self.nodeInsertionWarning = nil
+                    }
+                }
+                Button("Just Add \(nodeInsertionWarning.type.name)", role: .destructive) {
+                    addInitialNode(type: nodeInsertionWarning.type)
+                    self.nodeInsertionWarning = nil
+                }
+            }
+        }
         .alert(nodeRemovalWarning?.text ?? "Remove node?", isPresented: $nodeRemovalWarning.notNil) {
             Button("Cancel", role: .cancel) {
                 nodeRemovalWarning = nil
@@ -186,42 +192,60 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @ViewBuilder
     private func handle(for id: UUID, edge: Edge) -> some View {
-        let key = (id: id, edge: edge)
+        let insertionPoint = InsertionPoint(id: id, edge: edge)
         Button {
-            insertNewNodePopover = key
+            insertionPopover = insertionPoint
         } label: {
             Image(systemName: "plus.circle")
         }
         .buttonStyle(.plain)
         .popover(isPresented: Binding {
-            insertNewNodePopover?.id == id && insertNewNodePopover?.edge == edge
+            insertionPopover == insertionPoint
         } set: {
-            insertNewNodePopover = $0 ? key : nil
+            insertionPopover = $0 ? insertionPoint : nil
         }, arrowEdge: edge.opposite) {
-            newNodePopover(id: id, edge: edge)
+            nodeInsertionPopover(insertionPoint: insertionPoint)
         }
     }
     
     @ViewBuilder
-    private func newNodePopover(id: UUID? = nil, edge: Edge? = nil) -> some View {
+    private func nodeInsertionPopover(insertionPoint: InsertionPoint? = nil) -> some View {
+        let localOutputIds: Set<UUID> = if let insertionPoint {
+            if insertionPoint.edge == .leading {
+                [insertionPoint.id]
+            } else {
+                model.outputEdges(id: insertionPoint.id)
+            }
+        } else {
+            []
+        }
+        
         VStack {
             ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
                 Button(type.name) {
-                    if let id, let edge {
-                        model.insertNode(around: id, at: edge, .init(type: type))
+                    if type == .oscillator && insertionPoint == nil {
+                        nodeInsertionWarning = .init(
+                            insertionPoint: insertionPoint,
+                            type: type,
+                            chainableTypes: [
+                                .envelope,
+                                .activeGate,
+                            ],
+                            text: "Adding an oscillator as a first node will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
+                        )
+                    } else if type == .controller, localOutputIds.isEmpty || localOutputIds.contains(where: { model.nodes[$0]?.type != .oscillator }) {
+                        nodeInsertionWarning = .init(
+                            insertionPoint: insertionPoint,
+                            type: type,
+                            chainableTypes: [
+                                .oscillator
+                            ],
+                            text: "Connecting a controller to an audio node will produce loud pops/clicks, since the (digital) control signal will be passed onto an audio path. This may be unexpected. Do you want to add an intermediate oscillator?"
+                        )
+                    } else if let insertionPoint {
+                        model.insertNode(around: insertionPoint.id, at: insertionPoint.edge, .init(type: type))
                     } else {
-                        if type == .oscillator {
-                            nodeAddWarning = .init(
-                                type: type,
-                                chainableTypes: [
-                                    .envelope,
-                                    .activeGate,
-                                ],
-                                text: "Adding an oscillator as a first node will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
-                            )
-                        } else {
-                            addInitialNode(type: type)
-                        }
+                        addInitialNode(type: type)
                     }
                 }
             }
