@@ -31,21 +31,32 @@ struct SynthesizerOscillatorView: View {
         return node
     }
     
+    private var isCompact: Bool {
+        allowsEditing || node.prefersPianoView
+    }
+    
     var body: some View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 VStack {
                     SynthesizerChartView(node: playingNode)
-                        .frame(minWidth: (node.prefersPianoView ? 1 : 1.25) * ComponentDefaults.padSize)
+                        .frame(minWidth: (isCompact ? 1 : 1.25) * ComponentDefaults.padSize)
                         .opacity(node.isPlaying ? 1 : 0.5)
                     if node.prefersWavePicker {
                         HStack {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
                             Spacer()
                             if allowsEditing {
-                                Stepper("Octave: \(pianoBaseNote)", value: $node.pianoBaseOctave, in: 0...9)
-                                    .monospacedDigit()
-                                    .fixedSize()
+                                if node.prefersPianoView {
+                                    Stepper("Octave: \(pianoBaseNote)", value: $node.pianoBaseOctave, in: 0...9)
+                                        .monospacedDigit()
+                                        .fixedSize()
+                                }
+                                Button {
+                                    node.prefersPianoView = !node.prefersPianoView
+                                } label: {
+                                    Image(systemName: node.prefersPianoView ? "chevron.up" : "chevron.down")
+                                }
                             }
                         }
                         .overlay(alignment: .trailing) {
@@ -68,7 +79,7 @@ struct SynthesizerOscillatorView: View {
                     }
                 }
                 Slider2D(
-                    size: node.prefersPianoView ? 100 : 200,
+                    size: isCompact ? 100 : 200,
                     x: $node.frequency.logarithmic,
                     in: log(20)...log(20000),
                     label: "Frequency",
@@ -78,7 +89,7 @@ struct SynthesizerOscillatorView: View {
                 ) { isPressed in
                     node.isPlaying = isPressed
                 }
-                .font(node.prefersPianoView ? .system(size: 8) : nil)
+                .font(isCompact ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
                 PianoView(notes: pianoRange) { notes in
@@ -92,6 +103,7 @@ struct SynthesizerOscillatorView: View {
         .onChange(of: node.pianoBaseOctave) {
             note = pianoBaseNote
         }
+        .animation(.default, value: node.prefersPianoView)
     }
 }
 
