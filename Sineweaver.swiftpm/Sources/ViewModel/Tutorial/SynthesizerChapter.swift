@@ -67,6 +67,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
                 // TODO: Should we skip the section about roll-off, is this relevant? Perhaps add support for footnotes?
                 "In reality perfect filters (also called _brickwall filters_) with a perfectly sharp cutoff are not achievable, since they would introduce an infinitely long delay. The specifics are not too relevant here, in practice this just means that every filter will have a certain _roll-off_, i.e. the frequencies around the cutoff will still pass the filter, albeit slightly attenuated.",
                 "Try tweaking the cutoff frequency and the modulation strength of the filter below, as well as the LFO frequency, and see how the sound changes when you play the oscillator's piano!",
+                // TODO: Introduce high-pass
                 "You now know the basics of synthesizers. Click the button to complete the tutorial and to unlock the fully customizable synth UI. Have fun!",
             ]
         // TODO: Add a chapter on white noise
