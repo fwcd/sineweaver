@@ -12,6 +12,7 @@ struct PianoKeyView: View {
     let size: CGSize
     let pressed: Bool
     let enabled: Bool
+    let hasLabel: Bool
     
     var body: some View {
         Rectangle()
@@ -25,5 +26,13 @@ struct PianoKeyView: View {
             .strokeBorder(note.accidental.isUnaltered ? Color.gray : .clear)
             .frame(width: size.width, height: size.height)
             .opacity(enabled ? 1 : 0.7)
+            .overlay(alignment: .bottom) {
+                if hasLabel {
+                    Text("\(note)")
+                        .font(.system(size: size.width * 0.45))
+                        .foregroundStyle(.black.opacity(0.5))
+                        .padding(.bottom, 2)
+                }
+            }
     }
 }

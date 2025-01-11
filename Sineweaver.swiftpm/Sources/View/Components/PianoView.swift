@@ -57,7 +57,8 @@ struct PianoView: View {
                     note: note,
                     size: bounds.size,
                     pressed: playingNotes.contains(note),
-                    enabled: true
+                    enabled: true,
+                    hasLabel: note.noteClass == .c
                 )
                 .padding(.leading, bounds.minX)
                 .zIndex(note.accidental.isUnaltered ? 0 : 1)
