@@ -86,6 +86,7 @@ struct FilterNode: SynthesizerNodeProtocol {
         // TODO: Render the modulation in the UI
         // TODO: Support labeled edges to avoid hardcoding this order?
         if let modulation = inputs.count > 1 ? inputs[1].buffer.first : nil {
+            print(modulation)
             // TODO: Logarithm tables to optimize this?
             params.cutoffHz = exp(log(params.cutoffHz) + modulation * modulationFactor * (log(20_000) - log(20)))
         }
