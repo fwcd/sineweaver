@@ -26,8 +26,11 @@ struct SynthesizerLFOView: View {
                 )
                 .frame(width: size, height: size)
             }
-            LabelledKnob(value: $node.frequency.logarithmic, range: log(0.01)...log(100), text: "Frequency") { _ in
-                String(format: "%.2f Hz", node.frequency)
+            VStack {
+                LabelledKnob(value: $node.frequency.logarithmic, range: log(0.01)...log(100), text: "Frequency") { _ in
+                    String(format: "%.2f Hz", node.frequency)
+                }
+                EnumPicker(selection: $node.wave, label: Text("Wave"))
             }
         }
     }
