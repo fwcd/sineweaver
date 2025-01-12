@@ -28,4 +28,7 @@ final class SynthesizerViewModel: ObservableObject, Sendable {
             objectWillChange.send()
         }
     }
+    
+    @MainActor
+    var hasViewedTips = false
 }

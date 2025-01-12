@@ -21,6 +21,7 @@ struct Tip<Content>: View where Content: View {
                 .offset(y: offset)
         }
         .foregroundStyle(color)
+        .allowsHitTesting(false)
         .onAppear {
             if isAnimated {
                 withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {

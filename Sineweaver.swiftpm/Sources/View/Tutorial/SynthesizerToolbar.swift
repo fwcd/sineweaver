@@ -17,6 +17,7 @@ struct SynthesizerToolbar: View {
     @State private var openError: String? = nil
     @State private var openDialogShown = false
     @State private var saveDialogShown = false
+    @State private var tipShown = false
 
     var body: some View {
         Group {
@@ -34,6 +35,34 @@ struct SynthesizerToolbar: View {
                 presetPopoverShown = true
             } label: {
                 Label("Open Preset", systemImage: "square.dashed")
+            }
+            .alignmentGuide(.top) {
+                $0[.top] - 100
+            }
+            .overlay(alignment: .top) {
+                Group {
+                    if tipShown {
+                        Tip("Try one of the presets to get started")
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 200)
+                            .fixedSize()
+                    }
+                }
+                .animation(.default, value: tipShown)
+            }
+            .task {
+                if !viewModel.hasViewedTips {
+                    viewModel.hasViewedTips = true
+                    tipShown = true
+                    try? await Task.sleep(for: .seconds(10))
+                    tipShown = false
+                }
+            }
+            .onChange(of: presetPopoverShown) {
+                if presetPopoverShown {
+                    tipShown = false
+                }
             }
             .popover(isPresented: $presetPopoverShown) {
                 HStack(alignment: .top) {
