@@ -57,55 +57,24 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
                         chapterPickerShown = true
                     }
                 }
-                HStack {
-                    if !viewModel.isFirstChapter {
-                        Button {
-                            viewModel.back()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                            Text(viewModel.isLastChapter ? "Tutorial" : "Back")
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                    if viewModel.isLastChapter {
-                        Button {
-                            viewModel.goTo(chapterIndex: 0)
-                        } label: {
-                            Image(systemName: "house")
-                            Text("Welcome")
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                    if !viewModel.isLastChapter {
-                        Button {
-                            viewModel.forward()
-                        } label: {
-                            if viewModel.isFirstChapter {
-                                Text("Get Started")
-                                    .bigLabel()
-                            } else {
-                                Text(viewModel.isAlmostCompleted ? "Complete Tutorial" : "Next")
-                                Image(systemName: "chevron.right")
+                ViewThatFits {
+                    HStack {
+                        navigation
+                        Group(subviews: toolbar()) { subviews in
+                            if !subviews.isEmpty {
+                                Divider()
+                                    .frame(height: 30)
+                                    .fixedSize()
+                                subviews
                             }
                         }
-                        .buttonStyle(.borderedProminent)
                     }
-                    if viewModel.isFirstChapter {
-                        Button {
-                            viewModel.skipTutorial()
-                        } label: {
-                            Text("Skip Tutorial")
-                                .bigLabel()
-                        }
-                        .buttonStyle(.bordered)
+                    HStack {
+                        toolbar()
                     }
-                    Group(subviews: toolbar()) { subviews in
-                        if !subviews.isEmpty {
-                            Divider()
-                                .frame(height: 30)
-                                .fixedSize()
-                            subviews
-                        }
+                    HStack {
+                        toolbar()
+                            .labelStyle(.iconOnly)
                     }
                 }
             }
@@ -125,6 +94,53 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
         }
         .animation(.default, value: viewModel.chapterIndex)
         .animation(.default, value: viewModel.detailIndex)
+    }
+    
+    @ViewBuilder
+    private var navigation: some View {
+        Group {
+            if !viewModel.isFirstChapter {
+                Button {
+                    viewModel.back()
+                } label: {
+                    Image(systemName: "chevron.left")
+                    Text(viewModel.isLastChapter ? "Tutorial" : "Back")
+                }
+                .buttonStyle(.bordered)
+            }
+            if viewModel.isLastChapter {
+                Button {
+                    viewModel.goTo(chapterIndex: 0)
+                } label: {
+                    Image(systemName: "house")
+                    Text("Welcome")
+                }
+                .buttonStyle(.bordered)
+            }
+            if !viewModel.isLastChapter {
+                Button {
+                    viewModel.forward()
+                } label: {
+                    if viewModel.isFirstChapter {
+                        Text("Get Started")
+                            .bigLabel()
+                    } else {
+                        Text(viewModel.isAlmostCompleted ? "Complete Tutorial" : "Next")
+                        Image(systemName: "chevron.right")
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            if viewModel.isFirstChapter {
+                Button {
+                    viewModel.skipTutorial()
+                } label: {
+                    Text("Skip Tutorial")
+                        .bigLabel()
+                }
+                .buttonStyle(.bordered)
+            }
+        }
     }
 }
 
