@@ -102,9 +102,9 @@ struct SynthesizerToolbar: View {
                 Text(
                     // TODO: Make sure the UI references (e.g. button names) are accurate before submitting
                     """
-                    Sineweaver is a modular synthesizer that lets you arrange different audio-processing components in a graph-like fashion. The tutorial provides a step-by-step introduction to these.
+                    To add new nodes, hover one of the existing nodes and press the "+" handle on one of the four edges. A small popover should appear that lets you choose a node type.
                     
-                    To add or remove nodes, hover one of the existing nodes and press one of the "+" buttons or the "x" in the top-right corner, respectively.
+                    To remove a node, press the "x" button in the top right corner that appears when hovering a node.
                     
                     For inspiration, check out the presets by clicking the "Open Preset" button.
                     """
