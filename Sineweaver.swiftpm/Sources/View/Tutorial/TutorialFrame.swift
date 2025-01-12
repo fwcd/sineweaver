@@ -17,10 +17,17 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
     @State private var chapterPickerShown = false
 
     var body: some View {
-        ScrollView([.horizontal, .vertical]) {
-            content()
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        Group {
+            if viewModel.isFirstChapter {
+                content()
+                    .padding()
+            } else {
+                ScrollView([.horizontal, .vertical]) {
+                    content()
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
         }
         .safeAreaInset(edge: .top) {
             Group {
