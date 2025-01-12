@@ -42,7 +42,7 @@ struct SynthesizerToolbar: View {
             .overlay(alignment: .top) {
                 Group {
                     if tipShown {
-                        Tip("Check out the presets for some inspiration")
+                        Tip("Check out the presets for some examples")
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
                             .frame(width: 200)
