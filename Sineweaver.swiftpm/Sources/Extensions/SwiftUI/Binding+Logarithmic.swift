@@ -15,4 +15,11 @@ extension Binding where Value: BinaryFloatingPoint & Sendable {
             set: { wrappedValue = Value(exp($0)) }
         )
     }
+    
+    var decibels: Binding<Double> {
+        Binding<Double>(
+            get: { 10 * log10(Double(wrappedValue)) },
+            set: { wrappedValue = Value(pow(10, $0 / 10)) }
+        )
+    }
 }

@@ -10,6 +10,7 @@ enum SynthesizerNodeType: String, CaseIterable, Hashable {
     case lfo = "LFO"
     case noise = "Noise"
     case filter = "Filter"
+    case gain = "Gain"
     case mixer = "Mixer"
     case silence = "Silence"
     case wavExport = "WAV Export"

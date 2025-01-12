@@ -13,6 +13,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case lfo(LFONode)
     case noise(NoiseNode)
     case filter(FilterNode)
+    case gain(GainNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
     case wavExport(WavExportNode)
@@ -26,6 +27,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .lfo: .lfo
         case .noise: .noise
         case .filter: .filter
+        case .gain: .gain
         case .mixer: .mixer
         case .silence: .silence
         case .wavExport: .wavExport
@@ -84,6 +86,18 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
         set {
             self = .filter(newValue)
+        }
+    }
+    
+    var asGain: GainNode {
+        get {
+            switch self {
+            case .gain(let node): node
+            default: .init()
+            }
+        }
+        set {
+            self = .gain(newValue)
         }
     }
     
@@ -173,6 +187,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .lfo: self = .lfo(.init())
         case .noise: self = .noise(.init())
         case .filter: self = .filter(.init())
+        case .gain: self = .gain(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
         case .wavExport: self = .wavExport(.init())
@@ -188,6 +203,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .lfo(let node): node.makeState()
         case .noise(let node): node.makeState()
         case .filter(let node): node.makeState()
+        case .gain(let node): node.makeState()
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
         case .wavExport(let node): node.makeState()
@@ -215,6 +231,10 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var filterState: FilterNode.State = state as! FilterNode.State
             defer { state = filterState }
             return node.render(inputs: inputs, output: &output, state: &filterState, context: context)
+        case .gain(let node):
+            var gainState: GainNode.State = state as! GainNode.State
+            defer { state = gainState }
+            return node.render(inputs: inputs, output: &output, state: &gainState, context: context)
         case .mixer(let node):
             var mixerState: MixerNode.State = state as! MixerNode.State
             defer { state = mixerState }

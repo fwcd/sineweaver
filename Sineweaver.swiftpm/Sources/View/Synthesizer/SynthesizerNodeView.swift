@@ -48,6 +48,8 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
                 SynthesizerNoiseView(node: $node.asNoise)
             case .filter:
                 SynthesizerFilterView(node: $node.asFilter, allowsEditing: allowsEditing)
+            case .gain:
+                SynthesizerGainView(node: $node.asGain)
             case .envelope:
                 SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
             case .mixer:
