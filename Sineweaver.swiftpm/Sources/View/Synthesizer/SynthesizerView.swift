@@ -116,6 +116,9 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @ViewBuilder
     private var edges: some View {
+        let lineWidth: CGFloat = 2
+        let lineColor = Color.gray
+        
         ForEach(Array(model.inputEdges), id: \.key) { (id, inputIds) in
             ForEach(inputIds, id: \.self) { inputId in
                 Path { path in
@@ -126,7 +129,7 @@ struct SynthesizerView<Level>: View where Level: View {
                         }
                     }
                 }
-                .stroke(.gray, lineWidth: 2)
+                .stroke(lineColor, lineWidth: lineWidth)
             }
         }
         
@@ -137,7 +140,7 @@ struct SynthesizerView<Level>: View where Level: View {
                     path.addLine(to: levelFrame.centerPoint(of: .leading))
                 }
             }
-            .stroke(.gray, lineWidth: 2)
+            .stroke(lineColor, lineWidth: lineWidth)
         }
     }
     
