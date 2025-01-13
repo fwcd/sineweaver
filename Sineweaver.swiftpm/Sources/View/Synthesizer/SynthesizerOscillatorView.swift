@@ -69,7 +69,7 @@ struct SynthesizerOscillatorView: View {
                             .animation(.default, value: showsUnisonDetune)
                         }
                         .onHover { hovered in
-                            showsUnisonDetune = hovered
+                            showsUnisonDetune = allowsEditing && hovered
                         }
                     if node.prefersWavePicker {
                         HStack {
