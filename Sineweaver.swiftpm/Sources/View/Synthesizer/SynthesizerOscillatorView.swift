@@ -12,6 +12,8 @@ struct SynthesizerOscillatorView: View {
     var allowsEditing: Bool = true
     var tuning: any Tuning = EqualTemperament()
     
+    @State private var showsUnisonDetune = false
+    
     private var pianoBaseNote: Note {
         Note(.c, node.pianoBaseOctave)
     }
@@ -43,25 +45,31 @@ struct SynthesizerOscillatorView: View {
                         .frame(minWidth: (isCompact ? 1 : 1.25) * ComponentDefaults.padSize)
                         .opacity(node.isPlaying ? 1 : 0.5)
                         .overlay(alignment: .trailing) {
-                            if allowsEditing {
-                                HStack {
-                                    let knobSize = ComponentDefaults.knobSize * 0.6
-                                    LabelledKnob(
-                                        value: $node.unison.dequantized,
-                                        range: 1...16,
-                                        text: "Unison",
-                                        size: knobSize
-                                    )
-                                    LabelledKnob(
-                                        value: $node.detune,
-                                        range: 0...1,
-                                        text: "Detune",
-                                        size: knobSize
-                                    )
+                            Group {
+                                if showsUnisonDetune {
+                                    HStack {
+                                        let knobSize = ComponentDefaults.knobSize * 0.6
+                                        LabelledKnob(
+                                            value: $node.unison.dequantized,
+                                            range: 1...16,
+                                            text: "Unison",
+                                            size: knobSize
+                                        )
+                                        LabelledKnob(
+                                            value: $node.detune,
+                                            range: 0...1,
+                                            text: "Detune",
+                                            size: knobSize
+                                        )
+                                    }
+                                    .padding(.leading, 5)
+                                    .background(.background.opacity(0.9))
                                 }
-                                .padding(.leading, 5)
-                                .background(.background.opacity(0.9))
                             }
+                            .animation(.default, value: showsUnisonDetune)
+                        }
+                        .onHover { hovered in
+                            showsUnisonDetune = hovered
                         }
                     if node.prefersWavePicker {
                         HStack {
