@@ -143,6 +143,9 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         guard nodes.keys.contains(outputId) else {
             throw ConnectError.invalidOutput(outputId)
         }
+        guard !hasPath(from: outputId, to: inputId) else {
+            throw ConnectError.cycle
+        }
         if !inputEdges.keys.contains(outputId) {
             inputEdges[outputId] = []
         }
@@ -162,6 +165,29 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         var output: (any Sendable)? = nil
         
         var outputId: UUID? = nil
+    }
+    
+    func hasPath(from startId: UUID, to endId: UUID) -> Bool {
+        guard let inputs = inputEdges[endId] else { return false }
+        
+        // Perform a DFS to look for a path
+        
+        var visited: Set<UUID> = []
+        var stack: [UUID] = [endId]
+        
+        while let nextId = stack.popLast() {
+            guard !visited.contains(nextId) else { continue }
+            visited.insert(nextId)
+            
+            for parentId in inputEdges[nextId] ?? [] {
+                if parentId == startId {
+                    return true
+                }
+                stack.append(parentId)
+            }
+        }
+        
+        return false
     }
     
     func hasActiveAncestor(id: UUID) -> Bool {
