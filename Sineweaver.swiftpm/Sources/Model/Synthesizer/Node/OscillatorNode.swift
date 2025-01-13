@@ -19,10 +19,10 @@ struct OscillatorNode: SynthesizerNodeProtocol {
 
     enum Wave: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
         case sine = "Sine"
+        case triangle = "Triangle"
         case saw = "Saw"
         case square = "Square"
         case pulse = "Pulse"
-        case triangle = "Triangle"
         
         var description: String {
             rawValue
@@ -32,15 +32,15 @@ struct OscillatorNode: SynthesizerNodeProtocol {
             switch self {
             case .sine:
                 return sin(2 * .pi * x)
+            case .triangle:
+                let remainder = (x + 0.75).truncatingRemainder(dividingBy: 1)
+                return 4 * (remainder < 0.5 ? 1 - remainder : remainder) - 3
             case .saw:
                 return 2 * (x + 0.5).truncatingRemainder(dividingBy: 1) - 1
             case .square:
                 return (x + 0.5).truncatingRemainder(dividingBy: 1) < 0.5 ? -1 : 1
             case .pulse:
                 return (x + 0.5).truncatingRemainder(dividingBy: 1) < 0.1 ? 1 : -1
-            case .triangle:
-                let remainder = (x + 0.75).truncatingRemainder(dividingBy: 1)
-                return 4 * (remainder < 0.5 ? 1 - remainder : remainder) - 3
             }
         }
     }
