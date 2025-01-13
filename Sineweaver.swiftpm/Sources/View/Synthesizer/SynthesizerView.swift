@@ -25,6 +25,8 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
     @State private var nodeInsertionWarning: NodeInsertionWarning? = nil
     
+    @Namespace private var animation
+    
     private typealias InsertionPoint = SynthesizerModel.InsertionPoint
     
     private struct NodeRemovalWarning: Hashable {
@@ -128,6 +130,7 @@ struct SynthesizerView<Level>: View where Level: View {
                                     hovered.remove(id)
                                 }
                             }
+                            .matchedGeometryEffect(id: id, in: animation)
                         }
                     }
                 }
