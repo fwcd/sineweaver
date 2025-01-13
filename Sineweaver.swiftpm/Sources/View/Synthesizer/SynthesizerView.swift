@@ -142,6 +142,14 @@ struct SynthesizerView<Level>: View where Level: View {
             }
             .stroke(lineColor, lineWidth: lineWidth)
         }
+        
+        if let activeDrag, let frame = frames[activeDrag.startId]?.values.first {
+            Path { path in
+                path.move(to: frame.centerPoint(of: activeDrag.startEdge))
+                path.addLine(to: activeDrag.currentPos)
+            }
+            .stroke(lineColor, lineWidth: lineWidth)
+        }
     }
     
     @ViewBuilder
@@ -239,7 +247,7 @@ struct SynthesizerView<Level>: View where Level: View {
             Image(systemName: "plus.circle")
         }
         .simultaneousGesture(
-            DragGesture()
+            DragGesture(coordinateSpace: coordinateSpace)
                 .onChanged { value in
                     let pos = value.location
                     if activeDrag == nil {
