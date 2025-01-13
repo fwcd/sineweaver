@@ -51,6 +51,7 @@ struct SynthesizerView<Level>: View where Level: View {
         var startId: UUID
         var startEdge: Edge
         var currentPos: CGPoint
+        var hoveredId: UUID? = nil
     }
 
     var body: some View {
@@ -62,7 +63,11 @@ struct SynthesizerView<Level>: View where Level: View {
                 edges
             }
             .allowsHitTesting(false)
+            
             nodes
+            
+            overlays
+                .allowsHitTesting(false)
         }
         .coordinateSpace(coordinateSpace)
         .alert(nodeInsertionWarning?.text ?? "Add node?", isPresented: $nodeInsertionWarning.notNil) {
@@ -221,6 +226,16 @@ struct SynthesizerView<Level>: View where Level: View {
     }
     
     @ViewBuilder
+    private var overlays: some View {
+        if let id = activeDrag?.hoveredId, let frame = frames[id]?.values.first {
+            Rectangle()
+                .fill(.gray.opacity(0.3))
+                .frame(width: frame.size.width, height: frame.size.height)
+                .position(frame.centerPoint())
+        }
+    }
+    
+    @ViewBuilder
     private func toolbar(for id: UUID, in coordinateSpace: some CoordinateSpaceProtocol) -> some View {
         Button {
             guard let node = model.nodes[id] else { return }
@@ -250,11 +265,15 @@ struct SynthesizerView<Level>: View where Level: View {
             DragGesture(coordinateSpace: coordinateSpace)
                 .onChanged { value in
                     let pos = value.location
-                    if activeDrag == nil {
-                        activeDrag = .init(startId: id, startEdge: edge, currentPos: pos)
-                    } else {
-                        activeDrag?.currentPos = pos
-                    }
+                    var activeDrag = activeDrag ?? .init(startId: id, startEdge: edge, currentPos: pos)
+                    
+                    activeDrag.currentPos = pos
+                    activeDrag.hoveredId = frames
+                        .filter { $0.key != id && $0.value.values.contains { $0.contains(pos) } }
+                        .map { $0.key }
+                        .first
+
+                    self.activeDrag = activeDrag
                 }
                 .onEnded { _ in
                     activeDrag = nil
