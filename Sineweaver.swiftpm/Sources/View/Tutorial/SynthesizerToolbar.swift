@@ -135,6 +135,8 @@ struct SynthesizerToolbar: View {
                     
                     To remove a node, press the "x" button in the top right corner that appears when hovering a node.
                     
+                    To add or remove edges, drag one of the "+" handles from one node onto another. Note that edges are directional and that cycles are not allowed.
+                    
                     For inspiration, check out the presets by clicking the "Open Preset" button.
                     """
                 )
