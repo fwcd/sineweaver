@@ -25,6 +25,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var addFirstNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
     @State private var nodeInsertionWarning: NodeInsertionWarning? = nil
+    @State private var connectError: SynthesizerModel.ConnectError? = nil
     @State private var activeDrag: Drag? = nil
     
     @Namespace private var animation
@@ -103,6 +104,11 @@ struct SynthesizerView<Level>: View where Level: View {
                     model.removeNode(id: nodeRemovalWarning.id)
                 }
                 nodeRemovalWarning = nil
+            }
+        }
+        .alert(connectError?.description ?? "Could not connect nodes", isPresented: $connectError.notNil) {
+            Button("OK") {
+                connectError = nil
             }
         }
     }
@@ -279,8 +285,10 @@ struct SynthesizerView<Level>: View where Level: View {
                     if let activeDrag, let hoveredId = activeDrag.hoveredId {
                         do {
                             try model.connect(activeDrag.startId, to: hoveredId)
+                        } catch let error as SynthesizerModel.ConnectError {
+                            connectError = error
                         } catch {
-                            
+                            // Unreachable
                         }
                     }
                     activeDrag = nil

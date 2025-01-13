@@ -126,7 +126,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         Set(inputEdges.filter { $0.value.contains(id) }.map(\.key))
     }
     
-    enum ConnectError: Error, CustomStringConvertible {
+    enum ConnectError: Error, Hashable, CustomStringConvertible {
         case sameInputAsOutput
         case invalidInput(UUID)
         case invalidOutput(UUID)
