@@ -131,6 +131,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         case invalidInput(UUID)
         case invalidOutput(UUID)
         case cycle
+        case alreadyConnected
     }
     
     mutating func connect(_ inputId: UUID, to outputId: UUID) throws {
@@ -146,10 +147,12 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         guard !hasPath(from: outputId, to: inputId) else {
             throw ConnectError.cycle
         }
-        if !inputEdges.keys.contains(outputId) {
-            inputEdges[outputId] = []
+        var inputs = inputEdges[outputId] ?? []
+        guard !inputs.contains(inputId) else {
+            throw ConnectError.alreadyConnected
         }
-        inputEdges[outputId]!.append(inputId)
+        inputs.append(inputId)
+        inputEdges[outputId] = inputs
     }
     
     struct Buffers: Sendable {

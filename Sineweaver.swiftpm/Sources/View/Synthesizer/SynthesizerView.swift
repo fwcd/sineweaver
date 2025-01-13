@@ -276,6 +276,13 @@ struct SynthesizerView<Level>: View where Level: View {
                     self.activeDrag = activeDrag
                 }
                 .onEnded { _ in
+                    if let activeDrag, let hoveredId = activeDrag.hoveredId {
+                        do {
+                            try model.connect(activeDrag.startId, to: hoveredId)
+                        } catch {
+                            
+                        }
+                    }
                     activeDrag = nil
                 }
         )
