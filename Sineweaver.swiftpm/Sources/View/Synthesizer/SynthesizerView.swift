@@ -237,7 +237,7 @@ struct SynthesizerView<Level>: View where Level: View {
         let frame = activeDrag?.hoveredId.flatMap { frames[$0]?.values.first }
             ?? ((activeDrag?.hoversOutput ?? false) ? levelFrame : nil)
         if let frame {
-            Rectangle()
+            RoundedRectangle(cornerRadius: 10)
                 .fill(.gray.opacity(0.3))
                 .frame(width: frame.size.width, height: frame.size.height)
                 .position(frame.centerPoint())
