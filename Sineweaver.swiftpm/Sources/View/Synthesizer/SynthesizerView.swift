@@ -25,6 +25,7 @@ struct SynthesizerView<Level>: View where Level: View {
     @State private var addFirstNodePopoverShown = false
     @State private var nodeRemovalWarning: NodeRemovalWarning? = nil
     @State private var nodeInsertionWarning: NodeInsertionWarning? = nil
+    @State private var activeDrag: Drag? = nil
     
     @Namespace private var animation
     
@@ -44,6 +45,12 @@ struct SynthesizerView<Level>: View where Level: View {
         let type: SynthesizerNodeType
         let chainableTypes: [SynthesizerNodeType]
         let text: String
+    }
+    
+    private struct Drag: Hashable {
+        var startId: UUID
+        var startEdge: Edge
+        var currentPos: CGPoint
     }
 
     var body: some View {
@@ -102,7 +109,7 @@ struct SynthesizerView<Level>: View where Level: View {
                 Rectangle()
                     .fill(.red.opacity(0.3))
                     .frame(width: frame.size.width, height: frame.size.height)
-                    .position(x: frame.midX, y: frame.midY)
+                    .position(frame.centerPoint())
             }
         }
     }
@@ -114,8 +121,8 @@ struct SynthesizerView<Level>: View where Level: View {
                 Path { path in
                     for (_, frame) in frames[id] ?? [:] {
                         for (_, inputFrame) in frames[inputId] ?? [:] {
-                            path.move(to: CGPoint(x: inputFrame.maxX, y: inputFrame.midY))
-                            path.addLine(to: CGPoint(x: frame.minX, y: frame.midY))
+                            path.move(to: inputFrame.centerPoint(of: .trailing))
+                            path.addLine(to: frame.centerPoint(of: .leading))
                         }
                     }
                 }
@@ -126,8 +133,8 @@ struct SynthesizerView<Level>: View where Level: View {
         if let outputNodeId = model.outputNodeId, let levelFrame {
             Path { path in
                 for (_, outputFrame) in frames[outputNodeId] ?? [:] {
-                    path.move(to: CGPoint(x: outputFrame.maxX, y: outputFrame.midY))
-                    path.addLine(to: CGPoint(x: levelFrame.minX, y: levelFrame.midY))
+                    path.move(to: outputFrame.centerPoint(of: .trailing))
+                    path.addLine(to: levelFrame.centerPoint(of: .leading))
                 }
             }
             .stroke(.gray, lineWidth: 2)
@@ -228,6 +235,20 @@ struct SynthesizerView<Level>: View where Level: View {
         } label: {
             Image(systemName: "plus.circle")
         }
+        .simultaneousGesture(
+            DragGesture()
+                .onChanged { value in
+                    let pos = value.location
+                    if activeDrag == nil {
+                        activeDrag = .init(startId: id, startEdge: edge, currentPos: pos)
+                    } else {
+                        activeDrag?.currentPos = pos
+                    }
+                }
+                .onEnded { _ in
+                    activeDrag = nil
+                }
+        )
         .buttonStyle(.plain)
         .popover(isPresented: Binding {
             insertionPopover == insertionPoint
