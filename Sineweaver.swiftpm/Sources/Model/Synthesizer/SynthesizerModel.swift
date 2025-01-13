@@ -144,7 +144,7 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         }
     }
     
-    mutating func connect(_ inputId: UUID, to outputId: UUID) throws {
+    mutating func connect(_ inputId: UUID, to outputId: UUID) throws(ConnectError) {
         guard inputId != outputId else {
             throw ConnectError.sameInputAsOutput
         }
