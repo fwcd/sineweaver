@@ -12,6 +12,7 @@ struct LabelledKnob<Value>: View where Value: BinaryFloatingPoint {
     var range: ClosedRange<Value> = 0...1
     var orientation: Orientation = .vertical
     var text: String? = nil
+    var size: CGFloat = ComponentDefaults.knobSize
     var format: ((Value) -> String)? = nil
     
     enum Orientation: Hashable, CaseIterable {
@@ -41,7 +42,7 @@ struct LabelledKnob<Value>: View where Value: BinaryFloatingPoint {
     
     @ViewBuilder
     private var knob: some View {
-        Knob(value: $value, range: range)
+        Knob(value: $value, range: range, size: size)
     }
     
     @ViewBuilder

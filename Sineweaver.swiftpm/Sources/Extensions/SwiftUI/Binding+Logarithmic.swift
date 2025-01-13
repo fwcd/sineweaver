@@ -1,5 +1,5 @@
 //
-//  LogarithmicBinding.swift
+//  Binding+Logarithmic.swift
 //  Sineweaver
 //
 //  Created on 25.12.24

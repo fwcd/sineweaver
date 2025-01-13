@@ -42,6 +42,27 @@ struct SynthesizerOscillatorView: View {
                     SynthesizerChartView(node: playingNode)
                         .frame(minWidth: (isCompact ? 1 : 1.25) * ComponentDefaults.padSize)
                         .opacity(node.isPlaying ? 1 : 0.5)
+                        .overlay(alignment: .trailing) {
+                            if allowsEditing {
+                                HStack {
+                                    let knobSize = ComponentDefaults.knobSize * 0.6
+                                    LabelledKnob(
+                                        value: $node.unison.dequantized,
+                                        range: 1...16,
+                                        text: "Unison",
+                                        size: knobSize
+                                    )
+                                    LabelledKnob(
+                                        value: $node.detune,
+                                        range: 0...1,
+                                        text: "Detune",
+                                        size: knobSize
+                                    )
+                                }
+                                .padding(.leading, 5)
+                                .background(.background.opacity(0.9))
+                            }
+                        }
                     if node.prefersWavePicker {
                         HStack {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
