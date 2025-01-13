@@ -126,12 +126,22 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         Set(inputEdges.filter { $0.value.contains(id) }.map(\.key))
     }
     
-    enum ConnectError: Error {
+    enum ConnectError: Error, CustomStringConvertible {
         case sameInputAsOutput
         case invalidInput(UUID)
         case invalidOutput(UUID)
         case cycle
         case alreadyConnected
+        
+        var description: String {
+            switch self {
+            case .sameInputAsOutput: "Input and output are the same!"
+            case .invalidInput(let id): "Input node \(id) does not exist!"
+            case .invalidOutput(let id): "Output node \(id) does not exist!"
+            case .cycle: "Connection would create a cycle!"
+            case .alreadyConnected: "Connection already exists!"
+            }
+        }
     }
     
     mutating func connect(_ inputId: UUID, to outputId: UUID) throws {
