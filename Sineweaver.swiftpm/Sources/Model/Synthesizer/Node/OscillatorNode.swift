@@ -40,7 +40,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
             case .square:
                 return (x + 0.5).truncatingRemainder(dividingBy: 1) < 0.5 ? -1 : 1
             case .pulse:
-                return (x + 0.5).truncatingRemainder(dividingBy: 1) < 0.1 ? 1 : -1
+                return (x + 0.5).truncatingRemainder(dividingBy: 1) < 0.25 ? 1 : -1
             }
         }
     }
