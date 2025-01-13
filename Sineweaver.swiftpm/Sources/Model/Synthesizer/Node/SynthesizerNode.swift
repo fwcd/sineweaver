@@ -14,7 +14,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case noise(NoiseNode)
     case filter(FilterNode)
     case gain(GainNode)
-    case inverter(InverterNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
     case wavExport(WavExportNode)
@@ -29,7 +28,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .noise: .noise
         case .filter: .filter
         case .gain: .gain
-        case .inverter: .inverter
         case .mixer: .mixer
         case .silence: .silence
         case .wavExport: .wavExport
@@ -100,18 +98,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
         set {
             self = .gain(newValue)
-        }
-    }
-    
-    var asInverter: InverterNode {
-        get {
-            switch self {
-            case .inverter(let node): node
-            default: .init()
-            }
-        }
-        set {
-            self = .inverter(newValue)
         }
     }
     
@@ -202,7 +188,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .noise: self = .noise(.init())
         case .filter: self = .filter(.init())
         case .gain: self = .gain(.init())
-        case .inverter: self = .inverter(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
         case .wavExport: self = .wavExport(.init())
@@ -219,7 +204,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .noise(let node): node.makeState()
         case .filter(let node): node.makeState()
         case .gain(let node): node.makeState()
-        case .inverter(let node): node.makeState()
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
         case .wavExport(let node): node.makeState()
@@ -251,10 +235,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var gainState: GainNode.State = state as! GainNode.State
             defer { state = gainState }
             return node.render(inputs: inputs, output: &output, state: &gainState, context: context)
-        case .inverter(let node):
-            var inverterState: InverterNode.State = state as! InverterNode.State
-            defer { state = inverterState }
-            return node.render(inputs: inputs, output: &output, state: &inverterState, context: context)
         case .mixer(let node):
             var mixerState: MixerNode.State = state as! MixerNode.State
             defer { state = mixerState }
