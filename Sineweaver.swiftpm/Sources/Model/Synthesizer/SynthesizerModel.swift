@@ -181,8 +181,6 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
     }
     
     func hasPath(from startId: UUID, to endId: UUID) -> Bool {
-        guard let inputs = inputEdges[endId] else { return false }
-        
         // Perform a DFS to look for a path
         
         var visited: Set<UUID> = []
