@@ -10,6 +10,8 @@ import SwiftUI
 struct SynthesizerLFOView: View {
     @Binding var node: LFONode
     var startDate: Date = Date()
+    
+    @State private var initialNodeScale: Double? = nil
 
     var body: some View {
         let size = ComponentDefaults.padSize / 2
@@ -26,6 +28,18 @@ struct SynthesizerLFOView: View {
                 )
                 .frame(width: size, height: size)
             }
+            .gesture(
+                DragGesture()
+                    .onChanged { drag in
+                        if initialNodeScale == nil {
+                            initialNodeScale = node.scale
+                        }
+                        node.scale = initialNodeScale! - 2 * Double(drag.translation.height / size)
+                    }
+                    .onEnded { _ in
+                        initialNodeScale = nil
+                    }
+            )
             VStack {
                 LabelledKnob(value: $node.frequency.logarithmic, range: log(0.01)...log(100), text: "Frequency") { _ in
                     String(format: "%.2f Hz", node.frequency)
