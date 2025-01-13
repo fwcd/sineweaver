@@ -53,6 +53,7 @@ struct SynthesizerView<Level>: View where Level: View {
         var startEdge: Edge
         var currentPos: CGPoint
         var hoveredId: UUID? = nil
+        var hoversOutput: Bool = false
     }
 
     var body: some View {
@@ -233,7 +234,9 @@ struct SynthesizerView<Level>: View where Level: View {
     
     @ViewBuilder
     private var overlays: some View {
-        if let id = activeDrag?.hoveredId, let frame = frames[id]?.values.first {
+        let frame = activeDrag?.hoveredId.flatMap { frames[$0]?.values.first }
+            ?? ((activeDrag?.hoversOutput ?? false) ? levelFrame : nil)
+        if let frame {
             Rectangle()
                 .fill(.gray.opacity(0.3))
                 .frame(width: frame.size.width, height: frame.size.height)
@@ -278,22 +281,27 @@ struct SynthesizerView<Level>: View where Level: View {
                         .filter { $0.key != id && $0.value.values.contains { $0.contains(pos) } }
                         .map { $0.key }
                         .first
+                    activeDrag.hoversOutput = levelFrame?.contains(pos) ?? false
 
                     self.activeDrag = activeDrag
                 }
                 .onEnded { _ in
-                    if let activeDrag, let hoveredId = activeDrag.hoveredId {
-                        let startId = activeDrag.startId
-                        do {
-                            if model.hasConnection(from: startId, to: hoveredId) {
-                                model.disconnect(startId, from: hoveredId)
-                            } else {
-                                try model.connect(startId, to: hoveredId)
+                    if let activeDrag {
+                        if activeDrag.hoversOutput {
+                            model.outputNodeId = activeDrag.startId
+                        } else if let hoveredId = activeDrag.hoveredId {
+                            let startId = activeDrag.startId
+                            do {
+                                if model.hasConnection(from: startId, to: hoveredId) {
+                                    model.disconnect(startId, from: hoveredId)
+                                } else {
+                                    try model.connect(startId, to: hoveredId)
+                                }
+                            } catch let error as SynthesizerModel.ConnectError {
+                                connectError = error
+                            } catch {
+                                // Unreachable
                             }
-                        } catch let error as SynthesizerModel.ConnectError {
-                            connectError = error
-                        } catch {
-                            // Unreachable
                         }
                     }
                     activeDrag = nil
