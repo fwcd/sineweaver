@@ -126,13 +126,22 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         Set(inputEdges.filter { $0.value.contains(id) }.map(\.key))
     }
     
-    mutating func connect(_ inputId: UUID, to outputId: UUID) {
-        precondition(inputId != outputId)
+    enum ConnectError: Error {
+        case sameInputAsOutput
+        case invalidInput(UUID)
+        case invalidOutput(UUID)
+        case cycle
+    }
+    
+    mutating func connect(_ inputId: UUID, to outputId: UUID) throws {
+        guard inputId != outputId else {
+            throw ConnectError.sameInputAsOutput
+        }
         guard nodes.keys.contains(inputId) else {
-            fatalError("Cannot connect invalid input id: \(inputId)")
+            throw ConnectError.invalidInput(inputId)
         }
         guard nodes.keys.contains(outputId) else {
-            fatalError("Cannot connect invalid output id: \(outputId)")
+            throw ConnectError.invalidOutput(outputId)
         }
         if !inputEdges.keys.contains(outputId) {
             inputEdges[outputId] = []

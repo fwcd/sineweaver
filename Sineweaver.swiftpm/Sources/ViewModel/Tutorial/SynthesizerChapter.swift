@@ -103,24 +103,24 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             
             if self >= .filter {
                 synth.addNode(id: filterId, .filter(.init()))
-                synth.connect(synth.outputNodeId!, to: filterId)
-                synth.connect(lfoId, to: filterId)
+                try! synth.connect(synth.outputNodeId!, to: filterId)
+                try! synth.connect(lfoId, to: filterId)
                 synth.outputNodeId = filterId
             } else {
                 synth.addNode(id: lfoMixerId, .mixer(.init(operation: .product)))
-                synth.connect(synth.outputNodeId!, to: lfoMixerId)
-                synth.connect(lfoId, to: lfoMixerId)
+                try! synth.connect(synth.outputNodeId!, to: lfoMixerId)
+                try! synth.connect(lfoId, to: lfoMixerId)
                 synth.outputNodeId = lfoMixerId
             }
         }
 
         if self >= .envelope {
             synth.addNode(id: envelopeId, .envelope(.init()))
-            synth.connect(synth.outputNodeId!, to: envelopeId)
+            try! synth.connect(synth.outputNodeId!, to: envelopeId)
             synth.outputNodeId = envelopeId
         } else {
             synth.addNode(id: activeGateId, .activeGate(.init()))
-            synth.connect(synth.outputNodeId!, to: activeGateId)
+            try! synth.connect(synth.outputNodeId!, to: activeGateId)
             synth.outputNodeId = activeGateId
         }
         
