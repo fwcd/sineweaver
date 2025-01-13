@@ -1,1 +1,97 @@
-{"outputNodeId":"929D38D7-330E-4F87-B48D-C1627B404980","nodes":["7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",{"lfo":{"_0":{"volume":1,"wave":"Sine","isActive":false,"frequency":5.002981325838337}}},"929D38D7-330E-4F87-B48D-C1627B404980",{"filter":{"_0":{"modulationFactor":0.06540177917480466,"filter":{"kind":"Low-Pass","transitionBandwidthHz":1000,"cutoffHz":6046.075323218691}}}},"5D8120E4-8F00-42E6-9BA8-7F91508335D0",{"oscillator":{"_0":{"prefersPianoView":true,"prefersWavePicker":true,"isPlaying":false,"pianoBaseOctave":3,"frequency":261.6255653005986,"wave":"Triangle","volume":0.75}}},"EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",{"envelope":{"_0":{"releaseMs":286.6152542114258,"decayMs":0,"sustain":1,"attackMs":300}}}],"inputEdges":["DD2BF061-F147-441D-8D1D-CBE62D96832C",[],"929D38D7-330E-4F87-B48D-C1627B404980",["EFC6664F-3FFD-4FC7-BF49-4512DD3920DE","7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6"],"1AF35680-0EFF-4EB7-A037-2524D4EA010E",[],"7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",[],"36458D71-4A6A-41ED-962D-1C3A2A8E0419",[],"57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC",[],"A9FD2851-BBDB-42F7-96CA-CF8F212B5547",[],"EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",["5D8120E4-8F00-42E6-9BA8-7F91508335D0"],"5D8120E4-8F00-42E6-9BA8-7F91508335D0",[],"6CD6328D-A8CE-45EE-A317-D44F132CE129",[]]}
+{
+  "inputEdges" : [
+    "36458D71-4A6A-41ED-962D-1C3A2A8E0419",
+    [
+
+    ],
+    "A9FD2851-BBDB-42F7-96CA-CF8F212B5547",
+    [
+
+    ],
+    "57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC",
+    [
+
+    ],
+    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
+    [
+
+    ],
+    "6CD6328D-A8CE-45EE-A317-D44F132CE129",
+    [
+
+    ],
+    "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
+    [
+      "5D8120E4-8F00-42E6-9BA8-7F91508335D0"
+    ],
+    "929D38D7-330E-4F87-B48D-C1627B404980",
+    [
+      "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
+      "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6"
+    ],
+    "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",
+    [
+
+    ],
+    "5D8120E4-8F00-42E6-9BA8-7F91508335D0",
+    [
+
+    ],
+    "DD2BF061-F147-441D-8D1D-CBE62D96832C",
+    [
+
+    ]
+  ],
+  "nodes" : [
+    "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",
+    {
+      "lfo" : {
+        "_0" : {
+          "frequency" : 5.002981325838337,
+          "isActive" : false,
+          "volume" : 1,
+          "wave" : "Sine"
+        }
+      }
+    },
+    "5D8120E4-8F00-42E6-9BA8-7F91508335D0",
+    {
+      "oscillator" : {
+        "_0" : {
+          "frequency" : 261.6255653005986,
+          "isPlaying" : false,
+          "pianoBaseOctave" : 3,
+          "prefersPianoView" : true,
+          "prefersWavePicker" : true,
+          "volume" : 0.75,
+          "wave" : "Triangle"
+        }
+      }
+    },
+    "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
+    {
+      "envelope" : {
+        "_0" : {
+          "attackMs" : 300,
+          "decayMs" : 0,
+          "releaseMs" : 286.6152542114258,
+          "sustain" : 1
+        }
+      }
+    },
+    "929D38D7-330E-4F87-B48D-C1627B404980",
+    {
+      "filter" : {
+        "_0" : {
+          "filter" : {
+            "cutoffHz" : 6046.075323218691,
+            "kind" : "Low-Pass",
+            "transitionBandwidthHz" : 1000
+          },
+          "modulationFactor" : 0.06540177917480466
+        }
+      }
+    }
+  ],
+  "outputNodeId" : "929D38D7-330E-4F87-B48D-C1627B404980"
+}

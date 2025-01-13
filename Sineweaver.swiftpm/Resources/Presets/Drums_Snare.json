@@ -1,1 +1,65 @@
-{"nodes":["81C44EDD-740B-4E8B-99C2-A01457250A2C",{"filter":{"_0":{"filter":{"cutoffHz":3033.779772977944,"transitionBandwidthHz":1000,"kind":"High-Pass"},"modulationFactor":0}}},"1AF35680-0EFF-4EB7-A037-2524D4EA010E",{"controller":{"_0":{"isActive":false,"frequency":261.6255653005986,"pianoBaseOctave":3}}},"DD2BF061-F147-441D-8D1D-CBE62D96832C",{"noise":{"_0":{"volume":0.3507660064697265}}},"6CD6328D-A8CE-45EE-A317-D44F132CE129",{"envelope":{"_0":{"releaseMs":50.00000000000003,"attackMs":0,"sustain":0,"decayMs":194.28529357910153}}}],"inputEdges":["DD2BF061-F147-441D-8D1D-CBE62D96832C",["1AF35680-0EFF-4EB7-A037-2524D4EA010E"],"1AF35680-0EFF-4EB7-A037-2524D4EA010E",[],"81C44EDD-740B-4E8B-99C2-A01457250A2C",["6CD6328D-A8CE-45EE-A317-D44F132CE129"],"6CD6328D-A8CE-45EE-A317-D44F132CE129",["DD2BF061-F147-441D-8D1D-CBE62D96832C"]],"outputNodeId":"81C44EDD-740B-4E8B-99C2-A01457250A2C"}
+{
+  "inputEdges" : [
+    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
+    [
+
+    ],
+    "DD2BF061-F147-441D-8D1D-CBE62D96832C",
+    [
+      "1AF35680-0EFF-4EB7-A037-2524D4EA010E"
+    ],
+    "6CD6328D-A8CE-45EE-A317-D44F132CE129",
+    [
+      "DD2BF061-F147-441D-8D1D-CBE62D96832C"
+    ],
+    "81C44EDD-740B-4E8B-99C2-A01457250A2C",
+    [
+      "6CD6328D-A8CE-45EE-A317-D44F132CE129"
+    ]
+  ],
+  "nodes" : [
+    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
+    {
+      "controller" : {
+        "_0" : {
+          "frequency" : 261.6255653005986,
+          "isActive" : false,
+          "pianoBaseOctave" : 3
+        }
+      }
+    },
+    "DD2BF061-F147-441D-8D1D-CBE62D96832C",
+    {
+      "noise" : {
+        "_0" : {
+          "volume" : 0.3507660064697265
+        }
+      }
+    },
+    "6CD6328D-A8CE-45EE-A317-D44F132CE129",
+    {
+      "envelope" : {
+        "_0" : {
+          "attackMs" : 0,
+          "decayMs" : 194.28529357910153,
+          "releaseMs" : 50.00000000000003,
+          "sustain" : 0
+        }
+      }
+    },
+    "81C44EDD-740B-4E8B-99C2-A01457250A2C",
+    {
+      "filter" : {
+        "_0" : {
+          "filter" : {
+            "cutoffHz" : 3033.779772977944,
+            "kind" : "High-Pass",
+            "transitionBandwidthHz" : 1000
+          },
+          "modulationFactor" : 0
+        }
+      }
+    }
+  ],
+  "outputNodeId" : "81C44EDD-740B-4E8B-99C2-A01457250A2C"
+}

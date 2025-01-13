@@ -33,7 +33,9 @@ extension SynthesizerModel: FileDocument {
     }
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        guard let data = try? JSONEncoder().encode(self) else {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        guard let data = try? encoder.encode(self) else {
             throw CocoaError(.fileWriteUnknown)
         }
         let fileWrapper = FileWrapper(regularFileWithContents: data)

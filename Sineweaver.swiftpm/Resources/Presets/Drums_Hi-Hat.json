@@ -1,1 +1,84 @@
-{"nodes":["57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC",{"filter":{"_0":{"modulationFactor":0.5,"filter":{"kind":"High-Pass","cutoffHz":10025.02774954287,"transitionBandwidthHz":1000}}}},"1AF35680-0EFF-4EB7-A037-2524D4EA010E",{"controller":{"_0":{"pianoBaseOctave":3,"frequency":391.99543598174927,"isActive":false}}},"DD2BF061-F147-441D-8D1D-CBE62D96832C",{"noise":{"_0":{"volume":1}}},"A9FD2851-BBDB-42F7-96CA-CF8F212B5547",{"envelope":{"_0":{"sustain":0.13580055236816402,"decayMs":26.02413940429688,"attackMs":0,"releaseMs":50}}},"EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",{"envelope":{"_0":{"attackMs":0,"releaseMs":50,"sustain":0,"decayMs":149.02352905273438}}}],"inputEdges":["1AF35680-0EFF-4EB7-A037-2524D4EA010E",[],"EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",["DD2BF061-F147-441D-8D1D-CBE62D96832C"],"A9FD2851-BBDB-42F7-96CA-CF8F212B5547",["EFC6664F-3FFD-4FC7-BF49-4512DD3920DE"],"57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC",["A9FD2851-BBDB-42F7-96CA-CF8F212B5547"],"6CD6328D-A8CE-45EE-A317-D44F132CE129",[],"DD2BF061-F147-441D-8D1D-CBE62D96832C",["1AF35680-0EFF-4EB7-A037-2524D4EA010E"]],"outputNodeId":"57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC"}
+{
+  "inputEdges" : [
+    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
+    [
+
+    ],
+    "6CD6328D-A8CE-45EE-A317-D44F132CE129",
+    [
+
+    ],
+    "DD2BF061-F147-441D-8D1D-CBE62D96832C",
+    [
+      "1AF35680-0EFF-4EB7-A037-2524D4EA010E"
+    ],
+    "57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC",
+    [
+      "A9FD2851-BBDB-42F7-96CA-CF8F212B5547"
+    ],
+    "A9FD2851-BBDB-42F7-96CA-CF8F212B5547",
+    [
+      "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE"
+    ],
+    "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
+    [
+      "DD2BF061-F147-441D-8D1D-CBE62D96832C"
+    ]
+  ],
+  "nodes" : [
+    "A9FD2851-BBDB-42F7-96CA-CF8F212B5547",
+    {
+      "envelope" : {
+        "_0" : {
+          "attackMs" : 0,
+          "decayMs" : 26.02413940429688,
+          "releaseMs" : 50,
+          "sustain" : 0.13580055236816402
+        }
+      }
+    },
+    "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
+    {
+      "envelope" : {
+        "_0" : {
+          "attackMs" : 0,
+          "decayMs" : 149.02352905273438,
+          "releaseMs" : 50,
+          "sustain" : 0
+        }
+      }
+    },
+    "57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC",
+    {
+      "filter" : {
+        "_0" : {
+          "filter" : {
+            "cutoffHz" : 10025.02774954287,
+            "kind" : "High-Pass",
+            "transitionBandwidthHz" : 1000
+          },
+          "modulationFactor" : 0.5
+        }
+      }
+    },
+    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
+    {
+      "controller" : {
+        "_0" : {
+          "frequency" : 391.99543598174927,
+          "isActive" : false,
+          "pianoBaseOctave" : 3
+        }
+      }
+    },
+    "DD2BF061-F147-441D-8D1D-CBE62D96832C",
+    {
+      "noise" : {
+        "_0" : {
+          "volume" : 1
+        }
+      }
+    }
+  ],
+  "outputNodeId" : "57F8B8B5-BE0B-432C-A1FA-4D2C9DF389FC"
+}

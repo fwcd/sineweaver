@@ -1,1 +1,40 @@
-{"nodes":["8EAC2204-4559-4727-BE3E-3C43B1D0FD50",{"oscillator":{"_0":{"prefersPianoView":true,"wave":"Sine","prefersWavePicker":true,"volume":0.75,"isPlaying":false,"frequency":130.8127826502993,"pianoBaseOctave":2}}},"FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",{"envelope":{"_0":{"releaseMs":50,"sustain":0,"decayMs":212.44094848632812,"attackMs":10}}}],"outputNodeId":"FF6D5B65-5B87-4E00-AE7D-BC79C853D72B","inputEdges":["8EAC2204-4559-4727-BE3E-3C43B1D0FD50",[],"FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",["8EAC2204-4559-4727-BE3E-3C43B1D0FD50"]]}
+{
+  "inputEdges" : [
+    "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",
+    [
+      "8EAC2204-4559-4727-BE3E-3C43B1D0FD50"
+    ],
+    "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
+    [
+
+    ]
+  ],
+  "nodes" : [
+    "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",
+    {
+      "envelope" : {
+        "_0" : {
+          "attackMs" : 10,
+          "decayMs" : 212.44094848632812,
+          "releaseMs" : 50,
+          "sustain" : 0
+        }
+      }
+    },
+    "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
+    {
+      "oscillator" : {
+        "_0" : {
+          "frequency" : 130.8127826502993,
+          "isPlaying" : false,
+          "pianoBaseOctave" : 2,
+          "prefersPianoView" : true,
+          "prefersWavePicker" : true,
+          "volume" : 0.75,
+          "wave" : "Sine"
+        }
+      }
+    }
+  ],
+  "outputNodeId" : "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B"
+}
