@@ -181,7 +181,7 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
-    init(type: SynthesizerNodeType) {
+    init(type: SynthesizerNodeType = .silence) {
         switch type {
         case .oscillator: self = .oscillator(.init())
         case .lfo: self = .lfo(.init())

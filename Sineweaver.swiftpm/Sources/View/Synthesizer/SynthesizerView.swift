@@ -161,7 +161,7 @@ struct SynthesizerView<Level>: View where Level: View {
                         let id = tnode.id
                         let showsHUD = (allowsEditing && hovered.contains(id)) || insertionPopover?.id == id
                         SynthesizerNodeView(
-                            node: $model.nodes[id].unwrapped,
+                            node: $model.nodes[id].unwrapped(or: SynthesizerNode()),
                             startDate: startDate,
                             // TODO: Propagate the 'true' activeness instead of using this heuristic
                             isActive: model.hasActiveAncestor(id: id),

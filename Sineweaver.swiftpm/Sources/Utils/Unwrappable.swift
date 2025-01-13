@@ -9,6 +9,8 @@ protocol Unwrappable {
     associatedtype Wrapped
     
     var unwrapped: Wrapped { get }
+    
+    func unwrapped(or defaultValue: Wrapped) -> Wrapped
 }
 
 protocol MutablyUnwrappable: Unwrappable {

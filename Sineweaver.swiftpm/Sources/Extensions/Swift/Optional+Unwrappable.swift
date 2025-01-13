@@ -10,4 +10,8 @@ extension Optional: MutablyUnwrappable {
         get { self! }
         set { self = newValue }
     }
+    
+    func unwrapped(or defaultValue: Wrapped) -> Wrapped {
+        self ?? defaultValue
+    }
 }
