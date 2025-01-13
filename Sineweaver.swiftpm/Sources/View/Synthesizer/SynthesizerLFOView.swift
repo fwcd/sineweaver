@@ -11,7 +11,7 @@ struct SynthesizerLFOView: View {
     @Binding var node: LFONode
     var startDate: Date = Date()
     
-    @State private var initialNodeScale: Double? = nil
+    @State private var initialNodeVolume: Double? = nil
 
     var body: some View {
         let size = ComponentDefaults.padSize / 2
@@ -31,13 +31,13 @@ struct SynthesizerLFOView: View {
             .gesture(
                 DragGesture()
                     .onChanged { drag in
-                        if initialNodeScale == nil {
-                            initialNodeScale = node.scale
+                        if initialNodeVolume == nil {
+                            initialNodeVolume = node.volume
                         }
-                        node.scale = initialNodeScale! - 2 * Double(drag.translation.height / size)
+                        node.volume = initialNodeVolume! - 2 * Double(drag.translation.height / size)
                     }
                     .onEnded { _ in
-                        initialNodeScale = nil
+                        initialNodeVolume = nil
                     }
             )
             VStack {

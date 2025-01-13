@@ -13,12 +13,12 @@ struct LFONode: SynthesizerNodeProtocol {
     
     var wave: Wave = .sine
     var frequency: Double = 1
-    var scale: Double = 1
+    var volume: Double = 1
     var isActive = false
 
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout Void, context: SynthesizerContext) -> Bool {
         for i in 0..<output.count {
-            output[i] = 0.5 + 0.5 * (-1...1).clamp(wave.sample(Double(context.frame + i) * frequency / context.sampleRate) * scale)
+            output[i] = 0.5 + 0.5 * (-1...1).clamp(wave.sample(Double(context.frame + i) * frequency / context.sampleRate) * volume)
         }
         return isActive
     }
