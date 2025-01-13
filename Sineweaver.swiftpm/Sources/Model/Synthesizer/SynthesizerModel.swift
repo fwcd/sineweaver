@@ -165,6 +165,10 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         inputEdges[outputId] = inputs
     }
     
+    mutating func disconnect(_ inputId: UUID, from outputId: UUID) {
+        inputEdges[outputId] = inputEdges[outputId]?.filter { $0 != inputId }
+    }
+    
     struct Buffers: Sendable {
         var inputs: [UUID: [[Double]]] = [:]
         var output: [Double] = []
@@ -178,6 +182,10 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         var output: (any Sendable)? = nil
         
         var outputId: UUID? = nil
+    }
+    
+    func hasConnection(from startId: UUID, to endId: UUID) -> Bool {
+        inputEdges[endId]?.contains(startId) ?? false
     }
     
     func hasPath(from startId: UUID, to endId: UUID) -> Bool {

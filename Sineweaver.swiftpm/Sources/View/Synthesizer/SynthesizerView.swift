@@ -283,8 +283,13 @@ struct SynthesizerView<Level>: View where Level: View {
                 }
                 .onEnded { _ in
                     if let activeDrag, let hoveredId = activeDrag.hoveredId {
+                        let startId = activeDrag.startId
                         do {
-                            try model.connect(activeDrag.startId, to: hoveredId)
+                            if model.hasConnection(from: startId, to: hoveredId) {
+                                model.disconnect(startId, from: hoveredId)
+                            } else {
+                                try model.connect(startId, to: hoveredId)
+                            }
                         } catch let error as SynthesizerModel.ConnectError {
                             connectError = error
                         } catch {
