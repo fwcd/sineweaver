@@ -56,7 +56,8 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         case .lfo:
             [
                 "Oscillators are not just useful for generating sounds directly, they can also be used to influence other signals, this is known as _modulation_. Usually such oscillators will operate at a much lower frequency than those used to generate sounds, therefore they are commonly referred to as **Low-Frequency Oscillators** (**LFOs**).",
-                "A very simple form of modulation is **amplitude modulation** where the signals are effetively multiplied together. Try pressing and holding a piano key. How does changing the LFO frequency or wave type affect the sound?",
+                "A very simple form of modulation is **amplitude modulation** where the signals are effetively multiplied together. Try pressing and holding a piano key. How does changing the LFO frequency affect the sound?",
+                "You can also change the LFO's wave type via the dropdown menu and even adjust its scale by dragging the LFO waveform vertically.",
                 // TODO: Introduce frequency/time-domain before jumping to filters?
                 // TODO: Showcase ADSR modulation first?
                 "Amplitude is not the only thing we can modulate, however. Modern synthesizers let you modulate almost any parameter. To make things more interesting, we will now introduce another effect...",
