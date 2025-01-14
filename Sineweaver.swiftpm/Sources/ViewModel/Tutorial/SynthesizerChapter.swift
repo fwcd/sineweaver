@@ -21,13 +21,15 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
     case envelope
     case lfo
     case filter
-    
+    case unisonDetune
+
     var title: String {
         switch self {
         case .basicOscillator, .waveOscillator, .pianoOscillator: "The Oscillator"
         case .envelope: "The Envelope"
         case .lfo: "The LFO"
         case .filter: "The Filter"
+        case .unisonDetune: "Unison and Detune"
         }
     }
     
@@ -47,6 +49,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
                 "Setting the pitch directly is a bit inconvenient, so let's add a piano keyboard. Try playing different notes and see how the oscillator changes.",
                 "Most sounds are a bit more complex than a sine wave, however. Hitting a drum or a piano key, for example, produces a relatively loud initial sound (the _attack_) that subsequently falls in volume (the _decay_). In the case of a piano key, the sound is also _sustained_ at a certain volume until the key is _released_. Wouldn't it be nice if the synthesizer could emulate this?",
             ]
+        
         case .envelope:
             [
                 "Turns out, most synthesizers do offer four parameters to customize the so-called _envelope_ of a wave: **Attack** (the initial ramp-up in volume), **Decay** (the subsequent fall in volume), **Sustain** (the sustained volume) and **Release** (the final drop to silence). Together these parameters are known under the acronym **ADSR**.",
@@ -70,6 +73,10 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
                 "In reality perfect filters (also called _brickwall filters_) with a perfectly sharp cutoff are not achievable, since they would introduce an infinitely long delay. The specifics are not too relevant here, in practice this just means that every filter will have a certain _roll-off_, i.e. the frequencies around the cutoff will still pass the filter, albeit slightly attenuated.",
                 "Try tweaking the cutoff frequency and the modulation strength of the filter below, as well as the LFO frequency, and see how the sound changes when you play the oscillator's piano!",
                 // TODO: Introduce high-pass
+            ]
+        case .unisonDetune:
+            [
+                "Getting back to our oscillator, there is another trick for making the sound more interesting: Layering copies of the wave that are slightly out-of-tune. **Unison** is a parameter that determines _the number of copies_ and **detune** determines _how far out-of-tune_ each copy will be (as a fraction of a full semitone). Hover over the waveform to display these parameters and experiment with different values.",
                 "You now know the basics of synthesizers. We've only scratched the surface, however, and there is a lot more to explore. Click the button to complete the tutorial and to unlock the fully customizable synth UI. Have fun!",
             ]
         }
@@ -95,10 +102,11 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         synth.outputNodeId = synth.addNode(id: oscillatorId, .oscillator(.init(
             wave: self >= .filter ? .saw : .sine, // TODO: Add explanation
             prefersWavePicker: self >= .waveOscillator,
+            prefersUnisonDetuneControls: self >= .unisonDetune,
             prefersPianoView: self >= .pianoOscillator
         )))
         
-        if self >= .lfo {
+        if self >= .lfo && self < .unisonDetune {
             synth.addNode(id: lfoId, .lfo(.init()))
             
             if self >= .filter {

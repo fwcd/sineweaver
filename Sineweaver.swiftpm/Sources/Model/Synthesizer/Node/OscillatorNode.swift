@@ -18,6 +18,7 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     var detune: Double = 0
     var isPlaying = false
     var prefersWavePicker = true
+    var prefersUnisonDetuneControls = true
     var prefersPianoView = true
     var pianoBaseOctave: Int = 3
     
