@@ -1,0 +1,43 @@
+{
+  "inputEdges" : [
+    "F864EE24-9662-42A8-A66C-2167E378ADDF",
+    [
+
+    ],
+    "D6F794FC-A4C3-4C12-8A53-8009F172D1C4",
+    [
+      "F864EE24-9662-42A8-A66C-2167E378ADDF"
+    ]
+  ],
+  "nodes" : [
+    "D6F794FC-A4C3-4C12-8A53-8009F172D1C4",
+    {
+      "envelope" : {
+        "_0" : {
+          "attackMs" : 82.59211730957031,
+          "decayMs" : 46.722808837890625,
+          "releaseMs" : 50,
+          "sustain" : 0.45621287027994795
+        }
+      }
+    },
+    "F864EE24-9662-42A8-A66C-2167E378ADDF",
+    {
+      "oscillator" : {
+        "_0" : {
+          "detune" : 0.23032672119140626,
+          "frequency" : 261.6255653005986,
+          "isPlaying" : false,
+          "pianoBaseOctave" : 3,
+          "prefersPianoView" : true,
+          "prefersUnisonDetuneControls" : true,
+          "prefersWavePicker" : true,
+          "unison" : 6,
+          "volume" : 0.75,
+          "wave" : "Saw"
+        }
+      }
+    }
+  ],
+  "outputNodeId" : "D6F794FC-A4C3-4C12-8A53-8009F172D1C4"
+}
