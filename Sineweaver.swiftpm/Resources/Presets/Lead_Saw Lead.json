@@ -1,18 +1,14 @@
 {
   "inputEdges" : [
+    "A2B66403-C0D7-40CB-B0B5-CF4006FF98E8",
+    [
+
+    ],
     "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",
     [
       "8EAC2204-4559-4727-BE3E-3C43B1D0FD50"
     ],
     "D69AE075-3648-453E-BA6E-103312BE4DBA",
-    [
-
-    ],
-    "643C80CF-16EB-44CB-8258-8AC12C5F7967",
-    [
-
-    ],
-    "B83005EF-E7D8-4921-ACAF-FA63A619FFFA",
     [
 
     ],
@@ -24,33 +20,20 @@
     [
 
     ],
-    "E4E1B539-96D5-406C-A21F-B792F076DF45",
+    "B83005EF-E7D8-4921-ACAF-FA63A619FFFA",
     [
 
     ],
-    "A2B66403-C0D7-40CB-B0B5-CF4006FF98E8",
+    "643C80CF-16EB-44CB-8258-8AC12C5F7967",
+    [
+
+    ],
+    "E4E1B539-96D5-406C-A21F-B792F076DF45",
     [
 
     ]
   ],
   "nodes" : [
-    "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
-    {
-      "oscillator" : {
-        "_0" : {
-          "detune" : 0,
-          "frequency" : 523.2511306011972,
-          "isPlaying" : false,
-          "pianoBaseOctave" : 4,
-          "prefersPianoView" : true,
-          "prefersUnisonDetuneControls" : true,
-          "prefersWavePicker" : true,
-          "unison" : 1,
-          "volume" : 0.75,
-          "wave" : "Saw"
-        }
-      }
-    },
     "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",
     {
       "envelope" : {
@@ -59,6 +42,23 @@
           "decayMs" : 66.4638671875,
           "releaseMs" : 50,
           "sustain" : 0.3742374420166016
+        }
+      }
+    },
+    "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
+    {
+      "oscillator" : {
+        "_0" : {
+          "detune" : 0.09766127014160156,
+          "frequency" : 523.2511306011972,
+          "isPlaying" : false,
+          "pianoBaseOctave" : 4,
+          "prefersPianoView" : true,
+          "prefersUnisonDetuneControls" : true,
+          "prefersWavePicker" : true,
+          "unison" : 3,
+          "volume" : 0.75,
+          "wave" : "Saw"
         }
       }
     }

@@ -1,8 +1,32 @@
 {
   "inputEdges" : [
+    "0AF02B2B-8C9A-429A-B7B4-602A75213A4D",
+    [
+      "8EAC2204-4559-4727-BE3E-3C43B1D0FD50"
+    ],
+    "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
+    [
+      "D69AE075-3648-453E-BA6E-103312BE4DBA"
+    ],
+    "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",
+    [
+      "2576C2B0-B4EE-4FED-9472-6E1D239C41EF"
+    ],
     "DB344D75-5064-484E-9916-C4EC1D24090C",
     [
       "A2B66403-C0D7-40CB-B0B5-CF4006FF98E8"
+    ],
+    "E4E1B539-96D5-406C-A21F-B792F076DF45",
+    [
+
+    ],
+    "B83005EF-E7D8-4921-ACAF-FA63A619FFFA",
+    [
+
+    ],
+    "679F10AD-947B-47E8-AA3C-10351EC0769B",
+    [
+
     ],
     "3D0ED64F-434F-4E58-96F8-1E8E924A28C4",
     [
@@ -12,31 +36,11 @@
     [
       "D69AE075-3648-453E-BA6E-103312BE4DBA"
     ],
-    "611D04DD-B748-4983-B9E5-820484A36F15",
+    "643C80CF-16EB-44CB-8258-8AC12C5F7967",
     [
 
     ],
     "D69AE075-3648-453E-BA6E-103312BE4DBA",
-    [
-
-    ],
-    "0AF02B2B-8C9A-429A-B7B4-602A75213A4D",
-    [
-      "8EAC2204-4559-4727-BE3E-3C43B1D0FD50"
-    ],
-    "FF6D5B65-5B87-4E00-AE7D-BC79C853D72B",
-    [
-      "2576C2B0-B4EE-4FED-9472-6E1D239C41EF"
-    ],
-    "679F10AD-947B-47E8-AA3C-10351EC0769B",
-    [
-
-    ],
-    "B83005EF-E7D8-4921-ACAF-FA63A619FFFA",
-    [
-
-    ],
-    "643C80CF-16EB-44CB-8258-8AC12C5F7967",
     [
 
     ],
@@ -45,16 +49,22 @@
       "0AF02B2B-8C9A-429A-B7B4-602A75213A4D",
       "DB344D75-5064-484E-9916-C4EC1D24090C"
     ],
-    "E4E1B539-96D5-406C-A21F-B792F076DF45",
+    "611D04DD-B748-4983-B9E5-820484A36F15",
     [
 
-    ],
-    "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
-    [
-      "D69AE075-3648-453E-BA6E-103312BE4DBA"
     ]
   ],
   "nodes" : [
+    "D69AE075-3648-453E-BA6E-103312BE4DBA",
+    {
+      "controller" : {
+        "_0" : {
+          "frequency" : 523.2511306011972,
+          "isActive" : false,
+          "pianoBaseOctave" : 4
+        }
+      }
+    },
     "2576C2B0-B4EE-4FED-9472-6E1D239C41EF",
     {
       "mixer" : {
@@ -64,23 +74,6 @@
 
             }
           }
-        }
-      }
-    },
-    "A2B66403-C0D7-40CB-B0B5-CF4006FF98E8",
-    {
-      "oscillator" : {
-        "_0" : {
-          "detune" : 0,
-          "frequency" : 440,
-          "isPlaying" : false,
-          "pianoBaseOctave" : 3,
-          "prefersPianoView" : false,
-          "prefersUnisonDetuneControls" : true,
-          "prefersWavePicker" : true,
-          "unison" : 1,
-          "volume" : 0.75,
-          "wave" : "Square"
         }
       }
     },
@@ -95,18 +88,35 @@
         }
       }
     },
+    "A2B66403-C0D7-40CB-B0B5-CF4006FF98E8",
+    {
+      "oscillator" : {
+        "_0" : {
+          "detune" : 0.49727073669433597,
+          "frequency" : 440,
+          "isPlaying" : false,
+          "pianoBaseOctave" : 3,
+          "prefersPianoView" : false,
+          "prefersUnisonDetuneControls" : true,
+          "prefersWavePicker" : true,
+          "unison" : 6,
+          "volume" : 0.75,
+          "wave" : "Square"
+        }
+      }
+    },
     "8EAC2204-4559-4727-BE3E-3C43B1D0FD50",
     {
       "oscillator" : {
         "_0" : {
-          "detune" : 0,
+          "detune" : 0.07413249206542968,
           "frequency" : 130.8127826502993,
           "isPlaying" : false,
           "pianoBaseOctave" : 2,
           "prefersPianoView" : false,
           "prefersUnisonDetuneControls" : true,
           "prefersWavePicker" : true,
-          "unison" : 1,
+          "unison" : 2,
           "volume" : 0.75,
           "wave" : "Saw"
         }
@@ -120,21 +130,11 @@
         }
       }
     },
-    "D69AE075-3648-453E-BA6E-103312BE4DBA",
-    {
-      "controller" : {
-        "_0" : {
-          "frequency" : 523.2511306011972,
-          "isActive" : false,
-          "pianoBaseOctave" : 4
-        }
-      }
-    },
     "0AF02B2B-8C9A-429A-B7B4-602A75213A4D",
     {
       "gain" : {
         "_0" : {
-          "gain" : 0.16452173308615342
+          "gain" : 0.49587704569412683
         }
       }
     }
