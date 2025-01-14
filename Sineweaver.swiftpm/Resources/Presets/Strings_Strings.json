@@ -1,10 +1,6 @@
 {
   "inputEdges" : [
-    "36458D71-4A6A-41ED-962D-1C3A2A8E0419",
-    [
-
-    ],
-    "A9FD2851-BBDB-42F7-96CA-CF8F212B5547",
+    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
     [
 
     ],
@@ -12,11 +8,7 @@
     [
 
     ],
-    "1AF35680-0EFF-4EB7-A037-2524D4EA010E",
-    [
-
-    ],
-    "6CD6328D-A8CE-45EE-A317-D44F132CE129",
+    "A9FD2851-BBDB-42F7-96CA-CF8F212B5547",
     [
 
     ],
@@ -24,50 +16,43 @@
     [
       "5D8120E4-8F00-42E6-9BA8-7F91508335D0"
     ],
-    "929D38D7-330E-4F87-B48D-C1627B404980",
-    [
-      "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
-      "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6"
-    ],
-    "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",
+    "36458D71-4A6A-41ED-962D-1C3A2A8E0419",
     [
 
     ],
-    "5D8120E4-8F00-42E6-9BA8-7F91508335D0",
+    "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",
     [
 
     ],
     "DD2BF061-F147-441D-8D1D-CBE62D96832C",
     [
 
+    ],
+    "5D8120E4-8F00-42E6-9BA8-7F91508335D0",
+    [
+
+    ],
+    "6CD6328D-A8CE-45EE-A317-D44F132CE129",
+    [
+
+    ],
+    "929D38D7-330E-4F87-B48D-C1627B404980",
+    [
+      "EFC6664F-3FFD-4FC7-BF49-4512DD3920DE",
+      "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6"
     ]
   ],
   "nodes" : [
-    "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",
+    "929D38D7-330E-4F87-B48D-C1627B404980",
     {
-      "lfo" : {
+      "filter" : {
         "_0" : {
-          "frequency" : 5.002981325838337,
-          "isActive" : false,
-          "volume" : 1,
-          "wave" : "Sine"
-        }
-      }
-    },
-    "5D8120E4-8F00-42E6-9BA8-7F91508335D0",
-    {
-      "oscillator" : {
-        "_0" : {
-          "detune" : 0,
-          "frequency" : 261.6255653005986,
-          "isPlaying" : false,
-          "pianoBaseOctave" : 3,
-          "prefersPianoView" : true,
-          "prefersUnisonDetuneControls" : true,
-          "prefersWavePicker" : true,
-          "unison" : 1,
-          "volume" : 0.75,
-          "wave" : "Triangle"
+          "filter" : {
+            "cutoffHz" : 18645.615237658916,
+            "kind" : "Low-Pass",
+            "transitionBandwidthHz" : 1000
+          },
+          "modulationFactor" : 0.06540177917480466
         }
       }
     },
@@ -82,16 +67,31 @@
         }
       }
     },
-    "929D38D7-330E-4F87-B48D-C1627B404980",
+    "5D8120E4-8F00-42E6-9BA8-7F91508335D0",
     {
-      "filter" : {
+      "oscillator" : {
         "_0" : {
-          "filter" : {
-            "cutoffHz" : 6046.075323218691,
-            "kind" : "Low-Pass",
-            "transitionBandwidthHz" : 1000
-          },
-          "modulationFactor" : 0.06540177917480466
+          "detune" : 0.04354193115234378,
+          "frequency" : 261.6255653005986,
+          "isPlaying" : false,
+          "pianoBaseOctave" : 3,
+          "prefersPianoView" : true,
+          "prefersUnisonDetuneControls" : true,
+          "prefersWavePicker" : true,
+          "unison" : 4,
+          "volume" : 0.75,
+          "wave" : "Saw"
+        }
+      }
+    },
+    "7F8B4D68-9E71-4B6A-B177-C3C5BD3CC1C6",
+    {
+      "lfo" : {
+        "_0" : {
+          "frequency" : 5.002981325838337,
+          "isActive" : false,
+          "volume" : 1,
+          "wave" : "Sine"
         }
       }
     }
