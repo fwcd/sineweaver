@@ -11,6 +11,7 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
     @Binding var value: Value
     var defaultValue: Value? = nil
     var range: ClosedRange<Value> = 0...1
+    var onActiveChange: ((Bool) -> Void)? = nil
     var sensitivity: Value = 1
     var halfCircleFraction: Double = 1 / 3
     var size: CGFloat = ComponentDefaults.knobSize
@@ -61,6 +62,12 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
                     
                     let dist = Value(drag.translation.width - drag.translation.height) * range.length
                     value = range.clamp(initialValue + dist * 0.003 * sensitivity)
+                }
+                .onChanged { _ in
+                    onActiveChange?(true)
+                }
+                .onEnded { _ in
+                    onActiveChange?(false)
                 }
         )
         .contextMenu {

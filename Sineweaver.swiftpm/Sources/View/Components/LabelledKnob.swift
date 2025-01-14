@@ -10,6 +10,7 @@ import SwiftUI
 struct LabelledKnob<Value>: View where Value: BinaryFloatingPoint {
     @Binding var value: Value
     var range: ClosedRange<Value> = 0...1
+    var onActiveChange: ((Bool) -> Void)? = nil
     var orientation: Orientation = .vertical
     var text: String? = nil
     var size: CGFloat = ComponentDefaults.knobSize
@@ -42,7 +43,7 @@ struct LabelledKnob<Value>: View where Value: BinaryFloatingPoint {
     
     @ViewBuilder
     private var knob: some View {
-        Knob(value: $value, range: range, size: size)
+        Knob(value: $value, range: range, onActiveChange: onActiveChange, size: size)
     }
     
     @ViewBuilder

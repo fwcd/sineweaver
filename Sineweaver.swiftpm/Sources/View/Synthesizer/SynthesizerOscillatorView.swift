@@ -13,7 +13,9 @@ struct SynthesizerOscillatorView: View {
     var tuning: any Tuning = EqualTemperament()
     
     @State private var showsUnisonDetune = false
-    
+    @State private var unisonKnobActive = false
+    @State private var detuneKnobActive = false
+
     private var pianoBaseNote: Note {
         Note(.c, node.pianoBaseOctave)
     }
@@ -52,12 +54,14 @@ struct SynthesizerOscillatorView: View {
                                         LabelledKnob(
                                             value: $node.unison.dequantized,
                                             range: 1...16,
+                                            onActiveChange: { unisonKnobActive = $0 },
                                             text: "Unison",
                                             size: knobSize
                                         )
                                         LabelledKnob(
                                             value: $node.detune,
                                             range: 0...1,
+                                            onActiveChange: { detuneKnobActive = $0 },
                                             text: "Detune",
                                             size: knobSize
                                         )
@@ -70,6 +74,9 @@ struct SynthesizerOscillatorView: View {
                         }
                         .onHover { hovered in
                             showsUnisonDetune = node.prefersUnisonDetuneControls && hovered
+                        }
+                        .onChange(of: unisonKnobActive || detuneKnobActive) {
+                            node.isPlaying = unisonKnobActive || detuneKnobActive
                         }
                     if node.prefersWavePicker {
                         HStack {
