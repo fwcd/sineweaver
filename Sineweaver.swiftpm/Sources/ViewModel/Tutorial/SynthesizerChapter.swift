@@ -69,9 +69,10 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         case .filter:
             [
                 "Filters change the audio signal by boosting or attenuating different frequencies. The simplest kind of filter is a **low-pass filter**, which leaves all frequencies below a cutoff frequency untouched (the **passband**) and silences all frequencies above the cutoff (the **stopband**). Swapping passband and stopband gives us a **high-pass filter**, i.e. one that only lets high frequencies pass.",
-                // TODO: Should we skip the section about roll-off, is this relevant? Perhaps add support for footnotes?
-                "In reality perfect filters (also called _brickwall filters_) with a perfectly sharp cutoff are not achievable, since they would introduce an infinitely long delay. The specifics are not too relevant here, in practice this just means that every filter will have a certain _roll-off_, i.e. the frequencies around the cutoff will still pass the filter, albeit slightly attenuated.",
-                "Try tweaking the cutoff frequency and the modulation strength of the filter below, as well as the LFO frequency, and see how the sound changes when you play the oscillator's piano!",
+                // TODO: Move the following section into a footnote or so
+                // "In reality perfect filters (also called _brickwall filters_) with a perfectly sharp cutoff are not achievable, since they would introduce an infinitely long delay. The specifics are not too relevant here, in practice this just means that every filter will have a certain _roll-off_, i.e. the frequencies around the cutoff will still pass the filter, albeit slightly attenuated.",
+                // TODO: Add a footnote that filtering a sine wave would effectively only produce another sine wave.
+                "To make things interesting, we use a saw wave here. Try tweaking the cutoff frequency and the modulation strength of the filter below, as well as the LFO frequency, and see how the sound changes when you play the oscillator's piano!",
                 // TODO: Introduce high-pass
             ]
         case .unisonDetune:
