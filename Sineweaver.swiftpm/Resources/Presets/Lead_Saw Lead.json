@@ -38,11 +38,14 @@
     {
       "oscillator" : {
         "_0" : {
+          "detune" : 0,
           "frequency" : 523.2511306011972,
           "isPlaying" : false,
           "pianoBaseOctave" : 4,
           "prefersPianoView" : true,
+          "prefersUnisonDetuneControls" : true,
           "prefersWavePicker" : true,
+          "unison" : 1,
           "volume" : 0.75,
           "wave" : "Saw"
         }

@@ -71,11 +71,14 @@
     {
       "oscillator" : {
         "_0" : {
+          "detune" : 0,
           "frequency" : 440,
           "isPlaying" : false,
           "pianoBaseOctave" : 3,
           "prefersPianoView" : false,
+          "prefersUnisonDetuneControls" : true,
           "prefersWavePicker" : true,
+          "unison" : 1,
           "volume" : 0.75,
           "wave" : "Square"
         }
@@ -96,11 +99,14 @@
     {
       "oscillator" : {
         "_0" : {
+          "detune" : 0,
           "frequency" : 130.8127826502993,
           "isPlaying" : false,
           "pianoBaseOctave" : 2,
           "prefersPianoView" : false,
+          "prefersUnisonDetuneControls" : true,
           "prefersWavePicker" : true,
+          "unison" : 1,
           "volume" : 0.75,
           "wave" : "Saw"
         }

@@ -25,11 +25,14 @@
     {
       "oscillator" : {
         "_0" : {
+          "detune" : 0,
           "frequency" : 130.8127826502993,
           "isPlaying" : false,
           "pianoBaseOctave" : 2,
           "prefersPianoView" : true,
+          "prefersUnisonDetuneControls" : true,
           "prefersWavePicker" : true,
+          "unison" : 1,
           "volume" : 0.75,
           "wave" : "Sine"
         }
