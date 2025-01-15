@@ -32,30 +32,36 @@ struct SynthesizerFilterView: View {
     var body: some View {
         // TODO: Show animated modulation on cutoff knob/in filter curve
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            TimelineView(.animation) { context in
-                let timeInterval = context.date.timeIntervalSince(startDate)
-                let base: Double = 1.1
-                let fft = filterFFT(for: modulated(filter: node.filter, at: timeInterval)).logarithmicallySampled(base: base)
-                ChartView(ys: fft)
-                    .frame(height: ComponentDefaults.padSize / 4)
-                    .background(FrameReader(in: .local) { frame in
-                        fftChartFrame = frame
-                    })
-                    .gesture(
-                        DragGesture()
-                            .onChanged { drag in
-                                if initialNodeCutoff == nil {
-                                    initialNodeCutoff = node.filter.cutoffHz
-                                }
-                                node.filter.cutoffHz = (minHz...maxHz).clamp(
-                                    initialNodeCutoff! * pow(base, Double(fft.count) * Double(drag.translation.width) / Double(fftChartFrame?.size.width ?? 1))
-                                )
+            let base: Double = 1.1
+            let fft = filterFFT(for: node.filter).logarithmicallySampled(base: base)
+            ChartView(ys: fft)
+                .frame(height: ComponentDefaults.padSize / 4)
+                .background(FrameReader(in: .local) { frame in
+                    fftChartFrame = frame
+                })
+                .overlay {
+                    TimelineView(.animation) { context in
+                        let timeInterval = context.date.timeIntervalSince(startDate)
+                        let modulatedFFT = filterFFT(for: modulated(filter: node.filter, at: timeInterval)).logarithmicallySampled(base: base)
+                        ChartView(ys: modulatedFFT)
+                            .foregroundStyle(Color.accentColor)
+                    }
+                }
+                .gesture(
+                    DragGesture()
+                        .onChanged { drag in
+                            if initialNodeCutoff == nil {
+                                initialNodeCutoff = node.filter.cutoffHz
                             }
-                            .onEnded { _ in
-                                initialNodeCutoff = nil
-                            }
-                    )
-            }
+                            node.filter.cutoffHz = (minHz...maxHz).clamp(
+                                initialNodeCutoff! * pow(base, Double(fft.count) * Double(drag.translation.width) / Double(fftChartFrame?.size.width ?? 1))
+                            )
+                        }
+                        .onEnded { _ in
+                            initialNodeCutoff = nil
+                        }
+                )
+            
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(minHz)...log(maxHz), text: "Cutoff") { _ in
                     String(format: "%.2f Hz", node.filter.cutoffHz)
