@@ -12,9 +12,10 @@
 import Foundation
 import SwiftUI // only for the preview
 
-/// Computes a point of the sinc function.
+/// Computes a point of the *normalized* sinc function.
 func sinc(_ x: Double) -> Double {
-    x == 0 ? 1 : (sin(x) / x)
+    let rad = x * .pi
+    return x == 0 ? 1 : (sin(rad) / rad)
 }
 
 /// Computes a point of a Blackman window of the given width.
@@ -60,8 +61,9 @@ func spectralInversion(filter: [Double]) -> [Double] {
 func makeLowpassFilter(sampleRate: Double, cutoffHz: Double, transitionBandwidthHz: Double) -> [Double] {
     let cutoff = cutoffHz / sampleRate
     let transitionBandwidth = transitionBandwidthHz / sampleRate
-    let width = filterWidth(transitionBandwidth: transitionBandwidth).rounded(.up)
-    let filter = (0..<Int(width)).map { windowedSincFilter(cutoff: cutoff, width: width, Double($0)) }
+    var width = Int(filterWidth(transitionBandwidth: transitionBandwidth).rounded(.up))
+    width += 1 - (width % 2) // Make sure the width is odd
+    let filter = (0..<width).map { windowedSincFilter(cutoff: cutoff, width: Double(width), Double($0)) }
     return normalized(filter: filter)
 }
 

@@ -17,7 +17,7 @@ struct SynthesizerFilterView: View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             let filter = node.filter.compute(sampleRate: 44_100)
             let filterFFT = fft(filter.padded(to: filter.count.powerOfTwoCeil, with: 0).map { Complex($0) }).map(\.magnitude)
-            ChartView(ys: filterFFT)
+            ChartView(ys: Array(filterFFT[..<(filterFFT.count / 2)]))
                 .frame(height: ComponentDefaults.padSize / 4)
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), text: "Cutoff") { _ in
