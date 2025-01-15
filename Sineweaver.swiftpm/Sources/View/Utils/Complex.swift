@@ -5,6 +5,8 @@
 //  Created on 15.01.25
 //
 
+import Foundation
+
 /// A complex number, i.e. an element of the algebraic closure of the real numbers.
 public struct Complex: SignedNumeric, Hashable, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral, CustomStringConvertible, Sendable {
     public static let i = Complex(0, i: 1)
@@ -15,6 +17,18 @@ public struct Complex: SignedNumeric, Hashable, ExpressibleByIntegerLiteral, Exp
     public var magnitude: Double { return magnitudeSquared.squareRoot() }
     public var absolute: Double { return magnitude }
     public var squared: Complex { return self * self }
+    
+    public var exp: Complex {
+        guard imag != 0 else {
+            return Complex(Foundation.exp(real))
+        }
+        
+        guard real != 0 else {
+            return Complex(cos(imag), i: sin(imag))
+        }
+        
+        return Complex(real).exp * Complex(i: imag).exp
+    }
 
     public init(_ real: Double = 0, i imag: Double = 0) {
         self.real = real
