@@ -17,3 +17,9 @@ func fft(_ values: [Complex]) -> [Complex] {
     }
     return zip(even, t).map(+) + zip(even, t).map(-)
 }
+
+// Source: https://adamsiembida.com/how-to-compute-the-ifft-using-only-the-forward-fft/
+
+func ifft(_ values: [Complex]) -> [Complex] {
+    fft(values.map(\.conjugate)).map { $0.conjugate / Double(values.count) }
+}

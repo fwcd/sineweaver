@@ -17,7 +17,8 @@ public struct Complex: SignedNumeric, Hashable, ExpressibleByIntegerLiteral, Exp
     public var magnitude: Double { return magnitudeSquared.squareRoot() }
     public var absolute: Double { return magnitude }
     public var squared: Complex { return self * self }
-    
+    public var conjugate: Complex { return Complex(real, i: -imag) }
+
     public var exp: Complex {
         guard imag != 0 else {
             return Complex(Foundation.exp(real))
