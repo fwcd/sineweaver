@@ -20,7 +20,7 @@ struct SynthesizerFilterView: View {
     var body: some View {
         // TODO: Show animated modulation on cutoff knob/in filter curve
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            ChartView(ys: filterFFT)
+            ChartView(ys: filterFFT.logarithmicallySampled(base: 1.1))
                 .frame(height: ComponentDefaults.padSize / 4)
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), text: "Cutoff") { _ in
