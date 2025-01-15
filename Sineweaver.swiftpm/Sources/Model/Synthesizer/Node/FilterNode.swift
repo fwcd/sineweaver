@@ -88,11 +88,9 @@ struct FilterNode: SynthesizerNodeProtocol {
         
         // We interpret the second input as cutoff modulation.
         // TODO: Support per-sample modulation?
-        // TODO: Render the modulation in the UI
         // TODO: Support labeled edges to avoid hardcoding this order?
         if let modulation = inputs.count > 1 ? inputs[1].buffer.first : nil {
-            // TODO: Logarithm tables to optimize this?
-            params.cutoffHz = exp(log(params.cutoffHz) + modulation * modulationFactor * (log(20_000) - log(20)))
+            params.cutoffHz = modulate(cutoffHz: params.cutoffHz, with: modulation)
         }
         
         // Recompute filter if needed
@@ -105,5 +103,10 @@ struct FilterNode: SynthesizerNodeProtocol {
         }
         
         return input.isActive
+    }
+    
+    func modulate(cutoffHz: Double, with modulation: Double) -> Double {
+        // TODO: Logarithm tables to optimize this?
+        exp(log(cutoffHz) + modulation * modulationFactor * (log(20_000) - log(20)))
     }
 }

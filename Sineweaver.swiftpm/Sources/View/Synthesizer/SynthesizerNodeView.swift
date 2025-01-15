@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: View {
     @Binding var node: SynthesizerNode
+    var inputNodes: [SynthesizerNode] = []
     var startDate: Date = Date()
     var isActive: Bool = false
     var allowsEditing: Bool = true
@@ -47,7 +48,7 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
             case .noise:
                 SynthesizerNoiseView(node: $node.asNoise)
             case .filter:
-                SynthesizerFilterView(node: $node.asFilter, allowsEditing: allowsEditing)
+                SynthesizerFilterView(node: $node.asFilter, inputNodes: inputNodes, startDate: startDate, allowsEditing: allowsEditing)
             case .gain:
                 SynthesizerGainView(node: $node.asGain)
             case .envelope:
