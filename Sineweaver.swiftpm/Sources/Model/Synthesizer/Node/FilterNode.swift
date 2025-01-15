@@ -16,7 +16,7 @@ struct FilterNode: SynthesizerNodeProtocol {
     
     struct Filter: Hashable, Codable {
         var kind: Kind = .lowpass
-        var cutoffHz: Double = 200
+        var cutoffHz: Double = 1000
         var transitionBandwidthHz: Double = 1000 // TODO: Should this be dependent on the cutoff? Is there an easy way to e.g. specify this as dB/octave and compute the bandwidth in Hz from that?
         
         enum Kind: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
@@ -109,6 +109,6 @@ struct FilterNode: SynthesizerNodeProtocol {
         let minHz: Double = 20
         let maxHz: Double = 20_000
         // TODO: Logarithm tables to optimize this?
-        return (minHz...maxHz).clamp(exp(log(cutoffHz) + modulation * modulationFactor * (log(maxHz) - log(minHz))))
+        return (minHz...maxHz).clamp(exp(log(cutoffHz) + (modulation - 0.5) * modulationFactor * (log(maxHz) - log(minHz))))
     }
 }
