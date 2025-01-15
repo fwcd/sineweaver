@@ -21,9 +21,12 @@ struct SynthesizerFilterView: View {
     }
     
     var body: some View {
+        let minHz: Double = 20
+        let maxHz: Double = 20_000
+        
         // TODO: Show animated modulation on cutoff knob/in filter curve
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            let base = 1.1
+            let base: Double = 1.1
             let fft = filterFFT.logarithmicallySampled(base: base)
             ChartView(ys: fft)
                 .frame(height: ComponentDefaults.padSize / 4)
@@ -36,14 +39,16 @@ struct SynthesizerFilterView: View {
                             if initialNodeCutoff == nil {
                                 initialNodeCutoff = node.filter.cutoffHz
                             }
-                            node.filter.cutoffHz = initialNodeCutoff! * pow(base, Double(fft.count) * Double(drag.translation.width) / Double(fftChartFrame?.size.width ?? 1))
+                            node.filter.cutoffHz = (minHz...maxHz).clamp(
+                                initialNodeCutoff! * pow(base, Double(fft.count) * Double(drag.translation.width) / Double(fftChartFrame?.size.width ?? 1))
+                            )
                         }
                         .onEnded { _ in
                             initialNodeCutoff = nil
                         }
                 )
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
-                LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), text: "Cutoff") { _ in
+                LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(minHz)...log(maxHz), text: "Cutoff") { _ in
                     String(format: "%.2f Hz", node.filter.cutoffHz)
                 }
                 LabelledKnob(value: $node.modulationFactor, text: "Modulation") {
