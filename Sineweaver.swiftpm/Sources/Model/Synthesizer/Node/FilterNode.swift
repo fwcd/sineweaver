@@ -106,7 +106,9 @@ struct FilterNode: SynthesizerNodeProtocol {
     }
     
     func modulate(cutoffHz: Double, with modulation: Double) -> Double {
+        let minHz: Double = 20
+        let maxHz: Double = 20_000
         // TODO: Logarithm tables to optimize this?
-        exp(log(cutoffHz) + modulation * modulationFactor * (log(20_000) - log(20)))
+        return (minHz...maxHz).clamp(exp(log(cutoffHz) + modulation * modulationFactor * (log(maxHz) - log(minHz))))
     }
 }
