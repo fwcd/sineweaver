@@ -11,12 +11,16 @@ struct SynthesizerFilterView: View {
     @Binding var node: FilterNode
     var allowsEditing = true
     
+    private var filterFFT: [Double] {
+        let filter = node.filter.compute(sampleRate: 44_100)
+        let rawFFT = fft(filter.padded(to: filter.count.powerOfTwoCeil, with: 0).map { Complex($0) })
+        return rawFFT[..<(rawFFT.count / 2)].map(\.magnitude)
+    }
+    
     var body: some View {
         // TODO: Show animated modulation on cutoff knob/in filter curve
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
-            let filter = node.filter.compute(sampleRate: 44_100)
-            let filterFFT = fft(filter.padded(to: filter.count.powerOfTwoCeil, with: 0).map { Complex($0) }).map(\.magnitude)
-            ChartView(ys: Array(filterFFT[..<(filterFFT.count / 2)]))
+            ChartView(ys: filterFFT)
                 .frame(height: ComponentDefaults.padSize / 4)
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 LabelledKnob(value: $node.filter.cutoffHz.logarithmic, range: log(20)...log(20_000), text: "Cutoff") { _ in
