@@ -12,7 +12,6 @@ struct SynthesizerFilterView: View {
     var allowsEditing = true
     
     var body: some View {
-        // TODO: Render filter curve
         // TODO: Show animated modulation on cutoff knob/in filter curve
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             let filter = node.filter.compute(sampleRate: 44_100)
