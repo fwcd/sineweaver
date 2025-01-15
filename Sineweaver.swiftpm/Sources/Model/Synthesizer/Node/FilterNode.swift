@@ -27,6 +27,24 @@ struct FilterNode: SynthesizerNodeProtocol {
                 rawValue
             }
         }
+        
+        /// Computes the filter kernel.
+        func compute(sampleRate: Double) -> [Double] {
+            switch kind {
+            case .lowpass:
+                makeLowpassFilter(
+                    sampleRate: sampleRate,
+                    cutoffHz: cutoffHz,
+                    transitionBandwidthHz: transitionBandwidthHz
+                )
+            case .highpass:
+                makeHighpassFilter(
+                    sampleRate: sampleRate,
+                    cutoffHz: cutoffHz,
+                    transitionBandwidthHz: transitionBandwidthHz
+                )
+            }
+        }
     }
     
     struct State {
@@ -39,22 +57,9 @@ struct FilterNode: SynthesizerNodeProtocol {
             self.params = params
             self.sampleRate = sampleRate
             
-            switch params.kind {
-            case .lowpass:
-                coefficients = makeLowpassFilter(
-                    sampleRate: sampleRate,
-                    cutoffHz: params.cutoffHz,
-                    transitionBandwidthHz: params.transitionBandwidthHz
-                )
-            case .highpass:
-                coefficients = makeHighpassFilter(
-                    sampleRate: sampleRate,
-                    cutoffHz: params.cutoffHz,
-                    transitionBandwidthHz: params.transitionBandwidthHz
-                )
-            }
-            
+            coefficients = params.compute(sampleRate: sampleRate)
             buffer = .zeros(size: coefficients.count)
+            
             if let oldBuffer {
                 buffer += oldBuffer
             }
