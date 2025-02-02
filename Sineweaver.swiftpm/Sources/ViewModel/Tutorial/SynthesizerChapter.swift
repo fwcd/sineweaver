@@ -102,6 +102,8 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
         
         synth.outputNodeId = synth.addNode(id: oscillatorId, .oscillator(.init(
             wave: self >= .filter ? .saw : .sine, // TODO: Add explanation
+            unison: self >= .unisonDetune ? 2 : 1,
+            detune: self >= .unisonDetune ? 0.25 : 0,
             prefersWavePicker: self >= .waveOscillator,
             prefersUnisonDetuneControls: self >= .unisonDetune,
             prefersPianoView: self >= .pianoOscillator
