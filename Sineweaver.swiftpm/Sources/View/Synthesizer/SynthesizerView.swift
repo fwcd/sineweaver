@@ -44,6 +44,7 @@ struct SynthesizerView<Level>: View where Level: View {
     private struct NodeInsertionWarning: Hashable {
         let insertionPoint: InsertionPoint?
         let type: SynthesizerNodeType
+        let preChainableTypes: [SynthesizerNodeType]
         let chainableTypes: [SynthesizerNodeType]
         let text: String
     }
@@ -77,14 +78,30 @@ struct SynthesizerView<Level>: View where Level: View {
                 nodeInsertionWarning = nil
             }
             if let nodeInsertionWarning {
-                ForEach(nodeInsertionWarning.chainableTypes, id: \.self) { chainableType in
-                    Button("Add \(chainableType.name)") {
-                        addNode(
-                            type: nodeInsertionWarning.type,
-                            chainedType: chainableType,
-                            at: nodeInsertionWarning.insertionPoint
-                        )
-                        self.nodeInsertionWarning = nil
+                if nodeInsertionWarning.preChainableTypes.isEmpty {
+                    ForEach(nodeInsertionWarning.chainableTypes, id: \.self) { chainableType in
+                        Button("Add \(chainableType.name)") {
+                            addNode(
+                                type: nodeInsertionWarning.type,
+                                chainedType: chainableType,
+                                at: nodeInsertionWarning.insertionPoint
+                            )
+                            self.nodeInsertionWarning = nil
+                        }
+                    }
+                } else {
+                    ForEach(nodeInsertionWarning.preChainableTypes, id: \.self) { preChainableType in
+                        ForEach(nodeInsertionWarning.chainableTypes, id: \.self) { chainableType in
+                            Button("Add \(preChainableType.name) and \(chainableType.name)") {
+                                addNode(
+                                    type: nodeInsertionWarning.type,
+                                    preChainedType: preChainableType,
+                                    chainedType: chainableType,
+                                    at: nodeInsertionWarning.insertionPoint
+                                )
+                                self.nodeInsertionWarning = nil
+                            }
+                        }
                     }
                 }
                 Button("Just Add \(nodeInsertionWarning.type.name)", role: .destructive) {
@@ -340,6 +357,7 @@ struct SynthesizerView<Level>: View where Level: View {
                         nodeInsertionWarning = .init(
                             insertionPoint: insertionPoint,
                             type: type,
+                            preChainableTypes: type == .oscillator ? [] : [.controller],
                             chainableTypes: [
                                 .envelope,
                                 .activeGate,
@@ -350,6 +368,7 @@ struct SynthesizerView<Level>: View where Level: View {
                         nodeInsertionWarning = .init(
                             insertionPoint: insertionPoint,
                             type: type,
+                            preChainableTypes: [],
                             chainableTypes: [
                                 .oscillator
                             ],
@@ -365,8 +384,17 @@ struct SynthesizerView<Level>: View where Level: View {
     }
     
     @discardableResult
-    private func addNode(type: SynthesizerNodeType, chainedType: SynthesizerNodeType? = nil, at insertionPoint: InsertionPoint? = nil) -> UUID {
+    private func addNode(
+        type: SynthesizerNodeType,
+        preChainedType: SynthesizerNodeType? = nil,
+        chainedType: SynthesizerNodeType? = nil,
+        at insertionPoint: InsertionPoint? = nil
+    ) -> UUID {
         var id = insertNode(type: type, at: insertionPoint)
+        
+        if let preChainedType {
+            insertNode(type: preChainedType, at: .init(id: id, edge: .leading))
+        }
         
         if let chainedType {
             let chainedInsertionPoint: InsertionPoint = switch insertionPoint?.edge {
