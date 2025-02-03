@@ -21,4 +21,8 @@ enum SynthesizerNodeType: String, CaseIterable, Hashable {
     var name: String {
         rawValue
     }
+    
+    var isGate: Bool {
+        self == .envelope || self == .activeGate
+    }
 }
