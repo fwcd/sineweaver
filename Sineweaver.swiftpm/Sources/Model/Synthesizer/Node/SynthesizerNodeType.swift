@@ -13,7 +13,6 @@ enum SynthesizerNodeType: String, CaseIterable, Hashable {
     case gain = "Gain"
     case mixer = "Mixer"
     case silence = "Silence"
-    case wavExport = "WAV Export"
     case envelope = "Envelope"
     case activeGate = "Active Gate"
     case controller = "Controller"
