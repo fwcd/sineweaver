@@ -336,7 +336,7 @@ struct SynthesizerView<Level>: View where Level: View {
         VStack {
             ForEach(SynthesizerNodeType.allCases, id: \.self) { type in
                 Button(type.name) {
-                    if type == .oscillator && localOutputIds.isEmpty {
+                    if type.isGenerator && localOutputIds.isEmpty {
                         nodeInsertionWarning = .init(
                             insertionPoint: insertionPoint,
                             type: type,
@@ -344,16 +344,16 @@ struct SynthesizerView<Level>: View where Level: View {
                                 .envelope,
                                 .activeGate,
                             ],
-                            text: "Connecting an oscillator to the output will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the oscillator is played. Do you want to add one of these too?"
+                            text: "Connecting a generating node (e.g. an oscillator) to the output will immediately produce a continuous sound, regardless of whether a key is pressed. Adding an envelope or an active gate will only let sound through if the node is actively played. Do you want to add one of these too?"
                         )
-                    } else if type == .controller, localOutputIds.isEmpty || localOutputIds.contains(where: { ![.oscillator, .noise].contains(model.nodes[$0]?.type) }) {
+                    } else if type.isDigitalControl, localOutputIds.isEmpty || localOutputIds.contains(where: { ![.oscillator, .noise].contains(model.nodes[$0]?.type) }) {
                         nodeInsertionWarning = .init(
                             insertionPoint: insertionPoint,
                             type: type,
                             chainableTypes: [
                                 .oscillator
                             ],
-                            text: "Connecting a controller to an audio node will produce loud pops/clicks, since the (digital) control signal will be passed onto an audio path. This may be unexpected. Do you want to add an intermediate oscillator?"
+                            text: "Connecting a control node to an audio node may produce loud pops/clicks, since the (digital) control signal will be passed onto an audio path. This may be unexpected. Do you want to add an intermediate oscillator?"
                         )
                     } else {
                         addNode(type: type, at: insertionPoint)

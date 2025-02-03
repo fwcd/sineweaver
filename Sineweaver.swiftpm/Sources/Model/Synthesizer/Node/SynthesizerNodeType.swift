@@ -22,6 +22,14 @@ enum SynthesizerNodeType: String, CaseIterable, Hashable {
         rawValue
     }
     
+    var isGenerator: Bool {
+        self == .oscillator || self == .noise
+    }
+    
+    var isDigitalControl: Bool {
+        self == .controller
+    }
+    
     var isGate: Bool {
         self == .envelope || self == .activeGate
     }
