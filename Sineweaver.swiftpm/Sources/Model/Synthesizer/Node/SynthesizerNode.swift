@@ -16,7 +16,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
     case gain(GainNode)
     case mixer(MixerNode)
     case silence(SilenceNode)
-    case wavExport(WavExportNode)
     case envelope(EnvelopeNode)
     case activeGate(ActiveGateNode)
     case controller(ControllerNode)
@@ -30,7 +29,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .gain: .gain
         case .mixer: .mixer
         case .silence: .silence
-        case .wavExport: .wavExport
         case .envelope: .envelope
         case .activeGate: .activeGate
         case .controller: .controller
@@ -125,18 +123,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         }
     }
     
-    var asWavExport: WavExportNode {
-        get {
-            switch self {
-            case .wavExport(let node): node
-            default: .init()
-            }
-        }
-        set {
-            self = .wavExport(newValue)
-        }
-    }
-    
     var asEnvelope: EnvelopeNode {
         get {
             switch self {
@@ -190,7 +176,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .gain: self = .gain(.init())
         case .mixer: self = .mixer(.init())
         case .silence: self = .silence(.init())
-        case .wavExport: self = .wavExport(.init())
         case .envelope: self = .envelope(.init())
         case .activeGate: self = .activeGate(.init())
         case .controller: self = .controller(.init())
@@ -206,7 +191,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
         case .gain(let node): node.makeState()
         case .mixer(let node): node.makeState()
         case .silence(let node): node.makeState()
-        case .wavExport(let node): node.makeState()
         case .envelope(let node): node.makeState()
         case .activeGate(let node): node.makeState()
         case .controller(let node): node.makeState()
@@ -243,10 +227,6 @@ enum SynthesizerNode: SynthesizerNodeProtocol {
             var silenceState: SilenceNode.State = state as! SilenceNode.State
             defer { state = silenceState }
             return node.render(inputs: inputs, output: &output, state: &silenceState, context: context)
-        case .wavExport(let node):
-            var wavState: WavExportNode.State = state as! WavExportNode.State
-            defer { state = wavState }
-            return node.render(inputs: inputs, output: &output, state: &wavState, context: context)
         case .envelope(let node):
             var envState: EnvelopeNode.State = state as! EnvelopeNode.State
             defer { state = envState }

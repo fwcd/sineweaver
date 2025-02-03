@@ -53,8 +53,6 @@ struct SynthesizerNodeView<Toolbar, Handle>: View where Toolbar: View, Handle: V
                 SynthesizerGainView(node: $node.asGain)
             case .envelope:
                 SynthesizerEnvelopeView(node: $node.asEnvelope, isActive: isActive)
-            case .wavExport:
-                SynthesizerWavExportView(node: $node.asWavExport)
             case .mixer:
                 SynthesizerMixerView(node: $node.asMixer, allowsEditing: allowsEditing)
             case .controller:
