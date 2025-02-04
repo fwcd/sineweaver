@@ -211,7 +211,6 @@ struct SynthesizerView<Level>: View where Level: View {
                             node: $model.nodes[id].unwrapped(or: SynthesizerNode()),
                             inputNodes: model.inputEdges[id]?.compactMap { model.nodes[$0] } ?? [],
                             startDate: startDate,
-                            // TODO: Propagate the 'true' activeness instead of using this heuristic
                             isActive: model.hasActiveAncestor(id: id),
                             allowsEditing: allowsEditing
                         ) {

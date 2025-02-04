@@ -17,7 +17,7 @@ struct FilterNode: SynthesizerNodeProtocol {
     struct Filter: Hashable, Codable {
         var kind: Kind = .lowpass
         var cutoffHz: Double = 1000
-        var transitionBandwidthHz: Double = 1000 // TODO: Should this be dependent on the cutoff? Is there an easy way to e.g. specify this as dB/octave and compute the bandwidth in Hz from that?
+        var transitionBandwidthHz: Double = 1000
         
         enum Kind: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
             case lowpass = "Low-Pass"
@@ -87,8 +87,6 @@ struct FilterNode: SynthesizerNodeProtocol {
         var params = filter
         
         // We interpret the second input as cutoff modulation.
-        // TODO: Support per-sample modulation?
-        // TODO: Support labeled edges to avoid hardcoding this order?
         if let modulation = inputs.count > 1 ? inputs[1].buffer.first : nil {
             params.cutoffHz = modulate(cutoffHz: params.cutoffHz, with: modulation)
         }
@@ -108,7 +106,6 @@ struct FilterNode: SynthesizerNodeProtocol {
     func modulate(cutoffHz: Double, with modulation: Double) -> Double {
         let minHz: Double = 20
         let maxHz: Double = 20_000
-        // TODO: Logarithm tables to optimize this?
         return (minHz...maxHz).clamp(exp(log(cutoffHz) + (modulation - 0.5) * modulationFactor * (log(maxHz) - log(minHz))))
     }
 }

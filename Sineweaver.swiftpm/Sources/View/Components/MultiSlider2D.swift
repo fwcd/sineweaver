@@ -186,7 +186,6 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
         Vec2(x: 0.6, y: -0.2),
     ]
     
-    // TODO: Convenience initializer for background
     MultiSlider2D(
         thumbPositions: $thumbPositions,
         thumbOptions: [

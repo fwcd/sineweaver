@@ -20,8 +20,6 @@ struct SynthesizerFilterView: View {
     private var minHz: Double { 20 }
     private var maxHz: Double { 20_000 }
     
-    // TODO: It would be nice if we could generalize this properly to arbitrary nodes instead of recomputing the LFO here
-    
     private var lfoModulation: LFONode? {
         guard inputNodes.count >= 2 else { return nil }
         let inputNode = inputNodes[1]
@@ -30,7 +28,6 @@ struct SynthesizerFilterView: View {
     }
     
     var body: some View {
-        // TODO: Show animated modulation on cutoff knob/in filter curve
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             let base: Double = 1.1
             let fft = filterFFT(for: node.filter).logarithmicallySampled(base: base)
