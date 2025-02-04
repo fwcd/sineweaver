@@ -45,7 +45,6 @@ struct Note: Codable, Hashable, Sendable, CustomStringConvertible, Strideable {
             return self
         } else {
             var note = self
-            // TODO: Make this more efficient than linear time in the accidental
             while !(.flat...(.unaltered)).contains(note.accidental) {
                 note = note.enharmonicEquivalent(diatonicSteps: step)
             }

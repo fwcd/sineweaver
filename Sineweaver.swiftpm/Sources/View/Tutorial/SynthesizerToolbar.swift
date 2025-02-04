@@ -79,7 +79,6 @@ struct SynthesizerToolbar: View {
                                         do {
                                             viewModel.model = try preset.read()
                                         } catch {
-                                            // TODO: Make this a modal
                                             log.error("Could not read preset: \(error)")
                                         }
                                     }
@@ -129,7 +128,6 @@ struct SynthesizerToolbar: View {
             }
             .popover(isPresented: $helpPopoverShown, arrowEdge: .bottom) {
                 Text(
-                    // TODO: Make sure the UI references (e.g. button names) are accurate before submitting
                     """
                     To add new nodes, hover one of the existing nodes and press the "+" handle on one of the four edges. A small popover should appear that lets you choose a node type.
                     

@@ -274,7 +274,6 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         var inputsActive = Array(repeating: false, count: inputIds.count)
         
         for (i, inputId) in inputIds.enumerated() {
-            // TODO: Detect cycles and prevent duplicate rendering in non-tree DAGs by tracking visits etc.
             inputsActive[i] = render(
                 nodeId: inputId,
                 to: (id: nodeId, i: i),
