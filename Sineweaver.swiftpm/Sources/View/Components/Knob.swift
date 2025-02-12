@@ -64,6 +64,7 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
                     onActiveChange?(false)
                 }
         )
+        #if os(macOS) || targetEnvironment(macCatalyst)
         .contextMenu {
             Button("Set to Minimum Value") {
                 value = range.lowerBound
@@ -76,6 +77,7 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
                 value = range.upperBound
             }
         }
+        #endif
     }
     
     private func resetToDefault() {
