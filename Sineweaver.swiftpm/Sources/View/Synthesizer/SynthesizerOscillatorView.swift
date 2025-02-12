@@ -12,9 +12,12 @@ struct SynthesizerOscillatorView: View {
     var allowsEditing: Bool = true
     var tuning: any Tuning = EqualTemperament()
     
-    @State private var showsUnisonDetune = false
     @State private var unisonKnobActive = false
     @State private var detuneKnobActive = false
+    
+    private var showsUnisonDetune: Bool {
+        node.prefersUnisonDetuneControls
+    }
 
     private var pianoBaseNote: Note {
         Note(.c, node.pianoBaseOctave)
@@ -71,9 +74,6 @@ struct SynthesizerOscillatorView: View {
                                 }
                             }
                             .animation(.default, value: showsUnisonDetune)
-                        }
-                        .onHover { hovered in
-                            showsUnisonDetune = node.prefersUnisonDetuneControls && hovered
                         }
                         .onChange(of: unisonKnobActive || detuneKnobActive) {
                             node.isPlaying = unisonKnobActive || detuneKnobActive

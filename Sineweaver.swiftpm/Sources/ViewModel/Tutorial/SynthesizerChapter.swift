@@ -76,7 +76,7 @@ enum SynthesizerChapter: Hashable, CaseIterable, Comparable {
             ]
         case .unisonDetune:
             [
-                "Getting back to our oscillator, there is another trick for making the sound more interesting: Layering copies of the wave that are slightly out-of-tune. **Unison** is a parameter that determines _the number of copies_ and **detune** determines _how far out-of-tune_ they will be (as a fraction of a full semitone). Hover over the oscillator's waveform to display these parameters and experiment with different values.",
+                "Getting back to our oscillator, there is another trick for making the sound more interesting: Layering copies of the wave that are slightly out-of-tune. **Unison** is a parameter that determines _the number of copies_ and **detune** determines _how far out-of-tune_ they will be (as a fraction of a full semitone). Experiment with different values and see how that changes the sound.",
                 "You now know the basics of synthesizers. We've only scratched the surface, however, and there is a lot more to explore. Click the button to complete the tutorial and to unlock the fully customizable synth UI. Have fun!",
             ]
         }
