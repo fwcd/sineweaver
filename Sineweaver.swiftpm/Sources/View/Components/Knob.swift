@@ -49,12 +49,6 @@ struct Knob<Value>: View where Value: BinaryFloatingPoint {
         }
         .rotationEffect(startAngle + angularValue)
         .gesture(
-            TapGesture(count: 2)
-                .onEnded {
-                    resetToDefault()
-                }
-        )
-        .simultaneousGesture(
             DragGesture()
                 .updating($initialValue) { drag, state, _ in
                     let initialValue = state ?? value

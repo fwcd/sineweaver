@@ -291,7 +291,7 @@ struct SynthesizerView<Level>: View where Level: View {
         } label: {
             Image(systemName: "plus.circle")
         }
-        .simultaneousGesture(
+        .gesture(
             DragGesture(coordinateSpace: coordinateSpace)
                 .onChanged { value in
                     let pos = value.location
