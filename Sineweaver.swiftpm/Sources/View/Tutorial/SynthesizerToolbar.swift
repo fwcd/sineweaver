@@ -55,7 +55,7 @@ struct SynthesizerToolbar: View {
                 if !viewModel.hasViewedTips {
                     viewModel.hasViewedTips = true
                     tipShown = true
-                    try? await Task.sleep(for: .seconds(10))
+                    try? await Task.sleep(for: .seconds(20))
                     tipShown = false
                 }
             }
