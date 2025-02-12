@@ -10,9 +10,9 @@ import SwiftUI
 struct SynthesizerChartView<Node>: View where Node: SynthesizerNodeProtocol {
     let node: Node
     var timeInterval: TimeInterval = 0
-    var displaySampleRate: Double = 9_000
-    var displayInterval: TimeInterval = 0.05
-    var displayRange: Range<Double> = -1.05..<1.05
+    var displaySampleRate: Double = SynthesizerViewDefaults.chartDisplaySampleRate
+    var displayInterval: TimeInterval = SynthesizerViewDefaults.chartDisplayInterval
+    var displayRange: Range<Double> = SynthesizerViewDefaults.chartDisplayRange
     var markedSample: MarkedSample? = nil
     
     enum MarkedSample: Hashable {

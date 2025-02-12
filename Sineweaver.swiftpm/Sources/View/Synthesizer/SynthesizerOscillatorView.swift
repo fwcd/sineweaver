@@ -46,38 +46,35 @@ struct SynthesizerOscillatorView: View {
         VStack(spacing: SynthesizerViewDefaults.vSpacing) {
             HStack(spacing: SynthesizerViewDefaults.hSpacing) {
                 VStack {
-                    SynthesizerChartView(node: playingNode)
-                        .frame(minWidth: (isCompact ? 1 : 1.25) * ComponentDefaults.padSize)
+                    HStack {
+                        SynthesizerChartView(
+                            node: playingNode,
+                            displayInterval: SynthesizerViewDefaults.chartDisplayInterval * (showsUnisonDetune ? 0.5 : 1)
+                        )
                         .opacity(node.isPlaying ? 1 : 0.5)
-                        .overlay(alignment: .trailing) {
-                            Group {
-                                if showsUnisonDetune {
-                                    HStack {
-                                        let knobSize = ComponentDefaults.knobSize * 0.6
-                                        LabelledKnob(
-                                            value: $node.unison.dequantized,
-                                            range: 1...16,
-                                            onActiveChange: { unisonKnobActive = $0 },
-                                            text: "Unison",
-                                            size: knobSize
-                                        )
-                                        LabelledKnob(
-                                            value: $node.detune,
-                                            range: 0...1,
-                                            onActiveChange: { detuneKnobActive = $0 },
-                                            text: "Detune",
-                                            size: knobSize
-                                        )
-                                    }
-                                    .padding(.leading, 5)
-                                    .background(.background.opacity(0.9))
-                                }
-                            }
-                            .animation(.default, value: showsUnisonDetune)
+                        if showsUnisonDetune {
+                            let knobSize = ComponentDefaults.knobSize * 0.6
+                            LabelledKnob(
+                                value: $node.unison.dequantized,
+                                range: 1...16,
+                                onActiveChange: { unisonKnobActive = $0 },
+                                text: "Unison",
+                                size: knobSize
+                            )
+                            LabelledKnob(
+                                value: $node.detune,
+                                range: 0...1,
+                                onActiveChange: { detuneKnobActive = $0 },
+                                text: "Detune",
+                                size: knobSize
+                            )
                         }
-                        .onChange(of: unisonKnobActive || detuneKnobActive) {
-                            node.isPlaying = unisonKnobActive || detuneKnobActive
-                        }
+                    }
+                    .frame(minWidth: (isCompact ? 1 : 1.25) * ComponentDefaults.padSize)
+                    .animation(.default, value: showsUnisonDetune)
+                    .onChange(of: unisonKnobActive || detuneKnobActive) {
+                        node.isPlaying = unisonKnobActive || detuneKnobActive
+                    }
                     if node.prefersWavePicker {
                         HStack {
                             EnumPicker(selection: $node.wave, label: Text("Wave"))
