@@ -15,6 +15,8 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
 
     @EnvironmentObject private var viewModel: TutorialViewModel
     @State private var chapterPickerShown = false
+    @State private var iPhoneHintShown = false
+    @State private var iPhoneHintAction: (() -> Void)? = nil
 
     var body: some View {
         Group {
@@ -94,6 +96,18 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
         }
         .animation(.default, value: viewModel.chapterIndex)
         .animation(.default, value: viewModel.detailIndex)
+        .alert("Sineweaver works best on a larger display like an iPad or a Mac. On an iPhone display content may be cut off. (Note that synthesizer views can be scrolled!)", isPresented: $iPhoneHintShown) {
+            Button("Continue anyway") {
+                iPhoneHintAction?()
+                
+                iPhoneHintShown = false
+                iPhoneHintAction = nil
+            }
+            Button("Cancel", role: .cancel) {
+                iPhoneHintShown = false
+                iPhoneHintAction = nil
+            }
+        }
     }
     
     @ViewBuilder
@@ -119,7 +133,9 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
             }
             if !viewModel.isLastChapter {
                 Button {
-                    viewModel.forward()
+                    withiPhoneHint {
+                        viewModel.forward()
+                    }
                 } label: {
                     if viewModel.isFirstChapter {
                         Text("Get Started")
@@ -133,7 +149,9 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
             }
             if viewModel.isFirstChapter {
                 Button {
-                    viewModel.skipTutorial()
+                    withiPhoneHint {
+                        viewModel.skipTutorial()
+                    }
                 } label: {
                     Text("Skip Tutorial")
                         .bigLabel()
@@ -141,6 +159,18 @@ struct TutorialFrame<Content, Toolbar>: View where Content: View, Toolbar: View 
                 .buttonStyle(.bordered)
             }
         }
+    }
+    
+    private func withiPhoneHint(action: @escaping () -> Void) {
+        if !viewModel.hasViewediPhoneHint {
+            viewModel.hasViewediPhoneHint = true
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                iPhoneHintShown = true
+                iPhoneHintAction = action
+                return
+            }
+        }
+        action()
     }
 }
 

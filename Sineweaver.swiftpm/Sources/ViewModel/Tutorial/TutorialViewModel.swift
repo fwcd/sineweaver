@@ -19,6 +19,8 @@ final class TutorialViewModel: Sendable, ObservableObject {
     
     @Published private(set) var detailIndex: Int
     
+    @Published var hasViewediPhoneHint = false
+    
     var chapter: TutorialChapter {
         .allCases[chapterIndex]
     }
