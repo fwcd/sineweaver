@@ -19,6 +19,12 @@ struct SineweaverExtensionMainView: View {
     
     var body: some View {
         SynthesizerChapterView(chapter: nil)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .safeAreaInset(edge: .bottom) {
+                HStack {
+                    SynthesizerToolbar()
+                }
+            }
             .environmentObject(synthesizer)
     }
 }
