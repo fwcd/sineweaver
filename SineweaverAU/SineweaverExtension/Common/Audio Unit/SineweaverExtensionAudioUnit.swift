@@ -46,9 +46,7 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
                 return kAudioUnitErr_TooManyFramesToProcess
             }
             
-            // TODO: Render
-            
-            return noErr
+            return synthesizer.synthesizer.render(frameCount: frameCount, audioBuffers: outputData)
         }
     }
 

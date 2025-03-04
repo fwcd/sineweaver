@@ -10,7 +10,11 @@ import Combine
 import Synchronization
 
 final class SynthesizerViewModel: ObservableObject, Sendable {
+    #if SINEWEAVER_AU
+    let synthesizer = try! Synthesizer()
+    #else
     private let synthesizer = try! Synthesizer()
+    #endif
     
     var startDate: Date {
         synthesizer.startDate
