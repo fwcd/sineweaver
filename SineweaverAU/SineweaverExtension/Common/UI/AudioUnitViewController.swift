@@ -103,10 +103,12 @@ public class AudioUnitViewController: AUViewController, AUAudioUnitFactory {
             host.view.removeFromSuperview()
         }
         
-        guard let observableParameterTree = audioUnit.observableParameterTree else {
+        guard let audioUnit = audioUnit as? SineweaverExtensionAudioUnit,
+              let observableParameterTree = audioUnit.observableParameterTree else {
             return
         }
-        let content = SineweaverExtensionMainView(parameterTree: observableParameterTree)
+        
+        let content = SineweaverExtensionMainView(synthesizer: audioUnit.synthesizer)
         let host = HostingController(rootView: content)
         self.addChild(host)
         host.view.frame = self.view.bounds

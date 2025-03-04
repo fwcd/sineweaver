@@ -8,6 +8,13 @@
 import AVFoundation
 
 public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
+    @MainActor let synthesizer = {
+        let synthesizer = SynthesizerViewModel()
+        // The default preset is the last chapter in the tutorial (i.e. an oscillator with unison/detune + an envelope)
+        SynthesizerChapter.allCases.last?.configure(synthesizer: &synthesizer.model)
+        return synthesizer
+    }()
+    
 	// C++ Objects
 	var kernel = SineweaverExtensionDSPKernel()
     var processHelper: AUProcessHelper?

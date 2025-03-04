@@ -7,15 +7,8 @@
 
 import SwiftUI
 
-@MainActor private let synthesizer = {
-    let synthesizer = SynthesizerViewModel()
-    // The default preset is the last chapter in the tutorial (i.e. an oscillator with unison/detune + an envelope)
-    SynthesizerChapter.allCases.last?.configure(synthesizer: &synthesizer.model)
-    return synthesizer
-}()
-
 struct SineweaverExtensionMainView: View {
-    var parameterTree: ObservableAUParameterGroup
+    let synthesizer: SynthesizerViewModel
     
     var body: some View {
         SynthesizerChapterView(chapter: nil)
