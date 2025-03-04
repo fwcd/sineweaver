@@ -15,10 +15,6 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
         return synthesizer
     }()
     
-	// C++ Objects
-	var kernel = SineweaverExtensionDSPKernel()
-    var processHelper: AUProcessHelper?
-
 	private var outputBus: AUAudioUnitBus?
 	private var _outputBusses: AUAudioUnitBusArray!
 
@@ -30,41 +26,30 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
 		outputBus = try AUAudioUnitBus(format: self.format)
         outputBus?.maximumChannelCount = 2
 		_outputBusses = AUAudioUnitBusArray(audioUnit: self, busType: AUAudioUnitBusType.output, busses: [outputBus!])
-        processHelper = AUProcessHelper(&kernel)
+        
+        maximumFramesToRender = 1024 // TODO: Do we need this?
 	}
 
 	public override var outputBusses: AUAudioUnitBusArray {
 		return _outputBusses
 	}
-    
-    public override var  maximumFramesToRender: AUAudioFrameCount {
-        get {
-            return kernel.maximumFramesToRender()
-        }
-
-        set {
-            kernel.setMaximumFramesToRender(newValue)
-        }
-    }
-
-    public override var  shouldBypassEffect: Bool {
-        get {
-            return kernel.isBypassed()
-        }
-
-        set {
-            kernel.setBypass(newValue)
-        }
-    }
 
     // MARK: - MIDI
     public override var audioUnitMIDIProtocol: MIDIProtocolID {
-        return kernel.AudioUnitMIDIProtocol()
+        return ._2_0
     }
 
     // MARK: - Rendering
     public override var internalRenderBlock: AUInternalRenderBlock {
-        return processHelper!.internalRenderBlock()
+        { [self] actionFlags, timestamp, frameCount, outputBusNumber, outputData, realtimeEventListHead, pullInputBlock in
+            if frameCount > maximumFramesToRender {
+                return kAudioUnitErr_TooManyFramesToProcess
+            }
+            
+            // TODO: Render
+            
+            return noErr
+        }
     }
 
     // Allocate resources required to render.
@@ -72,46 +57,22 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
     public override func allocateRenderResources() throws {
 		let outputChannelCount = self.outputBusses[0].format.channelCount
 		
-		kernel.setMusicalContextBlock(self.musicalContextBlock)
-		kernel.initialize(Int32(outputChannelCount), outputBus!.format.sampleRate)
-
-        processHelper?.setChannelCount(0, self.outputBusses[0].format.channelCount)
-
 		try super.allocateRenderResources()
 	}
 
     // Deallocate resources allocated in allocateRenderResourcesAndReturnError:
     // Subclassers should call the superclass implementation.
     public override func deallocateRenderResources() {
-        
-        // Deallocate your resources.
-        kernel.deInitialize()
-        
         super.deallocateRenderResources()
     }
 
 	public func setupParameterTree(_ parameterTree: AUParameterTree) {
 		self.parameterTree = parameterTree
 
-		// Set the Parameter default values before setting up the parameter callbacks
-		for param in parameterTree.allParameters {
-            kernel.setParameter(param.address, param.value)
-		}
-
 		setupParameterCallbacks()
 	}
 
 	private func setupParameterCallbacks() {
-		// implementorValueObserver is called when a parameter changes value.
-		parameterTree?.implementorValueObserver = { [weak self] param, value -> Void in
-            self?.kernel.setParameter(param.address, value)
-		}
-
-		// implementorValueProvider is called when the value needs to be refreshed.
-		parameterTree?.implementorValueProvider = { [weak self] param in
-            return self!.kernel.getParameter(param.address)
-		}
-
 		// A function to provide string representations of parameter values.
 		parameterTree?.implementorStringFromValueCallback = { param, valuePtr in
 			guard let value = valuePtr?.pointee else {

@@ -308,17 +308,6 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		35D9901C2D77A8110083DECD /* Exceptions for "SineweaverExtension" folder in "Copy Bundle Resources" phase from "SineweaverExtension" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 35D98FEC2D77A8100083DECD /* Resources */;
-			membershipExceptions = (
-				Common/DSP/SineweaverExtensionAUProcessHelper.hpp,
-				DSP/SineweaverExtensionDSPKernel.hpp,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		35D98FC92D77A80F0083DECD /* SineweaverHost */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -329,7 +318,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				35D990182D77A8110083DECD /* Exceptions for "SineweaverExtension" folder in "SineweaverExtension" target */,
-				35D9901C2D77A8110083DECD /* Exceptions for "SineweaverExtension" folder in "Copy Bundle Resources" phase from "SineweaverExtension" target */,
 			);
 			path = SineweaverExtension;
 			sourceTree = "<group>";

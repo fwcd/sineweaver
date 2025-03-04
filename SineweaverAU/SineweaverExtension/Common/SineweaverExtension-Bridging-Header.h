@@ -6,4 +6,3 @@
 //
 
 #import "SineweaverExtensionParameterAddresses.h"
-#import "SineweaverExtensionAUProcessHelper.hpp"
