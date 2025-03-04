@@ -16,10 +16,14 @@ struct SynthesizerPreset: Identifiable {
         url
     }
     
+    #if SINEWEAVER_AU
+    private static let urlsInBundle: [URL] = [] // TODO: Figure out what the issue with the bundle is
+    #else
     private static let urlsInBundle: [URL] = Bundle.main.urls(
         forResourcesWithExtension: "json",
         subdirectory: nil
     )?.sorted(by: ascendingComparator(by: \.absoluteString)) ?? []
+    #endif
     
     static let presetsInBundle: [Self] = urlsInBundle.map { url -> Self in
         let rawName = url.deletingPathExtension().lastPathComponent

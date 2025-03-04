@@ -8,15 +8,13 @@
 import SwiftUI
 
 @MainActor private let synthesizer = SynthesizerViewModel()
-@MainActor private let tutorial = TutorialViewModel(synthesizer: synthesizer)
 
 struct SineweaverExtensionMainView: View {
     var parameterTree: ObservableAUParameterGroup
     
     var body: some View {
         // ParameterSlider(param: parameterTree.global.gain)
-        SineweaverView()
+        SynthesizerChapterView(chapter: nil)
             .environmentObject(synthesizer)
-            .environmentObject(tutorial)
     }
 }
