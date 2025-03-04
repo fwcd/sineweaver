@@ -22,7 +22,10 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
 
 	@objc override init(componentDescription: AudioComponentDescription, options: AudioComponentInstantiationOptions) throws {
 		self.format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 2)!
+        synthesizer.synthesizer.initializeAudioThreadState(sampleRate: format.sampleRate)
+        
 		try super.init(componentDescription: componentDescription, options: options)
+        
 		outputBus = try AUAudioUnitBus(format: self.format)
         outputBus?.maximumChannelCount = 2
 		_outputBusses = AUAudioUnitBusArray(audioUnit: self, busType: AUAudioUnitBusType.output, busses: [outputBus!])
