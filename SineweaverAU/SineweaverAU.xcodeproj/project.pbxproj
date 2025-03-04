@@ -119,6 +119,18 @@
 		35D9915E2D77ABD60083DECD /* SynthesizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E72D77ABD60083DECD /* SynthesizerPreset.swift */; };
 		35D9915F2D77ABD60083DECD /* SynthesizerChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D52D77ABD60083DECD /* SynthesizerChapterView.swift */; };
 		35D991602D77ABD60083DECD /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AB2D77ABD60083DECD /* Filters.swift */; };
+		35D9917E2D77AE9C0083DECD /* Electronic_Saw Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */; };
+		35D9917F2D77AE9C0083DECD /* Folk_Pan Flute.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */; };
+		35D991802D77AE9C0083DECD /* Electronic_Mixed Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */; };
+		35D991812D77AE9C0083DECD /* Strings_Strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916C2D77ADF40083DECD /* Strings_Strings.json */; };
+		35D991822D77AE9C0083DECD /* Bass_Wah-Wah Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */; };
+		35D991832D77AE9C0083DECD /* Brass_Brass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991642D77ADF40083DECD /* Brass_Brass.json */; };
+		35D991842D77AE9C0083DECD /* Bass_Synth Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991622D77ADF40083DECD /* Bass_Synth Bass.json */; };
+		35D991852D77AE9C0083DECD /* FX_Synth Riser.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */; };
+		35D991862D77AE9C0083DECD /* Drums_Kick.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991662D77ADF40083DECD /* Drums_Kick.json */; };
+		35D991872D77AE9C0083DECD /* Drums_Snare.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991672D77ADF40083DECD /* Drums_Snare.json */; };
+		35D991882D77AE9C0083DECD /* Drums_Hi-Hat.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */; };
+		35D991892D77AEA10083DECD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916E2D77ADF40083DECD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,6 +272,19 @@
 		35D990EB2D77ABD60083DECD /* TutorialChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialChapter.swift; sourceTree = "<group>"; };
 		35D990EC2D77ABD60083DECD /* TutorialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewModel.swift; sourceTree = "<group>"; };
 		35D990EF2D77ABD60083DECD /* SineweaverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SineweaverApp.swift; sourceTree = "<group>"; };
+		35D991622D77ADF40083DECD /* Bass_Synth Bass.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Bass_Synth Bass.json"; sourceTree = "<group>"; };
+		35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Bass_Wah-Wah Bass.json"; sourceTree = "<group>"; };
+		35D991642D77ADF40083DECD /* Brass_Brass.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Brass_Brass.json; sourceTree = "<group>"; };
+		35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Drums_Hi-Hat.json"; sourceTree = "<group>"; };
+		35D991662D77ADF40083DECD /* Drums_Kick.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Drums_Kick.json; sourceTree = "<group>"; };
+		35D991672D77ADF40083DECD /* Drums_Snare.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Drums_Snare.json; sourceTree = "<group>"; };
+		35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Electronic_Mixed Lead.json"; sourceTree = "<group>"; };
+		35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Electronic_Saw Lead.json"; sourceTree = "<group>"; };
+		35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Folk_Pan Flute.json"; sourceTree = "<group>"; };
+		35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "FX_Synth Riser.json"; sourceTree = "<group>"; };
+		35D9916C2D77ADF40083DECD /* Strings_Strings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Strings_Strings.json; sourceTree = "<group>"; };
+		35D9916E2D77ADF40083DECD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		35D9916F2D77ADF40083DECD /* CustomInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CustomInfo.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -645,9 +670,39 @@
 			isa = PBXGroup;
 			children = (
 				35D990F02D77ABD60083DECD /* Sources */,
+				35D991702D77ADF40083DECD /* Resources */,
 			);
 			path = Sineweaver;
 			sourceTree = "<group>";
+		};
+		35D9916D2D77ADF40083DECD /* Presets */ = {
+			isa = PBXGroup;
+			children = (
+				35D991622D77ADF40083DECD /* Bass_Synth Bass.json */,
+				35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */,
+				35D991642D77ADF40083DECD /* Brass_Brass.json */,
+				35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */,
+				35D991662D77ADF40083DECD /* Drums_Kick.json */,
+				35D991672D77ADF40083DECD /* Drums_Snare.json */,
+				35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */,
+				35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */,
+				35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */,
+				35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */,
+				35D9916C2D77ADF40083DECD /* Strings_Strings.json */,
+			);
+			path = Presets;
+			sourceTree = "<group>";
+		};
+		35D991702D77ADF40083DECD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				35D9916D2D77ADF40083DECD /* Presets */,
+				35D9916E2D77ADF40083DECD /* Assets.xcassets */,
+				35D9916F2D77ADF40083DECD /* CustomInfo.plist */,
+			);
+			name = Resources;
+			path = ../Sineweaver.swiftpm/Resources;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -741,6 +796,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35D9917E2D77AE9C0083DECD /* Electronic_Saw Lead.json in Resources */,
+				35D9917F2D77AE9C0083DECD /* Folk_Pan Flute.json in Resources */,
+				35D991802D77AE9C0083DECD /* Electronic_Mixed Lead.json in Resources */,
+				35D991892D77AEA10083DECD /* Assets.xcassets in Resources */,
+				35D991812D77AE9C0083DECD /* Strings_Strings.json in Resources */,
+				35D991822D77AE9C0083DECD /* Bass_Wah-Wah Bass.json in Resources */,
+				35D991832D77AE9C0083DECD /* Brass_Brass.json in Resources */,
+				35D991842D77AE9C0083DECD /* Bass_Synth Bass.json in Resources */,
+				35D991852D77AE9C0083DECD /* FX_Synth Riser.json in Resources */,
+				35D991862D77AE9C0083DECD /* Drums_Kick.json in Resources */,
+				35D991872D77AE9C0083DECD /* Drums_Snare.json in Resources */,
+				35D991882D77AE9C0083DECD /* Drums_Hi-Hat.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
