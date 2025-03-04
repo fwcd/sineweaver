@@ -103,8 +103,7 @@ public class AudioUnitViewController: AUViewController, AUAudioUnitFactory {
             host.view.removeFromSuperview()
         }
         
-        guard let audioUnit = audioUnit as? SineweaverExtensionAudioUnit,
-              let observableParameterTree = audioUnit.observableParameterTree else {
+        guard let audioUnit = audioUnit as? SineweaverExtensionAudioUnit else {
             return
         }
         

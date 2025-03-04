@@ -56,8 +56,6 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
     // Allocate resources required to render.
     // Subclassers should call the superclass implementation.
     public override func allocateRenderResources() throws {
-		let outputChannelCount = self.outputBusses[0].format.channelCount
-		
 		try super.allocateRenderResources()
 	}
 
