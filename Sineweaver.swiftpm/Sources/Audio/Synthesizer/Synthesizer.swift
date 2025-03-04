@@ -104,7 +104,7 @@ final class Synthesizer: Sendable {
                 
                 audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
                 
-                level.wrappedAtomic.store(audioState.buffers.output.map(abs).reduce(0, max), ordering: .relaxed)
+                level.wrappedAtomic.store(audioState.buffers.output.map(Swift.abs).reduce(0, max), ordering: .relaxed)
                 
                 let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
                 for audioBuffer in audioBuffers {
