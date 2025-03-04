@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35B40AA82D77C657009EEED5 /* MIDIEventList+ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */; };
 		35D98FEF2D77A8100083DECD /* SineweaverExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 35D98FEE2D77A8100083DECD /* SineweaverExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		35D990F12D77ABD60083DECD /* CGVector+Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990742D77ABD60083DECD /* CGVector+Conversions.swift */; };
 		35D990F22D77ABD60083DECD /* GainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909A2D77ABD60083DECD /* GainNode.swift */; };
@@ -169,6 +170,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEventList+ForEach.swift"; sourceTree = "<group>"; };
 		35D98FC72D77A80F0083DECD /* SineweaverHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SineweaverHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D98FEE2D77A8100083DECD /* SineweaverExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SineweaverExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D990692D77ABD60083DECD /* Synthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synthesizer.swift; sourceTree = "<group>"; };
@@ -342,6 +344,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35B40AA62D77C645009EEED5 /* CoreMIDI */ = {
+			isa = PBXGroup;
+			children = (
+				35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */,
+			);
+			path = CoreMIDI;
+			sourceTree = "<group>";
+		};
 		35D98FBE2D77A80F0083DECD = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +437,7 @@
 		35D990892D77ABD60083DECD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				35B40AA62D77C645009EEED5 /* CoreMIDI */,
 				35D990772D77ABD60083DECD /* CoreGraphics */,
 				35D990812D77ABD60083DECD /* Swift */,
 				35D990882D77ABD60083DECD /* SwiftUI */,
@@ -842,6 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B40AA82D77C657009EEED5 /* MIDIEventList+ForEach.swift in Sources */,
 				35D990F12D77ABD60083DECD /* CGVector+Conversions.swift in Sources */,
 				35D990F22D77ABD60083DECD /* GainNode.swift in Sources */,
 				35D990F32D77ABD60083DECD /* Complex.swift in Sources */,

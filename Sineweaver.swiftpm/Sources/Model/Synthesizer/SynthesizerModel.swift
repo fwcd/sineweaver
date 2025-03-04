@@ -82,6 +82,30 @@ struct SynthesizerModel: Hashable, Codable, Sendable {
         let edge: SwiftUI.Edge
     }
     
+    /// Updates the playing note on all input controllers/oscillators.
+    /// Used for MIDI input. Note that we currently do not support multiple notes.
+    mutating func setPlaying(note: Note?, tuning: any Tuning = EqualTemperament()) {
+        // TODO: Add support for playing multiple notes, both for multi-touch and MIDI, see #18
+        for (id, node) in nodes.filter({ inputEdges[$0.key]?.isEmpty ?? true }) {
+            switch node {
+            case .controller(var controller):
+                if let note {
+                    controller.frequency = tuning.pitchHz(for: note)
+                }
+                controller.isActive = note != nil
+                nodes[id] = .controller(controller)
+            case .oscillator(var oscillator):
+                if let note {
+                    oscillator.frequency = tuning.pitchHz(for: note)
+                }
+                oscillator.isPlaying = note != nil
+                nodes[id] = .oscillator(oscillator)
+            default:
+                break
+            }
+        }
+    }
+    
     @discardableResult
     mutating func insertNode(at insertionPoint: InsertionPoint, id: UUID = UUID(), _ node: SynthesizerNode) -> UUID {
         nodes[id] = node

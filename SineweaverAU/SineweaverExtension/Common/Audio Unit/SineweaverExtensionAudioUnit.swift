@@ -49,6 +49,12 @@ public class SineweaverExtensionAudioUnit: AUAudioUnit, @unchecked Sendable {
                 return kAudioUnitErr_TooManyFramesToProcess
             }
             
+            var event: AURenderEvent? = realtimeEventListHead?.pointee
+            while let current = event {
+                synthesizer.synthesizer.handle(event: current)
+                event = current.head.next?.pointee
+            }
+            
             return synthesizer.synthesizer.render(frameCount: frameCount, audioBuffers: outputData)
         }
     }

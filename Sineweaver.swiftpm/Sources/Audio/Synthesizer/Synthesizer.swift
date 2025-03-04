@@ -7,6 +7,7 @@
 
 @preconcurrency import AVFoundation
 import CoreAudio
+import CoreMIDI
 import Combine
 import Foundation
 import Synchronization
@@ -153,5 +154,44 @@ final class Synthesizer: Sendable {
         }
         
         context.frame += frameCount
+    }
+    
+    func handle(event: AURenderEvent) {
+        switch event.head.eventType {
+        case .midiEventList:
+            handle(midiEvents: event.MIDIEventsList)
+        default:
+            break
+        }
+    }
+    
+    private func handle(midiEvents: AUMIDIEventList) {
+        withUnsafePointer(to: midiEvents.eventList) { eventListPtr in
+            eventListPtr.forEach { midiMessage, midiTimestamp in
+                handle(midiMessage: midiMessage, at: midiTimestamp)
+            }
+        }
+    }
+    
+    private func handle(midiMessage: MIDIUniversalMessage, at midiTimestamp: MIDITimeStamp) {
+        switch midiMessage.type {
+        case .channelVoice2:
+            let v2Message = midiMessage.channelVoice2
+            switch v2Message.status {
+            case .noteOn:
+                let note = Note(midiNumber: Int(v2Message.note.number))
+                Task { @MainActor in
+                    model.setPlaying(note: note)
+                }
+            case .noteOff:
+                Task { @MainActor in
+                    model.setPlaying(note: nil)
+                }
+            default:
+                break
+            }
+        default:
+            break
+        }
     }
 }
