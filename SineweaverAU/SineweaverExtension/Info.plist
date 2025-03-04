@@ -10,13 +10,13 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>SineweaverExtension</string>
+					<string>A modular synthesizer</string>
 					<key>factoryFunction</key>
 					<string>$(PRODUCT_MODULE_NAME).AudioUnitViewController</string>
 					<key>manufacturer</key>
-					<string>fwcd</string>
+					<string>Fwcd</string>
 					<key>name</key>
-					<string>fwcd: SineweaverExtension</string>
+					<string>Fwcd: Sineweaver</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>
