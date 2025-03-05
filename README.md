@@ -12,6 +12,15 @@ A modular synthesizer featuring an interactive introduction.
 </p>
 </div>
 
+## Project Structure
+
+The project is packaged in two main ways:
+
+- As a playground in [`Sineweaver.swiftpm`](Sineweaver.swiftpm), which includes both the tutorial and a standalone version of the synthesizer. This was my WWDC submission.
+- As an Audio Unit instrument in [`SineweaverAU`](SineweaverAU), which includes a small AU host (for testing and as required e.g. on iOS), along with an app extension that includes the AU component which can be used from other AU hosts like Logic.
+
+Currently only the AU version supports MIDI input (see [#9](https://github.com/fwcd/sineweaver/issues/9)).
+
 ## Description
 
 Sineweaver aims to provide an introduction to modular synthesizers, a class of instruments that plays a central role in electronic music, but which traditional music education rarely focuses on. The user is guided step-by-step through the different components, building up to a final stage featuring a fully customizable synth. Additionally, a number of presets are included to showcase how different instruments (e.g. drums, strings, flutes or brass instruments) can be created from scratch using just synthesizer primitives.
