@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		35B40AA82D77C657009EEED5 /* MIDIEventList+ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */; };
+		35B40AF32D77CD48009EEED5 /* Drums_Snare.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991672D77ADF40083DECD /* Drums_Snare.json */; };
+		35B40AF42D77CD48009EEED5 /* Bass_Wah-Wah Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */; };
+		35B40AF52D77CD48009EEED5 /* Drums_Kick.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991662D77ADF40083DECD /* Drums_Kick.json */; };
+		35B40AF62D77CD48009EEED5 /* Electronic_Mixed Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */; };
+		35B40AF72D77CD48009EEED5 /* Strings_Strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916C2D77ADF40083DECD /* Strings_Strings.json */; };
+		35B40AF82D77CD48009EEED5 /* Folk_Pan Flute.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */; };
+		35B40AF92D77CD48009EEED5 /* FX_Synth Riser.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */; };
+		35B40AFA2D77CD48009EEED5 /* Drums_Hi-Hat.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */; };
+		35B40AFB2D77CD48009EEED5 /* Electronic_Saw Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */; };
+		35B40AFC2D77CD48009EEED5 /* Brass_Brass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991642D77ADF40083DECD /* Brass_Brass.json */; };
+		35B40AFD2D77CD48009EEED5 /* Bass_Synth Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991622D77ADF40083DECD /* Bass_Synth Bass.json */; };
 		35D98FEF2D77A8100083DECD /* SineweaverExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 35D98FEE2D77A8100083DECD /* SineweaverExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		35D990F12D77ABD60083DECD /* CGVector+Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990742D77ABD60083DECD /* CGVector+Conversions.swift */; };
 		35D990F22D77ABD60083DECD /* GainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909A2D77ABD60083DECD /* GainNode.swift */; };
@@ -120,29 +131,7 @@
 		35D9915E2D77ABD60083DECD /* SynthesizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E72D77ABD60083DECD /* SynthesizerPreset.swift */; };
 		35D9915F2D77ABD60083DECD /* SynthesizerChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D52D77ABD60083DECD /* SynthesizerChapterView.swift */; };
 		35D991602D77ABD60083DECD /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AB2D77ABD60083DECD /* Filters.swift */; };
-		35D9917E2D77AE9C0083DECD /* Electronic_Saw Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */; };
-		35D9917F2D77AE9C0083DECD /* Folk_Pan Flute.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */; };
-		35D991802D77AE9C0083DECD /* Electronic_Mixed Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */; };
-		35D991812D77AE9C0083DECD /* Strings_Strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916C2D77ADF40083DECD /* Strings_Strings.json */; };
-		35D991822D77AE9C0083DECD /* Bass_Wah-Wah Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */; };
-		35D991832D77AE9C0083DECD /* Brass_Brass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991642D77ADF40083DECD /* Brass_Brass.json */; };
-		35D991842D77AE9C0083DECD /* Bass_Synth Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991622D77ADF40083DECD /* Bass_Synth Bass.json */; };
-		35D991852D77AE9C0083DECD /* FX_Synth Riser.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */; };
-		35D991862D77AE9C0083DECD /* Drums_Kick.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991662D77ADF40083DECD /* Drums_Kick.json */; };
-		35D991872D77AE9C0083DECD /* Drums_Snare.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991672D77ADF40083DECD /* Drums_Snare.json */; };
-		35D991882D77AE9C0083DECD /* Drums_Hi-Hat.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */; };
 		35D991892D77AEA10083DECD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916E2D77ADF40083DECD /* Assets.xcassets */; };
-		35D9918A2D77B0540083DECD /* Electronic_Mixed Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */; };
-		35D9918B2D77B0540083DECD /* Drums_Hi-Hat.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */; };
-		35D9918C2D77B0540083DECD /* Drums_Kick.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991662D77ADF40083DECD /* Drums_Kick.json */; };
-		35D9918D2D77B0540083DECD /* Brass_Brass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991642D77ADF40083DECD /* Brass_Brass.json */; };
-		35D9918E2D77B0540083DECD /* Strings_Strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916C2D77ADF40083DECD /* Strings_Strings.json */; };
-		35D9918F2D77B0540083DECD /* FX_Synth Riser.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */; };
-		35D991902D77B0540083DECD /* Bass_Wah-Wah Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */; };
-		35D991912D77B0540083DECD /* Electronic_Saw Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */; };
-		35D991922D77B0540083DECD /* Drums_Snare.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991672D77ADF40083DECD /* Drums_Snare.json */; };
-		35D991932D77B0540083DECD /* Folk_Pan Flute.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */; };
-		35D991942D77B0540083DECD /* Bass_Synth Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991622D77ADF40083DECD /* Bass_Synth Bass.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -806,18 +795,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D9917E2D77AE9C0083DECD /* Electronic_Saw Lead.json in Resources */,
-				35D9917F2D77AE9C0083DECD /* Folk_Pan Flute.json in Resources */,
-				35D991802D77AE9C0083DECD /* Electronic_Mixed Lead.json in Resources */,
 				35D991892D77AEA10083DECD /* Assets.xcassets in Resources */,
-				35D991812D77AE9C0083DECD /* Strings_Strings.json in Resources */,
-				35D991822D77AE9C0083DECD /* Bass_Wah-Wah Bass.json in Resources */,
-				35D991832D77AE9C0083DECD /* Brass_Brass.json in Resources */,
-				35D991842D77AE9C0083DECD /* Bass_Synth Bass.json in Resources */,
-				35D991852D77AE9C0083DECD /* FX_Synth Riser.json in Resources */,
-				35D991862D77AE9C0083DECD /* Drums_Kick.json in Resources */,
-				35D991872D77AE9C0083DECD /* Drums_Snare.json in Resources */,
-				35D991882D77AE9C0083DECD /* Drums_Hi-Hat.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,17 +803,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D9918A2D77B0540083DECD /* Electronic_Mixed Lead.json in Resources */,
-				35D9918B2D77B0540083DECD /* Drums_Hi-Hat.json in Resources */,
-				35D9918C2D77B0540083DECD /* Drums_Kick.json in Resources */,
-				35D9918D2D77B0540083DECD /* Brass_Brass.json in Resources */,
-				35D9918E2D77B0540083DECD /* Strings_Strings.json in Resources */,
-				35D9918F2D77B0540083DECD /* FX_Synth Riser.json in Resources */,
-				35D991902D77B0540083DECD /* Bass_Wah-Wah Bass.json in Resources */,
-				35D991912D77B0540083DECD /* Electronic_Saw Lead.json in Resources */,
-				35D991922D77B0540083DECD /* Drums_Snare.json in Resources */,
-				35D991932D77B0540083DECD /* Folk_Pan Flute.json in Resources */,
-				35D991942D77B0540083DECD /* Bass_Synth Bass.json in Resources */,
+				35B40AF32D77CD48009EEED5 /* Drums_Snare.json in Resources */,
+				35B40AF42D77CD48009EEED5 /* Bass_Wah-Wah Bass.json in Resources */,
+				35B40AF52D77CD48009EEED5 /* Drums_Kick.json in Resources */,
+				35B40AF62D77CD48009EEED5 /* Electronic_Mixed Lead.json in Resources */,
+				35B40AF72D77CD48009EEED5 /* Strings_Strings.json in Resources */,
+				35B40AF82D77CD48009EEED5 /* Folk_Pan Flute.json in Resources */,
+				35B40AF92D77CD48009EEED5 /* FX_Synth Riser.json in Resources */,
+				35B40AFA2D77CD48009EEED5 /* Drums_Hi-Hat.json in Resources */,
+				35B40AFB2D77CD48009EEED5 /* Electronic_Saw Lead.json in Resources */,
+				35B40AFC2D77CD48009EEED5 /* Brass_Brass.json in Resources */,
+				35B40AFD2D77CD48009EEED5 /* Bass_Synth Bass.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
