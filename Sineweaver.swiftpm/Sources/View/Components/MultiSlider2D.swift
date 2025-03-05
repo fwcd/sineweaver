@@ -117,7 +117,7 @@ struct MultiSlider2D<Value, Background>: View where Value: BinaryFloatingPoint, 
             ForEach(Array($thumbPositions.enumerated()), id: \.offset) { (i, $pos) in
                 let options = thumbOptions(at: i)
                 let viewPos = viewThumbPositions[i]
-                let thumbStyle: AnyShapeStyle = ((thumbCurve?.highlightPosition).map { abs($0 - Double(i)) < 0.01 } ?? false)
+                let thumbStyle: AnyShapeStyle = ((thumbCurve?.highlightPosition).map { Swift.abs($0 - Double(i)) < 0.01 } ?? false)
                     ? AnyShapeStyle(thumbCurveHighlightColor)
                     : AnyShapeStyle(.foreground)
                 Thumb(isEnabled: options.isEnabled, size: thumbSize)

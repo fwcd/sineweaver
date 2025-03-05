@@ -7,6 +7,7 @@
 
 @preconcurrency import AVFoundation
 import CoreAudio
+import CoreMIDI
 import Combine
 import Foundation
 import Synchronization
@@ -30,7 +31,9 @@ private func configureAVAudioSession() {
 }
 
 final class Synthesizer: Sendable {
+    #if !SINEWEAVER_AU
     private let engine: AVAudioEngine
+    #endif
     
     @MainActor var model = SynthesizerModel() {
         didSet {
@@ -63,13 +66,19 @@ final class Synthesizer: Sendable {
     private let audioState = Mutex(AudioState())
     private let frameCount = Mutex(0)
 
+    // Only used on the audio thread
+    private nonisolated(unsafe) var context: SynthesizerContext!
+    private nonisolated(unsafe) var lastAudioState: AudioState!
+    private nonisolated(unsafe) var storedStartTimestamp = false
+    
     init() throws {
+        #if !SINEWEAVER_AU
         log.info("Booting synthesizer...")
         
         configureAVAudioSession()
         
         engine = AVAudioEngine()
-        
+
         let mainMixer = engine.mainMixerNode
         let outputNode = engine.outputNode
         
@@ -83,51 +92,10 @@ final class Synthesizer: Sendable {
             interleaved: outputFormat.isInterleaved
         )
         
-        // Only used on the audio thread
-        var context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
-        var lastAudioState = audioState.withLock { $0 }
-        var storedStartTimestamp = false
-
+        initializeAudioThreadState(sampleRate: sampleRate)
+        
         let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
-            let frameCount = Int(frameCount)
-            
-            func render(audioState: inout AudioState) {
-                guard audioState.buffers.output.count == frameCount else {
-                    self.frameCount.withLock { $0 = frameCount }
-                    return
-                }
-                
-                if !storedStartTimestamp {
-                    startTimestamp.wrappedAtomic.store(Date().timeIntervalSince1970, ordering: .relaxed)
-                    storedStartTimestamp = true
-                }
-                
-                audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
-                
-                level.wrappedAtomic.store(audioState.buffers.output.map(abs).reduce(0, max), ordering: .relaxed)
-                
-                let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
-                for audioBuffer in audioBuffers {
-                    let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
-                    for i in 0..<frameCount {
-                        // Clip the signal to avoid loud pops etc.
-                        audioBuffer[i] = Float(max(-1, min(1, audioState.buffers.output[i])))
-                    }
-                }
-                
-                context.frame += frameCount
-            }
-            
-            let success = self.audioState.withLockIfAvailable { audioState -> Void in
-                render(audioState: &audioState)
-                lastAudioState = audioState
-            } != nil
-            
-            if !success {
-                render(audioState: &lastAudioState)
-            }
-            
-            return noErr
+            render(frameCount: frameCount, audioBuffers: audioBuffers)
         }
         
         engine.attach(srcNode)
@@ -136,5 +104,94 @@ final class Synthesizer: Sendable {
 
         log.info("Starting engine")
         try engine.start()
+        #endif
+    }
+    
+    /// **ONLY CALL THIS WHEN USING SINEWEAVER FROM THE AU EXTENSION, otherwise this will happen automatically.**
+    func initializeAudioThreadState(sampleRate: Double) {
+        context = SynthesizerContext(frame: 0, sampleRate: sampleRate)
+        lastAudioState = audioState.withLock { $0 }
+    }
+    
+    /// **ONLY CALL THIS WHEN USING SINEWEAVER FROM THE AU EXTENSION, otherwise this will happen automatically.**
+    func render(frameCount: AVAudioFrameCount, audioBuffers: UnsafeMutablePointer<AudioBufferList>) -> OSStatus {
+        let frameCount = Int(frameCount)
+            
+        let success = self.audioState.withLockIfAvailable { audioState -> Void in
+            render(audioState: &audioState, frameCount: frameCount, audioBuffers: audioBuffers)
+            lastAudioState = audioState
+        } != nil
+        
+        if !success {
+            render(audioState: &lastAudioState, frameCount: frameCount, audioBuffers: audioBuffers)
+        }
+        
+        return noErr
+    }
+    
+    private func render(audioState: inout AudioState, frameCount: Int, audioBuffers: UnsafeMutablePointer<AudioBufferList>) {
+        guard audioState.buffers.output.count == frameCount else {
+            self.frameCount.withLock { $0 = frameCount }
+            return
+        }
+        
+        if !storedStartTimestamp {
+            startTimestamp.wrappedAtomic.store(Date().timeIntervalSince1970, ordering: .relaxed)
+            storedStartTimestamp = true
+        }
+        
+        audioState.model.render(using: &audioState.buffers, states: &audioState.states, context: context)
+        
+        level.wrappedAtomic.store(audioState.buffers.output.map(Swift.abs).reduce(0, max), ordering: .relaxed)
+        
+        let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBuffers)
+        for audioBuffer in audioBuffers {
+            let audioBuffer = UnsafeMutableBufferPointer<Float>(audioBuffer)
+            for i in 0..<frameCount {
+                // Clip the signal to avoid loud pops etc.
+                audioBuffer[i] = Float(max(-1, min(1, audioState.buffers.output[i])))
+            }
+        }
+        
+        context.frame += frameCount
+    }
+    
+    func handle(event: AURenderEvent) {
+        switch event.head.eventType {
+        case .midiEventList:
+            handle(midiEvents: event.MIDIEventsList)
+        default:
+            break
+        }
+    }
+    
+    private func handle(midiEvents: AUMIDIEventList) {
+        withUnsafePointer(to: midiEvents.eventList) { eventListPtr in
+            eventListPtr.forEach { midiMessage, midiTimestamp in
+                handle(midiMessage: midiMessage, at: midiTimestamp)
+            }
+        }
+    }
+    
+    private func handle(midiMessage: MIDIUniversalMessage, at midiTimestamp: MIDITimeStamp) {
+        switch midiMessage.type {
+        case .channelVoice2:
+            let v2Message = midiMessage.channelVoice2
+            switch v2Message.status {
+            case .noteOn:
+                let note = Note(midiNumber: Int(v2Message.note.number))
+                Task { @MainActor in
+                    model.setPlaying(note: note)
+                }
+            case .noteOff:
+                Task { @MainActor in
+                    model.setPlaying(note: nil)
+                }
+            default:
+                break
+            }
+        default:
+            break
+        }
     }
 }
