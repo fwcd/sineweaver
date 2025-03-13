@@ -7,132 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3586437D2D82924700C08BFA /* ExpansionToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3586437C2D82924700C08BFA /* ExpansionToggle.swift */; };
-		35B40AA82D77C657009EEED5 /* MIDIEventList+ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */; };
-		35B40AF32D77CD48009EEED5 /* Drums_Snare.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991672D77ADF40083DECD /* Drums_Snare.json */; };
-		35B40AF42D77CD48009EEED5 /* Bass_Wah-Wah Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */; };
-		35B40AF52D77CD48009EEED5 /* Drums_Kick.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991662D77ADF40083DECD /* Drums_Kick.json */; };
-		35B40AF62D77CD48009EEED5 /* Electronic_Mixed Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */; };
-		35B40AF72D77CD48009EEED5 /* Strings_Strings.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916C2D77ADF40083DECD /* Strings_Strings.json */; };
-		35B40AF82D77CD48009EEED5 /* Folk_Pan Flute.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */; };
-		35B40AF92D77CD48009EEED5 /* FX_Synth Riser.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */; };
-		35B40AFA2D77CD48009EEED5 /* Drums_Hi-Hat.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */; };
-		35B40AFB2D77CD48009EEED5 /* Electronic_Saw Lead.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */; };
-		35B40AFC2D77CD48009EEED5 /* Brass_Brass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991642D77ADF40083DECD /* Brass_Brass.json */; };
-		35B40AFD2D77CD48009EEED5 /* Bass_Synth Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991622D77ADF40083DECD /* Bass_Synth Bass.json */; };
 		35D98FEF2D77A8100083DECD /* SineweaverExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 35D98FEE2D77A8100083DECD /* SineweaverExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		35D990F12D77ABD60083DECD /* CGVector+Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990742D77ABD60083DECD /* CGVector+Conversions.swift */; };
-		35D990F22D77ABD60083DECD /* GainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909A2D77ABD60083DECD /* GainNode.swift */; };
-		35D990F32D77ABD60083DECD /* Complex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990DD2D77ABD60083DECD /* Complex.swift */; };
-		35D990F42D77ABD60083DECD /* PianoKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990BF2D77ABD60083DECD /* PianoKeyView.swift */; };
-		35D990F52D77ABD60083DECD /* TutorialChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990EB2D77ABD60083DECD /* TutorialChapter.swift */; };
-		35D990F62D77ABD60083DECD /* Edge+Opposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990872D77ABD60083DECD /* Edge+Opposite.swift */; };
-		35D990F72D77ABD60083DECD /* Knob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990BB2D77ABD60083DECD /* Knob.swift */; };
-		35D990F82D77ABD60083DECD /* OctavePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990BE2D77ABD60083DECD /* OctavePicker.swift */; };
-		35D990F92D77ABD60083DECD /* SynthesizerMixerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990CD2D77ABD60083DECD /* SynthesizerMixerView.swift */; };
-		35D990FA2D77ABD60083DECD /* Collection+Scan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990792D77ABD60083DECD /* Collection+Scan.swift */; };
-		35D990FB2D77ABD60083DECD /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AA2D77ABD60083DECD /* FFT.swift */; };
-		35D990FC2D77ABD60083DECD /* WavExportNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A42D77ABD60083DECD /* WavExportNode.swift */; };
-		35D990FD2D77ABD60083DECD /* Vec2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B52D77ABD60083DECD /* Vec2.swift */; };
-		35D990FE2D77ABD60083DECD /* CGRect+CenterPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990862D77ABD60083DECD /* CGRect+CenterPoint.swift */; };
-		35D990FF2D77ABD60083DECD /* LFONode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909B2D77ABD60083DECD /* LFONode.swift */; };
-		35D991002D77ABD60083DECD /* SynthesizerNodeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A12D77ABD60083DECD /* SynthesizerNodeInput.swift */; };
-		35D991012D77ABD60083DECD /* SynthesizerModel+FileDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E62D77ABD60083DECD /* SynthesizerModel+FileDocument.swift */; };
-		35D991022D77ABD60083DECD /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AF2D77ABD60083DECD /* Either.swift */; };
-		35D991032D77ABD60083DECD /* SilenceNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909F2D77ABD60083DECD /* SilenceNode.swift */; };
-		35D991042D77ABD60083DECD /* SynthesizerLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990CB2D77ABD60083DECD /* SynthesizerLevelView.swift */; };
-		35D991052D77ABD60083DECD /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9908D2D77ABD60083DECD /* Note.swift */; };
-		35D991062D77ABD60083DECD /* SendableAtomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B22D77ABD60083DECD /* SendableAtomic.swift */; };
-		35D991072D77ABD60083DECD /* DiatonicInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9908B2D77ABD60083DECD /* DiatonicInterval.swift */; };
-		35D991082D77ABD60083DECD /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990DE2D77ABD60083DECD /* Debouncer.swift */; };
-		35D991092D77ABD60083DECD /* ComponentDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B92D77ABD60083DECD /* ComponentDefaults.swift */; };
-		35D9910A2D77ABD60083DECD /* ComponentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990BA2D77ABD60083DECD /* ComponentLabel.swift */; };
-		35D9910B2D77ABD60083DECD /* SynthesizerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E82D77ABD60083DECD /* SynthesizerViewModel.swift */; };
-		35D9910C2D77ABD60083DECD /* Duration+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9907A2D77ABD60083DECD /* Duration+Extensions.swift */; };
-		35D9910D2D77ABD60083DECD /* SynthesizerViewDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D22D77ABD60083DECD /* SynthesizerViewDefaults.swift */; };
-		35D9910E2D77ABD60083DECD /* SynthesizerEnvelopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C82D77ABD60083DECD /* SynthesizerEnvelopeView.swift */; };
-		35D9910F2D77ABD60083DECD /* NoteLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990902D77ABD60083DECD /* NoteLetter.swift */; };
-		35D991102D77ABD60083DECD /* SynthesizerChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C62D77ABD60083DECD /* SynthesizerChartView.swift */; };
-		35D991112D77ABD60083DECD /* SynthesizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D12D77ABD60083DECD /* SynthesizerView.swift */; };
-		35D991122D77ABD60083DECD /* SynthesizerFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C92D77ABD60083DECD /* SynthesizerFilterView.swift */; };
-		35D991132D77ABD60083DECD /* SynthesizerNodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A32D77ABD60083DECD /* SynthesizerNodeType.swift */; };
-		35D991142D77ABD60083DECD /* SynthesizerContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A62D77ABD60083DECD /* SynthesizerContext.swift */; };
-		35D991152D77ABD60083DECD /* MultiSlider2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990BD2D77ABD60083DECD /* MultiSlider2D.swift */; };
-		35D991162D77ABD60083DECD /* Tuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990932D77ABD60083DECD /* Tuning.swift */; };
-		35D991172D77ABD60083DECD /* PianoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C02D77ABD60083DECD /* PianoView.swift */; };
-		35D991182D77ABD60083DECD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990DA2D77ABD60083DECD /* WelcomeView.swift */; };
-		35D991192D77ABD60083DECD /* Binding+NotNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990832D77ABD60083DECD /* Binding+NotNil.swift */; };
-		35D9911A2D77ABD60083DECD /* SynthesizerOscillatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D02D77ABD60083DECD /* SynthesizerOscillatorView.swift */; };
-		35D9911B2D77ABD60083DECD /* Arc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990DC2D77ABD60083DECD /* Arc.swift */; };
-		35D9911C2D77ABD60083DECD /* CGVector+Length.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990752D77ABD60083DECD /* CGVector+Length.swift */; };
-		35D9911D2D77ABD60083DECD /* LabelledKnob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990BC2D77ABD60083DECD /* LabelledKnob.swift */; };
-		35D9911E2D77ABD60083DECD /* Binding+Unwrappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990852D77ABD60083DECD /* Binding+Unwrappable.swift */; };
-		35D9911F2D77ABD60083DECD /* SynthesizerADSRCurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C52D77ABD60083DECD /* SynthesizerADSRCurveView.swift */; };
-		35D991202D77ABD60083DECD /* ActiveGateNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990962D77ABD60083DECD /* ActiveGateNode.swift */; };
-		35D991212D77ABD60083DECD /* CGPoint+Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9906C2D77ABD60083DECD /* CGPoint+Arithmetic.swift */; };
-		35D991222D77ABD60083DECD /* ChromaticInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9908A2D77ABD60083DECD /* ChromaticInterval.swift */; };
-		35D991232D77ABD60083DECD /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B72D77ABD60083DECD /* ChartView.swift */; };
-		35D991242D77ABD60083DECD /* CGPoint+Length.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9906E2D77ABD60083DECD /* CGPoint+Length.swift */; };
-		35D991252D77ABD60083DECD /* OptionalProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B02D77ABD60083DECD /* OptionalProtocol.swift */; };
-		35D991262D77ABD60083DECD /* VerticalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E22D77ABD60083DECD /* VerticalLayout.swift */; };
-		35D991272D77ABD60083DECD /* SynthesizerNodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990CE2D77ABD60083DECD /* SynthesizerNodeView.swift */; };
-		35D991282D77ABD60083DECD /* SynthesizerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A02D77ABD60083DECD /* SynthesizerNode.swift */; };
-		35D991292D77ABD60083DECD /* TutorialFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D82D77ABD60083DECD /* TutorialFrame.swift */; };
-		35D9912A2D77ABD60083DECD /* Int+FloorDiv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9907B2D77ABD60083DECD /* Int+FloorDiv.swift */; };
-		35D9912B2D77ABD60083DECD /* SynthesizerWavExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D32D77ABD60083DECD /* SynthesizerWavExportView.swift */; };
-		35D9912C2D77ABD60083DECD /* Optional+Unwrappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9907D2D77ABD60083DECD /* Optional+Unwrappable.swift */; };
-		35D9912D2D77ABD60083DECD /* CGVector+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990762D77ABD60083DECD /* CGVector+Map.swift */; };
-		35D9912E2D77ABD60083DECD /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D92D77ABD60083DECD /* TutorialView.swift */; };
-		35D9912F2D77ABD60083DECD /* Binding+Quantized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990842D77ABD60083DECD /* Binding+Quantized.swift */; };
-		35D991302D77ABD60083DECD /* SynthesizerLFOView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990CC2D77ABD60083DECD /* SynthesizerLFOView.swift */; };
-		35D991312D77ABD60083DECD /* SynthesizerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A72D77ABD60083DECD /* SynthesizerModel.swift */; };
-		35D991322D77ABD60083DECD /* TutorialChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D72D77ABD60083DECD /* TutorialChapterView.swift */; };
-		35D991332D77ABD60083DECD /* ClosedRange+RangeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990782D77ABD60083DECD /* ClosedRange+RangeProtocol.swift */; };
-		35D991342D77ABD60083DECD /* CGPoint+Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9906D2D77ABD60083DECD /* CGPoint+Conversions.swift */; };
-		35D991352D77ABD60083DECD /* Unwrappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B42D77ABD60083DECD /* Unwrappable.swift */; };
-		35D991362D77ABD60083DECD /* ControllerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990972D77ABD60083DECD /* ControllerNode.swift */; };
-		35D991372D77ABD60083DECD /* CyclicBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AE2D77ABD60083DECD /* CyclicBuffer.swift */; };
-		35D991382D77ABD60083DECD /* SynthesizerToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D62D77ABD60083DECD /* SynthesizerToolbar.swift */; };
-		35D991392D77ABD60083DECD /* CGSize+Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990712D77ABD60083DECD /* CGSize+Conversions.swift */; };
-		35D9913A2D77ABD60083DECD /* VUMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C32D77ABD60083DECD /* VUMeter.swift */; };
-		35D9913B2D77ABD60083DECD /* MixerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909C2D77ABD60083DECD /* MixerNode.swift */; };
-		35D9913C2D77ABD60083DECD /* TutorialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990EC2D77ABD60083DECD /* TutorialViewModel.swift */; };
-		35D9913E2D77ABD60083DECD /* SynthesizerChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990EA2D77ABD60083DECD /* SynthesizerChapter.swift */; };
-		35D9913F2D77ABD60083DECD /* SynthesizerGainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990CA2D77ABD60083DECD /* SynthesizerGainView.swift */; };
-		35D991402D77ABD60083DECD /* Int+PowerOfTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9907C2D77ABD60083DECD /* Int+PowerOfTwo.swift */; };
-		35D991412D77ABD60083DECD /* FrameReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E02D77ABD60083DECD /* FrameReader.swift */; };
-		35D991422D77ABD60083DECD /* NoteAccidental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9908E2D77ABD60083DECD /* NoteAccidental.swift */; };
-		35D991432D77ABD60083DECD /* NoteClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9908F2D77ABD60083DECD /* NoteClass.swift */; };
-		35D991442D77ABD60083DECD /* OscillatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909E2D77ABD60083DECD /* OscillatorNode.swift */; };
-		35D991452D77ABD60083DECD /* EnvelopeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990982D77ABD60083DECD /* EnvelopeNode.swift */; };
-		35D991462D77ABD60083DECD /* CGPoint+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9906F2D77ABD60083DECD /* CGPoint+Map.swift */; };
-		35D991472D77ABD60083DECD /* FilterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990992D77ABD60083DECD /* FilterNode.swift */; };
-		35D991482D77ABD60083DECD /* EqualTemperament.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990922D77ABD60083DECD /* EqualTemperament.swift */; };
-		35D991492D77ABD60083DECD /* EnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990DF2D77ABD60083DECD /* EnumPicker.swift */; };
-		35D9914A2D77ABD60083DECD /* CGSize+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990722D77ABD60083DECD /* CGSize+Map.swift */; };
-		35D9914B2D77ABD60083DECD /* SynthesizerNodeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990A22D77ABD60083DECD /* SynthesizerNodeProtocol.swift */; };
-		35D9914C2D77ABD60083DECD /* CGVector+Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990732D77ABD60083DECD /* CGVector+Arithmetic.swift */; };
-		35D9914D2D77ABD60083DECD /* RangeReplaceableCollection+Pad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990802D77ABD60083DECD /* RangeReplaceableCollection+Pad.swift */; };
-		35D9914E2D77ABD60083DECD /* Synthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990692D77ABD60083DECD /* Synthesizer.swift */; };
-		35D9914F2D77ABD60083DECD /* SynthesizerControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C72D77ABD60083DECD /* SynthesizerControllerView.swift */; };
-		35D991502D77ABD60083DECD /* NoiseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9909D2D77ABD60083DECD /* NoiseNode.swift */; };
-		35D991512D77ABD60083DECD /* Range+RangeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9907F2D77ABD60083DECD /* Range+RangeProtocol.swift */; };
-		35D991522D77ABD60083DECD /* SineweaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E42D77ABD60083DECD /* SineweaverView.swift */; };
-		35D991532D77ABD60083DECD /* CGSize+Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990702D77ABD60083DECD /* CGSize+Arithmetic.swift */; };
-		35D991542D77ABD60083DECD /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E12D77ABD60083DECD /* Tip.swift */; };
-		35D991552D77ABD60083DECD /* SynthesizerNoiseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990CF2D77ABD60083DECD /* SynthesizerNoiseView.swift */; };
-		35D991562D77ABD60083DECD /* Slider2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C12D77ABD60083DECD /* Slider2D.swift */; };
-		35D991572D77ABD60083DECD /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B32D77ABD60083DECD /* Subscription.swift */; };
-		35D991582D77ABD60083DECD /* Thumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990C22D77ABD60083DECD /* Thumb.swift */; };
-		35D991592D77ABD60083DECD /* Comparators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AD2D77ABD60083DECD /* Comparators.swift */; };
-		35D9915A2D77ABD60083DECD /* Binding+Logarithmic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990822D77ABD60083DECD /* Binding+Logarithmic.swift */; };
-		35D9915B2D77ABD60083DECD /* RangeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B12D77ABD60083DECD /* RangeProtocol.swift */; };
-		35D9915C2D77ABD60083DECD /* ComponentBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990B82D77ABD60083DECD /* ComponentBox.swift */; };
-		35D9915D2D77ABD60083DECD /* RandomAccessCollection+Logarithmic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9907E2D77ABD60083DECD /* RandomAccessCollection+Logarithmic.swift */; };
-		35D9915E2D77ABD60083DECD /* SynthesizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990E72D77ABD60083DECD /* SynthesizerPreset.swift */; };
-		35D9915F2D77ABD60083DECD /* SynthesizerChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990D52D77ABD60083DECD /* SynthesizerChapterView.swift */; };
-		35D991602D77ABD60083DECD /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D990AB2D77ABD60083DECD /* Filters.swift */; };
-		35D991892D77AEA10083DECD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D9916E2D77ADF40083DECD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,138 +35,33 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3586437C2D82924700C08BFA /* ExpansionToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionToggle.swift; sourceTree = "<group>"; };
-		35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEventList+ForEach.swift"; sourceTree = "<group>"; };
 		35D98FC72D77A80F0083DECD /* SineweaverHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SineweaverHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D98FEE2D77A8100083DECD /* SineweaverExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SineweaverExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		35D990692D77ABD60083DECD /* Synthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synthesizer.swift; sourceTree = "<group>"; };
-		35D9906C2D77ABD60083DECD /* CGPoint+Arithmetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Arithmetic.swift"; sourceTree = "<group>"; };
-		35D9906D2D77ABD60083DECD /* CGPoint+Conversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Conversions.swift"; sourceTree = "<group>"; };
-		35D9906E2D77ABD60083DECD /* CGPoint+Length.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Length.swift"; sourceTree = "<group>"; };
-		35D9906F2D77ABD60083DECD /* CGPoint+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Map.swift"; sourceTree = "<group>"; };
-		35D990702D77ABD60083DECD /* CGSize+Arithmetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Arithmetic.swift"; sourceTree = "<group>"; };
-		35D990712D77ABD60083DECD /* CGSize+Conversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Conversions.swift"; sourceTree = "<group>"; };
-		35D990722D77ABD60083DECD /* CGSize+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Map.swift"; sourceTree = "<group>"; };
-		35D990732D77ABD60083DECD /* CGVector+Arithmetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Arithmetic.swift"; sourceTree = "<group>"; };
-		35D990742D77ABD60083DECD /* CGVector+Conversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Conversions.swift"; sourceTree = "<group>"; };
-		35D990752D77ABD60083DECD /* CGVector+Length.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Length.swift"; sourceTree = "<group>"; };
-		35D990762D77ABD60083DECD /* CGVector+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Map.swift"; sourceTree = "<group>"; };
-		35D990782D77ABD60083DECD /* ClosedRange+RangeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClosedRange+RangeProtocol.swift"; sourceTree = "<group>"; };
-		35D990792D77ABD60083DECD /* Collection+Scan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Scan.swift"; sourceTree = "<group>"; };
-		35D9907A2D77ABD60083DECD /* Duration+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Duration+Extensions.swift"; sourceTree = "<group>"; };
-		35D9907B2D77ABD60083DECD /* Int+FloorDiv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+FloorDiv.swift"; sourceTree = "<group>"; };
-		35D9907C2D77ABD60083DECD /* Int+PowerOfTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+PowerOfTwo.swift"; sourceTree = "<group>"; };
-		35D9907D2D77ABD60083DECD /* Optional+Unwrappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Unwrappable.swift"; sourceTree = "<group>"; };
-		35D9907E2D77ABD60083DECD /* RandomAccessCollection+Logarithmic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RandomAccessCollection+Logarithmic.swift"; sourceTree = "<group>"; };
-		35D9907F2D77ABD60083DECD /* Range+RangeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Range+RangeProtocol.swift"; sourceTree = "<group>"; };
-		35D990802D77ABD60083DECD /* RangeReplaceableCollection+Pad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeReplaceableCollection+Pad.swift"; sourceTree = "<group>"; };
-		35D990822D77ABD60083DECD /* Binding+Logarithmic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Logarithmic.swift"; sourceTree = "<group>"; };
-		35D990832D77ABD60083DECD /* Binding+NotNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+NotNil.swift"; sourceTree = "<group>"; };
-		35D990842D77ABD60083DECD /* Binding+Quantized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Quantized.swift"; sourceTree = "<group>"; };
-		35D990852D77ABD60083DECD /* Binding+Unwrappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Unwrappable.swift"; sourceTree = "<group>"; };
-		35D990862D77ABD60083DECD /* CGRect+CenterPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+CenterPoint.swift"; sourceTree = "<group>"; };
-		35D990872D77ABD60083DECD /* Edge+Opposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Edge+Opposite.swift"; sourceTree = "<group>"; };
-		35D9908A2D77ABD60083DECD /* ChromaticInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromaticInterval.swift; sourceTree = "<group>"; };
-		35D9908B2D77ABD60083DECD /* DiatonicInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiatonicInterval.swift; sourceTree = "<group>"; };
-		35D9908D2D77ABD60083DECD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		35D9908E2D77ABD60083DECD /* NoteAccidental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAccidental.swift; sourceTree = "<group>"; };
-		35D9908F2D77ABD60083DECD /* NoteClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteClass.swift; sourceTree = "<group>"; };
-		35D990902D77ABD60083DECD /* NoteLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLetter.swift; sourceTree = "<group>"; };
-		35D990922D77ABD60083DECD /* EqualTemperament.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualTemperament.swift; sourceTree = "<group>"; };
-		35D990932D77ABD60083DECD /* Tuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tuning.swift; sourceTree = "<group>"; };
-		35D990962D77ABD60083DECD /* ActiveGateNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGateNode.swift; sourceTree = "<group>"; };
-		35D990972D77ABD60083DECD /* ControllerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerNode.swift; sourceTree = "<group>"; };
-		35D990982D77ABD60083DECD /* EnvelopeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeNode.swift; sourceTree = "<group>"; };
-		35D990992D77ABD60083DECD /* FilterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNode.swift; sourceTree = "<group>"; };
-		35D9909A2D77ABD60083DECD /* GainNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GainNode.swift; sourceTree = "<group>"; };
-		35D9909B2D77ABD60083DECD /* LFONode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFONode.swift; sourceTree = "<group>"; };
-		35D9909C2D77ABD60083DECD /* MixerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixerNode.swift; sourceTree = "<group>"; };
-		35D9909D2D77ABD60083DECD /* NoiseNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseNode.swift; sourceTree = "<group>"; };
-		35D9909E2D77ABD60083DECD /* OscillatorNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatorNode.swift; sourceTree = "<group>"; };
-		35D9909F2D77ABD60083DECD /* SilenceNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilenceNode.swift; sourceTree = "<group>"; };
-		35D990A02D77ABD60083DECD /* SynthesizerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerNode.swift; sourceTree = "<group>"; };
-		35D990A12D77ABD60083DECD /* SynthesizerNodeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerNodeInput.swift; sourceTree = "<group>"; };
-		35D990A22D77ABD60083DECD /* SynthesizerNodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerNodeProtocol.swift; sourceTree = "<group>"; };
-		35D990A32D77ABD60083DECD /* SynthesizerNodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerNodeType.swift; sourceTree = "<group>"; };
-		35D990A42D77ABD60083DECD /* WavExportNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavExportNode.swift; sourceTree = "<group>"; };
-		35D990A62D77ABD60083DECD /* SynthesizerContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerContext.swift; sourceTree = "<group>"; };
-		35D990A72D77ABD60083DECD /* SynthesizerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerModel.swift; sourceTree = "<group>"; };
-		35D990AA2D77ABD60083DECD /* FFT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
-		35D990AB2D77ABD60083DECD /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
-		35D990AD2D77ABD60083DECD /* Comparators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comparators.swift; sourceTree = "<group>"; };
-		35D990AE2D77ABD60083DECD /* CyclicBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyclicBuffer.swift; sourceTree = "<group>"; };
-		35D990AF2D77ABD60083DECD /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
-		35D990B02D77ABD60083DECD /* OptionalProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalProtocol.swift; sourceTree = "<group>"; };
-		35D990B12D77ABD60083DECD /* RangeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeProtocol.swift; sourceTree = "<group>"; };
-		35D990B22D77ABD60083DECD /* SendableAtomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendableAtomic.swift; sourceTree = "<group>"; };
-		35D990B32D77ABD60083DECD /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
-		35D990B42D77ABD60083DECD /* Unwrappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unwrappable.swift; sourceTree = "<group>"; };
-		35D990B52D77ABD60083DECD /* Vec2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vec2.swift; sourceTree = "<group>"; };
-		35D990B72D77ABD60083DECD /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
-		35D990B82D77ABD60083DECD /* ComponentBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBox.swift; sourceTree = "<group>"; };
-		35D990B92D77ABD60083DECD /* ComponentDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentDefaults.swift; sourceTree = "<group>"; };
-		35D990BA2D77ABD60083DECD /* ComponentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentLabel.swift; sourceTree = "<group>"; };
-		35D990BB2D77ABD60083DECD /* Knob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Knob.swift; sourceTree = "<group>"; };
-		35D990BC2D77ABD60083DECD /* LabelledKnob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelledKnob.swift; sourceTree = "<group>"; };
-		35D990BD2D77ABD60083DECD /* MultiSlider2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSlider2D.swift; sourceTree = "<group>"; };
-		35D990BE2D77ABD60083DECD /* OctavePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctavePicker.swift; sourceTree = "<group>"; };
-		35D990BF2D77ABD60083DECD /* PianoKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoKeyView.swift; sourceTree = "<group>"; };
-		35D990C02D77ABD60083DECD /* PianoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoView.swift; sourceTree = "<group>"; };
-		35D990C12D77ABD60083DECD /* Slider2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider2D.swift; sourceTree = "<group>"; };
-		35D990C22D77ABD60083DECD /* Thumb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumb.swift; sourceTree = "<group>"; };
-		35D990C32D77ABD60083DECD /* VUMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VUMeter.swift; sourceTree = "<group>"; };
-		35D990C52D77ABD60083DECD /* SynthesizerADSRCurveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerADSRCurveView.swift; sourceTree = "<group>"; };
-		35D990C62D77ABD60083DECD /* SynthesizerChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerChartView.swift; sourceTree = "<group>"; };
-		35D990C72D77ABD60083DECD /* SynthesizerControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerControllerView.swift; sourceTree = "<group>"; };
-		35D990C82D77ABD60083DECD /* SynthesizerEnvelopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerEnvelopeView.swift; sourceTree = "<group>"; };
-		35D990C92D77ABD60083DECD /* SynthesizerFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerFilterView.swift; sourceTree = "<group>"; };
-		35D990CA2D77ABD60083DECD /* SynthesizerGainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerGainView.swift; sourceTree = "<group>"; };
-		35D990CB2D77ABD60083DECD /* SynthesizerLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerLevelView.swift; sourceTree = "<group>"; };
-		35D990CC2D77ABD60083DECD /* SynthesizerLFOView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerLFOView.swift; sourceTree = "<group>"; };
-		35D990CD2D77ABD60083DECD /* SynthesizerMixerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerMixerView.swift; sourceTree = "<group>"; };
-		35D990CE2D77ABD60083DECD /* SynthesizerNodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerNodeView.swift; sourceTree = "<group>"; };
-		35D990CF2D77ABD60083DECD /* SynthesizerNoiseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerNoiseView.swift; sourceTree = "<group>"; };
-		35D990D02D77ABD60083DECD /* SynthesizerOscillatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerOscillatorView.swift; sourceTree = "<group>"; };
-		35D990D12D77ABD60083DECD /* SynthesizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerView.swift; sourceTree = "<group>"; };
-		35D990D22D77ABD60083DECD /* SynthesizerViewDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerViewDefaults.swift; sourceTree = "<group>"; };
-		35D990D32D77ABD60083DECD /* SynthesizerWavExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerWavExportView.swift; sourceTree = "<group>"; };
-		35D990D52D77ABD60083DECD /* SynthesizerChapterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerChapterView.swift; sourceTree = "<group>"; };
-		35D990D62D77ABD60083DECD /* SynthesizerToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerToolbar.swift; sourceTree = "<group>"; };
-		35D990D72D77ABD60083DECD /* TutorialChapterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialChapterView.swift; sourceTree = "<group>"; };
-		35D990D82D77ABD60083DECD /* TutorialFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFrame.swift; sourceTree = "<group>"; };
-		35D990D92D77ABD60083DECD /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
-		35D990DA2D77ABD60083DECD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		35D990DC2D77ABD60083DECD /* Arc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arc.swift; sourceTree = "<group>"; };
-		35D990DD2D77ABD60083DECD /* Complex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Complex.swift; sourceTree = "<group>"; };
-		35D990DE2D77ABD60083DECD /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
-		35D990DF2D77ABD60083DECD /* EnumPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumPicker.swift; sourceTree = "<group>"; };
-		35D990E02D77ABD60083DECD /* FrameReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameReader.swift; sourceTree = "<group>"; };
-		35D990E12D77ABD60083DECD /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
-		35D990E22D77ABD60083DECD /* VerticalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLayout.swift; sourceTree = "<group>"; };
-		35D990E42D77ABD60083DECD /* SineweaverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SineweaverView.swift; sourceTree = "<group>"; };
-		35D990E62D77ABD60083DECD /* SynthesizerModel+FileDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SynthesizerModel+FileDocument.swift"; sourceTree = "<group>"; };
-		35D990E72D77ABD60083DECD /* SynthesizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerPreset.swift; sourceTree = "<group>"; };
-		35D990E82D77ABD60083DECD /* SynthesizerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerViewModel.swift; sourceTree = "<group>"; };
-		35D990EA2D77ABD60083DECD /* SynthesizerChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerChapter.swift; sourceTree = "<group>"; };
-		35D990EB2D77ABD60083DECD /* TutorialChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialChapter.swift; sourceTree = "<group>"; };
-		35D990EC2D77ABD60083DECD /* TutorialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewModel.swift; sourceTree = "<group>"; };
-		35D990EF2D77ABD60083DECD /* SineweaverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SineweaverApp.swift; sourceTree = "<group>"; };
-		35D991622D77ADF40083DECD /* Bass_Synth Bass.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Bass_Synth Bass.json"; sourceTree = "<group>"; };
-		35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Bass_Wah-Wah Bass.json"; sourceTree = "<group>"; };
-		35D991642D77ADF40083DECD /* Brass_Brass.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Brass_Brass.json; sourceTree = "<group>"; };
-		35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Drums_Hi-Hat.json"; sourceTree = "<group>"; };
-		35D991662D77ADF40083DECD /* Drums_Kick.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Drums_Kick.json; sourceTree = "<group>"; };
-		35D991672D77ADF40083DECD /* Drums_Snare.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Drums_Snare.json; sourceTree = "<group>"; };
-		35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Electronic_Mixed Lead.json"; sourceTree = "<group>"; };
-		35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Electronic_Saw Lead.json"; sourceTree = "<group>"; };
-		35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Folk_Pan Flute.json"; sourceTree = "<group>"; };
-		35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "FX_Synth Riser.json"; sourceTree = "<group>"; };
-		35D9916C2D77ADF40083DECD /* Strings_Strings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Strings_Strings.json; sourceTree = "<group>"; };
-		35D9916E2D77ADF40083DECD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		35D9916F2D77ADF40083DECD /* CustomInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CustomInfo.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3586447B2D82928200C08BFA /* Exceptions for "Sources" folder in "SineweaverExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SineweaverApp.swift,
+			);
+			target = 35D98FED2D77A8100083DECD /* SineweaverExtension */;
+		};
+		358644992D82928600C08BFA /* Exceptions for "Resources" folder in "SineweaverHost" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 35D98FC62D77A80F0083DECD /* SineweaverHost */;
+		};
+		3586449A2D82928600C08BFA /* Exceptions for "Resources" folder in "SineweaverExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				CustomInfo.plist,
+			);
+			target = 35D98FED2D77A8100083DECD /* SineweaverExtension */;
+		};
 		35D990182D77A8110083DECD /* Exceptions for "SineweaverExtension" folder in "SineweaverExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -302,6 +72,25 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		358644082D82928100C08BFA /* Sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3586447B2D82928200C08BFA /* Exceptions for "Sources" folder in "SineweaverExtension" target */,
+			);
+			name = Sources;
+			path = ../../Sineweaver.swiftpm/Sources;
+			sourceTree = "<group>";
+		};
+		3586448A2D82928600C08BFA /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				358644992D82928600C08BFA /* Exceptions for "Resources" folder in "SineweaverHost" target */,
+				3586449A2D82928600C08BFA /* Exceptions for "Resources" folder in "SineweaverExtension" target */,
+			);
+			name = Resources;
+			path = ../../Sineweaver.swiftpm/Resources;
+			sourceTree = "<group>";
+		};
 		35D98FC92D77A80F0083DECD /* SineweaverHost */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SineweaverHost;
@@ -335,14 +124,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		35B40AA62D77C645009EEED5 /* CoreMIDI */ = {
-			isa = PBXGroup;
-			children = (
-				35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */,
-			);
-			path = CoreMIDI;
-			sourceTree = "<group>";
-		};
 		35D98FBE2D77A80F0083DECD = {
 			isa = PBXGroup;
 			children = (
@@ -362,349 +143,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		35D9906A2D77ABD60083DECD /* Synthesizer */ = {
-			isa = PBXGroup;
-			children = (
-				35D990692D77ABD60083DECD /* Synthesizer.swift */,
-			);
-			path = Synthesizer;
-			sourceTree = "<group>";
-		};
-		35D9906B2D77ABD60083DECD /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				35D9906A2D77ABD60083DECD /* Synthesizer */,
-			);
-			path = Audio;
-			sourceTree = "<group>";
-		};
-		35D990772D77ABD60083DECD /* CoreGraphics */ = {
-			isa = PBXGroup;
-			children = (
-				35D9906C2D77ABD60083DECD /* CGPoint+Arithmetic.swift */,
-				35D9906D2D77ABD60083DECD /* CGPoint+Conversions.swift */,
-				35D9906E2D77ABD60083DECD /* CGPoint+Length.swift */,
-				35D9906F2D77ABD60083DECD /* CGPoint+Map.swift */,
-				35D990702D77ABD60083DECD /* CGSize+Arithmetic.swift */,
-				35D990712D77ABD60083DECD /* CGSize+Conversions.swift */,
-				35D990722D77ABD60083DECD /* CGSize+Map.swift */,
-				35D990732D77ABD60083DECD /* CGVector+Arithmetic.swift */,
-				35D990742D77ABD60083DECD /* CGVector+Conversions.swift */,
-				35D990752D77ABD60083DECD /* CGVector+Length.swift */,
-				35D990762D77ABD60083DECD /* CGVector+Map.swift */,
-			);
-			path = CoreGraphics;
-			sourceTree = "<group>";
-		};
-		35D990812D77ABD60083DECD /* Swift */ = {
-			isa = PBXGroup;
-			children = (
-				35D990782D77ABD60083DECD /* ClosedRange+RangeProtocol.swift */,
-				35D990792D77ABD60083DECD /* Collection+Scan.swift */,
-				35D9907A2D77ABD60083DECD /* Duration+Extensions.swift */,
-				35D9907B2D77ABD60083DECD /* Int+FloorDiv.swift */,
-				35D9907C2D77ABD60083DECD /* Int+PowerOfTwo.swift */,
-				35D9907D2D77ABD60083DECD /* Optional+Unwrappable.swift */,
-				35D9907E2D77ABD60083DECD /* RandomAccessCollection+Logarithmic.swift */,
-				35D9907F2D77ABD60083DECD /* Range+RangeProtocol.swift */,
-				35D990802D77ABD60083DECD /* RangeReplaceableCollection+Pad.swift */,
-			);
-			path = Swift;
-			sourceTree = "<group>";
-		};
-		35D990882D77ABD60083DECD /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				35D990822D77ABD60083DECD /* Binding+Logarithmic.swift */,
-				35D990832D77ABD60083DECD /* Binding+NotNil.swift */,
-				35D990842D77ABD60083DECD /* Binding+Quantized.swift */,
-				35D990852D77ABD60083DECD /* Binding+Unwrappable.swift */,
-				35D990862D77ABD60083DECD /* CGRect+CenterPoint.swift */,
-				35D990872D77ABD60083DECD /* Edge+Opposite.swift */,
-			);
-			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		35D990892D77ABD60083DECD /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				35B40AA62D77C645009EEED5 /* CoreMIDI */,
-				35D990772D77ABD60083DECD /* CoreGraphics */,
-				35D990812D77ABD60083DECD /* Swift */,
-				35D990882D77ABD60083DECD /* SwiftUI */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		35D9908C2D77ABD60083DECD /* Interval */ = {
-			isa = PBXGroup;
-			children = (
-				35D9908A2D77ABD60083DECD /* ChromaticInterval.swift */,
-				35D9908B2D77ABD60083DECD /* DiatonicInterval.swift */,
-			);
-			path = Interval;
-			sourceTree = "<group>";
-		};
-		35D990912D77ABD60083DECD /* Note */ = {
-			isa = PBXGroup;
-			children = (
-				35D9908D2D77ABD60083DECD /* Note.swift */,
-				35D9908E2D77ABD60083DECD /* NoteAccidental.swift */,
-				35D9908F2D77ABD60083DECD /* NoteClass.swift */,
-				35D990902D77ABD60083DECD /* NoteLetter.swift */,
-			);
-			path = Note;
-			sourceTree = "<group>";
-		};
-		35D990942D77ABD60083DECD /* Tuning */ = {
-			isa = PBXGroup;
-			children = (
-				35D990922D77ABD60083DECD /* EqualTemperament.swift */,
-				35D990932D77ABD60083DECD /* Tuning.swift */,
-			);
-			path = Tuning;
-			sourceTree = "<group>";
-		};
-		35D990952D77ABD60083DECD /* MusicTheory */ = {
-			isa = PBXGroup;
-			children = (
-				35D9908C2D77ABD60083DECD /* Interval */,
-				35D990912D77ABD60083DECD /* Note */,
-				35D990942D77ABD60083DECD /* Tuning */,
-			);
-			path = MusicTheory;
-			sourceTree = "<group>";
-		};
-		35D990A52D77ABD60083DECD /* Node */ = {
-			isa = PBXGroup;
-			children = (
-				35D990962D77ABD60083DECD /* ActiveGateNode.swift */,
-				35D990972D77ABD60083DECD /* ControllerNode.swift */,
-				35D990982D77ABD60083DECD /* EnvelopeNode.swift */,
-				35D990992D77ABD60083DECD /* FilterNode.swift */,
-				35D9909A2D77ABD60083DECD /* GainNode.swift */,
-				35D9909B2D77ABD60083DECD /* LFONode.swift */,
-				35D9909C2D77ABD60083DECD /* MixerNode.swift */,
-				35D9909D2D77ABD60083DECD /* NoiseNode.swift */,
-				35D9909E2D77ABD60083DECD /* OscillatorNode.swift */,
-				35D9909F2D77ABD60083DECD /* SilenceNode.swift */,
-				35D990A02D77ABD60083DECD /* SynthesizerNode.swift */,
-				35D990A12D77ABD60083DECD /* SynthesizerNodeInput.swift */,
-				35D990A22D77ABD60083DECD /* SynthesizerNodeProtocol.swift */,
-				35D990A32D77ABD60083DECD /* SynthesizerNodeType.swift */,
-				35D990A42D77ABD60083DECD /* WavExportNode.swift */,
-			);
-			path = Node;
-			sourceTree = "<group>";
-		};
-		35D990A82D77ABD60083DECD /* Synthesizer */ = {
-			isa = PBXGroup;
-			children = (
-				35D990A52D77ABD60083DECD /* Node */,
-				35D990A62D77ABD60083DECD /* SynthesizerContext.swift */,
-				35D990A72D77ABD60083DECD /* SynthesizerModel.swift */,
-			);
-			path = Synthesizer;
-			sourceTree = "<group>";
-		};
-		35D990A92D77ABD60083DECD /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				35D990952D77ABD60083DECD /* MusicTheory */,
-				35D990A82D77ABD60083DECD /* Synthesizer */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		35D990AC2D77ABD60083DECD /* DSP */ = {
-			isa = PBXGroup;
-			children = (
-				35D990AA2D77ABD60083DECD /* FFT.swift */,
-				35D990AB2D77ABD60083DECD /* Filters.swift */,
-			);
-			path = DSP;
-			sourceTree = "<group>";
-		};
-		35D990B62D77ABD60083DECD /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				35D990AC2D77ABD60083DECD /* DSP */,
-				35D990AD2D77ABD60083DECD /* Comparators.swift */,
-				35D990AE2D77ABD60083DECD /* CyclicBuffer.swift */,
-				35D990AF2D77ABD60083DECD /* Either.swift */,
-				35D990B02D77ABD60083DECD /* OptionalProtocol.swift */,
-				35D990B12D77ABD60083DECD /* RangeProtocol.swift */,
-				35D990B22D77ABD60083DECD /* SendableAtomic.swift */,
-				35D990B32D77ABD60083DECD /* Subscription.swift */,
-				35D990B42D77ABD60083DECD /* Unwrappable.swift */,
-				35D990B52D77ABD60083DECD /* Vec2.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		35D990C42D77ABD60083DECD /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				35D990B72D77ABD60083DECD /* ChartView.swift */,
-				35D990B82D77ABD60083DECD /* ComponentBox.swift */,
-				35D990B92D77ABD60083DECD /* ComponentDefaults.swift */,
-				35D990BA2D77ABD60083DECD /* ComponentLabel.swift */,
-				3586437C2D82924700C08BFA /* ExpansionToggle.swift */,
-				35D990BB2D77ABD60083DECD /* Knob.swift */,
-				35D990BC2D77ABD60083DECD /* LabelledKnob.swift */,
-				35D990BD2D77ABD60083DECD /* MultiSlider2D.swift */,
-				35D990BE2D77ABD60083DECD /* OctavePicker.swift */,
-				35D990BF2D77ABD60083DECD /* PianoKeyView.swift */,
-				35D990C02D77ABD60083DECD /* PianoView.swift */,
-				35D990C12D77ABD60083DECD /* Slider2D.swift */,
-				35D990C22D77ABD60083DECD /* Thumb.swift */,
-				35D990C32D77ABD60083DECD /* VUMeter.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		35D990D42D77ABD60083DECD /* Synthesizer */ = {
-			isa = PBXGroup;
-			children = (
-				35D990C52D77ABD60083DECD /* SynthesizerADSRCurveView.swift */,
-				35D990C62D77ABD60083DECD /* SynthesizerChartView.swift */,
-				35D990C72D77ABD60083DECD /* SynthesizerControllerView.swift */,
-				35D990C82D77ABD60083DECD /* SynthesizerEnvelopeView.swift */,
-				35D990C92D77ABD60083DECD /* SynthesizerFilterView.swift */,
-				35D990CA2D77ABD60083DECD /* SynthesizerGainView.swift */,
-				35D990CB2D77ABD60083DECD /* SynthesizerLevelView.swift */,
-				35D990CC2D77ABD60083DECD /* SynthesizerLFOView.swift */,
-				35D990CD2D77ABD60083DECD /* SynthesizerMixerView.swift */,
-				35D990CE2D77ABD60083DECD /* SynthesizerNodeView.swift */,
-				35D990CF2D77ABD60083DECD /* SynthesizerNoiseView.swift */,
-				35D990D02D77ABD60083DECD /* SynthesizerOscillatorView.swift */,
-				35D990D12D77ABD60083DECD /* SynthesizerView.swift */,
-				35D990D22D77ABD60083DECD /* SynthesizerViewDefaults.swift */,
-				35D990D32D77ABD60083DECD /* SynthesizerWavExportView.swift */,
-			);
-			path = Synthesizer;
-			sourceTree = "<group>";
-		};
-		35D990DB2D77ABD60083DECD /* Tutorial */ = {
-			isa = PBXGroup;
-			children = (
-				35D990D52D77ABD60083DECD /* SynthesizerChapterView.swift */,
-				35D990D62D77ABD60083DECD /* SynthesizerToolbar.swift */,
-				35D990D72D77ABD60083DECD /* TutorialChapterView.swift */,
-				35D990D82D77ABD60083DECD /* TutorialFrame.swift */,
-				35D990D92D77ABD60083DECD /* TutorialView.swift */,
-				35D990DA2D77ABD60083DECD /* WelcomeView.swift */,
-			);
-			path = Tutorial;
-			sourceTree = "<group>";
-		};
-		35D990E32D77ABD60083DECD /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				35D990DC2D77ABD60083DECD /* Arc.swift */,
-				35D990DD2D77ABD60083DECD /* Complex.swift */,
-				35D990DE2D77ABD60083DECD /* Debouncer.swift */,
-				35D990DF2D77ABD60083DECD /* EnumPicker.swift */,
-				35D990E02D77ABD60083DECD /* FrameReader.swift */,
-				35D990E12D77ABD60083DECD /* Tip.swift */,
-				35D990E22D77ABD60083DECD /* VerticalLayout.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		35D990E52D77ABD60083DECD /* View */ = {
-			isa = PBXGroup;
-			children = (
-				35D990C42D77ABD60083DECD /* Components */,
-				35D990D42D77ABD60083DECD /* Synthesizer */,
-				35D990DB2D77ABD60083DECD /* Tutorial */,
-				35D990E32D77ABD60083DECD /* Utils */,
-				35D990E42D77ABD60083DECD /* SineweaverView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		35D990E92D77ABD60083DECD /* Synthesizer */ = {
-			isa = PBXGroup;
-			children = (
-				35D990E62D77ABD60083DECD /* SynthesizerModel+FileDocument.swift */,
-				35D990E72D77ABD60083DECD /* SynthesizerPreset.swift */,
-				35D990E82D77ABD60083DECD /* SynthesizerViewModel.swift */,
-			);
-			path = Synthesizer;
-			sourceTree = "<group>";
-		};
-		35D990ED2D77ABD60083DECD /* Tutorial */ = {
-			isa = PBXGroup;
-			children = (
-				35D990EA2D77ABD60083DECD /* SynthesizerChapter.swift */,
-				35D990EB2D77ABD60083DECD /* TutorialChapter.swift */,
-				35D990EC2D77ABD60083DECD /* TutorialViewModel.swift */,
-			);
-			path = Tutorial;
-			sourceTree = "<group>";
-		};
-		35D990EE2D77ABD60083DECD /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				35D990E92D77ABD60083DECD /* Synthesizer */,
-				35D990ED2D77ABD60083DECD /* Tutorial */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		35D990F02D77ABD60083DECD /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				35D9906B2D77ABD60083DECD /* Audio */,
-				35D990892D77ABD60083DECD /* Extensions */,
-				35D990A92D77ABD60083DECD /* Model */,
-				35D990B62D77ABD60083DECD /* Utils */,
-				35D990E52D77ABD60083DECD /* View */,
-				35D990EE2D77ABD60083DECD /* ViewModel */,
-				35D990EF2D77ABD60083DECD /* SineweaverApp.swift */,
-			);
-			name = Sources;
-			path = ../Sineweaver.swiftpm/Sources;
-			sourceTree = SOURCE_ROOT;
-		};
 		35D991612D77AC510083DECD /* Sineweaver */ = {
 			isa = PBXGroup;
 			children = (
-				35D990F02D77ABD60083DECD /* Sources */,
-				35D991702D77ADF40083DECD /* Resources */,
+				358644082D82928100C08BFA /* Sources */,
+				3586448A2D82928600C08BFA /* Resources */,
 			);
 			path = Sineweaver;
 			sourceTree = "<group>";
-		};
-		35D9916D2D77ADF40083DECD /* Presets */ = {
-			isa = PBXGroup;
-			children = (
-				35D991622D77ADF40083DECD /* Bass_Synth Bass.json */,
-				35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */,
-				35D991642D77ADF40083DECD /* Brass_Brass.json */,
-				35D991652D77ADF40083DECD /* Drums_Hi-Hat.json */,
-				35D991662D77ADF40083DECD /* Drums_Kick.json */,
-				35D991672D77ADF40083DECD /* Drums_Snare.json */,
-				35D991682D77ADF40083DECD /* Electronic_Mixed Lead.json */,
-				35D991692D77ADF40083DECD /* Electronic_Saw Lead.json */,
-				35D9916A2D77ADF40083DECD /* Folk_Pan Flute.json */,
-				35D9916B2D77ADF40083DECD /* FX_Synth Riser.json */,
-				35D9916C2D77ADF40083DECD /* Strings_Strings.json */,
-			);
-			path = Presets;
-			sourceTree = "<group>";
-		};
-		35D991702D77ADF40083DECD /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				35D9916D2D77ADF40083DECD /* Presets */,
-				35D9916E2D77ADF40083DECD /* Assets.xcassets */,
-				35D9916F2D77ADF40083DECD /* CustomInfo.plist */,
-			);
-			name = Resources;
-			path = ../Sineweaver.swiftpm/Resources;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -746,6 +192,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				358644082D82928100C08BFA /* Sources */,
+				3586448A2D82928600C08BFA /* Resources */,
 				35D98FF22D77A8100083DECD /* SineweaverExtension */,
 			);
 			name = SineweaverExtension;
@@ -798,7 +246,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D991892D77AEA10083DECD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,17 +253,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35B40AF32D77CD48009EEED5 /* Drums_Snare.json in Resources */,
-				35B40AF42D77CD48009EEED5 /* Bass_Wah-Wah Bass.json in Resources */,
-				35B40AF52D77CD48009EEED5 /* Drums_Kick.json in Resources */,
-				35B40AF62D77CD48009EEED5 /* Electronic_Mixed Lead.json in Resources */,
-				35B40AF72D77CD48009EEED5 /* Strings_Strings.json in Resources */,
-				35B40AF82D77CD48009EEED5 /* Folk_Pan Flute.json in Resources */,
-				35B40AF92D77CD48009EEED5 /* FX_Synth Riser.json in Resources */,
-				35B40AFA2D77CD48009EEED5 /* Drums_Hi-Hat.json in Resources */,
-				35B40AFB2D77CD48009EEED5 /* Electronic_Saw Lead.json in Resources */,
-				35B40AFC2D77CD48009EEED5 /* Brass_Brass.json in Resources */,
-				35B40AFD2D77CD48009EEED5 /* Bass_Synth Bass.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,119 +270,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35B40AA82D77C657009EEED5 /* MIDIEventList+ForEach.swift in Sources */,
-				35D990F12D77ABD60083DECD /* CGVector+Conversions.swift in Sources */,
-				35D990F22D77ABD60083DECD /* GainNode.swift in Sources */,
-				35D990F32D77ABD60083DECD /* Complex.swift in Sources */,
-				35D990F42D77ABD60083DECD /* PianoKeyView.swift in Sources */,
-				35D990F52D77ABD60083DECD /* TutorialChapter.swift in Sources */,
-				35D990F62D77ABD60083DECD /* Edge+Opposite.swift in Sources */,
-				35D990F72D77ABD60083DECD /* Knob.swift in Sources */,
-				35D990F82D77ABD60083DECD /* OctavePicker.swift in Sources */,
-				35D990F92D77ABD60083DECD /* SynthesizerMixerView.swift in Sources */,
-				35D990FA2D77ABD60083DECD /* Collection+Scan.swift in Sources */,
-				35D990FB2D77ABD60083DECD /* FFT.swift in Sources */,
-				35D990FC2D77ABD60083DECD /* WavExportNode.swift in Sources */,
-				35D990FD2D77ABD60083DECD /* Vec2.swift in Sources */,
-				35D990FE2D77ABD60083DECD /* CGRect+CenterPoint.swift in Sources */,
-				35D990FF2D77ABD60083DECD /* LFONode.swift in Sources */,
-				35D991002D77ABD60083DECD /* SynthesizerNodeInput.swift in Sources */,
-				35D991012D77ABD60083DECD /* SynthesizerModel+FileDocument.swift in Sources */,
-				35D991022D77ABD60083DECD /* Either.swift in Sources */,
-				35D991032D77ABD60083DECD /* SilenceNode.swift in Sources */,
-				35D991042D77ABD60083DECD /* SynthesizerLevelView.swift in Sources */,
-				35D991052D77ABD60083DECD /* Note.swift in Sources */,
-				35D991062D77ABD60083DECD /* SendableAtomic.swift in Sources */,
-				35D991072D77ABD60083DECD /* DiatonicInterval.swift in Sources */,
-				35D991082D77ABD60083DECD /* Debouncer.swift in Sources */,
-				35D991092D77ABD60083DECD /* ComponentDefaults.swift in Sources */,
-				35D9910A2D77ABD60083DECD /* ComponentLabel.swift in Sources */,
-				35D9910B2D77ABD60083DECD /* SynthesizerViewModel.swift in Sources */,
-				35D9910C2D77ABD60083DECD /* Duration+Extensions.swift in Sources */,
-				35D9910D2D77ABD60083DECD /* SynthesizerViewDefaults.swift in Sources */,
-				35D9910E2D77ABD60083DECD /* SynthesizerEnvelopeView.swift in Sources */,
-				35D9910F2D77ABD60083DECD /* NoteLetter.swift in Sources */,
-				35D991102D77ABD60083DECD /* SynthesizerChartView.swift in Sources */,
-				35D991112D77ABD60083DECD /* SynthesizerView.swift in Sources */,
-				35D991122D77ABD60083DECD /* SynthesizerFilterView.swift in Sources */,
-				35D991132D77ABD60083DECD /* SynthesizerNodeType.swift in Sources */,
-				35D991142D77ABD60083DECD /* SynthesizerContext.swift in Sources */,
-				35D991152D77ABD60083DECD /* MultiSlider2D.swift in Sources */,
-				35D991162D77ABD60083DECD /* Tuning.swift in Sources */,
-				35D991172D77ABD60083DECD /* PianoView.swift in Sources */,
-				35D991182D77ABD60083DECD /* WelcomeView.swift in Sources */,
-				35D991192D77ABD60083DECD /* Binding+NotNil.swift in Sources */,
-				35D9911A2D77ABD60083DECD /* SynthesizerOscillatorView.swift in Sources */,
-				35D9911B2D77ABD60083DECD /* Arc.swift in Sources */,
-				35D9911C2D77ABD60083DECD /* CGVector+Length.swift in Sources */,
-				35D9911D2D77ABD60083DECD /* LabelledKnob.swift in Sources */,
-				3586437D2D82924700C08BFA /* ExpansionToggle.swift in Sources */,
-				35D9911E2D77ABD60083DECD /* Binding+Unwrappable.swift in Sources */,
-				35D9911F2D77ABD60083DECD /* SynthesizerADSRCurveView.swift in Sources */,
-				35D991202D77ABD60083DECD /* ActiveGateNode.swift in Sources */,
-				35D991212D77ABD60083DECD /* CGPoint+Arithmetic.swift in Sources */,
-				35D991222D77ABD60083DECD /* ChromaticInterval.swift in Sources */,
-				35D991232D77ABD60083DECD /* ChartView.swift in Sources */,
-				35D991242D77ABD60083DECD /* CGPoint+Length.swift in Sources */,
-				35D991252D77ABD60083DECD /* OptionalProtocol.swift in Sources */,
-				35D991262D77ABD60083DECD /* VerticalLayout.swift in Sources */,
-				35D991272D77ABD60083DECD /* SynthesizerNodeView.swift in Sources */,
-				35D991282D77ABD60083DECD /* SynthesizerNode.swift in Sources */,
-				35D991292D77ABD60083DECD /* TutorialFrame.swift in Sources */,
-				35D9912A2D77ABD60083DECD /* Int+FloorDiv.swift in Sources */,
-				35D9912B2D77ABD60083DECD /* SynthesizerWavExportView.swift in Sources */,
-				35D9912C2D77ABD60083DECD /* Optional+Unwrappable.swift in Sources */,
-				35D9912D2D77ABD60083DECD /* CGVector+Map.swift in Sources */,
-				35D9912E2D77ABD60083DECD /* TutorialView.swift in Sources */,
-				35D9912F2D77ABD60083DECD /* Binding+Quantized.swift in Sources */,
-				35D991302D77ABD60083DECD /* SynthesizerLFOView.swift in Sources */,
-				35D991312D77ABD60083DECD /* SynthesizerModel.swift in Sources */,
-				35D991322D77ABD60083DECD /* TutorialChapterView.swift in Sources */,
-				35D991332D77ABD60083DECD /* ClosedRange+RangeProtocol.swift in Sources */,
-				35D991342D77ABD60083DECD /* CGPoint+Conversions.swift in Sources */,
-				35D991352D77ABD60083DECD /* Unwrappable.swift in Sources */,
-				35D991362D77ABD60083DECD /* ControllerNode.swift in Sources */,
-				35D991372D77ABD60083DECD /* CyclicBuffer.swift in Sources */,
-				35D991382D77ABD60083DECD /* SynthesizerToolbar.swift in Sources */,
-				35D991392D77ABD60083DECD /* CGSize+Conversions.swift in Sources */,
-				35D9913A2D77ABD60083DECD /* VUMeter.swift in Sources */,
-				35D9913B2D77ABD60083DECD /* MixerNode.swift in Sources */,
-				35D9913C2D77ABD60083DECD /* TutorialViewModel.swift in Sources */,
-				35D9913E2D77ABD60083DECD /* SynthesizerChapter.swift in Sources */,
-				35D9913F2D77ABD60083DECD /* SynthesizerGainView.swift in Sources */,
-				35D991402D77ABD60083DECD /* Int+PowerOfTwo.swift in Sources */,
-				35D991412D77ABD60083DECD /* FrameReader.swift in Sources */,
-				35D991422D77ABD60083DECD /* NoteAccidental.swift in Sources */,
-				35D991432D77ABD60083DECD /* NoteClass.swift in Sources */,
-				35D991442D77ABD60083DECD /* OscillatorNode.swift in Sources */,
-				35D991452D77ABD60083DECD /* EnvelopeNode.swift in Sources */,
-				35D991462D77ABD60083DECD /* CGPoint+Map.swift in Sources */,
-				35D991472D77ABD60083DECD /* FilterNode.swift in Sources */,
-				35D991482D77ABD60083DECD /* EqualTemperament.swift in Sources */,
-				35D991492D77ABD60083DECD /* EnumPicker.swift in Sources */,
-				35D9914A2D77ABD60083DECD /* CGSize+Map.swift in Sources */,
-				35D9914B2D77ABD60083DECD /* SynthesizerNodeProtocol.swift in Sources */,
-				35D9914C2D77ABD60083DECD /* CGVector+Arithmetic.swift in Sources */,
-				35D9914D2D77ABD60083DECD /* RangeReplaceableCollection+Pad.swift in Sources */,
-				35D9914E2D77ABD60083DECD /* Synthesizer.swift in Sources */,
-				35D9914F2D77ABD60083DECD /* SynthesizerControllerView.swift in Sources */,
-				35D991502D77ABD60083DECD /* NoiseNode.swift in Sources */,
-				35D991512D77ABD60083DECD /* Range+RangeProtocol.swift in Sources */,
-				35D991522D77ABD60083DECD /* SineweaverView.swift in Sources */,
-				35D991532D77ABD60083DECD /* CGSize+Arithmetic.swift in Sources */,
-				35D991542D77ABD60083DECD /* Tip.swift in Sources */,
-				35D991552D77ABD60083DECD /* SynthesizerNoiseView.swift in Sources */,
-				35D991562D77ABD60083DECD /* Slider2D.swift in Sources */,
-				35D991572D77ABD60083DECD /* Subscription.swift in Sources */,
-				35D991582D77ABD60083DECD /* Thumb.swift in Sources */,
-				35D991592D77ABD60083DECD /* Comparators.swift in Sources */,
-				35D9915A2D77ABD60083DECD /* Binding+Logarithmic.swift in Sources */,
-				35D9915B2D77ABD60083DECD /* RangeProtocol.swift in Sources */,
-				35D9915C2D77ABD60083DECD /* ComponentBox.swift in Sources */,
-				35D9915D2D77ABD60083DECD /* RandomAccessCollection+Logarithmic.swift in Sources */,
-				35D9915E2D77ABD60083DECD /* SynthesizerPreset.swift in Sources */,
-				35D9915F2D77ABD60083DECD /* SynthesizerChapterView.swift in Sources */,
-				35D991602D77ABD60083DECD /* Filters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
