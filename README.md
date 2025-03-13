@@ -32,3 +32,11 @@ No AI tools were used in the making of this app.
 ## Open Source
 
 The project includes source code from my own MIT-licensed libraries [`swift-music-theory`](https://github.com/fwcd/swift-music-theory) and [`swift-utils`](https://github.com/fwcd/swift-utils).
+
+## See also
+
+- [The Rhythm of Salsa](https://github.com/fwcd/the-rhythm-of-salsa), a beat sequencer for Salsa music (my 2024 project)
+- [MiniCAD](https://github.com/fwcd/mini-cad), a parametric 3D modeller using a Swift-inspired DSL (my 2023 project)
+- [MiniBlocks](https://github.com/fwcd/mini-blocks), an open-world sandbox game built with SceneKit (my 2022 project)
+- [MiniCut](https://github.com/fwcd/mini-cut), a tiny video editor built with SpriteKit (my 2021 project)
+- [MiniJam](https://github.com/fwcd/mini-jam), a tiny digital audio workstation built with SwiftUI (my 2020 project)
