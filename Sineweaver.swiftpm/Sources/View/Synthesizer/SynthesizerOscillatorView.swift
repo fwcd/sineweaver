@@ -27,11 +27,17 @@ struct SynthesizerOscillatorView: View {
         pianoBaseNote..<(pianoBaseNote + .octaves(3))
     }
     
-    private var note: Note {
-        get { Note(semitone: Int(tuning.semitone(for: node.frequency).rounded())) }
-        nonmutating set { node.frequency = tuning.pitchHz(for: newValue) }
+    private var notes: [Note] {
+        get {
+            node.frequencies.map { frequency in
+                Note(semitone: Int(tuning.semitone(for: frequency).rounded()))
+            }
+        }
+        nonmutating set {
+            node.frequencies = newValue.map(tuning.pitchHz(for:))
+        }
     }
-
+    
     private var playingNode: OscillatorNode {
         var node = node
         node.isPlaying = true
@@ -94,7 +100,7 @@ struct SynthesizerOscillatorView: View {
                             HStack(spacing: 20) {
                                 HStack {
                                     Text("\(Int(node.frequency)) Hz")
-                                    if node.prefersPianoView {
+                                    if node.prefersPianoView, let note = notes.first {
                                         Text("(aka. \(note))")
                                     }
                                 }
@@ -124,15 +130,15 @@ struct SynthesizerOscillatorView: View {
             }
             if node.prefersPianoView {
                 PianoView(notes: pianoRange) { notes in
-                    if let note = notes.first {
-                        self.note = note
+                    if !notes.isEmpty {
+                        self.notes = notes.sorted()
                     }
                     node.isPlaying = !notes.isEmpty
                 }
             }
         }
         .onChange(of: node.pianoBaseOctave) {
-            note = pianoBaseNote
+            notes = [pianoBaseNote]
         }
         .animation(.default, value: node.prefersPianoView)
     }
