@@ -10,6 +10,8 @@ import SwiftUI
 struct SynthesizerControllerView: View {
     @Binding var node: ControllerNode
     var tuning: any Tuning = EqualTemperament()
+    
+    @State private var isExpanded = false
 
     private var pianoBaseNote: Note {
         Note(.c, node.pianoBaseOctave)
@@ -25,15 +27,19 @@ struct SynthesizerControllerView: View {
     }
     
     var body: some View {
-        VStack {
-            OctavePicker(noteClass: pianoBaseNote.noteClass, octave: $node.pianoBaseOctave)
-            PianoView(notes: pianoRange) { notes in
+        VStack(spacing: SynthesizerViewDefaults.vSpacing) {
+            HStack(spacing: SynthesizerViewDefaults.hSpacing) {
+                OctavePicker(noteClass: pianoBaseNote.noteClass, octave: $node.pianoBaseOctave)
+                ExpansionToggle(isExpanded: $isExpanded)
+            }
+            PianoView(notes: pianoRange, scale: isExpanded ? 2 : 1) { notes in
                 if let note = notes.first {
                     self.note = note
                 }
                 node.isActive = !notes.isEmpty
             }
         }
+        .animation(.default, value: isExpanded)
     }
 }
 
