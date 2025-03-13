@@ -100,7 +100,7 @@ final class Synthesizer: Sendable {
         
         initializeAudioThreadState(sampleRate: sampleRate)
         
-        let srcNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBuffers in
+        let srcNode = AVAudioSourceNode(format: inputFormat!) { [unowned self] _, _, frameCount, audioBuffers in
             render(frameCount: frameCount, audioBuffers: audioBuffers)
         }
         
@@ -136,9 +136,12 @@ final class Synthesizer: Sendable {
     }
     
     private func render(audioState: inout AudioState, frameCount: Int, audioBuffers: UnsafeMutablePointer<AudioBufferList>) {
-        guard audioState.buffers.output.count == frameCount else {
+        var frameCount = frameCount
+        
+        // If the frame count has changed, we'll need to wait for the buffers to change. For now, we can just render the minimum of the current and next frame count to avoid audio glitches. Strangely, this seems to happen on iOS (where the requested frame count alternates between 940 and 941 in my tests), but not on macOS (where the frame count seems to be fixed at 512).
+        if audioState.buffers.output.count != frameCount {
             self.frameCount.withLock { $0 = frameCount }
-            return
+            frameCount = min(audioState.buffers.output.count, frameCount)
         }
         
         if !storedStartTimestamp {
