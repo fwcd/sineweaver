@@ -89,11 +89,7 @@ struct SynthesizerOscillatorView: View {
                             if allowsEditing {
                                 if node.prefersPianoView {
                                     OctavePicker(noteClass: pianoBaseNote.noteClass, octave: $node.pianoBaseOctave)
-                                    Button {
-                                        isExpanded = !isExpanded
-                                    } label: {
-                                        Image(systemName: isExpanded ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
-                                    }
+                                    ExpansionToggle(isExpanded: $isExpanded)
                                 }
                                 Button {
                                     node.prefersPianoView = !node.prefersPianoView
