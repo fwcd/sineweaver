@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3586437D2D82924700C08BFA /* ExpansionToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3586437C2D82924700C08BFA /* ExpansionToggle.swift */; };
 		35B40AA82D77C657009EEED5 /* MIDIEventList+ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */; };
 		35B40AF32D77CD48009EEED5 /* Drums_Snare.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991672D77ADF40083DECD /* Drums_Snare.json */; };
 		35B40AF42D77CD48009EEED5 /* Bass_Wah-Wah Bass.json in Resources */ = {isa = PBXBuildFile; fileRef = 35D991632D77ADF40083DECD /* Bass_Wah-Wah Bass.json */; };
@@ -159,6 +160,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3586437C2D82924700C08BFA /* ExpansionToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionToggle.swift; sourceTree = "<group>"; };
 		35B40AA72D77C650009EEED5 /* MIDIEventList+ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MIDIEventList+ForEach.swift"; sourceTree = "<group>"; };
 		35D98FC72D77A80F0083DECD /* SineweaverHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SineweaverHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D98FEE2D77A8100083DECD /* SineweaverExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SineweaverExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -547,6 +549,7 @@
 				35D990B82D77ABD60083DECD /* ComponentBox.swift */,
 				35D990B92D77ABD60083DECD /* ComponentDefaults.swift */,
 				35D990BA2D77ABD60083DECD /* ComponentLabel.swift */,
+				3586437C2D82924700C08BFA /* ExpansionToggle.swift */,
 				35D990BB2D77ABD60083DECD /* Knob.swift */,
 				35D990BC2D77ABD60083DECD /* LabelledKnob.swift */,
 				35D990BD2D77ABD60083DECD /* MultiSlider2D.swift */,
@@ -877,6 +880,7 @@
 				35D9911B2D77ABD60083DECD /* Arc.swift in Sources */,
 				35D9911C2D77ABD60083DECD /* CGVector+Length.swift in Sources */,
 				35D9911D2D77ABD60083DECD /* LabelledKnob.swift in Sources */,
+				3586437D2D82924700C08BFA /* ExpansionToggle.swift in Sources */,
 				35D9911E2D77ABD60083DECD /* Binding+Unwrappable.swift in Sources */,
 				35D9911F2D77ABD60083DECD /* SynthesizerADSRCurveView.swift in Sources */,
 				35D991202D77ABD60083DECD /* ActiveGateNode.swift in Sources */,
