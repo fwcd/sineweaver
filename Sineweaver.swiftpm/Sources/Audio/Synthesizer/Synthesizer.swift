@@ -49,6 +49,12 @@ final class Synthesizer: Sendable {
         }
     }
     
+    @MainActor private var activeMidiNotes: Set<Note> = [] {
+        didSet {
+            model.setPlaying(notes: activeMidiNotes.sorted())
+        }
+    }
+    
     let startTimestamp: SendableAtomic<TimeInterval> = .init(0)
     let level: SendableAtomic<Double> = .init(0)
     
@@ -177,15 +183,15 @@ final class Synthesizer: Sendable {
         switch midiMessage.type {
         case .channelVoice2:
             let v2Message = midiMessage.channelVoice2
+            let note = { Note(midiNumber: Int(v2Message.note.number)) }
             switch v2Message.status {
             case .noteOn:
-                let note = Note(midiNumber: Int(v2Message.note.number))
                 Task { @MainActor in
-                    model.setPlaying(note: note)
+                    activeMidiNotes.insert(note())
                 }
             case .noteOff:
                 Task { @MainActor in
-                    model.setPlaying(note: nil)
+                    activeMidiNotes.remove(note())
                 }
             default:
                 break

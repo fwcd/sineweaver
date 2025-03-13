@@ -93,7 +93,9 @@
       "oscillator" : {
         "_0" : {
           "detune" : 0.49727073669433597,
-          "frequency" : 440,
+          "frequencies" : [
+            440
+          ],
           "isPlaying" : false,
           "pianoBaseOctave" : 3,
           "prefersPianoView" : false,
@@ -110,7 +112,9 @@
       "oscillator" : {
         "_0" : {
           "detune" : 0.07413249206542968,
-          "frequency" : 130.8127826502993,
+          "frequencies" : [
+            130.8127826502993
+          ],
           "isPlaying" : false,
           "pianoBaseOctave" : 2,
           "prefersPianoView" : false,

@@ -17,11 +17,7 @@ struct PianoView: View {
     
     private let updatePlaying: (Set<Note>) -> Void
     
-    @GestureState private var pressedKey: Note? = nil
-    
-    private var playingNotes: Set<Note> {
-        pressedKey.map { [$0] } ?? Set()
-    }
+    @GestureState private var playingNotes: Set<Note> = []
     
     init(
         notes: some Sequence<Note>,
@@ -65,11 +61,15 @@ struct PianoView: View {
             }
         }
         .gesture(
-            DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                .updating($pressedKey) { (value, state, _) in
-                    let newPressed = self.keyBounds
-                        .filter { $0.1.contains(value.location) }
-                        .max(by: ascendingComparator { $0.0.accidental.isUnaltered ? 0 : 1 })?.0
+            SpatialEventGesture(coordinateSpace: .local)
+                .updating($playingNotes) { (events, state, _) in
+                    let newPressed = Set(keyBounds
+                        .filter { (_, bounds) in
+                            events.contains { event in
+                                bounds.contains(event.location)
+                            }
+                        }
+                        .map(\.0))
                     state = newPressed
                 }
         )

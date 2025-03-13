@@ -8,11 +8,12 @@
 import Foundation
 
 private let semitoneRatio: Double = pow(2, 1.0 / 12)
+private let defaultFrequency: Double = 440
 
 /// A wave generator that generates a signal between -1 and 1.
 struct OscillatorNode: SynthesizerNodeProtocol {
     var wave: Wave = .sine
-    var frequency: Double = 440
+    var frequencies: [Double] = [defaultFrequency]
     var volume: Double = 0.75
     var unison: Int = 1
     var detune: Double = 0
@@ -21,6 +22,11 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     var prefersUnisonDetuneControls = true
     var prefersPianoView = true
     var pianoBaseOctave: Int = 3
+    
+    var frequency: Double {
+        get { frequencies.first ?? defaultFrequency }
+        set { frequencies = [newValue] }
+    }
     
     enum Wave: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
         case sine = "Sine"
@@ -53,13 +59,13 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     struct State {
         var phases: [Double] = [0]
         
-        mutating func expandOrShrink(to unison: Int) {
-            while phases.count < unison {
+        mutating func expandOrShrink(to oscillatorCount: Int) {
+            while phases.count < oscillatorCount {
                 phases.append(phases.last ?? 0)
             }
             
-            if phases.count > unison {
-                phases.removeLast(phases.count - unison)
+            if phases.count > oscillatorCount {
+                phases.removeLast(phases.count - oscillatorCount)
             }
         }
     }
@@ -69,43 +75,43 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     }
     
     func render(inputs: [SynthesizerNodeInput], output: inout [Double], state: inout State, context: SynthesizerContext) -> Bool {
-        state.expandOrShrink(to: unison)
+        state.expandOrShrink(to: frequencies.count * unison)
         
         let controlFrequency = inputs.first
         for i in 0..<output.count {
-            let frequency = controlFrequency?.buffer[i] ?? frequency
-            output[i] = sampleAll(frequency: frequency, state: &state, context: context) * volume
+            let frequencies = controlFrequency.map { [$0.buffer[i]] } ?? frequencies
+            output[i] = sampleAll(frequencies: frequencies, state: &state, context: context) * volume
         }
         return controlFrequency?.isActive ?? isPlaying
     }
     
-    private func sampleAll(frequency baseFrequency: Double, state: inout State, context: SynthesizerContext) -> Double {
-        assert(unison == state.phases.count)
-        assert(unison >= 0)
-
-        guard unison > 1 else {
-            let sample = sampleOne(at: state.phases[0])
-            state.phases[0] += baseFrequency / context.sampleRate
-            return sample
-        }
+    private func sampleAll(frequencies baseFrequencies: [Double], state: inout State, context: SynthesizerContext) -> Double {
+        assert(unison >= 1)
+        assert(baseFrequencies.count * unison == state.phases.count)
         
-        // Frequencies (in logarithmic space):
-        //
-        //     | <--------- | ---------> |
-        // frequency  baseFrequency  frequency
-        // / detune                  * detune
-        //
-        // With detune being a fraction (i.e. between 0 and 1) of a semitone.
-        
-        let detuneRatio = pow(semitoneRatio, detune)
-        let detuneStepRatio = pow(semitoneRatio, 2 * detune / Double(unison))
-        var frequency = baseFrequency / detuneRatio
         var sample: Double = 0
 
-        for i in 0..<unison {
-            sample += sampleOne(at: state.phases[i])
-            frequency *= detuneStepRatio
-            state.phases[i] += frequency / context.sampleRate
+        for i in 0..<baseFrequencies.count {
+            let baseFrequency = baseFrequencies[i]
+            
+            // Frequencies (in logarithmic space):
+            //
+            //     | <--------- | ---------> |
+            // frequency  baseFrequency  frequency
+            // / detune                  * detune
+            //
+            // With detune being a fraction (i.e. between 0 and 1) of a semitone.
+            
+            let detuneRatio = pow(semitoneRatio, detune)
+            let detuneStepRatio = pow(semitoneRatio, 2 * detune / Double(unison))
+            var frequency = baseFrequency / detuneRatio
+            
+            for j in 0..<unison {
+                let oscillatorIdx = i * unison + j
+                sample += sampleOne(at: state.phases[oscillatorIdx])
+                frequency *= detuneStepRatio
+                state.phases[oscillatorIdx] += frequency / context.sampleRate
+            }
         }
         
         return sample / Double(unison)

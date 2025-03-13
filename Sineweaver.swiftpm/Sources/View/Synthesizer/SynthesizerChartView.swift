@@ -45,7 +45,7 @@ struct SynthesizerChartView<Node>: View where Node: SynthesizerNodeProtocol {
 #Preview {
     VStack(spacing: 50) {
         ForEach(OscillatorNode.Wave.allCases, id: \.self) { wave in
-            SynthesizerChartView(node: OscillatorNode(wave: wave, frequency: 40))
+            SynthesizerChartView(node: OscillatorNode(wave: wave, frequencies: [40]))
                 .frame(maxHeight: 100)
         }
     }
