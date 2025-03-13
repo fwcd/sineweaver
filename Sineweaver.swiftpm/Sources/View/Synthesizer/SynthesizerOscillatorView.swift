@@ -131,7 +131,10 @@ struct SynthesizerOscillatorView: View {
                 .font(isCompact ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
-                PianoView(notes: pianoRange, scale: isExpanded ? 2 : 1) { notes in
+                PianoView(
+                    notes: pianoRange,
+                    scale: isExpanded ? SynthesizerViewDefaults.expandedPianoScale : 1
+                ) { notes in
                     if !notes.isEmpty {
                         self.notes = notes.sorted()
                     }

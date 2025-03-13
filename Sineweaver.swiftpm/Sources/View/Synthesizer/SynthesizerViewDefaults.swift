@@ -14,4 +14,5 @@ enum SynthesizerViewDefaults {
     static let chartDisplaySampleRate: Double = 9_000
     static let chartDisplayInterval: TimeInterval = 0.05
     static let chartDisplayRange: Range<Double> = -1.05..<1.05
+    static let expandedPianoScale: CGFloat = 2.25
 }

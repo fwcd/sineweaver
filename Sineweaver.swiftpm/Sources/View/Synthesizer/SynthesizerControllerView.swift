@@ -32,7 +32,10 @@ struct SynthesizerControllerView: View {
                 OctavePicker(noteClass: pianoBaseNote.noteClass, octave: $node.pianoBaseOctave)
                 ExpansionToggle(isExpanded: $isExpanded)
             }
-            PianoView(notes: pianoRange, scale: isExpanded ? 2 : 1) { notes in
+            PianoView(
+                notes: pianoRange,
+                scale: isExpanded ? SynthesizerViewDefaults.expandedPianoScale : 1
+            ) { notes in
                 if let note = notes.first {
                     self.note = note
                 }
