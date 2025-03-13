@@ -14,6 +14,7 @@ struct SynthesizerOscillatorView: View {
     
     @State private var unisonKnobActive = false
     @State private var detuneKnobActive = false
+    @State private var isExpanded = false
     
     private var showsUnisonDetune: Bool {
         node.prefersUnisonDetuneControls
@@ -88,6 +89,11 @@ struct SynthesizerOscillatorView: View {
                             if allowsEditing {
                                 if node.prefersPianoView {
                                     OctavePicker(noteClass: pianoBaseNote.noteClass, octave: $node.pianoBaseOctave)
+                                    Button {
+                                        isExpanded = !isExpanded
+                                    } label: {
+                                        Image(systemName: isExpanded ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                                    }
                                 }
                                 Button {
                                     node.prefersPianoView = !node.prefersPianoView
@@ -129,7 +135,7 @@ struct SynthesizerOscillatorView: View {
                 .font(isCompact ? .system(size: 8) : nil)
             }
             if node.prefersPianoView {
-                PianoView(notes: pianoRange) { notes in
+                PianoView(notes: pianoRange, scale: isExpanded ? 2 : 1) { notes in
                     if !notes.isEmpty {
                         self.notes = notes.sorted()
                     }
@@ -141,6 +147,7 @@ struct SynthesizerOscillatorView: View {
             notes = [pianoBaseNote]
         }
         .animation(.default, value: node.prefersPianoView)
+        .animation(.default, value: isExpanded)
     }
 }
 

@@ -24,12 +24,13 @@ struct PianoView: View {
         baseOctave: Int? = nil,
         whiteKeySize: CGSize = CGSize(width: 22, height: 80),
         blackKeySize: CGSize = CGSize(width: 12, height: 50),
+        scale: CGFloat = 1,
         updatePlaying: @escaping (Set<Note>) -> Void
     ) {
         self.notes = Array(notes)
         self.baseOctave = baseOctave ?? self.notes.first?.octave ?? 0
-        self.whiteKeySize = whiteKeySize
-        self.blackKeySize = blackKeySize
+        self.whiteKeySize = whiteKeySize * scale
+        self.blackKeySize = blackKeySize * scale
         self.updatePlaying = updatePlaying
     }
     
