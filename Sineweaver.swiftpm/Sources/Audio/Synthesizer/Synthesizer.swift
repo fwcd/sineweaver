@@ -177,15 +177,16 @@ final class Synthesizer: Sendable {
         switch midiMessage.type {
         case .channelVoice2:
             let v2Message = midiMessage.channelVoice2
+            // TODO: Add support for multiple notes
             switch v2Message.status {
             case .noteOn:
                 let note = Note(midiNumber: Int(v2Message.note.number))
                 Task { @MainActor in
-                    model.setPlaying(note: note)
+                    model.setPlaying(notes: [note])
                 }
             case .noteOff:
                 Task { @MainActor in
-                    model.setPlaying(note: nil)
+                    model.setPlaying(notes: [])
                 }
             default:
                 break
