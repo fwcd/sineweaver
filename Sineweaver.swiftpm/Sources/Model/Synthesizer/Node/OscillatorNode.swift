@@ -8,11 +8,12 @@
 import Foundation
 
 private let semitoneRatio: Double = pow(2, 1.0 / 12)
+private let defaultFrequency: Double = 440
 
 /// A wave generator that generates a signal between -1 and 1.
 struct OscillatorNode: SynthesizerNodeProtocol {
     var wave: Wave = .sine
-    var frequency: Double = 440
+    var frequencies: [Double] = [defaultFrequency]
     var volume: Double = 0.75
     var unison: Int = 1
     var detune: Double = 0
@@ -21,6 +22,11 @@ struct OscillatorNode: SynthesizerNodeProtocol {
     var prefersUnisonDetuneControls = true
     var prefersPianoView = true
     var pianoBaseOctave: Int = 3
+    
+    var frequency: Double {
+        get { frequencies.first ?? defaultFrequency }
+        set { frequencies = [newValue] }
+    }
     
     enum Wave: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
         case sine = "Sine"
@@ -73,8 +79,8 @@ struct OscillatorNode: SynthesizerNodeProtocol {
         
         let controlFrequency = inputs.first
         for i in 0..<output.count {
-            let frequency = controlFrequency?.buffer[i] ?? frequency
-            output[i] = sampleAll(frequency: frequency, state: &state, context: context) * volume
+            let frequencies = controlFrequency.map { [$0.buffer[i]] } ?? frequencies
+            output[i] = frequencies.map { sampleAll(frequency: $0, state: &state, context: context) }.reduce(0, +) * volume
         }
         return controlFrequency?.isActive ?? isPlaying
     }

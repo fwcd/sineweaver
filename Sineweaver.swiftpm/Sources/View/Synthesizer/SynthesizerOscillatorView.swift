@@ -139,7 +139,7 @@ struct SynthesizerOscillatorView: View {
 }
 
 #Preview {
-    @Previewable @State var nodes = OscillatorNode.Wave.allCases.map { OscillatorNode(wave: $0, frequency: 40) }
+    @Previewable @State var nodes = OscillatorNode.Wave.allCases.map { OscillatorNode(wave: $0, frequencies: [40]) }
     
     VStack(spacing: 50) {
         ForEach(Array(nodes.indices), id: \.self) { i in
