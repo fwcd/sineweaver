@@ -64,13 +64,15 @@ struct PianoView: View {
         .gesture(
             SpatialEventGesture(coordinateSpace: .local)
                 .updating($playingNotes) { (events, state, _) in
-                    let newPressed = Set(keyBounds
-                        .filter { (_, bounds) in
-                            events.contains { event in
-                                bounds.contains(event.location)
-                            }
-                        }
-                        .map(\.0))
+                    let newPressed = Set(events
+                        .compactMap { event in
+                            keyBounds
+                                // Prefer black keys over white keys, since they have a smaller hitbox and are on top
+                                .sorted(by: ascendingComparator(by: { $0.0.accidental.isUnaltered ? 1 : 0 }))
+                                .first { (_, bounds) in
+                                    bounds.contains(event.location)
+                                }?.0
+                        })
                     state = newPressed
                 }
         )
