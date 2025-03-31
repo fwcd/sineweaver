@@ -35,8 +35,7 @@ let package = Package(
             capabilities: [
                 .fileAccess(.userSelectedFiles, mode: .readWrite),
                 .fileAccess(.musicFolder, mode: .readWrite)
-            ],
-            additionalInfoPlistContentFilePath: "Resources/CustomInfo.plist"
+            ]
         )
     ],
     targets: [
